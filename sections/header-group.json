@@ -63,65 +63,6 @@
         "full_width": true
       }
     },
-    "top_bar_3qfcq8": {
-      "type": "top-bar",
-      "blocks": {
-        "info_FXxzPi": {
-          "type": "info",
-          "settings": {
-            "show_email": true,
-            "email": "kalles@domain.com",
-            "show_phone": true,
-            "phone": "+0123456789",
-            "hide": false
-          }
-        },
-        "text_yBAEgJ": {
-          "type": "text",
-          "settings": {
-            "text1": "Summer sale discount off <strong>50%</strong>! <a href=\"/collections/all\" title=\"All products\">Shop Now</a>",
-            "text2": "",
-            "text3": "",
-            "adding_border": false,
-            "countdown": "2024-12-30 15:00:00",
-            "txt_day": "days",
-            "effect": "carousel",
-            "au_time": 3,
-            "pause_when_hover": false,
-            "hide": false
-          }
-        },
-        "cur_4KAVdD": {
-          "type": "cur",
-          "settings": {
-            "show_currency": true,
-            "show_language": true,
-            "use_location": true,
-            "txt_location": "Location",
-            "url_location": "shopify://pages/store-locator",
-            "open_link": "_self",
-            "hide": true
-          }
-        }
-      },
-      "block_order": [
-        "info_FXxzPi",
-        "text_yBAEgJ",
-        "cur_4KAVdD"
-      ],
-      "custom_css": [
-        "strong {color: #ec0101; font-weight: 400;}"
-      ],
-      "settings": {
-        "height": 41,
-        "fontsize": 12,
-        "show_line_separator": false,
-        "full_width": true,
-        "colors_by_section": true,
-        "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
-        "background_opacity": 1
-      }
-    },
     "header_inline_blocks_xePFbC": {
       "type": "header-inline-blocks",
       "blocks": {
@@ -307,7 +248,6 @@
         "header_layout": "logo_left",
         "header_fullwidth": true,
         "header_height": 70,
-        "logo": "shopify://shop_images/kalles.svg",
         "logo_width": 95,
         "header_colors": "",
         "main_menu": "main-menu",
@@ -361,7 +301,6 @@
   },
   "order": [
     "announcement_bar_QKnWCh",
-    "top_bar_3qfcq8",
     "header_inline_blocks_xePFbC",
     "custom_liquid_BCTxT9"
   ]
