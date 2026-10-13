@@ -282,3 +282,232 @@
     transition: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   AYUM Featured Collection — Bundles (sections/ayum-featured-collection.liquid)
+   Figma: 2001:156 (desktop 1440) / 2001:721 (mobile 375).
+   Base rules = desktop/tablet vertical card; @media (max-width: 767px) = mobile horizontal card.
+   Colours: section colour scheme (Scheme 2) + --ayum-* section settings. 1rem = 10px.
+   -------------------------------------------------------------------------- */
+
+/* Card — native style 7 base (Figma 2001:163) */
+.ayum-featured-collection .ayum-bundle-card {
+  --atc-cl: rgb(var(--ayum-on-primary));
+  --atc-bg-cl: rgb(var(--ayum-primary));
+  --atc-cl-hover: rgb(var(--ayum-on-primary));
+  --atc-bg-cl-hover: rgb(var(--ayum-primary) / 0.85);
+}
+.ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__wrapper {
+  /* Arabic content: direction declared at the card boundary; the slider track keeps the page dir. */
+  direction: rtl;
+  unicode-bidi: isolate;
+  gap: 1rem;
+  padding: 1.4rem;
+  border: 1px solid rgb(var(--ayum-card-border));
+  border-radius: var(--radius-product-card);
+  background-color: rgb(var(--color-background2));
+}
+.ayum-featured-collection .ayum-bundle-card .hdt-card-product__media,
+.ayum-featured-collection .ayum-bundle-card .hdt-card-product__media-wrapp {
+  border-radius: var(--radius-product-media);
+}
+.ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__info {
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* Title + short description (Figma 2001:169 / 2001:171): one line each, reserved height keeps cards aligned */
+.ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  width: 100%;
+  min-height: 1.15em;
+  color: rgb(var(--color-foreground));
+  font-size: 2.2rem;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+}
+.ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__excerpt {
+  width: 100%;
+  min-height: 1.15em;
+  margin: 0;
+  overflow: hidden;
+  color: rgb(var(--color-foreground2));
+  font-size: 1.8rem;
+  font-weight: var(--font-normal);
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Price (Figma 2001:172): current price on the RIGHT, struck-through compare-at price on the LEFT.
+   The native card-price outputs compare-at first, which an RTL row would put on the right; order moves the
+   current price to inline-start (the right side of the RTL card). The native line-through is kept. */
+.ayum-featured-collection .ayum-bundle-card .hdt-price-wrapp {
+  font-weight: var(--font-extrabold);
+}
+.ayum-featured-collection .ayum-bundle-card .hdt-price__list {
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+/* Specificity (0,5,0) beats the native sale colour rule ".hdt-compare-at-price:not([hidden]) + .hdt-price:not(.hdt-price-item--range)" (0,4,0). */
+.ayum-featured-collection .ayum-bundle-card .hdt-price-wrapp .hdt-price__list .hdt-price {
+  order: -1;
+  font-size: 2.3rem;
+  line-height: 1.15;
+  color: rgb(var(--ayum-sale));
+}
+.ayum-featured-collection .ayum-bundle-card .hdt-compare-at-price {
+  color: rgb(var(--color-foreground2));
+  font-size: 1.4rem;
+  font-weight: var(--font-bold);
+  line-height: 1.15;
+}
+
+/* Add to cart — native btn-ultra via ayum-btn-ultra, full-width pill (Figma 2001:177) */
+.ayum-featured-collection .ayum-bundle-card .hdt-pr-btns-group1 {
+  margin-block-start: 0;
+}
+.ayum-featured-collection .ayum-bundle-card .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
+  justify-content: center;
+  height: auto;
+  padding: 1.2rem;
+  border: 0;
+  border-radius: var(--radius-button);
+  font-size: 1.7rem;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+}
+.ayum-featured-collection .ayum-bundle-card .hdt-pr-btns-group1 .hdt-pr-card-icon {
+  display: none;
+}
+.ayum-featured-collection .ayum-bundle-card .hdt-pr-btns-group1 :where(a, button):focus-visible {
+  outline: 2px solid rgb(var(--color-focus));
+  outline-offset: 2px;
+}
+
+/* Savings badge — native badges, white pill over the image (Figma 2001:165) */
+.ayum-featured-collection .ayum-bundle-card .hdt-badge__wrapp {
+  left: auto;
+  right: auto;
+  inset-block-start: 1.1rem;
+  inset-inline-start: 1.1rem;
+  align-items: flex-start;
+}
+.ayum-featured-collection .ayum-bundle-card .hdt-badge {
+  --badge-color-primary: rgb(var(--color-background2));
+  --badge-color-secondary: rgb(var(--ayum-sale));
+  display: block;   /* inline flow keeps the label and the percentage in bidi order (flex would split the runs) */
+  min-width: 0;
+  min-height: 0;
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-full);
+  background-color: var(--badge-color-primary);
+  color: var(--badge-color-secondary);
+  font-size: 1.1rem;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+  text-align: center;
+  white-space: nowrap;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+/* Slider progress — desktop only (Figma 2001:228): track = primary at 12%, thumb = primary */
+.ayum-featured-collection .ayum-slider-progress {
+  display: none;
+}
+.ayum-featured-collection .ayum-slider-progress__thumb {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc((1 - var(--ayum-progress-size, 1)) * var(--ayum-progress, 0) * 100%);
+  width: calc(var(--ayum-progress-size, 1) * 100%);
+  border-radius: inherit;
+  background-color: rgb(var(--ayum-primary));
+}
+@media (min-width: 1150px) {
+  .ayum-featured-collection .ayum-slider-progress {
+    position: relative;
+    display: block;
+    width: 51rem;
+    max-width: 100%;
+    height: 0.3rem;
+    margin: 3.2rem auto 0;
+    overflow: hidden;
+    border-radius: 0.2rem;
+    background-color: rgb(var(--ayum-primary) / 0.12);
+  }
+}
+
+/* Mobile (Figma 2001:721): horizontal card — image on the RIGHT, content on the LEFT */
+@media (max-width: 767px) {
+  .ayum-featured-collection .ayum-bundle-carousel .hdt-slider__products {
+    --slide-spacing: 0.4rem;
+    --slide-size: 93%;   /* 334.5px card + 4px gap in the 375px frame, with the next card peeking */
+  }
+  /* Only when the section content sits in the theme container (1.5rem side padding in base.css). */
+  .ayum-featured-collection:is(.hdt-container) .ayum-bundle-carousel .hdt-slider__viewport,
+  .ayum-featured-collection .hdt-container .ayum-bundle-carousel .hdt-slider__viewport {
+    margin-inline-end: -1.5rem;
+  }
+  .ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__wrapper {
+    display: grid;
+    /* RTL grid: the first column is the right one, so the media (first child) sits right and the info left. */
+    grid-template-columns: 11rem minmax(0, 1fr);
+    align-items: center;
+    gap: 1.2rem;
+    min-height: 15.4rem;
+    padding: 1.2rem;
+  }
+  .ayum-featured-collection .ayum-bundle-card .hdt-card-product__media {
+    width: 11rem;
+  }
+  .ayum-featured-collection .ayum-bundle-card .hdt-card-product__media-wrapp {
+    --ratio-percent: 118.1818%;   /* Figma 2001:734: 110 x 130 */
+  }
+  .ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__info {
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.6rem;
+    text-align: start;
+  }
+  .ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__title {
+    font-size: 1.5rem;
+  }
+  .ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__excerpt {
+    font-size: 1.1rem;
+  }
+  .ayum-featured-collection .ayum-bundle-card .hdt-price__list {
+    justify-content: flex-start;
+    gap: 0.8rem;
+  }
+  .ayum-featured-collection .ayum-bundle-card .hdt-price-wrapp .hdt-price__list .hdt-price {
+    font-size: 2.2rem;
+  }
+  .ayum-featured-collection .ayum-bundle-card .hdt-compare-at-price {
+    font-size: 1.3rem;
+  }
+  .ayum-featured-collection .ayum-bundle-card .hdt-pr-btns-group1 {
+    flex: 0 0 auto;
+  }
+  .ayum-featured-collection .ayum-bundle-card .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
+    padding: 0.9rem;
+    font-size: 1.2rem;
+  }
+  .ayum-featured-collection .ayum-bundle-card .hdt-badge__wrapp {
+    inset-block-start: 0.7rem;
+    inset-inline-start: 0.55rem;
+  }
+  .ayum-featured-collection .ayum-bundle-card .hdt-badge {
+    padding: 0.3rem 1rem;
+    font-size: 1rem;
+    font-weight: var(--font-bold);
+  }
+}

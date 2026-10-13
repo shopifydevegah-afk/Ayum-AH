@@ -292,6 +292,7 @@
       "on_sale": "تخفيض",
       "save_percent": "وفّر{{ percent }}%",
       "ayum_save_percent": "وفّر {{ percent }}%",
+      "ayum_add_bundle": "أضف الباكت",
       "on_sale_single": "تخفيض",
       "save_percent_single": "{{ percent }}% وفّر",
       "save_percent_single_price": "وفّر {{ percent }}%",

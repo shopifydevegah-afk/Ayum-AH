@@ -402,7 +402,7 @@
 | H1 | Hero | index | `2001:33` / `2001:612` | Metadata only | Not started | Not run | المهمة الأولى المقترحة |
 | H2 | Categories | index | `2001:55` / `2001:626` | Metadata only | Not started | Not run | — |
 | H3 | Best sellers (tabs) — اسم المحرر: **Featured Collection** | index | `2001:80` / `2001:647` | Design-context inspected | Implemented (+ متابعة 2026-10-13) | Partial (harness محلي فقط) | `ayum-tabs-collection` (فرع `dev2-ah`)؛ انظر §23 |
-| H4 | Bundles | index | `2001:156` / `2001:721` | Metadata only | Not started | Not run | يعتمد على H3 |
+| H4 | Bundles — اسم المحرر: **Featured Bundles** | index | `2001:156` / `2001:721` | Design-context inspected | Implemented | Partial (harness محلي فقط) | `ayum-featured-collection` (فرع `dev2-ah`)؛ انظر §23 |
 | H5 | About the brand | index | `2001:230` / `2001:749` | Metadata only | Not started | Not run | لا علاقة له بـ "H5" المذكور في الـ skill |
 | H6 | How we freeze-dry | index | `2001:250` / `2001:765` | Metadata only | Not started | Not run | — |
 | H7 | Reviews | index | `2001:316` / `2001:826` | Metadata only | Not started | Not run | محتوى حقيقي فقط |
@@ -478,3 +478,45 @@
   - **حُذف `snippets/ayum-card-rating.liquid`** (منطق مكرر لم يعد مستخدماً).
   - **التحقق:** harness فقط. التحقق في محرر الثيم الفعلي **لم يُجرَ**.
 - **قيود معروفة:** المسافات من الإعدادات الأصلية مضبوطة على قيم الديسكتوب. على الموبايل تكون المسافة بين العنوان والتبويبات 8px (Figma 16px)، وبين التبويبات والبطاقات 30px (Figma 24px)، بسبب منطق الإعدادات الأصلية. ألوان العنوان والنص الثانوي والحد تتبع الـ scheme الحالي (Kalles demo) حتى يُنشأ scheme خاص بـ AYUM. التبويبات بلا مجموعات مختارة حتى يحددها التاجر.
+
+### 2026-10-13 — H4 Bundles & Trial Packs — تنفيذ أول (فرع `dev2-ah`)
+- **Figma:** فُحصت `2001:156` (desktop) و`2001:721` (mobile) عبر `get_metadata` و`get_design_context` و`get_variable_defs` ولقطات الشاشة.
+- **الأساس الأصلي (لم يُعدَّل):** `sections/featured-collection.liquid` (static `section-heading` + كتلة منتجات واحدة + `colors_by_section` و`color_scheme` و`background_opacity`)، و`blocks/_product-carousel.liquid`، و`snippets/card-product7.liquid`، و`snippets/btn-ultra.liquid`.
+- **أُعيد استخدامها بلا تغيير:** `section-heading` و`_heading_section` و`_sub_heading_section` (بما فيه `hidden_on_mobile`)، و`card-price` و`badges` و`card-product-media`، و`assets/ayum-slider-progress.js`.
+- **ملفات جديدة:**
+  - `sections/ayum-featured-collection.liquid` باسم المحرر "Featured Collection — Bundles".
+  - `blocks/_ayum-bundle-product-carousel.liquid`: خيار بطاقة `ayum_bundle`؛ البطاقات 1–12 كما هي.
+  - `snippets/card-product-ayum-bundle.liquid`.
+  - `snippets/ayum-btn-ultra.liquid`: نسخة من btn-ultra الأصلي مع `add_label` اختياري فقط.
+- **ملفات معدَّلة:**
+  - `assets/dev2.css`: إضافات فقط تحت `.ayum-featured-collection`.
+  - مفتاح `products.product.ayum_add_bundle` في 6 لغات (ar: "أضف الباكت").
+  - `templates/index.json`: أُضيف `ayum_featured_collection_bundles` بعد `ayum_tabs_collection_best_sellers`، وبقية الملف مطابقة بايتاً ببايت.
+- **Scheme 2:** المعرّف الفعلي `scheme-77e4ef58-56a9-4631-876a-12098ba7d57d`، مع `colors_by_section` و`background_opacity` 0.6.
+  - **[تحقق]** Scheme 2 في `settings_data.json` على هذا الفرع داكن (#222222 خلفية ونص أبيض). على `dev1-ah` هو سطح AYUM (#E4EDF0 خلفية و#26383A نص و#D3E3E8 حد).
+  - السكشن يتبع الـ scheme: مُتحقَّق في harness بالقيمتين. يجب ضبط Scheme 2 في Theme settings لهذا الثيم.
+- **إعدادات AYUM** (Figma افتراضياً): `ayum_primary_color` #26B3D0 (الزر وشريط التقدّم، والمسار نفسه بشفافية 12%)، و`ayum_on_primary_color` #FFFFFF، و`ayum_card_border_color` #D3E3E8، و`ayum_sale_color` #EA3A79 (السعر ونص الشارة)، و`custom_class`.
+  - على الكتلة: `ayum_show_description`، و`ayum_description_length` (40)، و`ayum_atc_label`، و`ayum_show_progress`.
+- **الوصف:** metafield الأصلي `theme.description_excerpt` أولاً (نفس منطق `_product-description`)، ثم نص مجرد مقتطع من `product.description`. العنصر يُعرض حتى وهو فارغ لثبات المحاذاة.
+- **السعر:** `card-price` الأصلي، والحالي يميناً عبر `order: -1` داخل البطاقة RTL. القديم يساراً بخط الشطب الأصلي. قاعدة اللون بخصوصية (0,5,0) لتغلب قاعدة السعر الأحمر الأصلية (0,4,0).
+- **الموبايل:** بطاقة أفقية (grid RTL: الصورة 110×130 يميناً والمحتوى يساراً)، و`--slide-size: 93%` مع ظهور جزء من البطاقة التالية. العنوان الفرعي مخفي بإعداد `hidden_on_mobile` الأصلي، وشريط التقدّم مخفي تحت 1150px.
+- **فحوص:**
+  - JSON صارم للـ schemas، وتوازن الوسوم، و0 ألوان حرفية، وتحقق أن الـ locales و`index.json` إضافات فقط.
+  - harness (Playwright، CSS/JS الحقيقية) على 1440 و768 و375: البطاقة 307×463 desktop (Figma 305×459) و333×156 mobile (Figma 334.5×154)، والسعر الحالي يمين القديم، والتقدّم 510×3، ولا overflow.
+  - **Not run:** محرر الثيم، والمتجر الفعلي، والإضافة الفعلية إلى السلة.
+- **قيود:**
+  - شفافية الخلفية إعداد واحد (0.6)، بينما Figma mobile 50%.
+  - Figma mobile يعرض السعر القديم بلا عملة، والتنفيذ يستخدم تنسيق Shopify الكامل.
+  - عنوان المنتج سطر واحد.
+  - المجموعة فارغة في الـ instance (حالة placeholder الأصلية) حتى يختارها التاجر.
+- **ملاحظة على H3 (لم يُعدَّل):** قاعدة السعر في `.ayum-tabs-collection` (0,3,0) أضعف من قاعدة السعر الأحمر الأصلية (0,4,0)، فالمنتجات المخفَّضة في H3 ستظهر بالأحمر الأصلي بدل `ayum_price_color`. يحتاج متابعة لـ H3.
+- **متابعة 2026-10-13 — السكشن لا يظهر في Dev Preview:**
+  - **البيئة:** `shopify theme dev` الوحيد يعمل (node PID 20084، بدأ 17:48)، ومجلد العمل الفعلي له `D:Shopifyayum-dev2-ah` (قُرئ من PEB العملية). إذن المعاينة تخدم الـ worktree والفرع الصحيحين.
+  - **السبب (مستنتج من قاعدة Theme Check الرسمية `ValidSchemaName`، الحد 25 حرفاً):** اسم السكشن والـ preset كان "Featured Collection — Bundles" (29 حرفاً).
+    - Shopify يرفض رفع ملف السكشن.
+    - ثم يرفض `templates/index.json` لأنه يشير إلى نوع سكشن غير موجود.
+    - فتبقى المعاينة على القالب السابق.
+  - **الإصلاح:** الاسم أصبح "Featured Bundles" (16 حرفاً) في `name` والـ preset. نوع السكشن واسم الملف ومعرّف الـ instance بلا تغيير.
+  - **فحوص:** كل قيم الـ instance صالحة مقابل الـ schemas، وكل ملفات `render` موجودة، و`dev2.css` يُحمَّل من السكشن.
+  - **مطلوب من المستخدم:** حفظ `templates/index.json` مرة واحدة ليُعاد رفعه (الملف لم يتغير محلياً فلن يُرفع تلقائياً)، ثم مراجعة طرفية `theme dev`. لم يُتحقق في Dev Preview.
+

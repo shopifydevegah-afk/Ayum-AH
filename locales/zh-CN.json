@@ -275,6 +275,7 @@
       "on_sale": "促销",
       "save_percent": "节省 -{{ percent }}%",
       "ayum_save_percent": "节省 {{ percent }}%",
+      "ayum_add_bundle": "添加套装",
       "on_sale_single": "促销",
       "save_percent_single": "优惠 {{ percent }}%",
       "badge_new": "新",

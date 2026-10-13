@@ -275,6 +275,7 @@
       "on_sale": "Sale",
       "save_percent": "-{{ percent }}%",
       "ayum_save_percent": "Spare {{ percent }}%",
+      "ayum_add_bundle": "Paket hinzufügen",
       "on_sale_single": "SALE",
       "save_percent_single": "{{ percent }}% RABATT",
       "badge_new": "Neu",
