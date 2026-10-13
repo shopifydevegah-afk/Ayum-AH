@@ -1,0 +1,68 @@
+<!-- blocks/_ayum-description.liquid -->
+{%- comment -%}
+  AYUM slide description with an optional mobile-specific text (Figma 2001:40 / 2001:619).
+  - "Mobile description" replaces "Description" below 768px; when empty, "Description" is used everywhere.
+  - Only available inside "Slide (AYUM)" (blocks/_ayum-slide-item.liquid). Styled in assets/dev1.css (.ayum-desc).
+{%- endcomment -%}
+{%- liquid
+  assign effect = 'hdt-reveal="slide-in" timeline'
+  if section.id contains 'slideshow'
+    assign effect = 'reval'
+  endif
+-%}
+{%- if block.settings.text != blank or block.settings.text_mobile != blank -%}
+  <div {{ effect }} id="block-{{ block.id }}" class="ayum-desc hdt-text-warry" style="--ayum-desc-fs-lg: {{ block.settings.font_size_lg }}px; --ayum-desc-fs-mb: {{ block.settings.font_size_mb }}px;" {{ block.shopify_attributes }}>
+    {%- if block.settings.text_mobile != blank -%}
+      <div class="ayum-desc__desktop hdt-rte">{{ block.settings.text }}</div>
+      <div class="ayum-desc__mobile hdt-rte">{{ block.settings.text_mobile }}</div>
+    {%- else -%}
+      <div class="hdt-rte">{{ block.settings.text }}</div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Description (AYUM)",
+  "tag": null,
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Description",
+      "default": "<p>نفس نكهات سكيتلز الأصلية، بقوام مقرمش خفيف يذوب في الفم. متوفر بنكهات مختلفة ، ويتصنّع عندنا في الكويت.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "text_mobile",
+      "label": "Mobile description",
+      "info": "Optional. Shown below 768px instead of the description. Leave empty to use the description on mobile."
+    },
+    {
+      "type": "range",
+      "id": "font_size_lg",
+      "label": "Font size (desktop)",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "range",
+      "id": "font_size_mb",
+      "label": "Font size (mobile)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    }
+  ],
+  "presets": [
+    {
+      "name": "Description (AYUM)"
+    }
+  ]
+}
+{% endschema %}

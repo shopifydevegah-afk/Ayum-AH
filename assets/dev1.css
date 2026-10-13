@@ -1,0 +1,282 @@
+/* ==========================================================================
+   dev1.css — AYUM scoped overrides
+   Loaded only by sections/ayum-slideshow.liquid. Every rule is scoped to
+   .ayum-slideshow so the original Kalles slideshow is unaffected.
+   Breakpoints: 768px (md) / 1150px (lg) only.
+   ========================================================================== */
+
+/* ---------- Hero slideshow (Figma 2001:33 desktop / 2001:612 mobile) ---------- */
+
+.ayum-slideshow {
+  /* Horizontal inset of the copy block. Figma mobile: 32px padding. */
+  --ayum-hero-pad-c: 32px;
+}
+@media (min-width: 768px) {
+  .ayum-slideshow {
+    /* Figma desktop: 120px right padding on a 1440 frame (120 / 1440 = 8.334vw). */
+    --ayum-hero-pad-c: clamp(32px, 8.334vw, 120px);
+  }
+}
+
+/* Slide grid: replace the native 50px gutters + container max-width with the
+   Figma insets. Mobile: copy starts 18px from the top. */
+.ayum-slideshow .hdt-slide_inner {
+  --media-overlap-content-gap-r: 18px;
+  --media-overlap-content-gap-c: var(--ayum-hero-pad-c);
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-slide_inner {
+    --media-overlap-content-gap-r: 24px;
+  }
+}
+
+/* Geometry-only track: pinned LTR so the "center-end" content position puts the
+   Arabic copy on the right in every storefront locale. Text direction is
+   restored on .hdt-content-inner below. */
+.ayum-slideshow .hdt-slide_inner > .hdt-content-type-container {
+  direction: ltr;
+  max-width: none;
+}
+.ayum-slideshow .hdt-content {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-content {
+    max-width: 520px;
+  }
+}
+
+/* Mobile bottom shade (Figma 2001:613 gradient layer). Uses ::before because
+   the native "Overlay" option already uses ::after on this element. */
+@media (max-width: 767px) {
+  .ayum-slideshow .hdt-slide_inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgb(0 0 0 / 0) 87.4%, rgb(102 102 102 / .3) 98.47%);
+  }
+}
+
+/* ---------- Copy stack ---------- */
+
+/* Text boundary: AYUM copy is Arabic in every locale. */
+.ayum-slideshow .hdt-content-inner {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-content-inner {
+    gap: 18px;
+  }
+}
+
+/* Map the native alignment setting onto the RTL copy column.
+   Kalles defines .hdt-text-right as "text-align: end" (logical), which under the
+   RTL boundary above resolves to the LEFT. Inside this boundary start = right,
+   so "right" maps to start and "left" maps to end. */
+.ayum-slideshow .hdt-content-inner.hdt-text-center { align-items: center; text-align: center; }
+.ayum-slideshow .hdt-content-inner.hdt-text-right { align-items: flex-start; text-align: start; }
+.ayum-slideshow .hdt-content-inner.hdt-text-left { align-items: flex-end; text-align: end; }
+.ayum-slideshow .hdt-text-center .hdt-group-button-block { justify-content: center; }
+.ayum-slideshow .hdt-text-right .hdt-group-button-block { justify-content: flex-start; }
+.ayum-slideshow .hdt-text-left .hdt-group-button-block { justify-content: flex-end; }
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-content-inner.md\:hdt-text-center { align-items: center; text-align: center; }
+  .ayum-slideshow .hdt-content-inner.md\:hdt-text-right { align-items: flex-start; text-align: start; }
+  .ayum-slideshow .hdt-content-inner.md\:hdt-text-left { align-items: flex-end; text-align: end; }
+  .ayum-slideshow .md\:hdt-text-center .hdt-group-button-block { justify-content: center; }
+  .ayum-slideshow .md\:hdt-text-right .hdt-group-button-block { justify-content: flex-start; }
+  .ayum-slideshow .md\:hdt-text-left .hdt-group-button-block { justify-content: flex-end; }
+}
+
+/* Badge — "text_custom" block (size, weight, colour come from its settings). */
+.ayum-slideshow .hdt-block-text__custom {
+  max-width: 100%;
+  padding: 5px 12px;
+  border-radius: 13px;
+  background-color: var(--ayum-hero-accent);
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-block-text__custom {
+    padding: 6px 14px;
+    border-radius: 14px;
+  }
+}
+
+/* Heading — "heading" block, size from its h_custom settings (46 / 25). */
+.ayum-slideshow .hdt-h_custom {
+  color: var(--ayum-hero-heading);
+  font-weight: 800;
+  line-height: 1.45;
+}
+/* Base h1–h6 take their family from the theme's "Heading font" slot
+   (--font-heading-family). On the live store that slot resolves to a Latin-only
+   font (Arabic falls back to Times New Roman), so the hero heading uses the body
+   font variable, which is the Almarai slot the badge, description and CTAs already render with. */
+.ayum-slideshow .hdt-h_custom :is(h1, h2, h3, h4, h5, h6, p, strong, b) {
+  font-family: var(--font-body-family);
+  font-weight: 800;
+}
+/* Desktop line breaks are editable <br> in the heading rich text; the block's
+   native "hide <br> on mobile" option only applies up to 750px, so extend it to
+   the theme's 767px mobile tier. */
+@media (max-width: 767px) {
+  .ayum-slideshow .hdt-h_custom.hdt-br-hidden br {
+    display: none;
+  }
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-h_custom {
+    color: rgb(38 56 58 / .75);
+    color: color-mix(in srgb, var(--ayum-hero-heading) 75%, transparent);
+    line-height: 1.4;
+  }
+  /* Bold text in the heading is the pink segment on desktop only. */
+  .ayum-slideshow .hdt-h_custom :is(strong, b) {
+    color: var(--ayum-hero-accent);
+  }
+}
+
+/* Description — "text" block. The native mobile size range steps by 2px, so
+   Figma's 13px mobile size is applied here; tablet/desktop use the setting. */
+.ayum-slideshow .hdt-text-custom {
+  color: var(--ayum-hero-text);
+  line-height: 1.75;
+}
+@media (max-width: 767px) {
+  .ayum-slideshow .hdt-text-custom {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+}
+
+/* Description (AYUM) block — blocks/_ayum-description.liquid. Optional mobile text
+   (Figma 2001:619 wording) replaces the desktop text below 768px. Sizes come from the
+   block's own settings (default 17 / 13); tablet uses the midpoint like Kalles' text block. */
+.ayum-slideshow .ayum-desc {
+  color: var(--ayum-hero-text);
+  font-weight: 400;
+  font-size: var(--ayum-desc-fs-mb);
+  line-height: 1.7;
+}
+.ayum-slideshow .ayum-desc__desktop {
+  display: none;
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .ayum-desc {
+    font-size: calc((var(--ayum-desc-fs-mb) + var(--ayum-desc-fs-lg)) / 2);
+    line-height: 1.75;
+  }
+  .ayum-slideshow .ayum-desc__desktop {
+    display: block;
+  }
+  .ayum-slideshow .ayum-desc__mobile {
+    display: none;
+  }
+}
+@media (min-width: 1150px) {
+  .ayum-slideshow .ayum-desc {
+    font-size: var(--ayum-desc-fs-lg);
+  }
+}
+
+/* CTAs — "button_custom" blocks inside a button group. */
+.ayum-slideshow .hdt-group-button-block {
+  gap: 12px;
+}
+.ayum-slideshow .hdt-block-button__custom + .hdt-block-button__custom {
+  margin-inline-start: 0;
+}
+.ayum-slideshow .hdt-btn-style__outline::after {
+  border-width: 1.5px;
+}
+
+/* ---------- Pagination (native dots, appearance only) ---------- */
+
+.ayum-slideshow .hdt-slider .hdt-pagination {
+  --pag-w: 8px;
+  --pag-h: 8px;
+  --pag-w-active: 22px;
+  --pag-h-active: 8px;
+  --pag-bg: #fff;
+  --pag-bg-active: var(--ayum-hero-accent);
+  --pag-border: var(--ayum-hero-border);
+  --pag-radius: 999px;
+  gap: 6px;
+  /* Span the full banner so centring is relative to the whole slide. */
+  left: 0;
+  right: 0;
+  width: auto;
+  margin: 0;
+  /* Uses the "space between pagination" setting: 35px desktop, 35 × .6 = 21px mobile. */
+  bottom: calc(var(--margin-top) * .6);
+}
+/* Mobile is always centred (Figma 2001:622). Includes the position classes so it
+   outranks slideshow.css "&.hdt-position-*", whose flex-end resolves to the LEFT
+   when the page is RTL. */
+.ayum-slideshow .hdt-slider .hdt-pagination:is(.hdt-position-left, .hdt-position-center, .hdt-position-right) {
+  justify-content: center;
+}
+.ayum-slideshow .hdt-slider .hdt-pagination .hdt-slider__dot {
+  opacity: 1;
+  border-width: 1px;
+  border-color: var(--pag-border);
+}
+.ayum-slideshow .hdt-slider .hdt-pagination .hdt-slider__dot.hdt-slider__dot--selected {
+  border-color: var(--pag-bg-active);
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-slider .hdt-pagination {
+    --pag-w: 11.5625px;
+    --pag-h: 11.5625px;
+    --pag-w-active: 32.375px;
+    --pag-h-active: 11.5625px;
+    --pag-bg: var(--ayum-hero-border);
+    gap: var(--space-between);
+    bottom: var(--margin-top);
+    /* Span the copy column so the position setting aligns dots with the copy edge
+       (Figma: dots end 6px inside the 120px copy inset). */
+    left: var(--ayum-hero-pad-c);
+    right: calc(var(--ayum-hero-pad-c) + 6px);
+  }
+  .ayum-slideshow .hdt-slider .hdt-pagination.hdt-position-right { justify-content: flex-end; }
+  .ayum-slideshow .hdt-slider .hdt-pagination.hdt-position-left { justify-content: flex-start; }
+  .dir--rtl .ayum-slideshow .hdt-slider .hdt-pagination.hdt-position-right { justify-content: flex-start; }
+  .dir--rtl .ayum-slideshow .hdt-slider .hdt-pagination.hdt-position-left { justify-content: flex-end; }
+  .ayum-slideshow .hdt-slider .hdt-pagination .hdt-slider__dot {
+    border-width: 0;
+  }
+}
+
+/* ---------- Navigation arrows (native buttons, appearance only) ---------- */
+
+.ayum-slideshow hdt-slideshow.hdt-slider .hdt-navigation {
+  --nav-size: 52px;
+  --nav-size-icon: 14px;
+  --nav-rounded: 50%;
+  --nav-bg: #fff;
+  --nav-border: transparent;
+  --nav-color: rgb(38 56 58 / .75);
+  --nav-bg-hv: var(--ayum-hero-accent);
+  --nav-border-hv: transparent;
+  --nav-color-hv: #fff;
+  /* Figma: buttons sit 32px from each edge. */
+  width: calc(100% - 64px);
+  --nav-width-visible-hv: calc(100% - 64px);
+}
+.ayum-slideshow .hdt-slider .hdt-navigation .hdt-slider__button {
+  border: 0;
+  box-shadow: 0 2px 8px rgb(0 0 0 / .14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ayum-slideshow .hdt-slider .hdt-pagination .hdt-slider__dot,
+  .ayum-slideshow .hdt-slider .hdt-navigation .hdt-slider__button {
+    transition: none;
+  }
+}

@@ -399,7 +399,7 @@
 
 | # | المهمة | النطاق | Figma (D / M) | فحص Figma | التنفيذ | QA | ملاحظات |
 |---|---|---|---|---|---|---|---|
-| H1 | Hero | index | `2001:33` / `2001:612` | Metadata only | Not started | Not run | المهمة الأولى المقترحة |
+| H1 | Hero | index | `2001:33` / `2001:612` | Design-context inspected | Implemented | Partial | `sections/ayum-slideshow.liquid` + `assets/dev1.css`؛ الصور يرفعها التاجر. QA في harness محلي فقط، لا على المتجر |
 | H2 | Categories | index | `2001:55` / `2001:626` | Metadata only | Not started | Not run | — |
 | H3 | Best sellers (tabs) | index | `2001:80` / `2001:647` | Metadata only | Not started | Not run | قرار البطاقة؛ التقييم محجوب |
 | H4 | Bundles | index | `2001:156` / `2001:721` | Metadata only | Not started | Not run | يعتمد على H3 |
@@ -417,7 +417,7 @@
 
 ## 23. سجل التنفيذ
 
-> **لم يُنفَّذ أي سكشن حتى الآن.** لا توجد إدخالات تنفيذ.
+> السكاشن المنفَّذة: H1 (انظر الإدخال أدناه).
 
 ### 2026-10-11 — التدقيق الأولي والتخطيط (للقراءة فقط)
 - **النوع:** تدقيق وتخطيط، وليس تنفيذاً.
@@ -434,3 +434,180 @@
 - أكّد المستخدم أن لغة المتجر العربية. حُدِّثت §3 و§4.4 و§20.
 - رُصد أن `assets/main.css` أُعيد إنشاؤه في `ff5e29e` (تعليق فقط، غير محمَّل). حُدِّثت §4.6 و§9.
 - لم يُعدَّل أي ملف ثيم، ولم يُنفَّذ أي سكشن.
+
+### 2026-10-13 — H1 Hero slideshow (تنفيذ)
+- **Figma:** `get_design_context` + screenshot للعقدتين `2001:33` (1440×540) و`2001:612` (390، البانر 501)، و`get_metadata` للعقدة `2001:33`.
+- **القرار المعماري (بتعليمات المستخدم):** نسخة معزولة من `sections/slideshow.liquid` باسم `sections/ayum-slideshow.liquid`، مع إبقاء اسم الـ schema `t:sections.slideshow.name` ("Slideshow") والـ preset الأصلي. الأصل غير معدَّل.
+- **إعادة الاستخدام:** `_slide-item` والبلوكات الأصلية (`text_custom` للشارة، و`heading`، و`text`، و`_button_group` + `button_custom` ×2)، و`<hdt-slideshow>` من `global.min.js`، و`slideshow.css`. لم يُنسخ أي block، ولا يوجد JS جديد.
+- **الملفات:**
+  - جديد: `sections/ayum-slideshow.liquid`. الإضافات على النسخة فقط: تحميل `dev1.css`، والكلاس `ayum-slideshow`، وإعداد `custom_class`، و4 إعدادات ألوان AYUM (accent `#EA3A79`، heading `#26383A`، text `#4E6E70`، dots `#D3E3E8`).
+  - جديد: `assets/dev1.css`، وكل قواعده تحت `.ayum-slideshow`. نقاط الكسر 768 فقط (لا 1150 ولا غيرها).
+  - معدَّل: `templates/index.json`. أُضيف `ayum_slideshow_hero` أولاً في `order`، و`"disabled": true` على `slideshow_EVrUzi` (بياناته محفوظة). بقية السكاشن متطابقة بايت ببايت (تحقق آلي).
+- **المحتوى:** 3 شرائح بنص الشريحة 1. الصور فارغة (placeholder) إلى أن يرفعها التاجر (`image` + `image_mb`). الجزء الوردي من العنوان هو `<strong>` في الـ richtext، ويكون وردياً على الديسكتوب فقط.
+- **الإعدادات:** fixed 540 / 500 (الموبايل 500 لأن الـ range يتدرج بـ 10، وFigma = 501)، وautoplay 6s، وloop، وpause on hover، وأسهم rounded/large (52px عبر CSS) مخفية على الموبايل، ونقاط `pag_mgt` 35 (الموبايل 35×0.6 = 21)، و`pag_space` 9 (Figma 9.25).
+- **انحرافات موثّقة:**
+  - وصف الموبايل في Figma نصه مختلف قليلاً. استُخدم نص الديسكتوب في البريكبوينتين لأن بلوك `text` لا يدعم الإخفاء على الديسكتوب.
+  - حجم وصف الموبايل 13px مطبَّق عبر CSS، لأن الـ range الأصلي يتدرج بـ 2.
+  - وزن 800 للعنوان مطبَّق عبر CSS، لأن خيارات البلوك تنتهي عند bold.
+  - حالة hover للأسهم والأزرار غير مصمَّمة في Figma، فاختيرت قيم من ألوان الهوية.
+  - ترتيب النقاط يتبع اتجاه الـ slider الأصلي: Figma الديسكتوب يضع النقطة النشطة يميناً، وFigma الموبايل يضعها يساراً.
+- **RTL/LTR:** حاوية الموضع (`.hdt-content-type-container`) مثبّتة LTR حتى يبقى المحتوى يميناً في كل لغة. `.hdt-content-inner` = `direction: rtl; unicode-bidi: isolate`. محاذاة الأزرار والعمود مربوطة بإعداد المحاذاة الأصلي.
+- **فحوص مُشغَّلة (Passed):**
+  - تحليل JSON لـ schema النسخة (41 إعداداً = 35 أصلياً + 6).
+  - تحليل `index.json` ومطابقة كل السكاشن السابقة.
+  - `diff` النسخة مع الأصل (إضافات فقط).
+  - توازن وسوم `style`/`schema`.
+  - لا روابط `figma.com`/`api/mcp`.
+  - كل محددات `dev1.css` تحت `.ayum-slideshow`.
+  - `git status`: لا تعديل على `slideshow.liquid` أو `_slide-item.liquid` أو `slideshow.css` أو أي `.min.js` أو `settings_data.json` أو `page.women.json`.
+- **Not run:** `shopify theme dev/check`، والفحص البصري، وresponsive (320/375/390/767/768/1149/1150/1440)، وRTL في `ar` و`en.default`، والـ autoplay/swipe/النقاط/الأسهم في runtime، و`prefers-reduced-motion` (الـ autoplay من JS الأصلي ولا يمكن إيقافه من CSS)، ومحرر الثيم.
+
+#### 2026-10-13 — متابعة (bugfix): محاذاة الديسكتوب، والتفاف العنوان، ونقاط الموبايل
+- **Figma:** أُعيد فحص `2001:36` (design context) و`2001:612` (metadata). إطار الموبايل عرضه 375، وعمود النص 311.
+- **السبب الجذري 1 (محاذاة الديسكتوب):**
+  - Kalles يعرّف `.hdt-text-right` و`.md:hdt-text-right` كـ `text-align: end` (قيمة منطقية).
+  - بعد إعلان `direction: rtl` على `.hdt-content-inner`، صارت `end` تعني اليسار.
+  - النتيجة: الصناديق في مكانها الصحيح، لكن السطور داخل الصندوق (520px) ملتصقة باليسار.
+  - **الإصلاح:** داخل الحدود RTL، المحاذاة "right" ⇒ `text-align: start`، و"left" ⇒ `end`، و"center" ⇒ `center`، بجانب قيم `align-items` الموجودة.
+- **التفاف العنوان:**
+  - Figma نفسه يكسر قبل "في الفم" بفقرة منفصلة، فالسطر الثالث كسر صريح وليس نتيجة العرض.
+  - **الإصلاح:** `<br/>` قابل للتحرير في الـ richtext، مع تفعيل `hidden_br_mobile` في بلوك العنوان الأصلي.
+  - أُضيفت قاعدة scoped تمدّ إخفاء الـ `<br>` حتى 767px، لأن الأصل يتوقف عند 750.
+  - على الموبايل يلتف العنوان طبيعياً على سطرين مطابقين لـ Figma.
+- **السبب الجذري 2 (نقاط الموبايل يساراً):**
+  - قاعدة `slideshow.css` المتداخلة `&.hdt-position-right` (خصوصية 0,4,0) تغلب `justify-content: center` في `dev1.css` (0,3,0).
+  - في صفحة RTL، القيمة `flex-end` تعني اليسار.
+  - **الإصلاح:** محدد يشمل كلاسات الموضع `:is(.hdt-position-left, .hdt-position-center, .hdt-position-right)`، وتمديد شريط النقاط على كامل البانر (`left/right: 0; width: auto; margin: 0`). أُزيل التكرار من قاعدة الديسكتوب.
+- **تعديل بيانات (instance الهيرو فقط):** نص العنوان للشرائح 3 (`<br/>` + `hidden_br_mobile: true`)، و`line_height_mobile` للشارة من 14 إلى 13 (الشارة 23px مثل Figma). بقية السكاشن متطابقة (تحقق آلي).
+- **QA مُشغَّل (Passed، في harness محلي):**
+  - صفحة تحاكي مخرجات Liquid للسكشن، مع `base.css` و`theme.css` و`slideshow.css` و`dev1.css` الحقيقية، وJS السلايدر الحقيقي (`global.min.js`)، وAlmarai من Google Fonts.
+  - العروض: 1440، 1150، 768، 390، 375، 320، في `dir=rtl` و`dir=ltr`.
+  - 1440: الصندوق x=800 وinset 120 وy=81، والعنوان y=126 بثلاثة أسطر، والوصف y=337، والأزرار y=414، والنقاط تبعد 126 عن اليمين و35 عن الأسفل.
+  - 375: الشارة 83×23، والعنوان y=49 بسطرين، والوصف y=130، والزر 142×31، والنقاط في المنتصف (163/162) و21 عن الأسفل.
+  - التفاعل: النقر على النقطة، والسهم التالي، والـ autoplay (6s)، والسحب على الموبايل، كلها تحدّث النقطة النشطة. لا أخطاء في الـ console.
+- **Not run:** المتجر الحقيقي، ومحرر الثيم، والصور الحقيقية (الـ harness يستخدم placeholder)، و`shopify theme check`، ولمس حقيقي على جهاز، ونطاق 751–767 بعرض محدد.
+
+#### 2026-10-13 — متابعة (تحقيق): عرض خط Almarai
+- **Figma (`get_variable_defs` على `2001:33` و`2001:612`):** Almarai، ExtraBold 800 للعنوان والشارة والزر الأساسي، وBold 700 للزر الثانوي، وRegular 400 للوصف. letter-spacing = 0.
+- **إعداد الثيم الحالي (`settings_data.json`):**
+  - `library_font: shopify`، و`font_family_shopify_1: almarai_n4`، و`font_base` = `font_custom_heading` = `--f_family_1`.
+  - `hd_fweight: 600`. أما `bd_fweight` فغير محفوظ، فيُستخدم الافتراضي 400.
+- **تحميل الخط في Kalles:** `css-variables.liquid` يمرّ على `settings.font_family_shopify_1.variants` ويُخرج `font_face` لكل variant. مكتبة خطوط Shopify تُدرج Almarai بـ `almarai_n3 n4 n7 n8` (من توثيق shopify.dev). إذن وجه 800 حقيقي **يجب** أن يُعلَن على المتجر.
+- **قواعد Kalles:** لا يوجد `font-smoothing` ولا `font-synthesis` ولا `font-feature-settings` ولا `text-rendering`. الـ letter-spacing يساوي 0. وزن `hdt-font-bold` (700) و`--font-heading-weight` (600) يُغلَبان بقاعدة `dev1.css` (800) على العنوان و`h2` و`strong`.
+- **قياس فعلي (harness محلي):**
+  - CSS الثيم الحقيقي، مع Almarai من Google Fonts (نفس مصدر مكتبة Shopify، لكنه ليس ملف CDN الخاص بـ Shopify).
+  - CDP `CSS.getPlatformFontsForNode` + مقارنة حبر بالبكسل مع renders من Figma.
+  - **مع وجه 800 محمَّل:** العنوان مرسوم بـ `Almarai-ExtraBold`، والوصف بـ `Almarai-Regular`، والزر الثانوي بـ `Almarai-Bold`. الحبر مطابق لـ Figma ضمن ~1%: عنوان الديسكتوب 466×179 مقابل 465×183، والموبايل 303×64 مقابل 303×66، والوصف 497×52 مقابل 497×51.
+  - **مع وجه 400 فقط:** الـ CSS يبقى `font-weight: 800`، لكن Chrome يرسم `Almarai-Regular`. الحبر أقل بـ ~17%، والكلمات أضيق، والتفاف العنوان يتغيّر. هذا يطابق وصف المشكلة. `document.fonts.check()` أعاد `true` في الحالتين، فلا يصلح دليلاً.
+- **الاستنتاج:** لا خطأ في الـ CSS أو الوراثة داخل السكشن. الفرق المرئي على المتجر سببه على الأرجح أن وجه 800 لا يُحمَّل في البيئة التي تمت فيها المقارنة. **غير مؤكَّد على المتجر**، لأن الـ harness لا يستطيع إعادة إنتاج ملفات `fonts.shopifycdn.com` الموقّعة.
+- **لم يُعدَّل أي ملف ثيم في هذه المتابعة.**
+- **الخطوة التالية:** فحص "Rendered Fonts" في DevTools على صفحة المتجر الفعلية (انظر التقرير). إن ظهر `Almarai-Regular` للعنوان أو غاب طلب `almarai_n8`، فالحل الأصغر هو إعلان `font_modify: 'weight', '800'` داخل `{% style %}` السكشن.
+
+#### 2026-10-13 — متابعة (bugfix): عنوان الهيرو يُرسم بـ Times New Roman على المتجر
+- **دليل المستخدم (DevTools على المتجر الحقيقي):** `<h2>` = `TimesNewRomanPS-BoldMT` (ملف محلي، 39 glyph) + `OTS derived font` (6 glyphs).
+- **السبب الجذري:**
+  - المشكلة في **العائلة** وليست في وزن مفقود. `:where(h1…h6)` في `base.css` يأخذ العائلة من `--font-heading-family`، أي إعداد "Heading font" في الثيم.
+  - على المتجر الحي، هذا الـ slot يشير إلى خط لاتيني فقط. على الأرجح `--f_family_3` = Libre Baskerville (`font_family_shopify_3`) مع fallback `serif`.
+  - النتيجة: الحروف العربية تسقط إلى Times New Roman (Bold بسبب 800)، والمسافات فقط تُرسم من الـ webfont.
+  - في `settings_data.json` بالمستودع `font_custom_heading` = `--f_family_1`، فإعداد المتجر الحي مختلف عن المستودع (drift).
+  - الوصف والشارة والأزرار لم تتأثر، لأنها ترث خط الـ **body** (`--font-body-family` = Almarai).
+- **إعادة إنتاج مطابقة (harness، heading slot ← Libre Baskerville):** `TimesNewRomanPS-BoldMT` ×39 + `Libre-Baskerville-Bold` (webfont) ×6 عند 375. البصمة نفسها التي أبلغ عنها المستخدم.
+- **الإصلاح (`assets/dev1.css` فقط):** `font-family: var(--font-body-family)` على `.ayum-slideshow .hdt-h_custom :is(h1…h6, p, strong, b)`. لم يُضف أي @font-face، لأن أوجه Almarai 300/400/700/800 يُعلنها `css-variables.liquid` أصلاً. لا روابط Google Fonts في الثيم.
+- **تحقق (harness، Passed):**
+  - Heading slot مكسور وسليم: العنوان والـ strong = `Almarai-ExtraBold`، والوصف = `Almarai-Regular`، والشارة والزر الأساسي = `Almarai-ExtraBold`، والزر الثانوي = `Almarai-Bold`.
+  - الحبر مطابق لـ Figma (466×179 مقابل 465×183، و303×64 مقابل 303×66).
+  - الهندسة عند 1440 و390 و375 لم تتغير.
+- **Not run:** المتجر الحقيقي (لا وصول)، وملفات `fonts.shopifycdn.com` الفعلية، ومحرر الثيم.
+- **توصية للتاجر (اختيارية، خارج نطاق هذا السكشن):** مراجعة Theme settings ← Typography ← "Heading font". إن كانت Font 3 (Libre Baskerville)، فكل عناوين h1–h6 العربية في المتجر تُرسم بـ Times New Roman.
+- **تصحيح لاحق:** أكّد المستخدم من `theme dev` أن Font 1/2/3 كلها Almarai، وأن قاعدة `dev1.css:122` مطبَّقة، وأن الـ computed هو `Almarai, sans-serif`. فرضية "drift الإعداد" أعلاه **غير صحيحة** (انظر الإدخال التالي).
+
+#### 2026-10-13 — تحقيق: Almarai يُحمَّل (200) لكن الحروف العربية تسقط إلى Times New Roman
+- **دليل المستخدم (theme dev):**
+  - `almarai_n4/n7/n8` كلها 200. الـ computed = `Almarai, sans-serif`.
+  - Rendered Fonts للـ `<h2>`: `TimesNewRomanPS-BoldMT` ×39 + `OTS derived font` ×6.
+- **السبب (مُعاد إنتاجه بدقة، وغير مُتحقَّق منه على ملفات Shopify نفسها):**
+  - ملفات Almarai التي يقدّمها Shopify على الأرجح لا تحتوي إلا subset لاتيني.
+  - Google نفسه يوزّع Almarai كملفين منفصلين لكل وزن: `arabic` و`latin`، لكل منهما `unicode-range`.
+  - صفحة تعلن `@font-face` بأسلوب `font_face` في Shopify (ملف لكل وزن، بلا `unicode-range`) بملف Latin فقط أعطت بالضبط: `[webfont] Almarai-ExtraBold ×6 | TimesNewRomanPS-BoldMT ×39`.
+  - الـ 6 هي المسافات (موجودة في الـ subset اللاتيني).
+  - بملف Arabic: `Almarai-ExtraBold ×45`.
+- **النطاق:** ليس الهيرو فقط. في نفس الاختبار رُسم نص الوزن 400 (الوصف) بـ `SegoeUI` ×84، فكل نص عربي بخط Almarai في المتجر غالباً ليس Almarai.
+- **حجم 34.5px:** ليس خطأ. `base.css` يعطي `.hdt-h_custom` قيمة `max(46×0.75, 25)` = 34.5 في نطاق 768–1149، و46 فقط من 1150. الـ viewport أثناء الفحص أقل من 1150 (DevTools مفتوح بجانب الصفحة).
+- **لم يُعدَّل أي ملف ثيم.**
+- **الحل المقترح (بانتظار موافقة المستخدم بعد تشغيل probe التغطية على ملفات Shopify):**
+  - رفع ملفات Almarai العربية (OFL) مرة واحدة إلى `assets/`: ~31–33KB لكل وزن، للأوزان 400/700/800.
+  - إعلانها بـ `@font-face { font-family: Almarai; unicode-range: <arabic> }`، فيبقى Shopify للاتيني وتتكفّل الملفات المحلية بالعربي، بلا تغيير في أي selector أو إعداد.
+  - مكان التحميل يُقرَّر مع المستخدم: `dev1.css` (الهيرو/الهوم فقط) أو تحميل عام (كل الصفحات = تغيير عام).
+
+#### 2026-10-13 — تأكيد ثم إصلاح عام: دعم Almarai العربي على كل المتجر
+- **تأكيد السبب (CONFIRMED):** فحص جدول cmap لملفات Shopify الحقيقية `almarai_n4/n7/n8` (من الـ preview، HTTP 200، WOFF2 صالح، أوزان OS/2 = 400/700/800، 212 glyph):
+  - **0** نقطة عربية (U+0600–06FF، وPresentation Forms A/B). Basic Latin كامل (95).
+  - من نص الهيرو: 1/30 فقط (النقطة).
+  - جدول الأسماء بلا سجلات family، وهذا يفسّر "OTS derived font" في DevTools.
+- **الملفات المضافة:**
+  - `assets/almarai-arabic-400.woff2` (31,672 B)، و`-700` (32,912 B)، و`-800` (33,328 B).
+  - المصدر: Google Fonts Almarai v19، subset عربي (fonts.gstatic.com).
+  - التحقق: WOFF2 صالح، والأسماء الداخلية "Almarai" Regular/Bold/ExtraBold، وأوزان OS/2 = 400/700/800، و290 glyph. التغطية: 104 (U+0600–06FF) + 59 (FB50–FDFF) + 91 (FE70–FEFF)، و29/30 من نص الهيرو (النقطة من ملف Shopify).
+  - `licenses/Almarai-OFL.txt`: من `google/fonts/ofl/almarai`. SIL OFL 1.1، **بلا Reserved Font Name**، فاسم `Almarai` مسموح.
+  - `snippets/ayum-arabic-font-face.liquid`: 3 قواعد `@font-face` باسم `Almarai`، وأوزان 400/700/800، و`font-style: normal`، و`font-display: swap`، و`asset_url`، و`unicode-range: U+0600-06FF, U+FB50-FDFF, U+FE70-FEFF`. لا preload.
+- **التعديل الوحيد على ملف أصلي:** `layout/theme.liquid`، سطر واحد `render 'ayum-arabic-font-face'` بعد `render 'css-variables'` داخل `{%- liquid %}`.
+- **لم يُعدَّل:** `css-variables.liquid`، وإعدادات Typography، و`settings_data.json`، والسكاشن والبلوكات الأصلية، و`dev1.css`، و`password.liquid`.
+- **تحقق (harness يحاكي المتجر بملفات Shopify الحقيقية + نص الـ snippet الفعلي، Passed):**
+  - بدون الـ snippet: `OTS-derived-font ×6 | TimesNewRomanPS-BoldMT ×39`، وهي بصمة المتجر حرفياً.
+  - مع الـ snippet (بعد أو قبل قواعد Shopify، والنتيجة نفسها):
+    - العنوان والجزء الوردي والشارة والزر الأساسي = `Almarai-ExtraBold`، والوصف = `Almarai-Regular`، والزر الثانوي = `Almarai-Bold`.
+    - h3 بوزن 600 والكلاس bold = `Almarai-Bold`، والنص العادي خارج الهيرو = `Almarai-Regular`.
+    - النص اللاتيني = ملف Shopify فقط (×46).
+  - الحبر مقابل Figma: 466×179/465×183، و303×64/303×66، و497×52/497×51.
+  - هندسة الهيرو عند 1440/390/375 لم تتغير، والـ console نظيف.
+- **Not run:** الـ preview الحقيقي بعد الإصلاح (يتطلب مزامنة الملفات الجديدة)، وSafari/Firefox، و`theme check`.
+
+#### 2026-10-13 — متابعة (تحسين): التفاف العنوان، ووصف الموبايل، والمسافات
+- **Figma:** أُعيد استخدام قياسات عقد `2001:33` و`2001:612` (metadata/design context).
+- **السبب 1، التفاف السطر الأول على الديسكتوب:**
+  - السطر الأول كان يعتمد على أن "يكبر" لا تتسع بعد العبارة الوردية داخل 520px. الهامش بضع بكسلات فقط، فيختلف بين البيئات (لقطة المتجر: "يكبر" على السطر الأول).
+  - في Figma نفسه السطر الثالث فقرة منفصلة، والتوزيع مقصود.
+  - **الحل:** `<br/>` قابل للتحرير بعد العبارة الوردية أيضاً، مع `hidden_br_mobile` (موجود) والقاعدة الممتدة حتى 767px.
+- **السبب 2، وصف الموبايل:** Figma يستخدم نصاً مختلفاً على الموبايل. بلوك `text` الأصلي لا يملك "إخفاء على الديسكتوب".
+  - **الحل:** بلوك `_liquid` الأصلي ("Liquid - HTML"، مسموح أصلاً في `_slide-item`) يحمل النص داخل عنصر بكلاس `ayum-mobile-only`، وبلوك الوصف الحالي يُفعَّل له "Hide on mobile".
+  - **`dev1.css`:**
+    - إخفاء `.hdt-hide-mobile` داخل محتوى الهيرو حتى 767px (Kalles يتوقف عند 750).
+    - إخفاء غلاف `:has(.ayum-mobile-only)` من 768px.
+    - تنسيق وصف الموبايل (13px / 400 / 1.7 / `--ayum-hero-text`) على الغلاف، فلا يعتمد على خيارات حجم البلوك.
+  - لا تعديل على أي بلوك أصلي.
+- **`templates/index.json` لم يُعدَّل عمداً:** نسخة المتجر فيها صور مرفوعة من محرر الثيم، والنسخة المحلية حقول صورها فارغة. رفع الملف المحلي (مثلاً عبر `theme dev`) سيمسح الصور. تعديلات المحتوى تُنفَّذ من محرر الثيم (انظر التقرير)، أو بعد سحب القالب من المتجر.
+- **تحقق (harness يحاكي المتجر: ملفات Shopify اللاتينية الحقيقية + snippet العربي + المحتوى المقترح، Passed):**
+  - **التفاف الأسطر:** الديسكتوب (1440 و1290) = "سكيتلز مجفف بالتجميد" (وردي) / "يكبر ويقرمش ويذوب" / "في الفم". الموبايل (375 و390) = "سكيتلز مجفف بالتجميد يكبر" / "ويقرمش ويذوب في الفم". وصف الموبايل سطران مطابقان لـ Figma.
+  - **الهندسة عند 1440 (موقع / Figma):** الصندوق x800/y81 وارتفاع 379/378؛ الشارة y81 و92×27 = مطابق؛ العنوان y126 بارتفاع 193/192؛ الوصف y337/336؛ الأزرار y414 = مطابق.
+  - **الهندسة عند 375:** الشارة y18 و83×23 = مطابق؛ العنوان y49 بارتفاع 73/72؛ الوصف y130/129 بارتفاع 44 = مطابق؛ الزر y182/181 و142×31 مقابل 141×31.
+  - 320 و768 و1150 سليمة.
+  - **الخطوط المرسومة:** ExtraBold للعنوان والشارة والزر الأساسي، وRegular للوصفين، وBold للزر الثانوي. الحبر مطابق ~1%.
+- **تكوين صورة الموبايل:** يحدده الملف المرفوع في "Mobile image" + نقطة التركيز (focal point)، مع `object-fit: cover` في بانر 500px. للمطابقة: رفع تصدير Figma للبانر 375×501 (يُفضَّل @2x). لم يُغيَّر CSS للصورة.
+- **Not run:** الـ preview الحقيقي بعد تطبيق خطوات المحرر.
+
+#### 2026-10-13 — تنفيذ: وصف موبايل قابل للتحرير + فحص الـ preview الحقيقي
+- **الـ preview الحقيقي:** `shopify theme dev` يعمل على `127.0.0.1:9292`، والثيم "Development (517928-Aya-Helal)" id `193876328629` (role development).
+  - يُزامن ملفات الكود من هذا الـ worktree لحظياً: `dev1.css` المنشور مطابق بايت ببايت للمحلي.
+  - **لا يُزامن القالب من المحرر:** `index.json` في المتجر = أول نسخة مزروعة + صور التاجر (desktop `4fc1c5eb…png`، وmobile `5142c0d2…png`): بلا `<br/>`، و`hidden_br_mobile` غير مفعّل، وارتفاع سطر الشارة على الموبايل 14.
+  - **خطر:** أي تعديل محلي على `templates/index.json` أثناء تشغيل `theme dev` يُرفع فوراً ويمسح الصور، فلم يُعدَّل.
+- **الخطوط على الـ preview الحقيقي (HTML شوبيفاي الحقيقي + أصول الـ preview، عبر proxy محلي للقراءة فقط):**
+  - قواعد `@font-face` العربية الثلاث موجودة، والملفات الست كلها 200.
+  - العنوان والشارة والزر الأساسي = `Almarai-ExtraBold`، والوصف = `Almarai-Regular`، والزر الثانوي = `Almarai-Bold`. ملف Shopify اللاتيني للمسافات والنقطة فقط.
+  - ما رآه التاجر سابقاً على الأرجح كاش.
+  - الـ preview صار يحوّل كل الطلبات إلى `/password` بعد ذلك، فالقياسات من HTML المتجر الحقيقي الملتقَط قبلها مع الأصول الحية.
+- **الملفات المضافة/المعدلة (كود، مُزامَن للـ preview):**
+  - `blocks/_ayum-slide-item.liquid`: نسخة من `_slide-item` بنفس الـ markup والإعدادات حرفياً. الاسم "Slide (AYUM)"، ويضيف `_ayum-description` للبلوكات المسموحة، مع preset بمحتوى Figma. أُزيلت فيه فقط فاصلة زائدة موروثة في الـ schema.
+  - `blocks/_ayum-description.liquid` ("Description (AYUM)"): `text` (richtext)، و`text_mobile` (richtext اختياري، fallback للوصف)، وحجم desktop/mobile (17/13، خطوة 1).
+  - `sections/ayum-slideshow.liquid`: `blocks` = `_slide-item` + `_ayum-slide-item` (الشرائح الحالية تبقى صالحة).
+  - `assets/dev1.css`: قواعد `.ayum-desc`، وإزالة قواعد `ayum-mobile-only` و`.hdt-hide-mobile` من الجولة السابقة.
+- **ترحيل القالب (جاهز، بانتظار سحب القالب من المتجر):** سكربت يستبدل نص قسم `ayum_slideshow_hero` فقط:
+  - الشرائح ← `_ayum-slide-item` (نفس الـ ids والصور).
+  - العنوان ← `<br/>` بعد العبارة الوردية وبعد "ويذوب"، مع `hidden_br_mobile`.
+  - `text` الوصف ← `_ayum-description` (نص الديسكتوب محفوظ + نص Figma للموبايل).
+  - الشارة: ارتفاع السطر على الموبايل 14 ← 13.
+  - اختُبر على ملف محاكٍ بصور المتجر: بقية الملف بايت ببايت، والصور و`order` بلا تغيير.
+- **تحقق (HTML المتجر الحقيقي + markup ما بعد الترحيل + أصول الـ preview الحية):**
+  - 375: الشارة y18 و83×23؛ العنوان y49 بارتفاع 73 (Figma 72)؛ الوصف y130 (129) بارتفاع 44؛ الزر y182 (181) و142×31.
+  - 1440: الصندوق x800/y81؛ العنوان y126؛ الوصف y337؛ الأزرار y414.
+  - الأسطر مطابقة لـ Figma عند 375 و390 و1290 و1440، والخطوط كلها Almarai الصحيح.
+- **Not run:** الـ preview الحي بعد الترحيل (يحتاج سحب القالب + كلمة مرور المتجر في المتصفح).
