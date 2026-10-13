@@ -1,0 +1,284 @@
+/* ==========================================================================
+   dev2.css — AYUM sections built on the dev2 branch.
+   Loaded only by the AYUM sections that need it; every rule is scoped to
+   its section class. No colour literals: colours come from the colour scheme
+   (--color-*) or from section settings exposed as --ayum-* RGB triplets.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   AYUM Featured Collection (sections/ayum-tabs-collection.liquid)
+   Figma: 2001:80 (desktop 1440) / 2001:647 (mobile 375).
+   Base rules = mobile (< 768) and tablet; @media (min-width: 1150px) = desktop.
+   Sizes below are the Figma node values (1rem = 10px in this theme).
+   -------------------------------------------------------------------------- */
+
+/* Tabs — "AYUM pills" design (tabs_des = ayum_pill). Figma 2001:651 / 2001:83 */
+.ayum-tabs-collection .hdt-tabs-ayum_pill .ayum-tabs-collection__tab {
+  height: auto;
+  padding: 0.8rem 1.6rem;
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: rgb(var(--ayum-tab-bg));
+  color: rgb(var(--ayum-tab-text));
+  font-size: 1.2rem;
+  font-weight: var(--font-bold);
+  line-height: 1.15;
+  transition: background-color 0.2s, color 0.2s;
+}
+.ayum-tabs-collection .hdt-tabs-ayum_pill .ayum-tabs-collection__tab[aria-current="true"] {
+  background-color: rgb(var(--ayum-tab-active-bg));
+  color: rgb(var(--ayum-tab-active-text));
+}
+.ayum-tabs-collection .hdt-tabs-ayum_pill .ayum-tabs-collection__tab .hdt-collection-title-text {
+  color: inherit;
+}
+.ayum-tabs-collection .hdt-tabs-ayum_pill .ayum-tabs-collection__tab:focus-visible {
+  outline: 2px solid rgb(var(--color-focus));
+  outline-offset: 2px;
+}
+
+/* Card — native style 7 base; AYUM content order and Figma metrics. Figma 2001:659 / 2001:91 */
+.ayum-tabs-collection .ayum-card-product {
+  --atc-cl: rgb(var(--ayum-on-primary));
+  --atc-bg-cl: rgb(var(--ayum-primary));
+  --atc-cl-hover: rgb(var(--ayum-on-primary));
+  --atc-bg-cl-hover: rgb(var(--ayum-primary) / 0.85);
+}
+.ayum-tabs-collection .ayum-card-product .ayum-card-product__wrapper {
+  /* AYUM content is authored in Arabic: declare the direction at the card boundary
+     instead of relying on the locale-driven page dir (slider track keeps the page dir). */
+  direction: rtl;
+  unicode-bidi: isolate;
+  gap: 0.6rem;
+  padding: 1rem;
+  border: 1px solid rgb(var(--ayum-card-border));   /* Figma 2001:91 / 2001:659: 1px Neutral/Border */
+  background-color: rgb(var(--color-background));
+}
+.ayum-tabs-collection .ayum-card-product .hdt-card-product__media,
+.ayum-tabs-collection .ayum-card-product .hdt-card-product__media-wrapp {
+  border-radius: var(--radius-product-media);
+}
+.ayum-tabs-collection .ayum-card-product .ayum-card-product__info {
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* Rating + product tag row (Figma 2001:94 / 2001:662): rating on the RIGHT, product tag on the LEFT.
+   The card wrapper is RTL, so the rating (first in source) sits at inline-start = right and the tag is pushed
+   to inline-end = left; each keeps its side when the other one is missing. */
+.ayum-tabs-collection .ayum-card-product .ayum-card-product__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 1.3rem;
+  color: rgb(var(--color-foreground2));
+  font-size: 1.1rem;
+  font-weight: var(--font-normal);
+  line-height: 1.15;
+}
+.ayum-tabs-collection .ayum-card-product .ayum-card-product__tag {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  margin-inline-start: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ayum-tabs-collection .ayum-card-product .ayum-card-rating {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.4rem;
+}
+/* Native rating (snippets/hdt-pr-card-rating.liquid) inside the AYUM card: same markup and star SVGs, sized to the
+   Figma star run (61px for 5 stars, 2px apart). Figma shows the numeric rating instead of the native "(count)". */
+.ayum-tabs-collection .ayum-card-product .ayum-card-rating .star-rating,
+.ayum-tabs-collection .ayum-card-product .ayum-card-rating .star-rating__stars {
+  gap: 0.2rem;
+}
+.ayum-tabs-collection .ayum-card-product .ayum-card-rating .star-rating__star {
+  width: 1rem;
+  height: auto;
+}
+.ayum-tabs-collection .ayum-card-product .ayum-card-rating .star-rating__count {
+  display: none;
+}
+
+/* Title — fixed number of lines with reserved height so cards align (Figma 2001:667 / 2001:99) */
+.ayum-tabs-collection .ayum-card-product .ayum-card-product__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--ayum-title-lines, 1);
+  overflow: hidden;
+  width: 100%;
+  min-height: calc(var(--ayum-title-lines, 1) * 1.15em);
+  font-size: 1.3rem;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+  text-align: center;
+}
+
+/* Price (Figma 2001:669 / 2001:101) */
+.ayum-tabs-collection .ayum-card-product .hdt-price-wrapp {
+  font-weight: var(--font-extrabold);
+}
+.ayum-tabs-collection .ayum-card-product .hdt-price__list {
+  justify-content: center;
+}
+.ayum-tabs-collection .ayum-card-product .hdt-price {
+  font-size: 1.5rem;
+  line-height: 1.15;
+  color: rgb(var(--ayum-price));
+}
+.ayum-tabs-collection .ayum-card-product .hdt-compare-at-price {
+  font-size: 1.1rem;
+  color: rgb(var(--color-foreground2));
+}
+
+/* Add to cart — native btn-ultra, full width pill (Figma 2001:671 / 2001:103) */
+.ayum-tabs-collection .ayum-card-product .hdt-pr-btns-group1 {
+  margin-block-start: 0;
+}
+.ayum-tabs-collection .ayum-card-product .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
+  justify-content: center;
+  height: auto;
+  padding: 1rem 1.2rem;
+  border: 0;
+  border-radius: var(--radius-button);
+  font-size: 1.2rem;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+}
+.ayum-tabs-collection .ayum-card-product .hdt-pr-btns-group1 .hdt-pr-card-icon {
+  display: none;
+}
+.ayum-tabs-collection .ayum-card-product .hdt-pr-btns-group1 :where(a, button):focus-visible {
+  outline: 2px solid rgb(var(--color-focus));
+  outline-offset: 2px;
+}
+
+/* Badge — native badges (sale %, new, theme.custom_badges) as a white pill (Figma 2001:673 / 2001:105) */
+.ayum-tabs-collection .ayum-card-product .hdt-badge__wrapp {
+  left: auto;
+  right: auto;
+  inset-block-start: 0.7rem;
+  inset-inline-start: 0.7rem;
+  align-items: flex-start;
+}
+.ayum-tabs-collection .ayum-card-product .hdt-badge {
+  --badge-color-primary: rgb(var(--color-background));
+  --badge-color-secondary: rgb(var(--ayum-badge-text));
+  min-width: 0;
+  min-height: 0;
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-full);
+  background-color: var(--badge-color-primary);
+  color: var(--badge-color-secondary);
+  font-size: 1rem;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+  /* "وفّر 15%": the native badge is display:flex, which turns "وفّر", <span percent>15</span> and "%"
+     into separate flex items and reverses them ("%15"). Inline flow lets the bidi algorithm keep "15%"
+     as one number run; direction is pinned so the order holds whatever the page dir is. */
+  display: block;
+  white-space: nowrap;
+  text-align: center;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+/* Slider progress — desktop only (Figma 2001:154); hidden below 1150px */
+.ayum-tabs-collection .ayum-slider-progress {
+  display: none;
+}
+.ayum-tabs-collection .ayum-slider-progress__thumb {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc((1 - var(--ayum-progress-size, 1)) * var(--ayum-progress, 0) * 100%);
+  width: calc(var(--ayum-progress-size, 1) * 100%);
+  border-radius: inherit;
+  background-color: rgb(var(--ayum-primary));
+}
+
+/* Mobile carousel — 2 cards + peek, 8px gap, track bleeding to the end edge (Figma 2001:658) */
+@media (max-width: 767px) {
+  .ayum-tabs-collection .ayum-product-carousel .hdt-slider__products {
+    --slide-spacing: 0.8rem;
+    --slide-size: 45%;
+  }
+  /* Only when the section sits in the theme container (1.5rem side padding in base.css). */
+  .ayum-tabs-collection:is(.hdt-container) .ayum-product-carousel .hdt-slider__viewport,
+  .ayum-tabs-collection .hdt-container .ayum-product-carousel .hdt-slider__viewport {
+    margin-inline-end: -1.5rem;
+  }
+}
+
+/* Desktop (Figma 2001:80) */
+@media (min-width: 1150px) {
+  .ayum-tabs-collection .hdt-tabs-ayum_pill .ayum-tabs-collection__tab {
+    padding: 0.9rem 2rem;
+    background-color: rgb(var(--ayum-tab-bg) / 0.6);   /* Figma 2001:84: Surface at 60% */
+    font-size: 1.4rem;
+  }
+  .ayum-tabs-collection .hdt-tabs-ayum_pill .ayum-tabs-collection__tab[aria-current="true"] {
+    background-color: rgb(var(--ayum-tab-active-bg));
+  }
+  .ayum-tabs-collection .ayum-card-product .ayum-card-product__wrapper {
+    gap: 1rem;
+    padding: 1.4rem;
+  }
+  .ayum-tabs-collection .ayum-card-product .ayum-card-product__info {
+    gap: 1rem;
+  }
+  .ayum-tabs-collection .ayum-card-product .ayum-card-product__meta {
+    min-height: 1.7rem;
+    font-size: 1.3rem;
+    font-weight: var(--font-bold);
+  }
+  .ayum-tabs-collection .ayum-card-product .ayum-card-rating .star-rating__star {
+    width: 1.1rem;
+  }
+  .ayum-tabs-collection .ayum-card-product .ayum-card-product__title {
+    font-size: 2.2rem;
+  }
+  .ayum-tabs-collection .ayum-card-product .hdt-price {
+    font-size: 2rem;
+  }
+  .ayum-tabs-collection .ayum-card-product .hdt-compare-at-price {
+    font-size: 1.4rem;
+  }
+  .ayum-tabs-collection .ayum-card-product .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
+    padding: 1.2rem;
+    font-size: 1.7rem;
+  }
+  .ayum-tabs-collection .ayum-card-product .hdt-badge__wrapp {
+    inset-block-start: 1.1rem;
+    inset-inline-start: 1.1rem;
+  }
+  .ayum-tabs-collection .ayum-card-product .hdt-badge {
+    padding: 0.5rem 1.2rem;
+    font-size: 1.1rem;
+  }
+  .ayum-tabs-collection .ayum-slider-progress {
+    position: relative;
+    display: block;
+    width: 51rem;
+    max-width: 100%;
+    height: 0.3rem;
+    margin: 3.2rem auto 0;
+    overflow: hidden;
+    border-radius: 0.2rem;
+    background-color: rgb(var(--ayum-surface) / 0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ayum-tabs-collection .hdt-tabs-ayum_pill .ayum-tabs-collection__tab {
+    transition: none;
+  }
+}

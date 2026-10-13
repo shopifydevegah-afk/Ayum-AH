@@ -401,7 +401,7 @@
 |---|---|---|---|---|---|---|---|
 | H1 | Hero | index | `2001:33` / `2001:612` | Metadata only | Not started | Not run | المهمة الأولى المقترحة |
 | H2 | Categories | index | `2001:55` / `2001:626` | Metadata only | Not started | Not run | — |
-| H3 | Best sellers (tabs) | index | `2001:80` / `2001:647` | Metadata only | Not started | Not run | قرار البطاقة؛ التقييم محجوب |
+| H3 | Best sellers (tabs) — اسم المحرر: **Featured Collection** | index | `2001:80` / `2001:647` | Design-context inspected | Implemented (+ متابعة 2026-10-13) | Partial (harness محلي فقط) | `ayum-tabs-collection` (فرع `dev2-ah`)؛ انظر §23 |
 | H4 | Bundles | index | `2001:156` / `2001:721` | Metadata only | Not started | Not run | يعتمد على H3 |
 | H5 | About the brand | index | `2001:230` / `2001:749` | Metadata only | Not started | Not run | لا علاقة له بـ "H5" المذكور في الـ skill |
 | H6 | How we freeze-dry | index | `2001:250` / `2001:765` | Metadata only | Not started | Not run | — |
@@ -417,7 +417,7 @@
 
 ## 23. سجل التنفيذ
 
-> **لم يُنفَّذ أي سكشن حتى الآن.** لا توجد إدخالات تنفيذ.
+> على فرع `dev2-ah`: نُفِّذ H3 فقط (2026-10-13). سكاشن فرع `dev1-ah` غير مسجَّلة في هذه النسخة من الخطة.
 
 ### 2026-10-11 — التدقيق الأولي والتخطيط (للقراءة فقط)
 - **النوع:** تدقيق وتخطيط، وليس تنفيذاً.
@@ -434,3 +434,47 @@
 - أكّد المستخدم أن لغة المتجر العربية. حُدِّثت §3 و§4.4 و§20.
 - رُصد أن `assets/main.css` أُعيد إنشاؤه في `ff5e29e` (تعليق فقط، غير محمَّل). حُدِّثت §4.6 و§9.
 - لم يُعدَّل أي ملف ثيم، ولم يُنفَّذ أي سكشن.
+
+### 2026-10-13 — H3 Best sellers (tabs) — تنفيذ أول (فرع `dev2-ah`)
+- **Figma:** فُحصت `2001:80` و`2001:647` عبر `get_metadata` و`get_design_context` و`get_variable_defs` ولقطات الشاشة. ترتيب البطاقة المعتمد: الصورة والشارة ← (الوصف + التقييم في صف واحد) ← العنوان ← السعر ← زر الإضافة.
+- **الأساس الأصلي (لم يُعدَّل):** `sections/tabs-collection.liquid` و`blocks/_tab-collection.liquid` و`blocks/_product-carousel.liquid` و`snippets/card-product7.liquid`.
+- **ملفات جديدة:**
+  - `sections/ayum-tabs-collection.liquid`: نسخة من `tabs-collection`. أُضيف خيار تصميم تبويبات `ayum_pill`، و7 ألوان AYUM، و`custom_class`. التسمية تُعرض كنص فعلي بدل حقن `content:` في CSS.
+  - `blocks/_ayum-tab-collection.liquid`: نسخة من `_tab-collection` تسمح بـ `_ayum-product-carousel` إلى جانب `_product-grid`.
+  - `blocks/_ayum-product-carousel.liquid`: نسخة من `_product-carousel`. أُضيف خيار بطاقة `ayum` في الـ dispatcher الخاص بها (البطاقات 1–12 كما هي)، وشريط تقدّم السلايدر، و4 إعدادات AYUM.
+  - `snippets/card-product-ayum.liquid`: نسخة من `card-product7` بترتيب Figma.
+  - `snippets/ayum-card-rating.liquid`: تقييم "4.8 ★★★★★" من metafields التقييم القياسية (`reviews.rating` / `reviews.rating_count`)، وهو المصدر نفسه الذي يقرؤه تكامل Judge.me في `hdt-pr-card-rating.liquid`. لا يُعرض شيء بدون تقييم فعلي.
+  - `assets/dev2.css`: كل القواعد تحت `.ayum-tabs-collection`. يُحمَّل من السكشن فقط.
+  - `assets/ayum-slider-progress.js`: عنصر `<ayum-slider-progress>` يقرأ Embla API الخاص بـ `<hdt-slider>` الأصلي عبر حدثَي `init:slide` و`select:slide`. لا مكتبة جديدة.
+- **ملفات معدَّلة:** `templates/index.json`. أُضيف `ayum_tabs_collection_best_sellers` بعد `collections_list_manual_eErqxt`، وبقية الملف مطابقة بايتاً ببايت (تحقق آلي).
+- **الألوان:** من الـ scheme الخلفية، والعنوان (`hdt-s-text`)، ونص البطاقة الثانوي (`--color-foreground2`)، وحد البطاقة (`--color-line-border`)، وخلفية الشارة. ألوان AYUM (قيم Figma افتراضية): `ayum_primary_color` #26B3D0، `ayum_on_primary_color` #FFFFFF، `ayum_surface_color` #E4EDF0، `ayum_tab_text_color` #4E6E70، `ayum_price_color` #EA3A79، `ayum_badge_text_color` #EA3A79، `ayum_star_color` #F2B640.
+- **الوصف:** مقتطف نصي من `product.description` (`strip_html` ثم `truncate`)، معزول في سطر واحد داخل `card-product-ayum` ليُستبدل بـ metafield لاحقاً.
+- **الشارات:** `snippets/badges.liquid` الأصلي كما هو (خصم %، جديد، `theme.custom_badges` عند تفعيل `use_custom_badge`)، بتنسيق Figma داخل بطاقة AYUM فقط.
+- **فحوص مُشغَّلة:** تحليل JSON صارم لكل schema ولـ `index.json`، وتوازن الوسوم، و`node --check` للـ JS، وgrep لألوان حرفية (0)، ونطاق المحددات، ونقاط التوقف (767/1150 فقط)، وروابط Figma (0)، و`git diff` للأصول الأصلية (بدون تغيير).
+- **Not run:** `shopify theme dev`/`check`، والعرض في المتصفح، وresponsive وRTL/LTR، ومحرر الثيم، وبيانات المتجر الفعلية (Judge.me metafields و`custom_badges`). موصل Shopify متصل بمتجر آخر، فلم يُستعلم عنه.
+- **متابعة 2026-10-13 (التسمية، الحد، الوسم، التبويبات، شارة الخصم):**
+  - **التسمية:** `name` والـ preset أصبحا "Featured Collection". اسم الملف `ayum-tabs-collection` ونوع السكشن ومعرّف الـ instance بلا تغيير. ملاحظة: سكشن Kalles الأصلي `featured-collection` يحمل اسماً مشابهاً في قائمة "Add section".
+  - **الحد:** السبب أن الحد كان من style 7 الأصلي (`--color-line-border` بشفافية 50%، وهو لون عام من body scheme ولا يُتحكَّم به لكل سكشن). أُضيف `ayum_card_border_color` (#D3E3E8)، والحد 1px. نصف القطر من `--radius-product-card` (16).
+  - **صف الوسم والتقييم:** الوصف أُزيل نهائياً. الإعدادان `ayum_show_description` و`ayum_description_length` حُذفا من الـ schema ومن الـ instance، وأُضيف `ayum_show_tag` (true) و`ayum_tag_prefix` (فارغ). المصدر وسم واحد من `product.tags`. تُتخطّى وسوم Kalles الداخلية (`t4_` و`badge_`، نفس قاعدة `_product-meta-tags`). مع البادئة: فقط الوسوم التي تبدأ بها، وتُعرض بدونها. بدون وسم مناسب لا يظهر شيء، وارتفاع الصف ثابت.
+  - **التبويبات:** لم يُعثر على سبب اختفاء النص في كود هذا الفرع. harness محلي بملفات CSS الحقيقية وglobal.min.js والخطوط العربية أظهر النصوص بالألوان الصحيحة على 375/768/1440. السبب يحتاج HTML/لقطة من المتجر الفعلي. أُضيفت ألوان مستقلة: `ayum_tab_bg_color` و`ayum_tab_active_bg_color` و`ayum_tab_active_text_color`، ويُعاد استخدام `ayum_tab_text_color` للنص غير النشط.
+  - **شارة الخصم:** مفتاح `products.product.ayum_save_percent` في 6 لغات (ar: "وفّر {{ percent }}%"). يُمرَّر لـ `badges.liquid` الأصلي عبر المعامل الموثّق `sale_percent_t`، والنسبة محسوبة من السعر الفعلي. الشارة `display:block` داخل بطاقة AYUM فقط، لأن `display:flex` الأصلي يفصل النص عن الرقم.
+  - **فحوص:** JSON صارم لكل schema، وlocale tolerant parse مع تحقق أن المحتوى الآخر لم يتغير، و0 ألوان حرفية، و`node --check`. harness (Playwright): حد البطاقة 1px #D3E3E8 بنصف قطر 16، والبطاقة على الموبايل 158×261 (Figma 158×259)، والتقدّم مخفي على الموبايل، ولا overflow أفقي. تغيير كل متغير لون غيّر العنصر المقصود.
+- **متابعة 2026-10-13 (2) — نجوم Judge.me، موضع الصف، التبويبات:**
+  - **Judge.me:** التكامل الفعلي في الثيم هو `snippets/hdt-pr-card-rating.liquid` المعدَّل من التاجر (غير committed). لا يوجد أي markup لـ `jdgm` في الثيم. يقرأ `product.metafields.reviews.rating` ويرسم `fill_star_rating.svg` و`unfill_star_rating.svg`، ويُعرض دائماً حتى عند 0 تقييم (5 نجوم فارغة "(0)").
+  - **فرقان في نسخة AYUM السابقة:** (1) كانت تشترط `reviews.rating_count.value > 0` بينما الأصل لا يشترطه؛ (2) كانت ترسم ★ Unicode عبر CSS.
+  - **التعديل:** أُعيدت كتابة `snippets/ayum-card-rating.liquid` بنفس المصدر ونفس ملفات النجوم ونفس منطق التقريب (0.3–0.7 = نصف نجمة تُرسم ممتلئة). تُعرض القيمة "4.8" بدل "(العدد)". بدون تقييم لا يُعرض شيء (لا نجوم وهمية).
+  - **أُزيل `ayum_star_color`** من الـ schema والـ CSS والـ instance، لأن لون النجوم أصبح من ملفات SVG الخاصة بالتكامل.
+  - **الصف:** التقييم يميناً والوسم يساراً (Figma 2001:94: الوسم x=0 والتقييم x=194–277). ترتيب المصدر: التقييم ثم الوسم داخل غلاف البطاقة المثبَّت RTL، والوسم يُدفع إلى inline-end بـ `margin-inline-start:auto`. كل عنصر يحتفظ بجهته عند غياب الآخر.
+  - **harness:** على 375 و1440 التقييم ملاصق لليمين والوسم لليسار، والمسافة صف↔صورة وصف↔عنوان 6/10px (= Figma)، وارتفاع الصف 13/17px، ونجوم SVG محمَّلة، و3.5 تظهر `****o`. الوسم الطويل على الموبايل يُقطع بـ "…" داخل البطاقة.
+  - **التبويبات:** لم يُحدَّد السبب في هذه المتابعة. حُلَّت لاحقاً في متابعة (3) أدناه.
+- **متابعة 2026-10-13 (3) — حلّ التبويبات واستعادة التقييم الأصلي:**
+  - **سبب التبويبات الفارغة (مؤكَّد):** كتل التبويب هي theme blocks، وإعداداتها لا تُقرأ من حلقة `section.blocks` في السكشن الأب (القيمة فارغة).
+    - **الدليل من الكود:** كل سكشن Kalles يقرأ `block.settings` داخل هذه الحلقة يستخدم section-local blocks (announcement-bar وmarquee وcollections-list-tabs وmain-product-tabs وtoolbar-mobile وغيرها). السكشن الوحيد ذو theme blocks (`tabs-collection` + `_tab-collection`) يحقن العنوان من داخل الكتلة عبر CSS `::before content`.
+    - **الخطأ:** نسخة AYUM حذفت هذا الحقن واعتمدت `{{ block.settings.title }}` في السكشن، فظهرت الحبوب بالـ padding فقط.
+    - **سبب فشل الاختبار المحلي السابق:** الـ harness كان يكتب النص مباشرة في الـ markup.
+    - **التحقق:** نسخة harness بنفس المخرجات الفعلية (span فارغ) أعادت إنتاج الخطأ (حبوب 40×18 بلا نص).
+  - **إصلاح التبويبات:** أُعيدت آلية الحقن الأصلية إلى `_ayum-tab-collection` مع escaping أأمن (`\` و`'` و`<`)، ويشمل ذلك أيقونة التبويب. أُزيل الـ `<img>` والنص غير القابلَين للقراءة من السكشن، وحُذفت قاعدة `.ayum-tabs-collection__tab-icon`. بعد الإصلاح: الحبوب 104×34 (Figma 106×34) على الديسكتوب و86×30 على الموبايل، والألوان من إعدادات Tabs.
+  - **التقييم:** البطاقة ترندر `hdt-pr-card-rating` الأصلي مباشرة بلا تعديل (نفس المصدر ونفس ملفات SVG ونفس التقريب، و5 نجوم فارغة للمنتج بلا تقييم)، داخل غلاف `.ayum-card-rating` في يمين الصف. تُضاف القيمة "4.8" فقط عندما `reviews.rating > 0`. يُخفى "(العدد)" الأصلي بـ CSS مقيّد (غير موجود في Figma)، وتُضبط مقاسات النجوم على Figma.
+  - **حُذف `snippets/ayum-card-rating.liquid`** (منطق مكرر لم يعد مستخدماً).
+  - **التحقق:** harness فقط. التحقق في محرر الثيم الفعلي **لم يُجرَ**.
+- **قيود معروفة:** المسافات من الإعدادات الأصلية مضبوطة على قيم الديسكتوب. على الموبايل تكون المسافة بين العنوان والتبويبات 8px (Figma 16px)، وبين التبويبات والبطاقات 30px (Figma 24px)، بسبب منطق الإعدادات الأصلية. ألوان العنوان والنص الثانوي والحد تتبع الـ scheme الحالي (Kalles demo) حتى يُنشأ scheme خاص بـ AYUM. التبويبات بلا مجموعات مختارة حتى يحددها التاجر.

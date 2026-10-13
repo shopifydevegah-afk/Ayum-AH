@@ -283,6 +283,7 @@
       "barcode": "Code-barres :",
       "on_sale": "Promo",
       "save_percent": "-{{ percent }}%",
+      "ayum_save_percent": "Économisez {{ percent }}%",
       "on_sale_single": "PROMO",
       "save_percent_single": "-{{ percent }}%",
       "badge_new": "Nouveau",

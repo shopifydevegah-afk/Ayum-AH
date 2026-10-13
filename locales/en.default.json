@@ -291,6 +291,7 @@
       "barcode": "Barcode:",
       "on_sale": "Sale",
       "save_percent": "-{{ percent }}%",
+      "ayum_save_percent": "Save {{ percent }}%",
       "on_sale_single": "SALE",
       "save_percent_single": "{{ percent }}% OFF",
       "badge_new": "New",
