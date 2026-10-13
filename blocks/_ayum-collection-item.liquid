@@ -1,4 +1,4 @@
-<!-- _ayum-collection-item.liquid — AYUM copy of _collection_item.liquid (original left untouched); adds the label color -->
+<!-- _ayum-collection-item.liquid — AYUM copy of _collection_item.liquid (original left untouched); adds the label color (palette in the section settings) -->
 {%- liquid
   assign current_width = settings.page_width | append: 'px'
   assign current_width_tb = '100vw'
@@ -280,7 +280,8 @@
           "label": "Orange"
         }
       ],
-      "default": "blue"
+      "default": "blue",
+      "info": "Palette color set in the section settings (Card label colors)."
     }
   ],
   "presets": [

@@ -666,3 +666,78 @@
   - لون النقطة النشطة في Figma أزرق #26B3D0 (ليس الوردي المذكور في الطلب)، وطُبّق Figma.
   - تعديل `design_heading` ← "1" وإزالة reveal من النقاط تحقّقا على الصفحة الملتقطة بعد تطبيق نفس المخرجات، لأن الـ preview كان خلف كلمة المرور.
 - **Not run:** المتجر الحي بعد آخر تعديلين، والروابط (لا مجموعات مختارة بعد)، ومحرر الثيم، وSafari/Firefox، ولمس فعلي.
+
+### 2026-10-13 — ترحيل H1 وS1 وH2 إلى Color-Scheme-First / Theme-Editor-First (SKILL §2.8 و§5.2)
+- **Figma (`get_variable_defs`):**
+  - `2001:612`: Ink #26383A، وText #4E6E70، وPink #EA3A79، وBorder #D3E3E8، وWhite.
+  - `2001:55`: Surface #E4EDF0 (و60%)، وPrimary #26B3D0 (و15%)، وInk، وWhite، وPink، وGreen #B6D561، وOrange #E78333.
+  - `2001:4`: Primary، وPink، وWhite.
+- **المخططات (قراءة فقط):**
+  - الـ body = `scheme-1` (خلفية #ffffff، ونص #222، وoverlay #000000).
+  - `scheme-6707…` (خلفية #26b3d0 / نص #fff) هو مخطط شريط الإعلانات.
+  - لا يوجد مخطط فيه Ink أو Surface أو ألوان البطاقات.
+- **عدّ الألوان الحرفية في `assets/dev1.css`:** **19 قبل ← 0 بعد**. ملفات AYUM Liquid/JS: 0 خارج `default`/presets في الـ schema.
+- **H1 (الهيرو):**
+  - مُعاد استخدامه: إعدادات AYUM الموجودة (accent، وheading، وtext، وborder)، وألوان البلوكات الأصلية (`text_custom` للشارة، و`button_custom` للأزرار).
+  - متغيرات المخطط: `--color-background` / `--color-base-background` للأسطح البيضاء (الأسهم، ونقاط الموبايل، ولون أيقونة السهم عند hover)، و`--color-overlay` لظل الأسهم.
+  - `color-mix` من heading للون الأيقونة الخافت، وأُزيل الـ fallback الحرفي.
+  - جديد: `ayum_shade_color` (#666666، "Mobile image shade") لتدرّج الموبايل (30%).
+- **S1 (شريط الإعلانات):** لا ألوان حرفية أصلاً. الخلفية والنص من المخطط الأصلي (`colors_by_section` + `color_scheme`)، والزر من `ayum_copy_bg`/`ayum_copy_color`، والـ focus يستخدم `ayum_copy_color`. **بلا تعديل.**
+- **H2 (الفئات):**
+  - إعدادات قسم جديدة: `ayum_surface_color`، و`ayum_heading_color`، و`ayum_accent_color`، و`ayum_dot_color`، و`ayum_label_text_color`، ولوحة `ayum_label_blue/pink/green/orange`.
+  - إعداد بلوك جديد: `ayum_label_bg` ("Custom label color"، بلا قيمة افتراضية)، تصدره القسم كقاعدة مربوطة بـ block id عبر `section.blocks`. لا يوجد `<style>` داخل مسار السلايدر.
+  - اختيار `ayum_label_color` الموجود صار يشير لألوان اللوحة.
+  - الخلفية من AYUM فقط عند `:not([color-scheme])`، فإن فُعّل المخطط الأصلي فخلفيته هي المعتمدة.
+  - لون العنوان من AYUM فقط عند `hdt-s-text`، فخيارات اللون الأصلية الأخرى تعمل.
+- **الملفات:** `assets/dev1.css`، و`sections/ayum-slideshow.liquid`، و`sections/ayum-collections-list.liquid`، و`blocks/_ayum-collection-item.liquid`.
+  - لم يُعدَّل `templates/index.json`: كل الإعدادات الجديدة تعمل بالـ defaults.
+  - لم يُعدَّل أي ملف Kalles أصلي، ولا `settings_data.json`، ولا `css-variables.liquid`.
+- **تحقق:**
+  - صفحة المتجر الحقيقية الملتقطة (200) + `dev1.css` الجديد حيّاً + مخرجات Liquid الجديدة بالقيم الافتراضية: **42/42 لوناً محسوباً مطابقاً للأساس**. سهم الهيرو بصيغة `color(srgb …)` = rgba(38,56,58,.75) نفسه.
+  - محاكاة تغيير الإعدادات (القيم التي يصدرها كل إعداد): لون اللوحة يغيّر بطاقته فقط، واللون المخصص يغيّر بطاقته فقط ويتبعها بعد إعادة الترتيب، والمخطط الأصلي يغلب، وخيار لون العنوان الأصلي يعمل، والـ accent والنقاط والإطار تتغير، والظل وسطح الأسهم يتبعان المخطط، وزر النسخ يتبع إعداداته.
+- **Not run:** إخراج Shopify الحي لملفات Liquid المعدّلة (الـ preview خلف كلمة المرور بعد التعديل)، وفتح الإعدادات فعلياً في محرر الثيم.
+
+### تصحيح ترحيل الألوان: المخططات الأصلية أولاً (2026-10-13)
+
+- **السبب:** الترحيل السابق أزال الألوان الحرفية، لكنه استبدلها بـ color pickers جديدة لأدوار يغطيها مخطط Kalles. هذا يمنع تبديل المخطط من التحكم في الألوان.
+- **القاعدة:** إذا كان المخطط يحوي الدور (خلفية، نص، accent، أزرار، حدود، overlay) نستخدم متغيّره حتى لو اختلفت قيمته الحالية عن Figma. الإعداد الجديد فقط حين يعجز المخطط بنيوياً عن تمثيل الدور.
+- **S0 (الهيرو):**
+  - النص من مخطط الشريحة الأصلي (`color_scheme` لكل شريحة)، ثم مخطط القسم، ثم مخطط body.
+  - العنوان والوصف من select `text_color` الأصلي. العنوان على الديسكتوب = `--color-foreground` بنسبة 75%.
+  - الجزء المميّز (strong) والشارة والنقطة النشطة وhover الأسهم = `--color-accent`.
+  - النقاط غير النشطة = `--color-line-border`. الأسهم = `--color-background`.
+  - ظل الموبايل = `--color-overlay` بنسبة 18%.
+  - **أُزيلت:** `ayum_accent_color`، و`ayum_heading_color`، و`ayum_text_color`، و`ayum_border_color`، و`ayum_shade_color`.
+  - أُضيف إلى `_ayum-description` select `text_color` بنفس الخيارات الأصلية، والقيمة الافتراضية Secondary (= Text 2).
+  - أزرار CTA باقية على إعدادات `button_custom` الأصلية.
+- **S1 (شريط الإعلانات):**
+  - الخلفية والنص من المخطط (بلا تغيير).
+  - زر النسخ صار من `--hdt-btn-bg` / `--hdt-btn-color`، وhover من `--hdt-btn-hover-*`، وحلقة التركيز `--color-foreground`.
+  - **أُزيلت:** `ayum_copy_bg` و`ayum_copy_color`.
+- **S2 (التصنيفات):**
+  - خلفية القسم من `.hdt-s-gradient` + "Background opacity" الأصلي (Figma: 60%).
+  - العنوان = `hdt-s-text`. الإطار = accent بنسبة 15%.
+  - خلفية البطاقة = `--color-background`. النقاط = `line-border` / `accent`. نص الملصق = `--hdt-btn-color`.
+  - **أُزيلت:** `ayum_surface_color`، و`ayum_heading_color`، و`ayum_accent_color`، و`ayum_dot_color`، و`ayum_label_text_color`، و`ayum_label_bg` (بلوك)، وقواعد per-card.
+  - **باقٍ (ضروري بنيوياً):** لوحة `ayum_label_blue/pink/green/orange` + اختيار `ayum_label_color` لكل بطاقة (البيانات المخزّنة فيه محفوظة).
+- **بيانات التاجر:**
+  - `templates/index.json` يخزّن قيم الهيرو `#ea3a79 / #26383a / #4e6e70 / #d3e3e8`.
+  - `sections/header-group.json` يخزّن `ayum_copy_bg #ea3a79` و`ayum_copy_color #ffffff`.
+  - لم تُعدَّل هذه الملفات. القيم غير المعروفة يتجاهلها Shopify (متوقّع، لم يُتحقق منه).
+  - القيم موثّقة هنا لإدخالها في مخطط.
+  - لم يُعدَّل `settings_data.json` ولا أي مخطط.
+- **مطلوب من التاجر لاستعادة مظهر Figma:** إنشاء مخطط "AYUM" وتعيينه للشرائح/الأقسام، بدلاً من تعديل scheme-1 المشترك.
+  - **الهيرو:** Text #26383A، Text 2 #4E6E70، Accent #EA3A79، Line border #D3E3E8. ووصف الشريحة = Secondary.
+  - **الشريط:** مخطط بخلفية #26B3D0، ونص #FFFFFF، وButton #EA3A79، وButton label #FFFFFF. المخطط 6707 مستخدم أيضاً في `page.women.json`.
+  - **التصنيفات:** تفعيل "Display colors by section" + مخطط Background #E4EDF0، وText #26383A، وAccent #26B3D0، وLine border #D3E3E8، وButton label #FFFFFF، مع Background opacity 0.6.
+  - حتى ذلك، تظهر الأقسام بألوان المخططات الحالية (accent سماوي، نص #222، زر نسخ أبيض).
+- **تحقق:**
+  - الـ preview الحي عاد لكلمة المرور، فاستُخدمت لقطة الصفحة الحقيقية مع حذف ما حذفه Liquid الجديد بالضبط، و`dev1.css` الجديد حيّاً.
+  - **إيقاف المخطط:** الألوان من body.
+  - **تفعيل المخطط والتبديل بين مخططين:** الخلفية والنقاط والأسهم تتبع القسم، والعنوان والوصف والشارة تتبع الشريحة.
+  - **تعديل لون داخل المخطط:** تتغير كل الأدوار.
+  - **الأزرار:** زر النسخ و hover يتبعان المخطط، والنسخ يعمل (AYUM10).
+  - **التصنيفات:** بقيم Figma في المخطط تطابق Figma تماماً. لون الملصق مستقل لكل بطاقة.
+  - **الأقسام الأخرى:** 0 من 318 عنصراً تغيّر.
+  - ألوان حرفية في `dev1.css`: 0.
+- **Not run:** إخراج Shopify الحي للـ Liquid الجديد، ومحرر الثيم الفعلي.

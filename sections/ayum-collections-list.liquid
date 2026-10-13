@@ -1,6 +1,19 @@
 <!-- ayum-collections-list.liquid — AYUM copy of Kalles collections-list.liquid (original left untouched) -->
 {{ 'hdt-collection-items.css' | asset_url | stylesheet_tag }}
 {{ 'dev1.css' | asset_url | stylesheet_tag: media: 'all' }}
+{%- comment -%}
+  Colours: the native colour scheme ("Display colors by section" + "Color scheme", else the body scheme)
+  drives background, heading, accent, dots and label text (see assets/dev1.css). Only the card label
+  palette is AYUM: four independent label colours that one scheme cannot hold.
+{%- endcomment -%}
+{%- style -%}
+  #shopify-section-{{ section.id }} .ayum-collections-list {
+    --ayum-cat-blue: {{ section.settings.ayum_label_blue.rgb }};
+    --ayum-cat-pink: {{ section.settings.ayum_label_pink.rgb }};
+    --ayum-cat-green: {{ section.settings.ayum_label_green.rgb }};
+    --ayum-cat-orange: {{ section.settings.ayum_label_orange.rgb }};
+  }
+{%- endstyle -%}
 {%- liquid
   #Section layout
   assign sizes  = '(min-width: 1150px) ' | append: settings.page_width | append: 'px,(min-width: 750px) calc(100vw - 60px), calc(100vw - 30px)'
@@ -927,6 +940,35 @@
       "label": "Padding (Mobile)",
       "placeholder": ",,50px,",
       "visible_if": "{{ section.settings.pd != blank }}"
+    },
+    {
+      "type": "header",
+      "content": "Card label colors",
+      "info": "Each card picks one with its \"Label color\" option. Label text uses the color scheme's Button label; background, heading, accent and dots use the color scheme."
+    },
+    {
+      "type": "color",
+      "id": "ayum_label_blue",
+      "label": "Label color: Blue",
+      "default": "#26B3D0"
+    },
+    {
+      "type": "color",
+      "id": "ayum_label_pink",
+      "label": "Label color: Pink",
+      "default": "#EA3A79"
+    },
+    {
+      "type": "color",
+      "id": "ayum_label_green",
+      "label": "Label color: Green",
+      "default": "#B6D561"
+    },
+    {
+      "type": "color",
+      "id": "ayum_label_orange",
+      "label": "Label color: Orange",
+      "default": "#E78333"
     },
     {
       "type": "text",

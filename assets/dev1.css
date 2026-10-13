@@ -3,6 +3,9 @@
    Loaded only by sections/ayum-slideshow.liquid. Every rule is scoped to
    .ayum-slideshow so the original Kalles slideshow is unaffected.
    Breakpoints: 768px (md) / 1150px (lg) only.
+   Colours: native Kalles colour-scheme variables first (--color-*, --hdt-btn-*), resolved from the
+   nearest [color-scheme] wrapper (slide, section, or the body scheme at :root). AYUM colour settings
+   exist only for roles a scheme cannot represent (the collection-card label palette).
    ========================================================================== */
 
 /* ---------- Hero slideshow (Figma 2001:33 desktop / 2001:612 mobile) ---------- */
@@ -10,6 +13,10 @@
 .ayum-slideshow {
   /* Horizontal inset of the copy block. Figma mobile: 32px padding. */
   --ayum-hero-pad-c: 32px;
+  /* Light surface (arrow buttons, mobile inactive dots, arrow hover icon) = the colour
+     scheme background: the section's scheme when "colors by section" is on, else the body scheme
+     (:root defines only --color-base-background). */
+  --ayum-hero-surface: rgb(var(--color-background, var(--color-base-background)));
 }
 @media (min-width: 768px) {
   .ayum-slideshow {
@@ -47,7 +54,8 @@
 }
 
 /* Mobile bottom shade (Figma 2001:613 gradient layer). Uses ::before because
-   the native "Overlay" option already uses ::after on this element. */
+   the native "Overlay" option already uses ::after on this element. Colour = the scheme
+   "Overlay" colour; at 18% it darkens white as much as Figma's mid-grey layer at 30%. */
 @media (max-width: 767px) {
   .ayum-slideshow .hdt-slide_inner::before {
     content: "";
@@ -55,7 +63,7 @@
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    background: linear-gradient(180deg, rgb(0 0 0 / 0) 87.4%, rgb(102 102 102 / .3) 98.47%);
+    background: linear-gradient(180deg, transparent 87.4%, rgb(var(--color-overlay) / .18) 98.47%);
   }
 }
 
@@ -94,12 +102,13 @@
   .ayum-slideshow .md\:hdt-text-left .hdt-group-button-block { justify-content: flex-end; }
 }
 
-/* Badge — "text_custom" block (size, weight, colour come from its settings). */
+/* Badge — "text_custom" block (size, weight and text colour come from its settings);
+   pill = the slide scheme's accent. */
 .ayum-slideshow .hdt-block-text__custom {
   max-width: 100%;
   padding: 5px 12px;
   border-radius: 13px;
-  background-color: var(--ayum-hero-accent);
+  background-color: rgb(var(--color-accent));
 }
 @media (min-width: 768px) {
   .ayum-slideshow .hdt-block-text__custom {
@@ -108,9 +117,9 @@
   }
 }
 
-/* Heading — "heading" block, size from its h_custom settings (46 / 25). */
+/* Heading — "heading" block, size from its h_custom settings (46 / 25). Colour comes from the
+   block's native "Text color" select (default = slide scheme text). */
 .ayum-slideshow .hdt-h_custom {
-  color: var(--ayum-hero-heading);
   font-weight: 800;
   line-height: 1.45;
 }
@@ -132,20 +141,23 @@
 }
 @media (min-width: 768px) {
   .ayum-slideshow .hdt-h_custom {
-    color: rgb(38 56 58 / .75);
-    color: color-mix(in srgb, var(--ayum-hero-heading) 75%, transparent);
     line-height: 1.4;
   }
-  /* Bold text in the heading is the pink segment on desktop only. */
+  /* Figma desktop: the default (scheme text) heading colour at 75%. Other native choices apply as-is. */
+  .ayum-slideshow .hdt-h_custom.hdt-s-text {
+    color: rgb(var(--color-foreground) / .75);
+  }
+  /* Bold text in the heading is the highlighted segment on desktop only: the scheme accent,
+     like Kalles' native .hdt-highlight-strong. */
   .ayum-slideshow .hdt-h_custom :is(strong, b) {
-    color: var(--ayum-hero-accent);
+    color: rgb(var(--color-accent));
   }
 }
 
 /* Description — "text" block. The native mobile size range steps by 2px, so
-   Figma's 13px mobile size is applied here; tablet/desktop use the setting. */
+   Figma's 13px mobile size is applied here; tablet/desktop use the setting.
+   Colour comes from the block's native "Text color" select. */
 .ayum-slideshow .hdt-text-custom {
-  color: var(--ayum-hero-text);
   line-height: 1.75;
 }
 @media (max-width: 767px) {
@@ -157,9 +169,9 @@
 
 /* Description (AYUM) block — blocks/_ayum-description.liquid. Optional mobile text
    (Figma 2001:619 wording) replaces the desktop text below 768px. Sizes come from the
-   block's own settings (default 17 / 13); tablet uses the midpoint like Kalles' text block. */
+   block's own settings (default 17 / 13); tablet uses the midpoint like Kalles' text block.
+   Colour comes from the block's native-style "Text color" select (scheme text / text 2 / accent). */
 .ayum-slideshow .ayum-desc {
-  color: var(--ayum-hero-text);
   font-weight: 400;
   font-size: var(--ayum-desc-fs-mb);
   line-height: 1.7;
@@ -203,9 +215,9 @@
   --pag-h: 8px;
   --pag-w-active: 22px;
   --pag-h-active: 8px;
-  --pag-bg: #fff;
-  --pag-bg-active: var(--ayum-hero-accent);
-  --pag-border: var(--ayum-hero-border);
+  --pag-bg: var(--ayum-hero-surface);
+  --pag-bg-active: rgb(var(--color-accent));
+  --pag-border: rgb(var(--color-line-border));
   --pag-radius: 999px;
   gap: 6px;
   /* Span the full banner so centring is relative to the whole slide. */
@@ -236,7 +248,7 @@
     --pag-h: 11.5625px;
     --pag-w-active: 32.375px;
     --pag-h-active: 11.5625px;
-    --pag-bg: var(--ayum-hero-border);
+    --pag-bg: rgb(var(--color-line-border));
     gap: var(--space-between);
     bottom: var(--margin-top);
     /* Span the copy column so the position setting aligns dots with the copy edge
@@ -253,25 +265,26 @@
   }
 }
 
-/* ---------- Navigation arrows (native buttons, appearance only) ---------- */
+/* ---------- Navigation arrows (native buttons, appearance only) ----------
+   Dots and arrows sit outside the slides, so they follow the section scheme (or the body scheme). */
 
 .ayum-slideshow hdt-slideshow.hdt-slider .hdt-navigation {
   --nav-size: 52px;
   --nav-size-icon: 14px;
   --nav-rounded: 50%;
-  --nav-bg: #fff;
+  --nav-bg: var(--ayum-hero-surface);
   --nav-border: transparent;
-  --nav-color: rgb(38 56 58 / .75);
-  --nav-bg-hv: var(--ayum-hero-accent);
+  --nav-color: rgb(var(--color-foreground) / .75);
+  --nav-bg-hv: rgb(var(--color-accent));
   --nav-border-hv: transparent;
-  --nav-color-hv: #fff;
+  --nav-color-hv: var(--ayum-hero-surface);
   /* Figma: buttons sit 32px from each edge. */
   width: calc(100% - 64px);
   --nav-width-visible-hv: calc(100% - 64px);
 }
 .ayum-slideshow .hdt-slider .hdt-navigation .hdt-slider__button {
   border: 0;
-  box-shadow: 0 2px 8px rgb(0 0 0 / .14);
+  box-shadow: 0 2px 8px rgb(var(--color-overlay) / .14); /* Figma "shadow 1": scheme overlay colour at 14% */
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -328,15 +341,16 @@
   padding: 5px 12px;
   border: 0;
   border-radius: 14px;
-  background-color: var(--ayum-copy-bg);
-  color: var(--ayum-copy-color);
+  /* The bar's colour scheme button colours (Theme settings > Colors > scheme > Button / Button label). */
+  background-color: rgb(var(--hdt-btn-bg));
+  color: rgb(var(--hdt-btn-color));
   font-family: var(--font-body-family);
   font-size: 11px;
   font-weight: 800;
   line-height: 12px;
   white-space: nowrap;
   cursor: pointer;
-  transition: opacity .2s ease;
+  transition: background-color .2s ease, color .2s ease;
 }
 @media (min-width: 768px) {
   .ayum-announcement-bar .ayum-copy__btn {
@@ -347,10 +361,12 @@
   }
 }
 .ayum-announcement-bar .ayum-copy__btn:hover {
-  opacity: .9;
+  background-color: rgb(var(--hdt-btn-hover-bg));
+  color: rgb(var(--hdt-btn-hover-color));
 }
+/* Ring in the bar's text colour, so it shows against the bar background. */
 .ayum-announcement-bar .ayum-copy__btn:focus-visible {
-  outline: 2px solid var(--ayum-copy-color);
+  outline: 2px solid rgb(var(--color-foreground));
   outline-offset: 2px;
 }
 /* Label and feedback share one grid cell; only the label sizes the button (Figma width).
@@ -384,10 +400,13 @@
    Uses the native <hdt-slider>; card style 5 (title below the image).
    ========================================================================== */
 
+/* Colours: the native colour scheme ("Display colors by section" + "Color scheme"; otherwise the
+   body scheme). Section background = scheme background via .hdt-s-gradient and the native
+   "Background opacity" (Figma: Surface at 60%); border = scheme accent at 15% (Figma: Primary 15%).
+   Only the card label colours are AYUM settings (a scheme has no four-colour palette). */
 .ayum-collections-list {
   --ayum-cat-pad: 16px;
-  background-color: rgb(228 237 240 / .6);
-  border-block: 1px solid rgb(38 179 208 / .15);
+  border-block: 1px solid rgb(var(--color-accent) / .15);
 }
 /* Figma container insets: 16px mobile, 20px from 768px (1320 max -> 1280 content). */
 .ayum-collections-list .hdt-container {
@@ -401,7 +420,6 @@
 
 /* Heading (size from the heading block's custom size: 36 / 21). */
 .ayum-collections-list .hdt-section-heading_block .hdt-heading-block {
-  color: #26383A;
   font-weight: 800;
   line-height: 1.1;
 }
@@ -413,22 +431,26 @@
 }
 
 /* Cards: image on top, coloured title bar below. */
+/* Label background = the card's "Label color" choice from the section's label palette (each card
+   is coloured independently). Label text = the scheme "Button label" colour, like Kalles' filled
+   collection-title styles. */
 .ayum-collections-list .ayum-cat {
-  --ayum-cat-bg: #26B3D0;
-  --color-title: #fff;
+  --ayum-cat-bg: rgb(var(--ayum-cat-blue));
+  --color-title: rgb(var(--hdt-btn-color));
   --color-bg-title: var(--ayum-cat-bg);
-  --color-hv-title: #fff;
+  --color-hv-title: rgb(var(--hdt-btn-color));
   --color-hv-bg-title: var(--ayum-cat-bg);
   --radius-collection-card: 0px;
 }
-.ayum-collections-list .ayum-cat--pink { --ayum-cat-bg: #EA3A79; }
-.ayum-collections-list .ayum-cat--green { --ayum-cat-bg: #B6D561; }
-.ayum-collections-list .ayum-cat--orange { --ayum-cat-bg: #E78333; }
+.ayum-collections-list .ayum-cat--pink { --ayum-cat-bg: rgb(var(--ayum-cat-pink)); }
+.ayum-collections-list .ayum-cat--green { --ayum-cat-bg: rgb(var(--ayum-cat-green)); }
+.ayum-collections-list .ayum-cat--orange { --ayum-cat-bg: rgb(var(--ayum-cat-orange)); }
 
 .ayum-collections-list .ayum-cat .hdt-collection-inner {
   overflow: hidden;
   border-radius: 14px;
-  background-color: #E4EDF0;
+  /* Figma: Surface at 100% behind the image = the scheme background at full opacity. */
+  background-color: rgb(var(--color-background, var(--color-base-background)));
 }
 .ayum-collections-list .ayum-cat .hdt-collection-content {
   max-width: none;
@@ -482,8 +504,8 @@
   --pag-h: 12px;
   --pag-w-active: 40px;
   --pag-h-active: 12px;
-  --pag-bg: #D3E3E8;
-  --pag-bg-active: #26B3D0;
+  --pag-bg: rgb(var(--color-line-border));
+  --pag-bg-active: rgb(var(--color-accent));
   --pag-radius: 6px;
 }
 .ayum-collections-list .hdt-slider .hdt-pagination .hdt-slider__dot {

@@ -20,10 +20,6 @@
   {%- endcapture -%}
 {%- endif -%}
 {%- style -%}
-  #shopify-section-{{ section.id }} .ayum-announcement-bar {
-    --ayum-copy-bg: {{ section.settings.ayum_copy_bg }};
-    --ayum-copy-color: {{ section.settings.ayum_copy_color }};
-  }
   @media (max-width: 767px) {
     #shopify-section-{{ section.id }} .ayum-announcement-bar {
       min-height: {{ section.settings.ayum_height_mb }}px;
@@ -454,7 +450,8 @@
     },
     {
       "type": "header",
-      "content": "Copy code button"
+      "content": "Copy code button",
+      "info": "Button colors come from the color scheme: Button and Button label."
     },
     {
       "type": "checkbox",
@@ -486,18 +483,6 @@
       "id": "ayum_copy_error",
       "label": "Error message",
       "default": "تعذّر النسخ"
-    },
-    {
-      "type": "color",
-      "id": "ayum_copy_bg",
-      "label": "Button background",
-      "default": "#EA3A79"
-    },
-    {
-      "type": "color",
-      "id": "ayum_copy_color",
-      "label": "Button text",
-      "default": "#FFFFFF"
     },
     {
       "type": "text",

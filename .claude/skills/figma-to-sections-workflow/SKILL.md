@@ -1,6 +1,6 @@
 ---
 name: ayum-figma-to-sections-workflow
-description: The permanent operating standard for converting the AYUM Figma design into production Shopify sections in this Shopify theme — one section at a time. Use for any Figma-to-section implementation, follow-up bugfix, or design-driven change on the homepage, product page, or collection page. Covers Figma MCP inspection, pre-implementation reporting, the existing-first reuse ladder, the custom-class rule, preservation of merchant data, RTL/responsive/accessibility validation, and the final report format.
+description: The permanent operating standard for converting the AYUM Figma design into production Shopify sections in this Shopify theme — one section at a time. Use for any Figma-to-section implementation, follow-up bugfix, or design-driven change on the homepage, product page, or collection page. Covers Figma MCP inspection, pre-implementation reporting, the existing-first reuse ladder, the color-scheme-first / no-hardcoded-colors policy and existing-setting-first Theme Editor controls, the custom-class rule, preservation of merchant data, RTL/responsive/accessibility validation, and the final report format.
 ---
 
 # AYUM — Figma → Shopify Sections Workflow
@@ -96,6 +96,7 @@ Re-verify anything marked *Needs verification* before relying on it.
 
 - Design tokens live in `snippets/css-variables.liquid` inside a `:root { … }` `{% style %}` block, computed from `settings.*`. Families: spacing `--spacing-*`, colors `--color-*` / `--hdt-btn-*`, typography `--f_family_1..5` / `--font-*` / `--text-*` / `--h0-size..h6-size` (+ `-mb` mobile), layout `--container-max-width*`, radii `--radius-*`.
 - **`--color-*` tokens are space-separated RGB triplets** (e.g. `34 34 34`), consumed as `rgb(var(--color-x))` or `rgb(var(--color-x) / .5)`. `color: var(--color-foreground)` alone is invalid.
+- **Color schemes (verified in `snippets/css-variables.liquid` + `config/settings_schema.json`).** Schemes are defined by the merchant in Theme settings (`color_schemes` group: `text`, `text2`, `background`, `background2`, `background_gradient`, `button`, `button_label`, `button_border`, `secondary_button_label`, `accent_color`, `line_border`, `overlay`, price/input colors). A section opts in through the native `colors_by_section` checkbox + `color_scheme` setting, which renders `color-scheme="{{ section.settings.color_scheme }}"` on its wrapper; `css-variables.liquid` emits, per scheme, `[color-scheme="<id>"] { --color-background, --gradient-background, --color-background2, --color-foreground, --color-foreground2, --color-accent, --color-secondary, --color-tertiary, --hdt-btn-color/-bg/-border-color/-hover-*, --hdt-btn-secondary-*, --hdt-btn-tertiary-*, --hdt-btn-outline-*, --hdt-link-*, --color-line-border, --color-overlay, --color-pr-*, --color-input-* }`. `:root` carries the same set from the body scheme (`color_scheme_body`) **except `--color-background`** — use `rgb(var(--color-background, var(--color-base-background)))` when no scheme wrapper may be present. Utility classes consume them: `.hdt-s-gradient` (background, honoring `--background-opacity`) and `.hdt-s-text` / `.hdt-s-text2` (text). See §2.8 for the mandatory color policy.
 - Global CSS loads **once**, at the end of `css-variables.liquid`: `base.css` + `theme.css` (preload), then `product-card.css`, `collection-products.css`. Do not re-load these anywhere. `base.css` is a Tailwind-preflight + `hdt-` utility library — **do not hand-edit**.
 - Per-section CSS is lazy-loaded as the **first line(s)** of the section file: `{{ 'NAME.css' | asset_url | stylesheet_tag }}`. The theme uses external `asset_url` stylesheets exclusively — there are **zero** `{% stylesheet %}` embedded blocks.
 - Instance-scoped CSS goes in an inline `{% style %}` block scoped by `#shopify-section-{{ section.id }}` (or `.hdt-section-spacing-{{ section.id }}` via `{% render 'spacing-vars', box: section %}`).
@@ -150,12 +151,54 @@ Do not treat tablet as an enlarged mobile or a shrunk desktop automatically. Bec
 - **Do not hardcode a `font-family`.** Prefer, in order: existing theme typography classes → project typography variables / CSS custom properties (`--font-heading-family`, `--font-body-family`, `--font-semibold`, `--f_family_1..5`) → inherited font-family.
 - **Do not put Liquid inside a plain static `.css` asset** (e.g. `src: url({{ 'font.woff2' | asset_url }});` in a `.css` file will not be processed). Use an inline `{% style %}` block in the Liquid section, or a valid static asset URL strategy.
 
-### 2.8 Figma design tokens (AYUM — verify per exact section node)
+### 2.8 Figma design tokens and the color-scheme-first policy (mandatory)
 
 Read the real AYUM values per node each time with `get_variable_defs` / `get_design_context`. Do not reuse the previous project's color or typography token values as AYUM defaults.
 
+**Figma color values are design defaults, not code.** Every color a section renders must stay controllable from the Shopify Theme Editor. This applies to section backgrounds, headings, descriptions, buttons, badges, borders, pagination dots, slider arrows, cards, overlays, and every hover/active/selected/focus state.
 
-Map brand colors to theme color schemes / settings where a scheme can express them. Where no shared scheme matches the AYUM design, use **scoped, merchant-editable color settings with the brand hex as the default** — never edit a shared color scheme and **never hand-edit `config/settings_data.json`** (color schemes live there and can only be created by the merchant in the editor).
+**Inspection — before writing any CSS or adding any color setting:**
+
+1. Inspect the existing color schemes and their variables (§2.3): which schemes the merchant has defined (read-only look at `config/settings_data.json` → `color_schemes`; never edit it) and which variables a scheme exposes per section vs. only at `:root`.
+2. Check the original Kalles section's (and its blocks') schema for existing color controls: `colors_by_section` + `color_scheme` + `background_opacity`, `text_color` selects (`hdt-s-text`, `hdt-text-secondary`, `hdt-text-primary`, …), button style selects (`hdt-btn-*` variants), and per-block `color` settings (e.g. `button_custom` primary/secondary/hover colors, `text_custom` `color_text`).
+3. Map each Figma color role to the closest native source and record the mapping (e.g. Figma background → scheme `--color-background`; heading → `--color-foreground`; accent → `--color-accent`; primary button → `--hdt-btn-bg` / `--hdt-btn-color`).
+4. Reuse the existing scheme variable or native setting whenever it can express the role.
+5. Preserve the merchant's ability to change the color in the Theme Editor (a scheme switch or a setting change must visibly change the rendered color).
+
+**Resolution ladder for each color role (take the first that works):**
+
+1. An existing **color scheme variable** consumed through the native `colors_by_section` / `color_scheme` settings (or the scheme the section — or a slide/block with its own `color_scheme` — already inherits).
+2. An existing **native color setting** on the section or block (reuse it; never add a parallel duplicate). This includes native `text_color` selects (`hdt-s-text` / `hdt-text-secondary` / `hdt-text-primary`): do not override their result with an AYUM color.
+3. A **new color setting on the isolated AYUM section/block** (never on the original Kalles file), with a meaningful label, the Figma value as its `default`, `"alpha": true` when the design needs transparency (the setting type supports it and the repo already uses it), and grouped under a clear `header`.
+
+**"Value missing" vs "role missing" (mandatory test before step 3).** Distinguish the two cases:
+
+- **The scheme does not currently contain the Figma value** (e.g. the store's accent is cyan, Figma's is pink; scheme text is #222, Figma's heading is #26383A). This is **not** a reason to add a setting. The role exists in the scheme; the value is merchant configuration. Consume the scheme variable, and in the report tell the merchant which scheme fields to set (preferably on a dedicated scheme assigned to the section, so shared schemes are untouched).
+- **The scheme structurally cannot represent the role** — the design needs more independent colors of one kind than a scheme has slots for (e.g. four collection cards each with their own label color), or a role with no scheme token at all. Only this case justifies step 3, and only when no native setting fits.
+
+Ask: "if the merchant edited a scheme, could it produce this design?" If yes, no new color setting. A scheme switch must visibly change every color the scheme is expected to control; an AYUM color that overrides a scheme-controlled role makes the implementation incomplete.
+
+**No hardcoded colors (mandatory).** Never write a design color literal in Liquid, CSS, or JavaScript — e.g. `color: #EA3A79;`, `background-color: #26B3D0;`, `border-color: #4E6E70;`, `color: rgb(38, 56, 58);`, `rgba(...)` fills, or a hex inside a JS string. Allowed without a setting: `transparent`, `currentColor`, `inherit`, and values derived from scheme/setting variables (e.g. `rgb(var(--color-foreground) / .75)`, `color-mix(in srgb, var(--ayum-x) 75%, transparent)`). A Figma value may appear **only** as the `default` of a schema setting (or in a section/block preset).
+
+**Emitting a setting.** Expose each setting as a scoped CSS custom property and consume it from the section stylesheet:
+
+```liquid
+{%- style -%}
+  #shopify-section-{{ section.id }} .ayum-section {
+    --ayum-accent: {{ section.settings.ayum_accent.rgb }};   /* triplet: use rgb(var(--ayum-accent) / a) */
+  }
+{%- endstyle -%}
+```
+
+```css
+.ayum-section .ayum-button { background-color: rgb(var(--ayum-accent)); }
+```
+
+A `style="--ayum-accent: …"` attribute on the wrapper (or on a block element for per-block colors) is equally valid. Only setting-driven **custom properties** go inline; no static rules. Prefer `.rgb` triplets so values compose with the theme's `rgb(var(--x) / alpha)` pattern. When a native scheme variable exists, consume it directly instead of minting a new `--ayum-*` property.
+
+**Never** edit a shared color scheme, change global scheme definitions to suit one section, or hand-edit `config/settings_data.json` (schemes live there and only the merchant creates/edits them in the Theme Editor). Never scatter static design colors across CSS files.
+
+**Legacy note:** AYUM sections implemented before this rule may contain literal colors in `assets/dev1.css`. Do not copy them as a pattern. Migrate them only when a task touches that section (or the user asks), using the ladder above. Migrating to scheme variables may change the rendered colors until the merchant configures the scheme; that is expected — do not preserve the old look by adding pickers. Record the old values (the merchant's stored values and the Figma values) in the report as the scheme values to configure, and remove a replaced setting only after checking the stored template/section-group data.
 
 ### 2.9 Naming conventions for AYUM
 
@@ -232,6 +275,8 @@ A pre-implementation inspection is **required before every section task**. Inspe
 - the closest existing section · relevant blocks · relevant snippets
 - relevant CSS files · relevant JavaScript · existing custom elements · existing assets
 - existing schema settings · existing naming conventions · existing utility classes
+- the theme's **color schemes** and the base section's color controls (`colors_by_section`, `color_scheme`, `background_opacity`, `text_color` selects, button styles, block color settings) — per §2.8
+- existing Theme Editor settings for every other design property the Figma node defines (spacing, layout, image ratio, radius, card spacing, alignment, slider options) — per §5.2
 - existing responsive conventions · existing RTL conventions
 - the existing slider/carousel implementation
 - existing Theme Editor behavior · existing merchant data
@@ -247,9 +292,10 @@ Produce this **before editing**, unless the user explicitly requests immediate i
 
 1. **Files inspected** — each file and why it matters.
 2. **Relevant existing architecture** — verified render path, blocks, styles, scripts, schema, data sources, integration points.
-3. **Closest reusable section / block / snippet** — and the reuse-ladder step chosen, with justification.
+3. **Closest native Kalles section / block / snippet** — whether it can be used unchanged or needs an isolated AYUM copy; identify reused unchanged dependencies and justify the boundaries.
 4. **Proposed files to modify.**
 5. **Proposed schema changes.**
+5a. **Color & settings mapping** — the color schemes inspected; for each Figma color role, the scheme variable or native setting reused, or the new AYUM setting proposed (id, type, label, Figma default) and why no native source fits; the same for non-color design properties (§5.2).
 6. **Proposed CSS scope** (the exact scope class / `section.id` selector and the exact stylesheet file).
 7. **Proposed JavaScript changes, if any** — including why HTML/CSS cannot do it.
 8. **Data-preservation considerations** — which setting IDs, block types, and saved template instances are at risk.
@@ -261,59 +307,60 @@ Produce this **before editing**, unless the user explicitly requests immediate i
 
 ---
 
-## 5. Existing-first implementation strategy
+## 5. Native-Kalles-first, isolated-AYUM implementation strategy (permanent)
 
-Prefer the **earliest** option that safely satisfies the design:
+**AYUM-specific overriding requirement:** Inspect and reuse the closest native Kalles implementation as the foundation, but **never modify an original Kalles section file for AYUM-specific work**. This holds even for a minimal CSS/schema change or an otherwise inert new option. The original section must remain available and fully functional, without AYUM-specific alterations.
 
-1. Use the existing project section, block, snippet, setting, class, or component **as-is**.
-2. Use the existing structure with **scoped CSS only**.
-3. Use an **instance-specific custom class setting**.
-4. Add a **new schema setting beside** existing settings.
-5. Add a **new schema option beside** existing options.
-6. **Extend** the closest existing block or snippet safely.
-7. **Duplicate** the closest block/snippet only when extension is unsafe.
-8. **Carefully modify an original section** only when the change is minimal, reusable, and cannot safely be isolated another way.
-9. **Duplicate an existing section** only when the same section must support a materially different structure that cannot be enabled as another instance.
-10. **Create a completely new section** only as a last resort.
+Decision order for each requested section:
 
-**This project is not duplicate-first.**
+1. Inspect the closest native Kalles section, blocks, snippets, schema, CSS, JS, and real template instances.
+2. When the original already achieves the requested design **without any source-file changes**, it may be used as-is and configured through its existing Theme Editor settings. Do not mutate its source.
+3. When AYUM needs **any section-level source change** (Liquid, markup, schema, settings/options, CSS hooks, or JavaScript behavior), **duplicate the closest native section into a clearly named isolated AYUM section**, then adapt the copy. This is the default for customized AYUM sections, even if the change appears minimal.
+4. Preserve native behavior in the AYUM copy: use existing Kalles settings, tokens, color schemes, utilities, CSS patterns, blocks and integrations before adding new controls or implementation logic.
+5. Refer to unchanged native snippets, blocks, scripts and styles when they already behave correctly. If a shared block/snippet/component itself needs AYUM-specific source changes, make an AYUM-specific copy and update only AYUM call sites/references; do not edit the shared original. Avoid unnecessary copies of untouched dependencies.
+6. Create an entirely new section without a native base **only when no suitable existing Kalles section exists**, and explain the inspection evidence.
 
-- Do not create a custom section automatically because the Figma design looks visually different.
-- Do not introduce a parallel component system when the existing architecture can support the design.
-- Do not replace working native behavior with weaker custom behavior.
-- Prove the existing system is insufficient before building new, and say so in the report.
+**Isolation is mandatory; needless duplication of dependencies is not.** Duplicate the *section file* when customization requires source edits, but do not automatically duplicate every block, snippet, CSS/JS asset, or helper. A stylesheet or script specifically for the AYUM copy may be created if needed, with unique selectors/names and no effect on native instances.
 
-### 5.1 Existing-first architecture (permanent rule)
+**Never modify for AYUM-specific design work:** original Kalles `sections/*.liquid` files, original shared `blocks/*.liquid` and `snippets/*.liquid` behavior, original vendor/global CSS/JS, or native presets. Do not insert an AYUM condition, custom class, new setting, or harmless-looking opt-in inside a native original. If a shared dependency needs a change, isolate it first. Changes to AYUM-owned files are permitted within the requested task scope.
 
-**Never create a new Section, Snippet, Block file, Component, JavaScript file, CSS file, or any other project file when an existing implementation can be safely reused, extended, or duplicated.**
+If a task is targeting an **already-existing AYUM section**, update that isolated section in place with the smallest safe fix; do not create a second duplicate or rebuild it. Existing instance settings and merchant data remain authoritative.
 
-Always inspect the closest existing implementation before deciding the implementation strategy.
+Before implementation, identify: (a) the native Kalles baseline, (b) why it can/cannot be used unchanged, (c) the AYUM copy to use or create, (d) which dependencies are reusable unchanged, and (e) the exact file boundaries that protect the original.
 
-Priority:
+### 5.1 Isolation and minimal-change architecture (permanent rule)
 
-1. Reuse the existing implementation.
-2. Extend the existing implementation.
-3. Duplicate the closest existing implementation only when extension is not safe.
-4. Create a completely new implementation only as the final option.
+- Native Kalles originals are **read-only implementation references** for AYUM design changes.
+- Reuse existing settings and platform behavior before inventing new versions.
+- Modify existing AYUM-owned code in place when appropriate.
+- For new customized sections, create the minimum required AYUM section copy; do not reimplement its functionality from scratch.
+- For a dependent native block/snippet requiring modification, duplicate only that dependency and rewire only the AYUM copy.
+- Do not edit shared Kalles assets to load AYUM styling: load the AYUM-only stylesheet from the AYUM section when necessary.
+- Preserve the original section schema, presets, settings and all current usages unchanged. The AYUM copy should preserve useful native schema/settings/blocks and may add settings without losing existing behavior.
+- Before creating additional files beyond the isolated section, explain their necessity and why existing unchanged dependencies cannot be reused.
+- Avoid over-engineering, unnecessary duplicate assets, extra slider libraries, and broad/global overrides.
 
-**Before creating any new file, explicitly justify why:**
+This policy **supersedes any generic reuse/extend recommendation elsewhere in this skill that would modify original Kalles files**. For example, a generally safe additive setting to a shared Kalles file is **not allowed** for AYUM-specific needs; add it to the AYUM copy instead.
 
-- the existing implementation cannot be reused
-- extending it is unsafe
-- duplicating it is required
-- creating a completely new implementation is unavoidable
+### 5.2 Existing-setting-first for design properties (permanent rule)
 
-Avoid: over-engineering · unnecessary abstractions · duplicate code · duplicate snippets · duplicate sections · duplicate JavaScript · duplicate CSS · unnecessary helper files · unnecessary wrappers · unnecessary custom elements.
+The reuse ladder applies to **settings**, not only files. For every design property the Figma node defines, take the first source that can express it:
 
-Favor the **smallest safe implementation** that follows the project's existing architecture.
+1. An existing **native Kalles setting** on the section or its blocks, configured to the Figma value in the instance (template JSON) or preset. Examples: section spacing (`mg`/`mg_mb`/`pd`/`pd_mb` via `spacing-vars`), layout (`section_layout`, `col_dk`/`col_tb`/`col_mb`, `layout_mode`), image ratio (`image_ratio`, `image_size`), card spacing (`space_items`), heading alignment and spacing (`section-heading` `alignment`/`margin_bottom`), heading size (`h_custom` + `font_size_heading_lg`/`font_size_heading`), button styling (`button_custom` sizes/colors/radius), slider options (`loop`, `autoplay`, `navUI`, `dotUI`, `pag_*`, `nav_*`), colors (§2.8).
+2. A **theme token** (`--radius-*`, `--spacing-*`, `--font-*`, scheme variables) when the property is global by nature.
+3. A **new, meaningful merchant-facing setting on the isolated AYUM section/block**, with the Figma value as its `default`, consumed dynamically through Liquid and scoped CSS — never a hardcoded value in its place.
 
-An additive setting on a shared file that defaults to blank/false — and therefore changes nothing for every existing instance — is almost always safer and smaller than a duplicate file. Verify that claim by listing every existing instance of the file and confirming the new default is inert for each, then say so in the report.
+Rules:
 
-This is a permanent project rule and applies to every future implementation.
+- Never add a setting that duplicates one Kalles already provides.
+- Add settings only where merchant control is meaningful (colors, sizes a merchant would tune, show/hide, labels, layout choices). Do not expose internal implementation details (selector geometry, slide-size math, z-indexes, reveal tweaks); those may stay as scoped CSS constants, documented with the Figma source they come from.
+- A new setting's default must reproduce the Figma design exactly, and changing it in the Theme Editor must visibly change the result. Verify both.
+- New controls live only in the isolated AYUM copy; the original Kalles section, its blocks, and its presets stay unchanged and keep working independently.
+- When a native setting's range/step cannot hold the Figma value (e.g. a step-2 range for 13px), say so, prefer a new AYUM setting over a hidden CSS override, and record the decision.
 
 ---
 
-An isolated new section is acceptable when the design requires structural markup/schema/CSS that would **regress a live shared instance**. Before taking that route, prove the shared AYUM implementation cannot be safely extended. When you take that route, still reuse the theme's conventions inside the new file — `spacing-vars`, `image_tag`/`image_url`, `placeholder_svg_tag`, color schemes, `hdt-container`, blocks lifecycle, font/color tokens — and leave every shared file untouched.
+An isolated AYUM section copy is required whenever the closest native Kalles section needs AYUM-specific source edits, regardless of whether the change would regress existing instances. For an already isolated AYUM section, prefer an in-place scoped change instead of a second copy. Always reuse the theme's conventions inside the AYUM file — `spacing-vars`, `image_tag`/`image_url`, `placeholder_svg_tag`, color schemes, `hdt-container`, blocks lifecycle, font/color tokens — and leave every shared file untouched.
 
 ---
 
@@ -404,6 +451,8 @@ Schema rules:
 - use Shopify video / video-URL settings where appropriate
 - use product and collection pickers where appropriate — the picker is authoritative for title and URL (do not add a parallel manual title/link setting that can drift)
 - every section needs a **valid preset**, and the section must render sanely with the preset's defaults
+- design-property settings follow §2.8 (colors) and §5.2 (everything else): reuse native settings first; add new ones only to the isolated AYUM file, with Shopify-supported types (`color` — with `"alpha": true` when transparency is needed — `color_scheme`, `range`, `select`, `checkbox`, `text`), clear labels, and the Figma value as the `default`
+- group added design controls under a descriptive `header` and keep their ids prefixed (e.g. `ayum_*`) so they never collide with native ids
 
 **Localization:** merchant-entered content from the Theme Editor does **not** automatically require locale keys. Reusable interface strings added by the theme should use locale keys where appropriate (`{{ 'ns.key' | t }}` from `locales/*.json`; add to `en.default.json` first, then mirror into `ar.json` and peers with an identical JSON path — a key missing from a peer silently falls back to English; a key added only to a non-default locale never appears). Do not add locale keys for content the merchant directly edits unless the project architecture specifically requires it.
 
@@ -434,13 +483,14 @@ Before editing CSS, inspect the project and identify the correct stylesheet for 
 
 | Need | Location |
 | --- | --- |
-| Instance-specific values that need Liquid (colors from settings, gated logic) | inline `{% style %}` in the section, scoped to `#shopify-section-{{ section.id }}` |
+| Instance-specific values that need Liquid (colors/sizes from settings, gated logic) | setting-driven **custom properties only**, in an inline `{% style %}` scoped to `#shopify-section-{{ section.id }}` (or a `style="--x: …"` attribute on the wrapper/block); the rules that consume them live in the section stylesheet |
+| AYUM Dev1 section rules | `assets/dev1.css`, every selector under the section's scope class |
 | Rules shared by every instance of a section | that section's own external asset stylesheet, loaded at the **top** of the section file |
 | Rules gated to one AYUM instance of a **shared** section | a dedicated asset (e.g. `ayum-<thing>.css`) loaded conditionally on `custom_class contains '…'`, every selector prefixed with that class |
 | Cross-page override keyed to a custom class | `assets/custom-general.css` |
 | Truly global rule | a token in `css-variables.liquid` — **never** a section file, never `base.css` |
 
-Never hardcode a color, spacing, radius, or width where a token exists. Emit new colors as `{{ setting.rgb }}` and always wrap usages in `rgb(...)`. Where the AYUM brand palette has no matching token or scheme, use a **scoped merchant-editable color setting with the brand hex as its default** and document that decision.
+**Colors and design values (mandatory, see §2.8 and §5.2):** no color literal in CSS — every color comes from a color-scheme variable, a native setting, or an AYUM setting exposed as a custom property. Emit color settings as `{{ setting.rgb }}` and consume them as `rgb(var(--x))` / `rgb(var(--x) / a)`. Never hardcode spacing, radius, or width where a token or a native setting exists; keep unavoidable implementation constants scoped and commented with their Figma source. Never change global scheme definitions or `css-variables.liquid` to match one section.
 
 ---
 
@@ -498,6 +548,7 @@ Preserve: drag · swipe · keyboard behavior where supported · navigation · pa
 - **Do not convert a static Figma grid into a slider unless explicitly required. Do not convert a slider into a static grid unless explicitly required.**
 - Do not globally restyle dots or arrows. Scope all slider appearance changes to the section.
 - Reuse the native arrow/dot **elements** (semantics, `aria-*`, `disabled` at the ends, keyboard, RTL chevron flip) and change only their appearance.
+- Dot and arrow colors (inactive, active, hover, disabled) follow §2.8: set the native `--pag-*` / `--nav-*` variables from scheme variables or AYUM color settings — never from color literals. Sizes/spacing come from native settings first (`pag_space`, `pag_mgt`, `nav_size`, …), per §5.2.
 - Slide counts come from `col_dk` / `col_tb` / `col_mb` at the 768/1150 breakpoints — do not invent per-viewport widths.
 - Sliders re-init on `shopify:section:load`; keep initialization idempotent and never double-initialize.
 
@@ -640,11 +691,15 @@ Before claiming completion, verify:
 - correct CSS file was used
 - CSS is scoped
 - custom class setting exists, or an equivalent existing setting was reused
+- color schemes were inspected; every rendered color comes from a scheme variable, a native setting, or an AYUM setting (no color literals added)
+- native settings were reused for colors and other design properties wherever they could express the design; no duplicate settings were added
+- each new AYUM setting defaults to the Figma value and, when changed, visibly changes the result (and the original Kalles section is unaffected)
 - existing settings were preserved
 - existing blocks were preserved
 - existing IDs were preserved
 - merchant data was preserved
 - no unrelated sections changed
+- no original native Kalles section/block/snippet source was changed for AYUM-specific implementation; any customized section uses an isolated AYUM copy
 - desktop matches Figma
 - mobile matches Figma
 - tablet behavior is safe
@@ -664,7 +719,7 @@ Before claiming completion, verify:
 - `assets/base.css`, `assets/theme.css`, `assets/*.min.js`, and `config/settings_data.json` are unchanged
 - the diff is limited to the intended files
 
-Practical checks that work here: JSON parse of every edited `{% schema %}` and template JSON; brace/tag balance; `git diff --stat` to confirm scope; grep for physical `left`/`right` in new CSS; grep for `var(--color-` not wrapped in `rgb(`; grep for new `@media` values outside 768/1150; grep for the new scope class to confirm every rule is prefixed.
+Practical checks that work here: JSON parse of every edited `{% schema %}` and template JSON; brace/tag balance; `git diff --stat` to confirm scope; grep for physical `left`/`right` in new CSS; grep for `var(--color-` not wrapped in `rgb(`; grep for new `@media` values outside 768/1150; grep for the new scope class to confirm every rule is prefixed; **grep the new/changed CSS, Liquid, and JS for color literals** (`#[0-9a-fA-F]{3,8}\b`, `rgb(` / `rgba(` / `hsl(` with numeric arguments) — any hit outside a schema `default` or preset must be justified or replaced; where a browser is available, change a new color setting's value (or switch the scheme) in a test render and confirm the computed color follows it.
 
 **Do not run destructive commands. Do not run broad formatting across unrelated files. Do not run `shopify theme check` unless the project explicitly requires it or the user asks for it** — and never report it as passed unless it actually ran.
 
@@ -683,6 +738,7 @@ Report, in this order:
 5. Files intentionally untouched
 6. Liquid/HTML changes
 7. Schema settings added
+7a. **Color schemes & design settings** — explicitly confirm: (1) which color schemes / scheme variables were inspected; (2) which native settings were reused (colors and other design properties); (3) which new Theme Editor settings were added and why no native source fit, with their Figma defaults; (4) that no unnecessary hardcoded colors were introduced (state the color-literal grep result); (5) that the new controls live only in the isolated AYUM files and work independently of the original Kalles section.
 8. Blocks/options added
 9. CSS scope class
 10. CSS changes
@@ -734,6 +790,8 @@ RULES (all mandatory):
 - Existing-first ladder: SKILL §5. Justify the chosen step. Do not default to a new section.
 - Preservation rules: SKILL §7. Never rename/delete a setting id, block type, event, or token.
 - Custom class setting rule: SKILL §6.
+- Colors: SKILL §2.8 — color-scheme first, no hardcoded colors; Figma values only as setting defaults.
+- Design properties: SKILL §5.2 — reuse native settings; add AYUM settings only where missing.
 - Responsive: SKILL §2.5 — breakpoints 768 / 1150 only. Verify 767/768/1149/1150 + 1440 + 390 + 375 + 320.
 - RTL/LTR: SKILL §2.6 — logical properties; verify both directions.
 - Out of scope: [explicit list — everything not named here]
@@ -809,6 +867,10 @@ Project-specific additions, each learned from a real failure or constraint in th
 - adding `overflow-x` to `html` / `body` to hide a section's overflow instead of containing it in the section
 - introducing a third layout breakpoint (only 768 and 1150 exist)
 - hardcoding `font-family` instead of using the theme font tokens (El Messiri is already global)
+- hardcoding design colors (hex / `rgb()` / `rgba()` literals) in CSS, Liquid, or JS instead of color-scheme variables or Theme Editor settings
+- adding a color or design setting that duplicates an existing native Kalles setting
+- changing global color schemes or `css-variables.liquid` to make one section match Figma
+- modifying an original Kalles section or shared dependency for AYUM-specific requirements, even when the change appears additive or inert
 - putting Liquid inside a plain static `.css` asset
 - registering a custom element name that collides with a native `hdt-` component
 - copying `block.shopify_attributes` onto a duplicated/decorative DOM copy
@@ -854,11 +916,11 @@ Project-specific additions, each learned from a real failure or constraint in th
 | Situation | Action |
 | --- | --- |
 | Existing section/snippet/component already does it | Use as-is; configure via existing settings |
-| Needs a visual tweak only | Scoped `{% style %}` on `section.id`, or a custom-class-gated stylesheet |
-| New behavior useful to all instances | Add an additive setting/param, or extend the shared snippet/base class |
-| Behavior must be isolated to one surface | Duplicate the closest file (preserve its schema/behavior); wire the new `type` |
-| Change would regress a live shared instance or its preset | Build an isolated new section, reusing the theme's conventions inside it |
-| No existing architecture can satisfy it safely | Build new (last resort), following existing patterns |
+| Needs a visual tweak requiring a source edit to a native Kalles section | Duplicate the native section into an AYUM section; apply scoped styles only to the AYUM copy |
+| New AYUM option or behavior (even if potentially useful to all) | Add it to the isolated AYUM section/block; leave native originals unchanged |
+| AYUM change to a native shared snippet/block | Duplicate only that dependency, preserve behavior, and wire the AYUM copy to it |
+| Existing isolated AYUM section needs a fix | Modify that AYUM section in place; do not rebuild or duplicate again |
+| No suitable native section exists | Build a new AYUM section as a last resort, following native patterns |
 
 ### Text/content source
 
@@ -868,6 +930,17 @@ Project-specific additions, each learned from a real failure or constraint in th
 | Merchant-configurable per section | schema setting or repeatable block |
 | Per-product/collection data | `metafields.<ns>.<key>` (verify it exists; guard the absent case) |
 | Title/URL of a picked resource | the resource object (`collection.title`, `product.url`) — never a parallel manual setting |
+
+### Color / design-property source (§2.8, §5.2)
+
+| Situation | Source |
+| --- | --- |
+| A scheme variable can express the Figma color role | Native `colors_by_section` + `color_scheme`; consume `--color-*` / `--hdt-btn-*` |
+| The scheme has the role but not the Figma value | Still the scheme variable — no new setting; report the scheme values for the merchant to set |
+| The base section/block already has a matching color or design setting | Reuse it; set the Figma value in the instance or preset |
+| No native source fits (the scheme structurally cannot hold the role, e.g. several independent per-item colors) | New setting on the isolated AYUM file, Figma value as `default`, exposed as a scoped custom property |
+| Internal geometry with no merchant meaning | Scoped CSS constant, commented with its Figma source |
+| Tempted to edit a global scheme or `settings_data.json` | Never — scope the control to the section instead |
 
 ### Direct change vs needs verification
 
@@ -888,6 +961,7 @@ Project-specific additions, each learned from a real failure or constraint in th
 - [ ] Confirmed the active code path (right template / section instance / block / card variant / asset).
 - [ ] Read complete relevant files, including schema, stylesheet, and any JS component.
 - [ ] Identified the closest existing implementation and the reuse-ladder step, with justification.
+- [ ] Inspected the color schemes and the base section's color/design settings; mapped every Figma color role and design property to a scheme variable, native setting, or proposed AYUM setting (§2.8, §5.2).
 - [ ] Checked saved-data impact (setting `id`s, block `type`s, template instances, merchant content).
 - [ ] Listed out-of-scope areas explicitly.
 - [ ] Produced the pre-implementation report (§4.1).
@@ -898,6 +972,7 @@ Project-specific additions, each learned from a real failure or constraint in th
 - [ ] Preserved identifiers, presets, merchant data, native behavior, app boundaries, and the The4 license code.
 - [ ] Custom class setting present (or an existing equivalent reused); all CSS scoped.
 - [ ] Used tokens, logical properties, `ThemeEvents`, shared snippets — no hardcoded colors/fonts/spacing, no invented events, no DOM-parsed money, no Figma URLs.
+- [ ] Color-literal grep is clean (Figma values only as setting defaults/presets); new settings default to Figma, change the render when edited, and exist only in the isolated AYUM files; no duplicate of a native setting.
 - [ ] Blank/empty states, mobile media fallback, and preset all handled.
 - [ ] Ran the validation checks in §21 and recorded each as Passed / Failed / Not run / Not available / Requires manual verification.
 - [ ] Wrote the final report in the §22 format, honestly distinguishing inspected vs validated vs not testable.

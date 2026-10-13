@@ -3,6 +3,7 @@
   AYUM slide description with an optional mobile-specific text (Figma 2001:40 / 2001:619).
   - "Mobile description" replaces "Description" below 768px; when empty, "Description" is used everywhere.
   - Only available inside "Slide (AYUM)" (blocks/_ayum-slide-item.liquid). Styled in assets/dev1.css (.ayum-desc).
+  - "Text color" is the native Kalles text-block select: colours come from the slide's colour scheme.
 {%- endcomment -%}
 {%- liquid
   assign effect = 'hdt-reveal="slide-in" timeline'
@@ -11,7 +12,7 @@
   endif
 -%}
 {%- if block.settings.text != blank or block.settings.text_mobile != blank -%}
-  <div {{ effect }} id="block-{{ block.id }}" class="ayum-desc hdt-text-warry" style="--ayum-desc-fs-lg: {{ block.settings.font_size_lg }}px; --ayum-desc-fs-mb: {{ block.settings.font_size_mb }}px;" {{ block.shopify_attributes }}>
+  <div {{ effect }} id="block-{{ block.id }}" class="ayum-desc hdt-text-warry {{ block.settings.text_color }}" style="--ayum-desc-fs-lg: {{ block.settings.font_size_lg }}px; --ayum-desc-fs-mb: {{ block.settings.font_size_mb }}px;" {{ block.shopify_attributes }}>
     {%- if block.settings.text_mobile != blank -%}
       <div class="ayum-desc__desktop hdt-rte">{{ block.settings.text }}</div>
       <div class="ayum-desc__mobile hdt-rte">{{ block.settings.text_mobile }}</div>
@@ -57,6 +58,31 @@
       "step": 1,
       "unit": "px",
       "default": 13
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "options": [
+        {
+          "value": "hdt-s-text",
+          "label": "t:default"
+        },
+        {
+          "value": "hdt-text-secondary",
+          "label": "t:settings_schema.colors.secondary"
+        },
+        {
+          "value": "hdt-text-tertiary",
+          "label": "t:settings_schema.colors.tertiary"
+        },
+        {
+          "value": "hdt-text-primary",
+          "label": "t:settings_schema.colors.accent"
+        }
+      ],
+      "label": "t:blocks.text.text_color.label",
+      "info": "From the slide's color scheme: Default = Text, Secondary = Text 2, Accent = Accent.",
+      "default": "hdt-text-secondary"
     }
   ],
   "presets": [
