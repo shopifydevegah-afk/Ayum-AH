@@ -9,131 +9,6 @@
  */
 {
   "sections": {
-    "ayum_collections_list": {
-      "type": "ayum-collections-list",
-      "blocks": {
-        "ayum_category_1": {
-          "type": "_ayum-collection-item",
-          "settings": {
-            "collection": "",
-            "image": "",
-            "title": "توزيعات ومناسبات",
-            "collection_link": "",
-            "ayum_label_color": "orange"
-          }
-        },
-        "ayum_category_2": {
-          "type": "_ayum-collection-item",
-          "settings": {
-            "collection": "",
-            "image": "",
-            "title": "خضار مجفف",
-            "collection_link": "",
-            "ayum_label_color": "green"
-          }
-        },
-        "ayum_category_3": {
-          "type": "_ayum-collection-item",
-          "settings": {
-            "collection": "",
-            "image": "",
-            "title": "فواكه مجففة",
-            "collection_link": "",
-            "ayum_label_color": "pink"
-          }
-        },
-        "ayum_category_4": {
-          "type": "_ayum-collection-item",
-          "settings": {
-            "collection": "",
-            "image": "",
-            "title": "حلويات مجففة",
-            "collection_link": "",
-            "ayum_label_color": "blue"
-          }
-        },
-        "section-heading-collections-list": {
-          "type": "section-heading",
-          "static": true,
-          "settings": {
-            "design_heading": "1",
-            "horizontal": false,
-            "alignment": "center",
-            "heading_gap": 0,
-            "margin_bottom": 32
-          },
-          "blocks": {
-            "heading_ayum_categories": {
-              "type": "_heading_section",
-              "settings": {
-                "heading": "تسوّق حسب الفئة",
-                "line_height": "",
-                "heading_size": "h_custom",
-                "text_color": "hdt-s-text",
-                "font_size_heading_lg": 36,
-                "font_size_heading": 21,
-                "letter_spacing_heading": 0
-              }
-            }
-          },
-          "block_order": [
-            "heading_ayum_categories"
-          ]
-        }
-      },
-      "block_order": [
-        "ayum_category_1",
-        "ayum_category_2",
-        "ayum_category_3",
-        "ayum_category_4"
-      ],
-      "settings": {
-        "collection_des": "5",
-        "content_size": "base",
-        "content_weight": "semibold",
-        "content_position": "center",
-        "content_space": 0,
-        "show_count": false,
-        "count_label": "Products",
-        "image_rounded": false,
-        "enable_border": false,
-        "image_padding": 0,
-        "image_ratio": "landscape",
-        "image_size": true,
-        "img_effect": "zoom",
-        "b_effect": "none",
-        "col_dk": "4",
-        "col_tb": "3",
-        "col_mb": "2",
-        "space_items": "20",
-        "layout_mode": "carousel",
-        "loop": false,
-        "autoplay": 0,
-        "pauseOnHover": false,
-        "navUI": false,
-        "nav_position": "default",
-        "nav_visible": "always",
-        "nav_style": "default",
-        "nav_shape": "default",
-        "nav_size": "small",
-        "nav_hide_mobile": false,
-        "dotUI": true,
-        "pag_style": "default",
-        "pag_rounded": true,
-        "pag_space": 6,
-        "pag_mgt": 32,
-        "pag_hide_mobile": true,
-        "colors_by_section": false,
-        "background_opacity": 0,
-        "section_layout": "wrapper_container",
-        "hdt_background_parallax": false,
-        "mg": "",
-        "mg_mb": "",
-        "pd": "48px,,48px,",
-        "pd_mb": "24px,,24px,",
-        "custom_class": ""
-      }
-    },
     "ayum_slideshow_hero": {
       "type": "ayum-slideshow",
       "blocks": {
@@ -708,7 +583,181 @@
         "ayum_heading_color": "#26383a",
         "ayum_text_color": "#4e6e70",
         "ayum_border_color": "#d3e3e8",
-        "custom_class": ""
+        "custom_class": "ayum-slideshow"
+      }
+    },
+    "ayum_collections_list": {
+      "type": "ayum-collections-list",
+      "blocks": {
+        "ayum_category_1": {
+          "type": "_ayum-collection-item",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/55d44fa47aabb7459b41d7032497e5c7088cd32f.png",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "توزيعات ومناسبات",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6",
+            "ayum_label_color": "orange"
+          },
+          "blocks": {}
+        },
+        "ayum_category_2": {
+          "type": "_ayum-collection-item",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/39c86bec7423cb5b64ad88edbfb94352a18069ca.jpg",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "خضار مجفف",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6",
+            "ayum_label_color": "green"
+          },
+          "blocks": {}
+        },
+        "ayum_category_3": {
+          "type": "_ayum-collection-item",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/d3424806c5d59968e655e6a35a8c937b15152ecc.png",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "فواكه مجففة",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6",
+            "ayum_label_color": "pink"
+          },
+          "blocks": {}
+        },
+        "ayum_category_4": {
+          "type": "_ayum-collection-item",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/e6708625d82f09ef1dba1061f672e79ab5c952e0.png",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "حلويات مجففة",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6",
+            "ayum_label_color": "blue"
+          },
+          "blocks": {}
+        },
+        "ayum_collection_item_KhFUyL": {
+          "type": "_ayum-collection-item",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/55d44fa47aabb7459b41d7032497e5c7088cd32f.png",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "توزيعات ومناسبات",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6",
+            "ayum_label_color": "orange"
+          },
+          "blocks": {}
+        },
+        "section-heading-collections-list": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 0,
+            "margin_bottom": 32
+          },
+          "blocks": {
+            "heading_ayum_categories": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "تسوّق حسب الفئة",
+                "line_height": "",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 36,
+                "font_size_heading": 21,
+                "letter_spacing_heading": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading_ayum_categories"
+          ]
+        }
+      },
+      "block_order": [
+        "ayum_category_1",
+        "ayum_category_2",
+        "ayum_category_3",
+        "ayum_category_4",
+        "ayum_collection_item_KhFUyL"
+      ],
+      "settings": {
+        "collection_list": [],
+        "collection_des": "5",
+        "content_size": "base",
+        "content_weight": "semibold",
+        "content_position": "center",
+        "content_space": 0,
+        "show_count": false,
+        "count_label": "Products",
+        "image_rounded": false,
+        "enable_border": false,
+        "image_padding": 0,
+        "image_ratio": "landscape",
+        "image_size": true,
+        "img_effect": "zoom",
+        "b_effect": "none",
+        "col_dk": "4",
+        "col_tb": "3",
+        "col_mb": "2",
+        "space_items": "20",
+        "layout_mode": "carousel",
+        "loop": false,
+        "autoplay": 0,
+        "pauseOnHover": false,
+        "navUI": false,
+        "nav_position": "default",
+        "nav_visible": "always",
+        "nav_style": "default",
+        "nav_shape": "default",
+        "nav_size": "small",
+        "nav_hide_mobile": false,
+        "dotUI": true,
+        "pag_style": "default",
+        "pag_rounded": true,
+        "pag_space": 6,
+        "pag_mgt": 32,
+        "pag_hide_mobile": true,
+        "colors_by_section": false,
+        "color_scheme": "",
+        "background_opacity": 0,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,24px,",
+        "custom_class": "ayum-collections-list"
       }
     }
   },
