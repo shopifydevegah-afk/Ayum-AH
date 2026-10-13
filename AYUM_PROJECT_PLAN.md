@@ -400,7 +400,7 @@
 | # | المهمة | النطاق | Figma (D / M) | فحص Figma | التنفيذ | QA | ملاحظات |
 |---|---|---|---|---|---|---|---|
 | H1 | Hero | index | `2001:33` / `2001:612` | Design-context inspected | Implemented | Partial | `sections/ayum-slideshow.liquid` + `assets/dev1.css`؛ الصور يرفعها التاجر. QA في harness محلي فقط، لا على المتجر |
-| H2 | Categories | index | `2001:55` / `2001:626` | Metadata only | Not started | Not run | — |
+| H2 | Categories | index | `2001:55` / `2001:626` | Design-context inspected | Implemented | Partial | `sections/ayum-collections-list.liquid` + `blocks/_ayum-collection-item.liquid` + `dev1.css`؛ المجموعات والصور يختارها التاجر |
 | H3 | Best sellers (tabs) | index | `2001:80` / `2001:647` | Metadata only | Not started | Not run | قرار البطاقة؛ التقييم محجوب |
 | H4 | Bundles | index | `2001:156` / `2001:721` | Metadata only | Not started | Not run | يعتمد على H3 |
 | H5 | About the brand | index | `2001:230` / `2001:749` | Metadata only | Not started | Not run | لا علاقة له بـ "H5" المذكور في الـ skill |
@@ -634,3 +634,35 @@
   - الهيرو لم يتأثر.
 - **Not run:** المتجر الحي (كلمة المرور)، وإعادة تحميل القسم في محرر الثيم، وSafari/Firefox، ولمس فعلي.
 - **معلّق من مهمة الهيرو:** `templates/index.json` المسحوب في `bfdcf3e` فيه صور التاجر، والشرائح ما زالت `_slide-item`. سكربت الترحيل جاهز عند الطلب.
+
+### 2026-10-13 — H2 Shop by category (تسوّق حسب الفئة)
+- **Figma:** `get_design_context` + `get_metadata` للعقدتين `2001:55` و`2001:626`.
+  - ديسكتوب: py48، العنوان 36/800 #26383A (ارتفاعه 40)، gap 32، 4 بطاقات 305×271 (صورة 220 + شريط 51، 17/800)، gap 20، radius 16، المحتوى 1280، النقاط 12/40×12 gap 6 بعد 32.
+  - موبايل: py24، العنوان 21 (23)، gap 24، بطاقات 150×147 (صورة 110 + شريط 37، 13/800)، gap 12، radius 14، بداية 16 من اليمين، peek 35.
+  - الخلفية `rgb(228 237 240 / .6)` + حدود `rgb(38 179 208 / .15)`. ألوان الأشرطة: #26B3D0 و#EA3A79 و#B6D561 و#E78333.
+- **الأساس:** `sections/collections-list.liquid` (carousel = `<hdt-slider>` الأصلي، نقاط/أسهم أصلية، أعمدة لكل breakpoint، section-heading ثابت). بلوك `_collection_item` يرسم `snippets/collection-item.liquid`. الستايل 5 يضع العنوان تحت الصورة أصلاً.
+- **الملفات:**
+  - جديد `sections/ayum-collections-list.liquid`: نسخة بنفس الاسم (`t:sections.collections-list.name`) وكل الإعدادات.
+    - يضيف: تحميل `dev1.css`، والكلاس `ayum-collections-list` + `custom_class`، والبلوك `_ayum-collection-item` بجانب الأصلي.
+    - أُزيل `hdt-reveal` من عنصر النقاط فقط، لأن الـ observer (rootMargin -50px) لا يفعّله قرب نهاية صفحة قصيرة، فتبقى النقاط بشفافية 0.01.
+  - جديد `blocks/_ayum-collection-item.liquid` ("Collection (AYUM)"): نسخة من `_collection_item`.
+    - يضيف `ayum_label_color` (Blue/Pink/Green/Orange) كـ class عبر بارامتر `class` الموجود في الـ snippet الأصلي غير المعدَّل.
+    - العنوان بلا قيمة افتراضية: عند تركه فارغاً يُستخدم عنوان المجموعة.
+  - `assets/dev1.css`: قسم `.ayum-collections-list`.
+    - الحاوية 16/20px.
+    - الموبايل: `--slide-spacing` و`--slide-size: 43.67%` على الـ viewport (بدل قاعدة الـ #id) + bleed للحافة.
+    - crop الصورة عبر `hdt-ratio--landscape` (73.33% / 72.13%)، وألوان الأشرطة، والنقاط.
+  - `templates/index.json`: أُضيف `ayum_collections_list` بعد الهيرو. القالب المسحوب لم يكن فيه غير الهيرو، والهيرو بقي بايت ببايت كما هو.
+    - 4 بطاقات بعناوين وألوان Figma بلا مجموعة/صورة.
+    - الإعدادات: style 5، وlandscape، وcol 4/3/2، وspace 20، وcarousel، وdots مع hide on mobile، وpag 6/32، وpd 48/24، والعنوان h_custom 36/21، وdesign_heading "1".
+- **تحقق (HTML المتجر الحقيقي الملتقَط من الـ preview + أصول حية؛ الـ preview يتنقّل بين 200 و/password):**
+  - Shopify يرسم القسم: 4 بطاقات `ayum-cat--orange/green/pink/blue`، والعنوان، و`lg:hdt-slides-4 md:hdt-slides-3 hdt-slides-2`.
+  - **1440:** بطاقات 305×271 عند x 80/405/730/1055 (= Figma)، والعنوان 36/800 عند y49.
+  - **375:** بطاقات 150×147 عند x 209/47، وpeek 35 (= Figma)، والعنوان 21/800، وارتفاع القسم 244 (Figma 242 بدون الحدود).
+  - 320/390/768/1150 بلا overflow. الخطوط `Almarai-ExtraBold`.
+  - **النقاط (صفحة اختبار بـ 6 بطاقات):** 40×12 #26B3D0 نشطة + 12×12 #D3E3E8، gap 6، تبعد 32 عن البطاقات، في المنتصف، النشطة يميناً (RTL)، والنقر ينقل. مخفية على الموبايل، والسحب على الموبايل يعمل.
+- **ملاحظات:**
+  - مع 4 مجموعات و4 لكل عرض لا توجد صفحات، فـ Kalles لا يعرض نقاطاً على الديسكتوب (سلوك أصلي)، وتظهر عند 5+ مجموعات. Figma يرسم 3 نقاط، أي 6 فئات.
+  - لون النقطة النشطة في Figma أزرق #26B3D0 (ليس الوردي المذكور في الطلب)، وطُبّق Figma.
+  - تعديل `design_heading` ← "1" وإزالة reveal من النقاط تحقّقا على الصفحة الملتقطة بعد تطبيق نفس المخرجات، لأن الـ preview كان خلف كلمة المرور.
+- **Not run:** المتجر الحي بعد آخر تعديلين، والروابط (لا مجموعات مختارة بعد)، ومحرر الثيم، وSafari/Firefox، ولمس فعلي.

@@ -377,3 +377,116 @@
     transition: none;
   }
 }
+
+/* ==========================================================================
+   Shop by category — collection list carousel (Figma 2001:55 desktop / 2001:626 mobile)
+   sections/ayum-collections-list.liquid + blocks/_ayum-collection-item.liquid.
+   Uses the native <hdt-slider>; card style 5 (title below the image).
+   ========================================================================== */
+
+.ayum-collections-list {
+  --ayum-cat-pad: 16px;
+  background-color: rgb(228 237 240 / .6);
+  border-block: 1px solid rgb(38 179 208 / .15);
+}
+/* Figma container insets: 16px mobile, 20px from 768px (1320 max -> 1280 content). */
+.ayum-collections-list .hdt-container {
+  padding-inline: var(--ayum-cat-pad);
+}
+@media (min-width: 768px) {
+  .ayum-collections-list {
+    --ayum-cat-pad: 20px;
+  }
+}
+
+/* Heading (size from the heading block's custom size: 36 / 21). */
+.ayum-collections-list .hdt-section-heading_block .hdt-heading-block {
+  color: #26383A;
+  font-weight: 800;
+  line-height: 1.1;
+}
+/* Kalles halves the heading's margin-bottom below 1150px (32 -> 16); Figma mobile gap is 24. */
+@media (max-width: 767px) {
+  .ayum-collections-list .hdt-section-heading_block {
+    padding-bottom: 8px;
+  }
+}
+
+/* Cards: image on top, coloured title bar below. */
+.ayum-collections-list .ayum-cat {
+  --ayum-cat-bg: #26B3D0;
+  --color-title: #fff;
+  --color-bg-title: var(--ayum-cat-bg);
+  --color-hv-title: #fff;
+  --color-hv-bg-title: var(--ayum-cat-bg);
+  --radius-collection-card: 0px;
+}
+.ayum-collections-list .ayum-cat--pink { --ayum-cat-bg: #EA3A79; }
+.ayum-collections-list .ayum-cat--green { --ayum-cat-bg: #B6D561; }
+.ayum-collections-list .ayum-cat--orange { --ayum-cat-bg: #E78333; }
+
+.ayum-collections-list .ayum-cat .hdt-collection-inner {
+  overflow: hidden;
+  border-radius: 14px;
+  background-color: #E4EDF0;
+}
+.ayum-collections-list .ayum-cat .hdt-collection-content {
+  max-width: none;
+  padding: 0;
+}
+.ayum-collections-list .ayum-cat .hdt-collection-wrapper {
+  padding: 11px 8px;
+}
+.ayum-collections-list .ayum-cat .hdt-collection-title {
+  min-height: 0;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 15px;
+}
+/* Image crop: "Landscape" ratio in this section = Figma 150x110 (mobile) / 305x220. */
+.ayum-collections-list .hdt-ratio--landscape {
+  --ratio-percent: 73.333%;
+}
+@media (min-width: 768px) {
+  .ayum-collections-list .ayum-cat .hdt-collection-inner {
+    border-radius: 16px;
+  }
+  .ayum-collections-list .ayum-cat .hdt-collection-wrapper {
+    padding: 16px 12px;
+  }
+  .ayum-collections-list .ayum-cat .hdt-collection-title {
+    font-size: 17px;
+    line-height: 19px;
+  }
+  .ayum-collections-list .hdt-ratio--landscape {
+    --ratio-percent: 72.131%;
+  }
+}
+
+/* Mobile: 2 cards + a peek of the 3rd (Figma at 375: 150px cards, 12px gap, 35px peek).
+   Set on the viewport so it inherits to the track and slides without fighting the section's
+   #id-level --slide-spacing rule. The viewport bleeds to the screen edge on the inline-end
+   side so the peek is cut by the screen. Slide size = (card + gap) / (viewport + gap):
+   162 / 371 = 43.67%, which scales proportionally at other widths. */
+@media (max-width: 767px) {
+  .ayum-collections-list .hdt-slider__viewport {
+    --slide-spacing: 12px;
+    --slide-size: 43.67%;
+    margin-inline-end: calc(var(--ayum-cat-pad) * -1);
+  }
+}
+
+/* Pagination (desktop only via the section's "hide on mobile" setting). */
+.ayum-collections-list .hdt-slider .hdt-pagination {
+  --pag-w: 12px;
+  --pag-h: 12px;
+  --pag-w-active: 40px;
+  --pag-h-active: 12px;
+  --pag-bg: #D3E3E8;
+  --pag-bg-active: #26B3D0;
+  --pag-radius: 6px;
+}
+.ayum-collections-list .hdt-slider .hdt-pagination .hdt-slider__dot {
+  opacity: 1;
+  border: 0;
+}
