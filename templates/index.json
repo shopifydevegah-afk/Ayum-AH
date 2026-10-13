@@ -579,10 +579,6 @@
         "mg_mb": "",
         "pd": "",
         "pd_mb": "",
-        "ayum_accent_color": "#ea3a79",
-        "ayum_heading_color": "#26383a",
-        "ayum_text_color": "#4e6e70",
-        "ayum_border_color": "#d3e3e8",
         "custom_class": "ayum-slideshow"
       }
     },
@@ -748,15 +744,19 @@
         "pag_space": 6,
         "pag_mgt": 32,
         "pag_hide_mobile": true,
-        "colors_by_section": false,
-        "color_scheme": "",
-        "background_opacity": 0,
+        "colors_by_section": true,
+        "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
+        "background_opacity": 1,
         "section_layout": "wrapper_container",
         "hdt_background_parallax": false,
         "mg": "",
         "mg_mb": "",
         "pd": "48px,,48px,",
         "pd_mb": "24px,,24px,",
+        "ayum_label_blue": "#26b3d0",
+        "ayum_label_pink": "#ea3a79",
+        "ayum_label_green": "#b6d561",
+        "ayum_label_orange": "#e78333",
         "custom_class": "ayum-collections-list"
       }
     }
