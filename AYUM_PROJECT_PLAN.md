@@ -408,7 +408,7 @@
 | H7 | Reviews | index | `2001:316` / `2001:826` | Metadata only | Not started | Not run | محتوى حقيقي فقط |
 | H8 | Product videos | index | `2001:366` / `2001:861` | Metadata only | Not started | Not run | قرار التشغيل التلقائي |
 | H9 | FAQ | index | `2001:446` / `2001:911` | Metadata only | Not started | Not run | — |
-| S1 | Offer / announcement bar | **مشترك: كل الصفحات** | `2001:4` / `2001:582` | Metadata only | Not started | Not run | header-group |
+| S1 | Offer / announcement bar | **مشترك: كل الصفحات** | `2001:4` / `2001:582` | Design-context inspected | Implemented (زر نسخ الكود) | Partial | `sections/ayum-announcement-bar.liquid` + `assets/ayum-copy-code.js` + `dev1.css`؛ QA على HTML الـ preview الحقيقي + أصول حية، لا على المتجر الحي |
 | S2 | Header + category nav | **مشترك: كل الصفحات** | `2001:8` + `2001:21` / `2001:586` | Metadata only | Not started | Not run | الأعلى خطراً |
 | S3 | Mobile menu | **مشترك: كل الصفحات** | — / `35:309` | Metadata only | Not started | Not run | يعتمد على S2 |
 | S4 | Footer | **مشترك: كل الصفحات** | `2001:483` / `2001:942` | Metadata only | Not started | Not run | footer-group |
@@ -611,3 +611,26 @@
   - 1440: الصندوق x800/y81؛ العنوان y126؛ الوصف y337؛ الأزرار y414.
   - الأسطر مطابقة لـ Figma عند 375 و390 و1290 و1440، والخطوط كلها Almarai الصحيح.
 - **Not run:** الـ preview الحي بعد الترحيل (يحتاج سحب القالب + كلمة مرور المتجر في المتصفح).
+
+### 2026-10-13 — S1 Announcement bar: زر "انسخ الكود"
+- **Figma:** `get_design_context` + `get_metadata` للعقدتين `2001:4` و`2001:582`.
+  - ديسكتوب: بار 1440×49، زر 94×25 (padding 6/16، radius 16، 12px/800)، نص 241×16 (14px/700)، gap 14.
+  - موبايل: بار 375×40، زر 80×22 (padding 5/12، radius 14، 11px/800)، نص 206×13 (12px/700)، gap 10.
+- **الأصل:** `sections/announcement-bar.liquid` (Kalles)، والـ instance `announcement_bar_QKnWCh` في `sections/header-group.json`. لم تكن هناك نسخة AYUM.
+- **الملفات:**
+  - جديد `sections/ayum-announcement-bar.liquid`: نسخة من الأصل. نفس اسم الـ schema (`t:sections.announcement-bar.name`)، ونفس class/limit/groups/presets، وكل الإعدادات الأصلية الـ21. أُزيلت فقط فاصلتان زائدتان موروثتان.
+    - الإضافات: كلاس `ayum-announcement-bar` + `custom_class`؛ إعدادات القسم `ayum_height_mb` (40)، و`ayum_copy_enable`، و`ayum_copy_label` (انسخ الكود)، و`ayum_copy_code` (AYUM10)، و`ayum_copy_success` (تم نسخ الكود)، و`ayum_copy_error` (تعذّر النسخ)، و`ayum_copy_bg` (#EA3A79)، و`ayum_copy_color` (#FFFFFF)؛ وإعداد البلوك `ayum_show_copy`.
+    - الزر في تصميم slider فقط.
+  - جديد `assets/ayum-copy-code.js`: custom element `<ayum-copy-code>` (define محمي، ربط واحد، تنظيف في disconnected). Clipboard API في سياق آمن، ثم fallback `execCommand`، ثم حالة فشل. `aria-live` للإعلان.
+  - `assets/dev1.css`: قسم منفصل تحت `.ayum-announcement-bar`. الملصق والرسائل في نفس خلية grid، والملصق وحده يحدد العرض، فلا تغيير في الحجم عند النسخ.
+  - `sections/header-group.json`: أُضيف `ayum_announcement_bar` أولاً (نفس إعدادات ونص الأصل)، و`"disabled": true` على `announcement_bar_QKnWCh`. بياناته محفوظة، و`custom_liquid_BCTxT9` بلا تغيير. النسخة المحلية كانت مسحوبة من المتجر في `bfdcf3e` ومطابقة لما يرسمه الـ preview.
+- **إصلاح عرضي:** `bfdcf3e` حذف `assets/almarai-arabic-800.woff2` (الـ preview أعاد 404، فعاد العنوان 800 إلى Times New Roman). استُعيد من `96f6daa` (SHA-256 مطابق `7acac6ae…`)، والـ preview يعيده 200 (33,328B). ملف فارغ دخيل `assets/dev1.css.tmp.21456.70728f719e45` من نفس الـ commit لم يُحذف (بانتظار قرار المستخدم).
+- **تحقق (HTML الـ preview الحقيقي مع markup القسم الجديد + أصول الـ preview الحية؛ الصفحة الحية خلف كلمة المرور):**
+  - **1440 (موقع / Figma):** بار 49/49؛ الزر 93.1×25 عند x546.4 (94×25 عند 545.5)؛ النص 240.2×16 عند x653.4 (241×16 عند 653.5)؛ gap 14.
+  - **375:** بار 40/40؛ الزر 80×22 عند x39.6 (39.5)؛ النص 205.9×13 عند x129.5؛ gap 10.
+  - 320 و768 و1150 في المنتصف، بلا overflow.
+  - **الخطوط:** الزر `Almarai-ExtraBold`، والنص `Almarai-Bold`.
+  - **السلوك:** النقر ينسخ `AYUM10` (قراءة فعلية من الحافظة)؛ تغيير الكود ← يُنسخ الجديد؛ Enter وSpace؛ إطار التركيز 2px عند Tab؛ لا تغيّر في عرض الزر ولا scroll ولا URL؛ مسار الفشل ← "تعذّر النسخ" + إعلان.
+  - الهيرو لم يتأثر.
+- **Not run:** المتجر الحي (كلمة المرور)، وإعادة تحميل القسم في محرر الثيم، وSafari/Firefox، ولمس فعلي.
+- **معلّق من مهمة الهيرو:** `templates/index.json` المسحوب في `bfdcf3e` فيه صور التاجر، والشرائح ما زالت `_slide-item`. سكربت الترحيل جاهز عند الطلب.

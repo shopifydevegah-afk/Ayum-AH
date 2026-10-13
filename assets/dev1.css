@@ -280,3 +280,100 @@
     transition: none;
   }
 }
+
+/* ==========================================================================
+   Announcement bar — copy code button (Figma 2001:4 desktop / 2001:582 mobile)
+   sections/ayum-announcement-bar.liquid; behaviour in assets/ayum-copy-code.js.
+   ========================================================================== */
+
+/* Text + button centred as one group. Arabic copy is RTL in every locale, so the
+   button (after the text in the DOM) sits to the left of the text, as in Figma. */
+.ayum-announcement-bar .hdt-announcement-bar__slider-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+/* Line heights are Figma's text-box heights (16px / 13px); "normal" would use Almarai's
+   taller font metrics and make the text box 22px. */
+.ayum-announcement-bar .hdt-announcement-bar__text {
+  font-weight: 700;
+  line-height: 16px;
+  white-space: nowrap;
+}
+@media (max-width: 767px) {
+  .ayum-announcement-bar .hdt-announcement-bar__text {
+    font-size: 12px;
+    line-height: 13px;
+  }
+}
+@media (min-width: 768px) {
+  .ayum-announcement-bar .hdt-announcement-bar__slider-content {
+    gap: 14px;
+  }
+}
+
+.ayum-announcement-bar .ayum-copy {
+  display: inline-flex;
+  flex: none;
+  position: relative;
+  z-index: 2; /* above the optional full-slide announcement link */
+}
+.ayum-announcement-bar .ayum-copy__btn {
+  display: inline-grid;
+  place-items: center;
+  margin: 0;
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 14px;
+  background-color: var(--ayum-copy-bg);
+  color: var(--ayum-copy-color);
+  font-family: var(--font-body-family);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity .2s ease;
+}
+@media (min-width: 768px) {
+  .ayum-announcement-bar .ayum-copy__btn {
+    padding: 6px 16px;
+    border-radius: 16px;
+    font-size: 12px;
+    line-height: 13px;
+  }
+}
+.ayum-announcement-bar .ayum-copy__btn:hover {
+  opacity: .9;
+}
+.ayum-announcement-bar .ayum-copy__btn:focus-visible {
+  outline: 2px solid var(--ayum-copy-color);
+  outline-offset: 2px;
+}
+/* Label and feedback share one grid cell; only the label sizes the button (Figma width).
+   Feedback is a zero-width, centred overlay whose text extends into the button's padding,
+   so the button never changes size. Keep feedback messages short. */
+.ayum-announcement-bar .ayum-copy__btn > span {
+  grid-area: 1 / 1;
+}
+.ayum-announcement-bar .ayum-copy__feedback {
+  display: flex;
+  justify-content: center;
+  width: 0;
+}
+.ayum-announcement-bar .ayum-copy__feedback,
+.ayum-announcement-bar .ayum-copy[data-state] .ayum-copy__label {
+  visibility: hidden;
+}
+.ayum-announcement-bar .ayum-copy[data-state="copied"] .ayum-copy__feedback--ok,
+.ayum-announcement-bar .ayum-copy[data-state="failed"] .ayum-copy__feedback--error {
+  visibility: visible;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ayum-announcement-bar .ayum-copy__btn {
+    transition: none;
+  }
+}
