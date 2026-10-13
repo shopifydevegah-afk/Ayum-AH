@@ -285,7 +285,7 @@ Produce this **before editing**, unless the user explicitly requests immediate i
 
 1. **Files inspected** — each file and why it matters.
 2. **Relevant existing architecture** — verified render path, blocks, styles, scripts, schema, data sources, integration points.
-3. **Closest reusable section / block / snippet** — and the reuse-ladder step chosen, with justification.
+3. **Closest native Kalles section / block / snippet** — whether it can be used unchanged or needs an isolated AYUM copy; identify reused unchanged dependencies and justify the boundaries.
 4. **Proposed files to modify.**
 5. **Proposed schema changes.**
 5a. **Color & settings mapping** — the color schemes inspected; for each Figma color role, the scheme variable or native setting reused, or the new AYUM setting proposed (id, type, label, Figma default) and why no native source fits; the same for non-color design properties (§5.2).
@@ -300,55 +300,40 @@ Produce this **before editing**, unless the user explicitly requests immediate i
 
 ---
 
-## 5. Existing-first implementation strategy
+## 5. Native-Kalles-first, isolated-AYUM implementation strategy (permanent)
 
-Prefer the **earliest** option that safely satisfies the design:
+**AYUM-specific overriding requirement:** Inspect and reuse the closest native Kalles implementation as the foundation, but **never modify an original Kalles section file for AYUM-specific work**. This holds even for a minimal CSS/schema change or an otherwise inert new option. The original section must remain available and fully functional, without AYUM-specific alterations.
 
-1. Use the existing project section, block, snippet, setting, class, or component **as-is**.
-2. Use the existing structure with **scoped CSS only**.
-3. Use an **instance-specific custom class setting**.
-4. Add a **new schema setting beside** existing settings.
-5. Add a **new schema option beside** existing options.
-6. **Extend** the closest existing block or snippet safely.
-7. **Duplicate** the closest block/snippet only when extension is unsafe.
-8. **Carefully modify an original section** only when the change is minimal, reusable, and cannot safely be isolated another way.
-9. **Duplicate an existing section** only when the same section must support a materially different structure that cannot be enabled as another instance.
-10. **Create a completely new section** only as a last resort.
+Decision order for each requested section:
 
-**This project is not duplicate-first.**
+1. Inspect the closest native Kalles section, blocks, snippets, schema, CSS, JS, and real template instances.
+2. When the original already achieves the requested design **without any source-file changes**, it may be used as-is and configured through its existing Theme Editor settings. Do not mutate its source.
+3. When AYUM needs **any section-level source change** (Liquid, markup, schema, settings/options, CSS hooks, or JavaScript behavior), **duplicate the closest native section into a clearly named isolated AYUM section**, then adapt the copy. This is the default for customized AYUM sections, even if the change appears minimal.
+4. Preserve native behavior in the AYUM copy: use existing Kalles settings, tokens, color schemes, utilities, CSS patterns, blocks and integrations before adding new controls or implementation logic.
+5. Refer to unchanged native snippets, blocks, scripts and styles when they already behave correctly. If a shared block/snippet/component itself needs AYUM-specific source changes, make an AYUM-specific copy and update only AYUM call sites/references; do not edit the shared original. Avoid unnecessary copies of untouched dependencies.
+6. Create an entirely new section without a native base **only when no suitable existing Kalles section exists**, and explain the inspection evidence.
 
-- Do not create a custom section automatically because the Figma design looks visually different.
-- Do not introduce a parallel component system when the existing architecture can support the design.
-- Do not replace working native behavior with weaker custom behavior.
-- Prove the existing system is insufficient before building new, and say so in the report.
+**Isolation is mandatory; needless duplication of dependencies is not.** Duplicate the *section file* when customization requires source edits, but do not automatically duplicate every block, snippet, CSS/JS asset, or helper. A stylesheet or script specifically for the AYUM copy may be created if needed, with unique selectors/names and no effect on native instances.
 
-### 5.1 Existing-first architecture (permanent rule)
+**Never modify for AYUM-specific design work:** original Kalles `sections/*.liquid` files, original shared `blocks/*.liquid` and `snippets/*.liquid` behavior, original vendor/global CSS/JS, or native presets. Do not insert an AYUM condition, custom class, new setting, or harmless-looking opt-in inside a native original. If a shared dependency needs a change, isolate it first. Changes to AYUM-owned files are permitted within the requested task scope.
 
-**Never create a new Section, Snippet, Block file, Component, JavaScript file, CSS file, or any other project file when an existing implementation can be safely reused, extended, or duplicated.**
+If a task is targeting an **already-existing AYUM section**, update that isolated section in place with the smallest safe fix; do not create a second duplicate or rebuild it. Existing instance settings and merchant data remain authoritative.
 
-Always inspect the closest existing implementation before deciding the implementation strategy.
+Before implementation, identify: (a) the native Kalles baseline, (b) why it can/cannot be used unchanged, (c) the AYUM copy to use or create, (d) which dependencies are reusable unchanged, and (e) the exact file boundaries that protect the original.
 
-Priority:
+### 5.1 Isolation and minimal-change architecture (permanent rule)
 
-1. Reuse the existing implementation.
-2. Extend the existing implementation.
-3. Duplicate the closest existing implementation only when extension is not safe.
-4. Create a completely new implementation only as the final option.
+- Native Kalles originals are **read-only implementation references** for AYUM design changes.
+- Reuse existing settings and platform behavior before inventing new versions.
+- Modify existing AYUM-owned code in place when appropriate.
+- For new customized sections, create the minimum required AYUM section copy; do not reimplement its functionality from scratch.
+- For a dependent native block/snippet requiring modification, duplicate only that dependency and rewire only the AYUM copy.
+- Do not edit shared Kalles assets to load AYUM styling: load the AYUM-only stylesheet from the AYUM section when necessary.
+- Preserve the original section schema, presets, settings and all current usages unchanged. The AYUM copy should preserve useful native schema/settings/blocks and may add settings without losing existing behavior.
+- Before creating additional files beyond the isolated section, explain their necessity and why existing unchanged dependencies cannot be reused.
+- Avoid over-engineering, unnecessary duplicate assets, extra slider libraries, and broad/global overrides.
 
-**Before creating any new file, explicitly justify why:**
-
-- the existing implementation cannot be reused
-- extending it is unsafe
-- duplicating it is required
-- creating a completely new implementation is unavoidable
-
-Avoid: over-engineering · unnecessary abstractions · duplicate code · duplicate snippets · duplicate sections · duplicate JavaScript · duplicate CSS · unnecessary helper files · unnecessary wrappers · unnecessary custom elements.
-
-Favor the **smallest safe implementation** that follows the project's existing architecture.
-
-An additive setting on a shared file that defaults to blank/false — and therefore changes nothing for every existing instance — is almost always safer and smaller than a duplicate file. Verify that claim by listing every existing instance of the file and confirming the new default is inert for each, then say so in the report.
-
-This is a permanent project rule and applies to every future implementation.
+This policy **supersedes any generic reuse/extend recommendation elsewhere in this skill that would modify original Kalles files**. For example, a generally safe additive setting to a shared Kalles file is **not allowed** for AYUM-specific needs; add it to the AYUM copy instead.
 
 ### 5.2 Existing-setting-first for design properties (permanent rule)
 
@@ -368,7 +353,7 @@ Rules:
 
 ---
 
-An isolated new section is acceptable when the design requires structural markup/schema/CSS that would **regress a live shared instance**. Before taking that route, prove the shared AYUM implementation cannot be safely extended. When you take that route, still reuse the theme's conventions inside the new file — `spacing-vars`, `image_tag`/`image_url`, `placeholder_svg_tag`, color schemes, `hdt-container`, blocks lifecycle, font/color tokens — and leave every shared file untouched.
+An isolated AYUM section copy is required whenever the closest native Kalles section needs AYUM-specific source edits, regardless of whether the change would regress existing instances. For an already isolated AYUM section, prefer an in-place scoped change instead of a second copy. Always reuse the theme's conventions inside the AYUM file — `spacing-vars`, `image_tag`/`image_url`, `placeholder_svg_tag`, color schemes, `hdt-container`, blocks lifecycle, font/color tokens — and leave every shared file untouched.
 
 ---
 
@@ -707,6 +692,7 @@ Before claiming completion, verify:
 - existing IDs were preserved
 - merchant data was preserved
 - no unrelated sections changed
+- no original native Kalles section/block/snippet source was changed for AYUM-specific implementation; any customized section uses an isolated AYUM copy
 - desktop matches Figma
 - mobile matches Figma
 - tablet behavior is safe
@@ -877,7 +863,7 @@ Project-specific additions, each learned from a real failure or constraint in th
 - hardcoding design colors (hex / `rgb()` / `rgba()` literals) in CSS, Liquid, or JS instead of color-scheme variables or Theme Editor settings
 - adding a color or design setting that duplicates an existing native Kalles setting
 - changing global color schemes or `css-variables.liquid` to make one section match Figma
-- adding new design controls to an original Kalles file instead of the isolated AYUM copy
+- modifying an original Kalles section or shared dependency for AYUM-specific requirements, even when the change appears additive or inert
 - putting Liquid inside a plain static `.css` asset
 - registering a custom element name that collides with a native `hdt-` component
 - copying `block.shopify_attributes` onto a duplicated/decorative DOM copy
@@ -923,11 +909,11 @@ Project-specific additions, each learned from a real failure or constraint in th
 | Situation | Action |
 | --- | --- |
 | Existing section/snippet/component already does it | Use as-is; configure via existing settings |
-| Needs a visual tweak only | Scoped `{% style %}` on `section.id`, or a custom-class-gated stylesheet |
-| New behavior useful to all instances | Add an additive setting/param, or extend the shared snippet/base class |
-| Behavior must be isolated to one surface | Duplicate the closest file (preserve its schema/behavior); wire the new `type` |
-| Change would regress a live shared instance or its preset | Build an isolated new section, reusing the theme's conventions inside it |
-| No existing architecture can satisfy it safely | Build new (last resort), following existing patterns |
+| Needs a visual tweak requiring a source edit to a native Kalles section | Duplicate the native section into an AYUM section; apply scoped styles only to the AYUM copy |
+| New AYUM option or behavior (even if potentially useful to all) | Add it to the isolated AYUM section/block; leave native originals unchanged |
+| AYUM change to a native shared snippet/block | Duplicate only that dependency, preserve behavior, and wire the AYUM copy to it |
+| Existing isolated AYUM section needs a fix | Modify that AYUM section in place; do not rebuild or duplicate again |
+| No suitable native section exists | Build a new AYUM section as a last resort, following native patterns |
 
 ### Text/content source
 
