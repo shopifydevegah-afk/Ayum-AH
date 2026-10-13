@@ -162,17 +162,17 @@
       },
       "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d": {
         "settings": {
-          "text": "#ffffff",
+          "text": "#26383A",
           "text2": "#878787",
-          "background": "#222222",
+          "background": "#E4EDF0",
           "background_gradient": "",
           "background2": "#ffffff",
           "button": "#ffffff",
-          "button_label": "#222222",
+          "button_label": "#FFFFFF",
           "button_border": "#ffffff",
           "secondary_button_label": "#ffffff",
           "accent_color": "#56cfe1",
-          "line_border": "#444444",
+          "line_border": "#D3E3E8",
           "overlay": "#000000",
           "pr_text": "#ffffff",
           "price": "#999999",
@@ -183,8 +183,8 @@
       },
       "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce": {
         "settings": {
-          "text": "#26383A",
-          "text2": "#6E8788",
+          "text": "#26383a",
+          "text2": "#6e8788",
           "background": "#ffffff",
           "background_gradient": "",
           "background2": "#f5f5f5",
@@ -197,7 +197,7 @@
           "overlay": "#000000",
           "pr_text": "#000000",
           "price": "#868686",
-          "sale_price": "#EA3A79",
+          "sale_price": "#ea3a79",
           "input_primary": "#ffffff",
           "input_secondary": "#686868"
         }
