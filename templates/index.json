@@ -279,11 +279,109 @@
         "ayum_card_border_color": "#d3e3e8",
         "ayum_price_color": "#ea3a79",
         "ayum_badge_text_color": "#ea3a79",
-        "custom_class": "ayum-tabs-collection"
+        "custom_class": ""
+      }
+    },
+    "ayum_featured_collection_bundles": {
+      "type": "ayum-featured-collection",
+      "blocks": {
+        "ayum_bundle_carousel": {
+          "type": "_ayum-bundle-product-carousel",
+          "settings": {
+            "collection": "",
+            "products_count": 8,
+            "pr_border": "none",
+            "product_des": "ayum_bundle",
+            "image_ratio": "square",
+            "image_size": true,
+            "show_vendor": false,
+            "hdt_slide_center": false,
+            "hdt_opacity_out_container": false,
+            "col_dk": "4",
+            "col_tb": "3",
+            "col_mb": "1",
+            "space_items": "20",
+            "pagination": false,
+            "loop": false,
+            "autoplay": 0,
+            "pauseOnHover": false,
+            "navUI": false,
+            "dotUI": false,
+            "ayum_show_description": true,
+            "ayum_description_length": 40,
+            "ayum_atc_label": "",
+            "ayum_show_progress": true
+          },
+          "blocks": {}
+        },
+        "pr-heading": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 16,
+            "margin_bottom": 32
+          },
+          "blocks": {
+            "heading_section_ayum_bundles": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "باكتات وتوزيعات",
+                "line_height": "hdt-lh-1",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 36,
+                "font_size_heading": 21,
+                "letter_spacing_heading": 0
+              },
+              "blocks": {}
+            },
+            "sub_heading_section_ayum_bundles": {
+              "type": "_sub_heading_section",
+              "settings": {
+                "text": "<p>جرّب أكثر من منتج بسعر أوفر — والأفضل للمناسبات</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": true,
+                "text_size": "custom",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading_section_ayum_bundles",
+            "sub_heading_section_ayum_bundles"
+          ]
+        }
+      },
+      "block_order": [
+        "ayum_bundle_carousel"
+      ],
+      "settings": {
+        "colors_by_section": true,
+        "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
+        "background_opacity": 0.6,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,24px,",
+        "ayum_primary_color": "#26B3D0",
+        "ayum_on_primary_color": "#FFFFFF",
+        "ayum_card_border_color": "#D3E3E8",
+        "ayum_sale_color": "#EA3A79",
+        "custom_class": ""
       }
     }
   },
   "order": [
-    "ayum_tabs_collection_best_sellers"
+    "ayum_tabs_collection_best_sellers",
+    "ayum_featured_collection_bundles"
   ]
 }
