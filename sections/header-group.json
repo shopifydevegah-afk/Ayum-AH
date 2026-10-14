@@ -55,8 +55,6 @@
         "ayum_copy_code": "AYUM10",
         "ayum_copy_success": "تم نسخ الكود",
         "ayum_copy_error": "تعذّر النسخ",
-        "ayum_copy_bg": "#ea3a79",
-        "ayum_copy_color": "#ffffff",
         "custom_class": "ayum-announcement-bar"
       }
     },
