@@ -10,6 +10,473 @@
 {
   "type": "footer",
   "name": "t:sections.name_group.footer",
-  "sections": {},
-  "order": []
+  "sections": {
+    "footer_KwXhWr": {
+      "type": "footer",
+      "blocks": {
+        "footer_column_pA3QPh": {
+          "type": "_footer-column",
+          "settings": {
+            "col_heading": "",
+            "hide_on_desktop": false,
+            "hide_on_mobile": false,
+            "only_mobile": false,
+            "ayum_open_mobile": false,
+            "ayum_hide_column_mb": false,
+            "ayum_order_mb": 0,
+            "sec_heading_size": "lg",
+            "font_size_text_lg": 16,
+            "font_size_text": 14,
+            "font_weight_text": "medium",
+            "letter_spacing_text": 0,
+            "space": 15,
+            "alignment": "left",
+            "alignment_mb": "center",
+            "colors_by_section": false,
+            "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
+            "background_opacity": 0,
+            "width_lg": 25,
+            "width_md": 50,
+            "width": 100,
+            "mg": ",,50px,",
+            "mg_mb": ",,30px,",
+            "pd": "",
+            "pd_mb": ""
+          },
+          "blocks": {
+            "footer_image_d8wFnT": {
+              "type": "_footer-image",
+              "settings": {
+                "img": "shopify://shop_images/23fc51002117b2d910b9cd2bec3ecf99f603abcc.png",
+                "custom_width": "custom",
+                "image_w": 96,
+                "image_w_tb": 96,
+                "image_w_mb": 96
+              },
+              "blocks": {}
+            },
+            "spacer_69LYhC": {
+              "type": "spacer",
+              "settings": {
+                "direction": false,
+                "space_lg": 34,
+                "space_md": 30,
+                "space": 30
+              },
+              "blocks": {}
+            },
+            "custom_liquid_P3m7HC": {
+              "type": "_liquid",
+              "settings": {
+                "option_type": "liquid",
+                "page": "",
+                "text": "المصنع الوحيد في الكويت لمنتجات التجفيف بالتجميد  \nفواكه وحلويات وسكيتلز وخضار، تصنيع محلي 100%.",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "ffamily": "",
+                "text_size": "base",
+                "font_weight": "normal",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            },
+            "spacer_ETKTxk": {
+              "type": "spacer",
+              "settings": {
+                "direction": false,
+                "space_lg": 20,
+                "space_md": 20,
+                "space": 20
+              },
+              "blocks": {}
+            },
+            "socials_nemGjD": {
+              "type": "socials",
+              "settings": {
+                "text_color": "hdt-s-text",
+                "type": "follow",
+                "share_facebook": false,
+                "share_x": false,
+                "share_pinterest": false,
+                "share_tumblr": false,
+                "share_telegram": false,
+                "share_email": false,
+                "share_whatsapp": false,
+                "socials_style": "default",
+                "socials_size": "medium",
+                "bd_radius": 30,
+                "space_item": 14
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "footer_image_d8wFnT",
+            "spacer_69LYhC",
+            "custom_liquid_P3m7HC",
+            "spacer_ETKTxk",
+            "socials_nemGjD"
+          ]
+        },
+        "footer_column_C3zLBR": {
+          "type": "_footer-column",
+          "settings": {
+            "col_heading": "عن أيم",
+            "hide_on_desktop": false,
+            "hide_on_mobile": false,
+            "only_mobile": true,
+            "ayum_open_mobile": false,
+            "ayum_hide_column_mb": false,
+            "ayum_order_mb": 3,
+            "sec_heading_size": "lg",
+            "font_size_text_lg": 16,
+            "font_size_text": 14,
+            "font_weight_text": "medium",
+            "letter_spacing_text": 0,
+            "space": 30,
+            "alignment": "left",
+            "alignment_mb": "left",
+            "colors_by_section": false,
+            "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
+            "background_opacity": 0,
+            "width_lg": 16,
+            "width_md": 50,
+            "width": 100,
+            "mg": ",,50px,",
+            "mg_mb": ",,30px,",
+            "pd": "",
+            "pd_mb": ""
+          },
+          "blocks": {
+            "linklist_mTLiQc": {
+              "type": "_linklist",
+              "settings": {
+                "menu_inline": false,
+                "align": "left",
+                "align_mb": "left",
+                "menu": "link-list",
+                "text_size": "base",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "linklist_mTLiQc"
+          ]
+        },
+        "footer_column_3Dap6p": {
+          "type": "_footer-column",
+          "settings": {
+            "col_heading": "المتجر",
+            "hide_on_desktop": false,
+            "hide_on_mobile": false,
+            "only_mobile": true,
+            "ayum_open_mobile": false,
+            "ayum_hide_column_mb": false,
+            "ayum_order_mb": 1,
+            "sec_heading_size": "lg",
+            "font_size_text_lg": 16,
+            "font_size_text": 14,
+            "font_weight_text": "medium",
+            "letter_spacing_text": 0,
+            "space": 30,
+            "alignment": "left",
+            "alignment_mb": "left",
+            "colors_by_section": false,
+            "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
+            "background_opacity": 0,
+            "width_lg": 16,
+            "width_md": 50,
+            "width": 100,
+            "mg": ",,50px,",
+            "mg_mb": ",,30px,",
+            "pd": "",
+            "pd_mb": ""
+          },
+          "blocks": {
+            "linklist_BDr677": {
+              "type": "_linklist",
+              "settings": {
+                "menu_inline": false,
+                "align": "left",
+                "align_mb": "left",
+                "menu": "link-list-1",
+                "text_size": "base",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "linklist_BDr677"
+          ]
+        },
+        "footer_column_U4EkTn": {
+          "type": "_footer-column",
+          "settings": {
+            "col_heading": "خدمة العملاء",
+            "hide_on_desktop": false,
+            "hide_on_mobile": false,
+            "only_mobile": true,
+            "ayum_open_mobile": false,
+            "ayum_hide_column_mb": false,
+            "ayum_order_mb": 2,
+            "sec_heading_size": "lg",
+            "font_size_text_lg": 16,
+            "font_size_text": 14,
+            "font_weight_text": "medium",
+            "letter_spacing_text": 0,
+            "space": 30,
+            "alignment": "left",
+            "alignment_mb": "left",
+            "colors_by_section": false,
+            "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
+            "background_opacity": 0,
+            "width_lg": 16,
+            "width_md": 50,
+            "width": 100,
+            "mg": ",,50px,",
+            "mg_mb": ",,30px,",
+            "pd": "",
+            "pd_mb": ""
+          },
+          "blocks": {
+            "linklist_cCjYzb": {
+              "type": "_linklist",
+              "settings": {
+                "menu_inline": false,
+                "align": "left",
+                "align_mb": "left",
+                "menu": "link-list-2",
+                "text_size": "base",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "linklist_cCjYzb"
+          ]
+        },
+        "footer_column_aHM7eH": {
+          "type": "_footer-column",
+          "settings": {
+            "col_heading": "تواصل معنا",
+            "hide_on_desktop": false,
+            "hide_on_mobile": false,
+            "only_mobile": true,
+            "ayum_open_mobile": false,
+            "ayum_hide_column_mb": true,
+            "ayum_order_mb": 10,
+            "sec_heading_size": "lg",
+            "font_size_text_lg": 16,
+            "font_size_text": 14,
+            "font_weight_text": "medium",
+            "letter_spacing_text": 0,
+            "space": 30,
+            "alignment": "left",
+            "alignment_mb": "left",
+            "colors_by_section": false,
+            "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
+            "background_opacity": 0,
+            "width_lg": 16,
+            "width_md": 50,
+            "width": 100,
+            "mg": ",,50px,",
+            "mg_mb": ",,30px,",
+            "pd": "",
+            "pd_mb": ""
+          },
+          "blocks": {
+            "linklist_NcceVh": {
+              "type": "_linklist",
+              "settings": {
+                "menu_inline": false,
+                "align": "left",
+                "align_mb": "left",
+                "menu": "link-list-3",
+                "text_size": "base",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "linklist_NcceVh"
+          ]
+        }
+      },
+      "block_order": [
+        "footer_column_pA3QPh",
+        "footer_column_C3zLBR",
+        "footer_column_3Dap6p",
+        "footer_column_U4EkTn",
+        "footer_column_aHM7eH"
+      ],
+      "settings": {
+        "collapse": true,
+        "full_width": true,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "75px,,75px,",
+        "pd_mb": "56px,,56px,",
+        "colors_by_section": true,
+        "color_scheme": "scheme-ac3ae30b-2ea0-4155-b282-371a1a9b51e6",
+        "background_opacity": 1,
+        "custom_class": "ayum-footer-main"
+      }
+    },
+    "footer_ziwVXA": {
+      "type": "footer",
+      "blocks": {
+        "footer_column_Xk9eJH": {
+          "type": "_footer-column",
+          "settings": {
+            "col_heading": "",
+            "hide_on_desktop": false,
+            "hide_on_mobile": false,
+            "only_mobile": false,
+            "ayum_open_mobile": false,
+            "ayum_hide_column_mb": false,
+            "ayum_order_mb": 0,
+            "sec_heading_size": "h4",
+            "font_size_text_lg": 16,
+            "font_size_text": 14,
+            "font_weight_text": "normal",
+            "letter_spacing_text": 0,
+            "space": 30,
+            "alignment": "left",
+            "alignment_mb": "left",
+            "colors_by_section": false,
+            "color_scheme": "",
+            "background_opacity": 0,
+            "width_lg": 50,
+            "width_md": 50,
+            "width": 100,
+            "mg": "",
+            "mg_mb": "",
+            "pd": "",
+            "pd_mb": ""
+          },
+          "blocks": {
+            "linklist_8dW7hH": {
+              "type": "_linklist",
+              "name": "t:blocks.link_list.name",
+              "settings": {
+                "menu_inline": false,
+                "align": "left",
+                "align_mb": "left",
+                "menu": "footer",
+                "text_size": "base",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "linklist_8dW7hH"
+          ]
+        },
+        "footer_column_T7fBhY": {
+          "type": "_footer-column",
+          "settings": {
+            "col_heading": "",
+            "hide_on_desktop": false,
+            "hide_on_mobile": false,
+            "only_mobile": false,
+            "ayum_open_mobile": false,
+            "ayum_hide_column_mb": false,
+            "ayum_order_mb": 0,
+            "sec_heading_size": "h4",
+            "font_size_text_lg": 16,
+            "font_size_text": 14,
+            "font_weight_text": "normal",
+            "letter_spacing_text": 0,
+            "space": 30,
+            "alignment": "left",
+            "alignment_mb": "left",
+            "colors_by_section": false,
+            "color_scheme": "",
+            "background_opacity": 0,
+            "width_lg": 50,
+            "width_md": 50,
+            "width": 100,
+            "mg": "",
+            "mg_mb": "",
+            "pd": "",
+            "pd_mb": ""
+          },
+          "blocks": {
+            "payment_icons_3qEmxg": {
+              "type": "_payment_icons",
+              "name": "t:blocks.payment.name",
+              "settings": {
+                "svg": "knet,visa,master",
+                "height": 30,
+                "ayum_label": "طرق الدفع"
+              },
+              "blocks": {}
+            },
+            "liquid_TmcNa7": {
+              "type": "_liquid",
+              "name": "t:blocks.liquid.name",
+              "settings": {
+                "option_type": "liquid",
+                "page": "",
+                "text": "© 2026 أيوم · جميع الحقوق محفوظة · س.ت [XXXX]",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "ffamily": "",
+                "text_size": "base",
+                "font_weight": "normal",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "payment_icons_3qEmxg",
+            "liquid_TmcNa7"
+          ]
+        }
+      },
+      "block_order": [
+        "footer_column_Xk9eJH",
+        "footer_column_T7fBhY"
+      ],
+      "settings": {
+        "collapse": true,
+        "full_width": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "20px,,20px,",
+        "pd_mb": "15px,,15px,",
+        "colors_by_section": true,
+        "color_scheme": "scheme-ac3ae30b-2ea0-4155-b282-371a1a9b51e6",
+        "background_opacity": 1,
+        "custom_class": "ayum-footer-bottom"
+      }
+    }
+  },
+  "order": [
+    "footer_KwXhWr",
+    "footer_ziwVXA"
+  ]
 }

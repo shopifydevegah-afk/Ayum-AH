@@ -473,6 +473,13 @@ document.querySelectorAll('.hdt-footer-section .hdt-footer-heading').forEach(fun
 
   element.addEventListener('click', handleAccordionClick);
 });
+// AYUM: a footer re-rendered by the Theme Editor (section reload) gets fresh headings; bind them too.
+document.addEventListener('shopify:section:load', function (event) {
+  event.target.querySelectorAll('.hdt-footer-section .hdt-footer-heading').forEach(function (element) {
+    element.removeEventListener('click', handleAccordionClick);
+    element.addEventListener('click', handleAccordionClick);
+  });
+});
 window.addEventListener('resize', function () {
   if (window.innerWidth < 768) {
     document.querySelectorAll('.hdt-footer-section .hdt-footer-heading').forEach(function (element) {
