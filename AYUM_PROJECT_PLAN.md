@@ -402,7 +402,7 @@
 | H1 | Hero | index | `2001:33` / `2001:612` | Metadata only | Not started | Not run | المهمة الأولى المقترحة |
 | H2 | Categories | index | `2001:55` / `2001:626` | Metadata only | Not started | Not run | — |
 | H3 | Best sellers (tabs) — اسم المحرر: **Featured Collection** | index | `2001:80` / `2001:647` | Design-context inspected | Implemented (+ متابعة 2026-10-13) | Partial (harness محلي فقط) | `ayum-tabs-collection` (فرع `dev2-ah`)؛ انظر §23 |
-| H4 | Bundles — اسم المحرر: **Featured Bundles** | index | `2001:156` / `2001:721` | Design-context inspected | Implemented | Partial (harness محلي فقط) | `ayum-featured-collection` (فرع `dev2-ah`)؛ انظر §23 |
+| H4 | Bundles — اسم المحرر: **Featured Coll. — Bundles** | index | `2001:156` / `2001:721` | Design-context inspected | Implemented | Partial (harness محلي فقط) | `ayum-featured-collection` (فرع `dev2-ah`)؛ انظر §23 |
 | H5 | About the brand | index | `2001:230` / `2001:749` | Metadata only | Not started | Not run | لا علاقة له بـ "H5" المذكور في الـ skill |
 | H6 | How we freeze-dry | index | `2001:250` / `2001:765` | Metadata only | Not started | Not run | — |
 | H7 | Reviews | index | `2001:316` / `2001:826` | Metadata only | Not started | Not run | محتوى حقيقي فقط |
@@ -510,6 +510,22 @@
   - عنوان المنتج سطر واحد.
   - المجموعة فارغة في الـ instance (حالة placeholder الأصلية) حتى يختارها التاجر.
 - **ملاحظة على H3 (لم يُعدَّل):** قاعدة السعر في `.ayum-tabs-collection` (0,3,0) أضعف من قاعدة السعر الأحمر الأصلية (0,4,0)، فالمنتجات المخفَّضة في H3 ستظهر بالأحمر الأصلي بدل `ayum_price_color`. يحتاج متابعة لـ H3.
+- **متابعة 2026-10-14 — خط العنوان الفرعي، سعر الموبايل، اسم السكشن:**
+  - **العنوان الفرعي:**
+    - **السبب:** `theme.css` يطبّق على `.hdt-section-heading_block .hdt-subheading-block` الخط `--font-sheading-family` = `--f_family_3` = Libre Baskerville، وهو بلا حروف عربية، فظهر النص بخط نظام رفيع وبوزن 400.
+    - **الإصلاح (`dev2.css` فقط):** `font-family: var(--font-body-family)` (Almarai من الإعدادات)، و`font-weight: var(--font-bold)`، و`line-height: 1.556` (24.9/16).
+    - **harness:** قبل: Libre Baskerville 400 16/24. بعد: Almarai 700 16/24.896، توسيط، والمسافة عن العنوان 16px، ومخفي على الموبايل.
+  - **سعر الموبايل:**
+    - **السبب:** عنصرا السعر flex items بـ `flex-shrink:1` وبلا `white-space:nowrap`. حين يضيق العمود يتقلّص كل سعر إلى أطول كلمة فيه، فتنكسر العملة إلى سطر ثانٍ.
+    - **الإصلاح:** `flex: 0 0 auto` و`nowrap` على السعرين. على الموبايل `container-type:inline-size` على عمود المحتوى، والأحجام بنسب Figma (`11cqi` و`6.5cqi` والمسافة `4.25cqi`) بحد أدنى 14 و10px.
+    - **harness بخط Almarai الحقيقي:** سطر واحد على 320 و375 و390 و425، والحالي يميناً والقديم يساره، بلا overflow. الديسكتوب بلا تغيير (23px، مسافة 10px).
+    - **ملاحظة:** Figma يعرض السعر القديم بلا عملة. لا يوجد إعداد Kalles لذلك، فبقي التنسيق الأصلي.
+  - **الاسم:**
+    - "Featured Collection — Bundles" (29 حرفاً) يتجاوز حد Shopify (25)، وكان سبب رفض الرفع سابقاً.
+    - اختار المستخدم "Featured Coll. — Bundles" (24) للـ `name` والـ preset.
+    - سكشن Kalles الأصلي بلا تغيير ("Featured collection" عبر `t:sections.collection_products.name`).
+  - **الملفات:** `assets/dev2.css`، و`sections/ayum-featured-collection.liquid` (الاسم)، و`blocks/_ayum-bundle-product-carousel.liquid` (تعليق).
+  - **Not run:** محرر الثيم.
 - **متابعة 2026-10-13 — السكشن لا يظهر في Dev Preview:**
   - **البيئة:** `shopify theme dev` الوحيد يعمل (node PID 20084، بدأ 17:48)، ومجلد العمل الفعلي له `D:Shopifyayum-dev2-ah` (قُرئ من PEB العملية). إذن المعاينة تخدم الـ worktree والفرع الصحيحين.
   - **السبب (مستنتج من قاعدة Theme Check الرسمية `ValidSchemaName`، الحد 25 حرفاً):** اسم السكشن والـ preset كان "Featured Collection — Bundles" (29 حرفاً).

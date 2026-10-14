@@ -345,6 +345,16 @@
   white-space: nowrap;
 }
 
+/* Subtitle (Figma 2001:161): Almarai Bold 16px / 24.9px. The native subheading uses the theme subheading font
+   (font_custom_sheading = --f_family_3, Libre Baskerville: no Arabic glyphs), so the Arabic text fell back to a thin
+   system font. Here it uses the theme body font token instead (font_base = Almarai). Hidden on mobile by the native
+   "hidden_on_mobile" setting. */
+.ayum-featured-collection .hdt-section-heading_block .hdt-subheading-block {
+  font-family: var(--font-body-family);
+  font-weight: var(--font-bold);
+  line-height: 1.556;
+}
+
 /* Price (Figma 2001:172): current price on the RIGHT, struck-through compare-at price on the LEFT.
    The native card-price outputs compare-at first, which an RTL row would put on the right; order moves the
    current price to inline-start (the right side of the RTL card). The native line-through is kept. */
@@ -363,6 +373,12 @@
   font-size: 2.3rem;
   line-height: 1.15;
   color: rgb(var(--ayum-sale));
+}
+/* A price never breaks between amount and currency, and neither price shrinks (flex items otherwise shrink to their
+   longest word and wrap the currency onto a second line). */
+.ayum-featured-collection .ayum-bundle-card .hdt-price__list > :is(.hdt-price, .hdt-compare-at-price) {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 .ayum-featured-collection .ayum-bundle-card .hdt-compare-at-price {
   color: rgb(var(--color-foreground2));
@@ -473,6 +489,7 @@
     --ratio-percent: 118.1818%;   /* Figma 2001:734: 110 x 130 */
   }
   .ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__info {
+    container-type: inline-size;   /* lets the price row scale with the content column (cqi units below) */
     align-items: stretch;
     justify-content: center;
     gap: 0.6rem;
@@ -484,15 +501,18 @@
   .ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__excerpt {
     font-size: 1.1rem;
   }
+  /* Figma 2001:729: 22px current price, 13px old price, 8px gap in a 188.5px column. Narrower columns (e.g. 320px
+     screens) scale the row down proportionally instead of wrapping; factors measured with the real Almarai glyphs so
+     a "12.750 د.ك" / "15.000 د.ك" pair fits a 134px column; never below 14px / 10px. */
   .ayum-featured-collection .ayum-bundle-card .hdt-price__list {
     justify-content: flex-start;
-    gap: 0.8rem;
+    gap: min(0.8rem, 4.25cqi);
   }
   .ayum-featured-collection .ayum-bundle-card .hdt-price-wrapp .hdt-price__list .hdt-price {
-    font-size: 2.2rem;
+    font-size: max(1.4rem, min(2.2rem, 11cqi));
   }
-  .ayum-featured-collection .ayum-bundle-card .hdt-compare-at-price {
-    font-size: 1.3rem;
+  .ayum-featured-collection .ayum-bundle-card .hdt-price__list .hdt-compare-at-price {
+    font-size: max(1rem, min(1.3rem, 6.5cqi));
   }
   .ayum-featured-collection .ayum-bundle-card .hdt-pr-btns-group1 {
     flex: 0 0 auto;
