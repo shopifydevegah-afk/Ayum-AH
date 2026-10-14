@@ -20,11 +20,11 @@
         "colors_by_section": false,
         "color_scheme": "scheme-1",
         "background_opacity": 1,
-        "section_layout": "container",
+        "section_layout": "wrapper_container",
         "hdt_background_parallax": false,
         "mg": "",
         "mg_mb": "",
-        "pd": "",
+        "pd": "24px,,24px,",
         "pd_mb": ""
       }
     },
@@ -34,7 +34,7 @@
         "heading_liquid_wcaa7G": {
           "type": "_heading_liquid",
           "settings": {
-            "text": "<span class=\"ayum-collection-title\">{{ collection.title }}</span> <span class=\"ayum-collection-count\">{{ collection.products_count }} منتج</span>",
+            "text": "{{ collection.title }} <span class=\"ayum-collection-count\">{{ collection.products_count }} منتج</span>",
             "line_height": "",
             "font_family": "hdt-font-1",
             "text_size": "custom",
@@ -49,6 +49,7 @@
         },
         "heading_brc_pYUK78": {
           "type": "_heading_brc",
+          "disabled": true,
           "settings": {},
           "blocks": {}
         }
@@ -60,7 +61,7 @@
       "settings": {
         "use_dynamic_source": false,
         "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
-        "bg_overlay": 54,
+        "bg_overlay": 0,
         "space_item": 0,
         "mg": "",
         "mg_mb": "",
@@ -80,12 +81,12 @@
         "filter_KX6bJW"
       ],
       "settings": {
-        "show_description": true,
+        "show_description": false,
         "use_read_more": false,
         "read_more_height": 300,
         "description_position": "before",
         "product_des": "7",
-        "image_ratio": "square",
+        "image_ratio": "custom-pr",
         "image_size": true,
         "show_vendor": false,
         "pr_border": "none",
@@ -104,7 +105,7 @@
         "btn_fw": "medium",
         "enable_sorting": true,
         "enable_filtering": true,
-        "enable_num_cols_selector": true,
+        "enable_num_cols_selector": false,
         "widget_heading": "Product categories",
         "cat_source": "1",
         "cat_link_list": "",
