@@ -973,3 +973,152 @@
     animation: none;
   }
 }
+
+/* ==========================================================================
+   Accordion — FAQ (Figma 2001:446 desktop / 2001:911 mobile)
+   sections/ayum-accordion.liquid; items = blocks/_ayum-accordion-item.liquid (native <hdt-accordion> /
+   <details> behaviour); heading = native section-heading.
+   Colours: the section's native colour scheme (Color Scheme 7 on the homepage): section = Background
+   (.hdt-s-gradient), card = Background 2, card border = Line border, heading and questions = Text,
+   answers = Text 2, plus / minus = Accent.
+   The card is the <hdt-accordion> wrapper, not <details>: the native toggle animates the height of
+   <details> between its summary and its content, so <details> carries no padding or border.
+   ========================================================================== */
+
+.ayum-faq {
+  /* Figma container insets: 16px mobile, 20px from 768px (1320 max -> 1280 content). */
+  --ayum-faq-pad: 16px;
+}
+.ayum-faq .hdt-container {
+  padding-inline: var(--ayum-faq-pad);
+}
+@media (min-width: 768px) {
+  .ayum-faq {
+    --ayum-faq-pad: 20px;
+  }
+}
+
+/* Heading (native section heading; 36 / 21 from its h_custom sizes, 32px / 16px below it from its
+   margin setting). The copy is Arabic in every locale. */
+.ayum-faq .hdt-section-heading_block {
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+.ayum-faq .hdt-heading-block:not(.hdt-lh-1) {
+  line-height: normal;
+}
+
+/* List: Figma 922px wide, centred; item spacing from the "FAQ items" settings. */
+.ayum-faq .hdt-row-accordion {
+  max-width: 922px;
+  margin-inline: auto;
+  gap: var(--ayum-faq-gap-mb);
+}
+
+/* Card. */
+.ayum-faq .hdt-row-accordion > .hdt-content {
+  display: block;
+  direction: rtl;
+  unicode-bidi: isolate;
+  overflow: hidden;
+  border: 1px solid rgb(var(--color-line-border));
+  border-radius: 12px;
+  background-color: rgb(var(--color-background2));
+}
+
+/* Question row: question at the start (right), plus / minus at the end (left). Figma padding
+   14px mobile, 18px x 24px desktop. */
+.ayum-faq .hdt-accordion-item :is(summary, .hdt-accordion-summary) {
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background-color: transparent;
+  color: rgb(var(--color-foreground));
+  font-size: var(--ayum-faq-q-mb);
+  font-weight: 700;
+  line-height: normal;
+  text-align: start;
+  list-style: none;
+}
+.ayum-faq .hdt-accordion-item summary::-webkit-details-marker {
+  display: none;
+}
+.ayum-faq .hdt-accordion-item .hdt-accordion-title {
+  padding: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* Plus / minus: the native icons in the scheme accent, without the native button box. The Figma
+   glyphs are ExtraBold "+" / "−" at 22px (mobile) and 20px (desktop): 12px / 11px marks with a
+   thicker bar, drawn by stroking the native shapes. */
+.ayum-faq .hdt-accordion-item .hdt-accordion-icon {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: auto;
+  background-color: transparent;
+  color: rgb(var(--color-accent));
+}
+.ayum-faq .hdt-accordion-item .hdt-accordion-icon svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.ayum-faq .hdt-accordion-item .hdt-accordion-icon :is(path, rect) {
+  stroke: currentColor;
+  stroke-width: .8;
+}
+
+/* Answer: 8px below the question on mobile, 10px on desktop (the content overlaps the question
+   row's bottom padding). Figma line height 180% / 185%. */
+.ayum-faq .hdt-accordion-item .hdt-accordion-content {
+  margin-top: -6px;
+  padding: 0 14px 14px;
+  border: 0;
+  color: rgb(var(--color-foreground2));
+  font-size: var(--ayum-faq-a-mb);
+  font-weight: 400;
+  line-height: 1.8;
+  text-align: start;
+}
+/* The desktop and mobile answers are siblings inside .hdt-rte; its "* + *" spacing must not push the
+   mobile answer down. */
+.ayum-faq .hdt-accordion-item .hdt-accordion-content > * {
+  margin-block-start: 0;
+}
+.ayum-faq .ayum-faq__hint {
+  font-style: italic;
+}
+
+/* Optional mobile question / answer (block settings): mobile text below 768px. */
+.ayum-faq .ayum-faq__d {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .ayum-faq .hdt-row-accordion {
+    gap: var(--ayum-faq-gap);
+  }
+  .ayum-faq .hdt-accordion-item :is(summary, .hdt-accordion-summary) {
+    padding: 18px 24px;
+    font-size: var(--ayum-faq-q);
+  }
+  .ayum-faq .hdt-accordion-item .hdt-accordion-icon {
+    width: 11px;
+    height: 11px;
+  }
+  .ayum-faq .hdt-accordion-item .hdt-accordion-content {
+    margin-top: -8px;
+    padding: 0 24px 18px;
+    font-size: var(--ayum-faq-a);
+    line-height: 1.85;
+  }
+  .ayum-faq .ayum-faq__d {
+    display: revert;
+  }
+  .ayum-faq .ayum-faq__m {
+    display: none;
+  }
+}

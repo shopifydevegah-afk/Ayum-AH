@@ -407,7 +407,7 @@
 | H6 | How we freeze-dry | index | `2001:250` / `2001:765` | Design-context inspected | Implemented | Partial | `sections/ayum-icon-box.liquid` (نسخة Icon box) + `_ayum-icon-box` و`_ayum-claims` و`_ayum-claim` + `snippets/ayum-icons.liquid` + `dev1.css`؛ Color Scheme 2 + Background opacity 0 + Subheading color؛ QA على صفحة ملتقطة، لا preview حي لهذا الـ worktree |
 | H7 | Reviews | index | `2001:316` / `2001:826` | Metadata only | Not started | Not run | محتوى حقيقي فقط |
 | H8 | Product videos | index | `2001:366` / `2001:861` | Metadata only | Not started | Not run | قرار التشغيل التلقائي |
-| H9 | FAQ | index | `2001:446` / `2001:911` | Metadata only | Not started | Not run | — |
+| H9 | FAQ | index | `2001:446` / `2001:911` | Design-context inspected | Implemented | Partial | `sections/ayum-accordion.liquid` (نسخة Accordion) + `blocks/_ayum-accordion-item.liquid` + `dev1.css`؛ Color Scheme 7؛ أجوبة 2–5 يضيفها التاجر. QA على صفحة ملتقطة، لا preview حي لهذا الـ worktree |
 | S1 | Offer / announcement bar | **مشترك: كل الصفحات** | `2001:4` / `2001:582` | Design-context inspected | Implemented (زر نسخ الكود) | Partial | `sections/ayum-announcement-bar.liquid` + `assets/ayum-copy-code.js` + `dev1.css`؛ QA على HTML الـ preview الحقيقي + أصول حية، لا على المتجر الحي |
 | S2 | Header + category nav | **مشترك: كل الصفحات** | `2001:8` + `2001:21` / `2001:586` | Metadata only | Not started | Not run | الأعلى خطراً |
 | S3 | Mobile menu | **مشترك: كل الصفحات** | — / `35:309` | Metadata only | Not started | Not run | يعتمد على S2 |
@@ -881,3 +881,70 @@
   - **تعديل Scheme 2:** غيّر العنوان والبطاقة والوصف والأيقونة ونص الشارات. لم يتأثر العنوان الفرعي ولا الشارات ودوائر الأيقونات.
   - **إعداد العنوان الفرعي:** يغيّره، وعند مسحه يعود للأصلي.
 - **Not run:** Shopify Preview ومحرر الثيم.
+
+### 2026-10-14 — H9 FAQ (تنفيذ)
+
+- **Figma:** `2001:446` (ديسكتوب) و`2001:911` (موبايل) عبر `get_design_context` مع لقطة.
+  - الموبايل مقصوص عند 4 أسئلة. نُفِّذت الخمسة.
+  - سؤال 3 على الموبايل أقصر: "كم مدة التوصيل داخل الكويت؟".
+  - جواب 1 على الموبايل مختلف.
+- **الأساس الأصلي:** `sections/accordion.liquid` ("Accordion"). فيه:
+  - section-heading مثبَّت.
+  - بلوكات `_accordion-item`: `<hdt-accordion>` + `<details>/<summary>`، و`aria-expanded`، وحركة فتح/إغلاق من `global.min.js`.
+  - لا يوجد وضع "عنصر واحد مفتوح".
+- **النسخة المعزولة:** `sections/ayum-accordion.liquid`. الاسم "Accordion" عبر `t:sections.accordion.name`.
+  - **الإضافات:**
+    - `dev1.css`.
+    - كلاس `ayum-faq` و`custom_class`.
+    - إعدادات "FAQ items": المسافة بين العناصر 12/8، وحجم السؤال 19/13، وحجم الجواب 15/12. تحل محل الفجوة الثابتة 10px في الأصل.
+  - الـ preset: محتوى FAQ.
+  - **الأصل وبلوكه بلا تعديل.**
+- **البلوك `_ayum-accordion-item`:** نسخة من `_accordion-item` بنفس السلوك والإعدادات، مع إضافة:
+  - "Mobile title" و"Mobile content" اختياريان، يرجعان للنص الأصلي عند الفراغ.
+  - **سؤال بلا جواب:** يظهر في المتجر صفاً ثابتاً بلا زر وبلا +. السبب: الـ JS الأصلي يحرّك عنصر الجواب، فغيابه يكسر الفتح. في المحرر يظهر تلميح.
+  - **الأسئلة 2–5 بلا أجوبة** (Figma لا يعطيها، ولم تُختلق). تظهر + بعد أن يضيف التاجر الجواب.
+- **Color Scheme 7 = `scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37`:** السابع في ترتيب `color_schemes`.
+  - **الربط:**
+    - القسم = Background (`.hdt-s-gradient`، opacity 1).
+    - البطاقة = Background 2.
+    - الحد = Line border.
+    - العنوان والأسئلة = Text.
+    - الأجوبة = Text 2.
+    - +/− = Accent.
+  - لم يُضَف أي منتقي لون.
+- **قيم مطلوبة من التاجر في Scheme 7 (لم تُعدَّل تلقائياً):**
+  - Background `#f6f6f8` ← `#DEF4F8`. هذا هو اللون المعتم المكافئ لـ `#26B3D0` بنسبة 15% فوق الأبيض؛ خطوة "Background opacity" هي 0.1.
+  - Background 2 `#f2f2f2` ← `#FFFFFF`.
+  - Text `#222222` ← `#26383A`.
+  - Text 2 `#878787` ← `#4E6E70`.
+  - Accent `#56cfe1` ← `#26B3D0`.
+  - Line border `#e6e6e6` ← `#D3E3E8`.
+  - **أثر جانبي:** Scheme 7 مستخدم أيضاً في breadcrumb وtabs في `product.custom-ayum.json`، و17 قالباً تجريبياً.
+- **CSS:**
+  - البطاقة هي غلاف `<hdt-accordion>` لا `<details>`، لأن الـ JS يحرّك ارتفاع `<details>`.
+  - الحشوة على summary والجواب، والجواب يتداخل مع حشوة السؤال: 10px ديسكتوب و8px موبايل.
+  - الأيقونات الأصلية بلون Accent وبلا صندوق، بحجم 11/12px مع stroke أعرض لتقارب +/− الثقيلة في Figma.
+- **القالب:**
+  - أُضيف `ayum_accordion_faq` في آخر `order` بعد freeze-dry. Reviews وVideos في Figma قبله، وليستا في هذا الـ worktree.
+  - السكاشن الأربع الأخرى مطابقة بايتاً ببايت.
+  - **انحراف مُلاحظ:** commit "create section 6 in theme editor" عكس ترتيب شارات freeze-dry وبدّل مواضعها على الموبايل. حُفظ كما هو.
+- **تحقق:**
+  - **مكان الاختبار:** الـ `theme dev` الوحيد (9292) يخدم `ayum-dev2-ah`.
+  - **طريقة الاختبار:**
+    - أُعيد إنتاج مخرجات Liquid للمتجر داخل الصفحة الملتقطة الحقيقية مع `global.min.js` و`theme.css` الأصليين (مطابقين بين الـ worktrees).
+    - التفاعل اختُبر على `<hdt-accordion>` الحقيقي.
+  - **1440:**
+    - الحشوة 48، والحاوية 20، والعنوان 36/800، و32 حتى القائمة.
+    - القائمة 922 في الوسط، والفجوة 12.
+    - البطاقة: حد 1px، ونصف قطر 12، وحشوة 18×24، والسؤال 19/700 يميناً، والأيقونة يساراً.
+    - الجواب 15/1.85 على بعد 10. البطاقة 1 بارتفاع 106.
+  - **375:**
+    - الحشوة 24، والحاوية 16، والعنوان 21، و16 حتى القائمة، والفجوة 8.
+    - حشوة 14، والسؤال 13، والجواب 12/1.8 على بعد 8، سطران. البطاقة 1 بارتفاع 101.
+    - نصوص الموبايل ظاهرة.
+  - **1150/1149/768/767/390/320:** لا overflow.
+  - **التفاعل:** النقر وEnter وSpace تبدّل `aria-expanded` و+/− والارتفاع (106↔68).
+  - **LTR (محاكاة):** نفس المواضع.
+  - **Scheme 7 مُعدَّل لقيم Figma:** كل الأدوار مطابقة.
+  - **إصلاح أثناء التحقق:** تباعد `.hdt-rte * + *` دفع جواب الموبايل 15px. صُفِّر داخل الجواب.
+- **Not run:** Shopify Preview لهذا الـ worktree، ومحرر الثيم (إعادة تحميل السكشن، والتلميح، وإضافة/حذف البلوكات).
