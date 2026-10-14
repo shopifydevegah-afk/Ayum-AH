@@ -760,6 +760,402 @@
         "custom_class": "ayum-collections-list"
       }
     },
+    "ayum_tabs_collection_best_sellers": {
+      "type": "ayum-tabs-collection",
+      "blocks": {
+        "ayum_tab_best_sellers": {
+          "type": "_ayum-tab-collection",
+          "settings": {
+            "title": "الأكثر مبيعاً",
+            "collection": "الأكثر-مبيعا",
+            "hdt_show_icon_image": false,
+            "hdt_icon_spacing": 8
+          },
+          "blocks": {
+            "ayum_carousel_best_sellers": {
+              "type": "_ayum-product-carousel",
+              "settings": {
+                "collection": "{{ closest.collection }}",
+                "products_count": 8,
+                "product_list": [],
+                "pr_border": "on_item",
+                "product_des": "ayum",
+                "image_ratio": "square",
+                "image_size": true,
+                "show_vendor": false,
+                "hdt_slide_center": false,
+                "hdt_opacity_out_container": false,
+                "col_dk": "4",
+                "col_tb": "3",
+                "col_mb": "2",
+                "space_items": "20",
+                "pagination": false,
+                "paginate_pos": "center",
+                "dis_pagination": 30,
+                "btn_label": "",
+                "btn_style": "",
+                "icon": "none",
+                "size": "m",
+                "btn_fw": "medium",
+                "font_size_btn": 14,
+                "padding_btn": 30,
+                "min_width_btn": 100,
+                "min_width_dt_btn": 100,
+                "min_height_btn": 40,
+                "loop": false,
+                "autoplay": 0,
+                "pauseOnHover": false,
+                "navUI": false,
+                "nav_position": "default",
+                "nav_visible": "always",
+                "nav_style": "default",
+                "nav_shape": "default",
+                "nav_size": "small",
+                "nav_hide_mobile": false,
+                "dotUI": false,
+                "pag_style": "default",
+                "pag_rounded": true,
+                "pag_space": 10,
+                "pag_mgt": 10,
+                "only_show_mobile": false,
+                "pag_hide_mobile": false,
+                "ayum_show_tag": true,
+                "ayum_tag_prefix": "",
+                "ayum_title_lines": 2,
+                "ayum_show_progress": true
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ayum_carousel_best_sellers"
+          ]
+        },
+        "ayum_tab_new_arrivals": {
+          "type": "_ayum-tab-collection",
+          "settings": {
+            "title": "وصل حديثاً",
+            "collection": "new-arrivals",
+            "hdt_show_icon_image": false,
+            "hdt_icon_spacing": 8
+          },
+          "blocks": {
+            "ayum_product_carousel_qpE9Rm": {
+              "type": "_ayum-product-carousel",
+              "settings": {
+                "collection": "{{ closest.collection }}",
+                "products_count": 8,
+                "product_list": [],
+                "pr_border": "on_item",
+                "product_des": "ayum",
+                "image_ratio": "square",
+                "image_size": true,
+                "show_vendor": false,
+                "hdt_slide_center": false,
+                "hdt_opacity_out_container": false,
+                "col_dk": "4",
+                "col_tb": "3",
+                "col_mb": "2",
+                "space_items": "20",
+                "pagination": false,
+                "paginate_pos": "center",
+                "dis_pagination": 30,
+                "btn_label": "",
+                "btn_style": "",
+                "icon": "none",
+                "size": "m",
+                "btn_fw": "medium",
+                "font_size_btn": 14,
+                "padding_btn": 30,
+                "min_width_btn": 100,
+                "min_width_dt_btn": 100,
+                "min_height_btn": 40,
+                "loop": false,
+                "autoplay": 0,
+                "pauseOnHover": false,
+                "navUI": false,
+                "nav_position": "default",
+                "nav_visible": "always",
+                "nav_style": "default",
+                "nav_shape": "default",
+                "nav_size": "small",
+                "nav_hide_mobile": false,
+                "dotUI": false,
+                "pag_style": "default",
+                "pag_rounded": true,
+                "pag_space": 10,
+                "pag_mgt": 10,
+                "only_show_mobile": false,
+                "pag_hide_mobile": false,
+                "ayum_show_tag": true,
+                "ayum_tag_prefix": "",
+                "ayum_title_lines": 2,
+                "ayum_show_progress": true
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ayum_product_carousel_qpE9Rm"
+          ]
+        },
+        "ayum_tab_offers": {
+          "type": "_ayum-tab-collection",
+          "settings": {
+            "title": "العروض",
+            "collection": "العروض-الخاصة",
+            "hdt_show_icon_image": false,
+            "hdt_icon_spacing": 8
+          },
+          "blocks": {
+            "ayum_product_carousel_hGUAKj": {
+              "type": "_ayum-product-carousel",
+              "settings": {
+                "collection": "{{ closest.collection }}",
+                "products_count": 8,
+                "product_list": [],
+                "pr_border": "on_item",
+                "product_des": "ayum",
+                "image_ratio": "square",
+                "image_size": true,
+                "show_vendor": false,
+                "hdt_slide_center": false,
+                "hdt_opacity_out_container": false,
+                "col_dk": "4",
+                "col_tb": "3",
+                "col_mb": "2",
+                "space_items": "20",
+                "pagination": false,
+                "paginate_pos": "center",
+                "dis_pagination": 30,
+                "btn_label": "",
+                "btn_style": "",
+                "icon": "none",
+                "size": "m",
+                "btn_fw": "medium",
+                "font_size_btn": 14,
+                "padding_btn": 30,
+                "min_width_btn": 100,
+                "min_width_dt_btn": 100,
+                "min_height_btn": 40,
+                "loop": false,
+                "autoplay": 0,
+                "pauseOnHover": false,
+                "navUI": false,
+                "nav_position": "default",
+                "nav_visible": "always",
+                "nav_style": "default",
+                "nav_shape": "default",
+                "nav_size": "small",
+                "nav_hide_mobile": false,
+                "dotUI": false,
+                "pag_style": "default",
+                "pag_rounded": true,
+                "pag_space": 10,
+                "pag_mgt": 10,
+                "only_show_mobile": false,
+                "pag_hide_mobile": false,
+                "ayum_show_tag": true,
+                "ayum_tag_prefix": "",
+                "ayum_title_lines": 2,
+                "ayum_show_progress": true
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ayum_product_carousel_hGUAKj"
+          ]
+        },
+        "tabs-collection-heading": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 0,
+            "margin_bottom": 16
+          },
+          "blocks": {
+            "heading_section_ayum_bs": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "الأكثر مبيعاً",
+                "line_height": "hdt-lh-1",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 36,
+                "font_size_heading": 21,
+                "letter_spacing_heading": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading_section_ayum_bs"
+          ]
+        }
+      },
+      "block_order": [
+        "ayum_tab_best_sellers",
+        "ayum_tab_new_arrivals",
+        "ayum_tab_offers"
+      ],
+      "settings": {
+        "enable_tabs_on_heading": false,
+        "tabs_des": "ayum_pill",
+        "tabs_list_pos": "center",
+        "tab_item_size": "sm",
+        "tab_item_border": "solid",
+        "border_width": 2,
+        "spacing_tabs_items": 8,
+        "tabs_head_spacing": 32,
+        "colors_by_section": true,
+        "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
+        "background_opacity": 1,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,24px,",
+        "ayum_primary_color": "#26b3d0",
+        "ayum_on_primary_color": "#ffffff",
+        "ayum_surface_color": "#e4edf0",
+        "ayum_tab_bg_color": "#e4edf0",
+        "ayum_tab_text_color": "#4e6e70",
+        "ayum_tab_active_bg_color": "#26b3d0",
+        "ayum_tab_active_text_color": "#ffffff",
+        "ayum_card_border_color": "#d3e3e8",
+        "ayum_price_color": "#ea3a79",
+        "ayum_badge_text_color": "#ea3a79",
+        "custom_class": "ayum-tabs-collection"
+      }
+    },
+    "ayum_featured_collection_bundles": {
+      "type": "ayum-featured-collection",
+      "blocks": {
+        "ayum_bundle_carousel": {
+          "type": "_ayum-bundle-product-carousel",
+          "settings": {
+            "collection": "الأكثر-مبيعا",
+            "products_count": 8,
+            "product_list": [],
+            "pr_border": "none",
+            "product_des": "ayum_bundle",
+            "image_ratio": "square",
+            "image_size": true,
+            "show_vendor": false,
+            "hdt_slide_center": false,
+            "hdt_opacity_out_container": false,
+            "col_dk": "4",
+            "col_tb": "3",
+            "col_mb": "1",
+            "space_items": "20",
+            "pagination": false,
+            "paginate_pos": "center",
+            "dis_pagination": 30,
+            "btn_label": "",
+            "btn_style": "",
+            "icon": "none",
+            "size": "m",
+            "btn_fw": "medium",
+            "font_size_btn": 14,
+            "padding_btn": 30,
+            "min_width_btn": 100,
+            "min_width_dt_btn": 100,
+            "min_height_btn": 40,
+            "loop": false,
+            "autoplay": 0,
+            "pauseOnHover": false,
+            "navUI": false,
+            "nav_position": "default",
+            "nav_visible": "always",
+            "nav_style": "default",
+            "nav_shape": "default",
+            "nav_size": "small",
+            "nav_hide_mobile": false,
+            "dotUI": false,
+            "pag_style": "default",
+            "pag_rounded": true,
+            "pag_space": 10,
+            "pag_mgt": 10,
+            "only_show_mobile": false,
+            "pag_hide_mobile": false,
+            "ayum_product_title_lines": "2",
+            "ayum_show_description": true,
+            "ayum_description_length": 40,
+            "ayum_atc_label": "",
+            "ayum_show_progress": true
+          },
+          "blocks": {}
+        },
+        "pr-heading": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 16,
+            "margin_bottom": 32
+          },
+          "blocks": {
+            "heading_section_ayum_bundles": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "باكتات وتوزيعات",
+                "line_height": "hdt-lh-1",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 36,
+                "font_size_heading": 21,
+                "letter_spacing_heading": 0
+              },
+              "blocks": {}
+            },
+            "sub_heading_section_ayum_bundles": {
+              "type": "_sub_heading_section",
+              "settings": {
+                "text": "<p>جرّب أكثر من منتج بسعر أوفر — والأفضل للمناسبات</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": true,
+                "text_size": "custom",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading_section_ayum_bundles",
+            "sub_heading_section_ayum_bundles"
+          ]
+        }
+      },
+      "block_order": [
+        "ayum_bundle_carousel"
+      ],
+      "settings": {
+        "colors_by_section": true,
+        "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
+        "background_opacity": 0.6,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,24px,",
+        "ayum_primary_color": "#26b3d0",
+        "ayum_on_primary_color": "#ffffff",
+        "ayum_card_border_color": "#d3e3e8",
+        "ayum_sale_color": "#ea3a79",
+        "custom_class": "ayum-featured-collection"
+      }
+    },
     "ayum_image_text_about": {
       "type": "ayum-image-text",
       "blocks": {
@@ -1147,6 +1543,344 @@
         "custom_class": "ayum-freeze-dry"
       }
     },
+    "ayum_testimonials": {
+      "type": "ayum-testimonial_section",
+      "blocks": {
+        "ayum_review_1": {
+          "type": "_ayum-testimonial-item",
+          "settings": {
+            "heading": "",
+            "content": "<p>طلبت السكيتلز للتوزيعات وكل البنات سألوا وين</p><p>&nbsp;شريتها.</p>",
+            "title": "نورة",
+            "pos": "الجهراء",
+            "rating": 5,
+            "ayum_product": "سكيتلز مجفف بالتجميد",
+            "ayum_verified": true
+          },
+          "blocks": {}
+        },
+        "ayum_review_2": {
+          "type": "_ayum-testimonial-item",
+          "settings": {
+            "heading": "",
+            "content": "<p>صوّرت الفيديو وهي تتكسر ونشرته، جاني 30 سؤال بيوم واحد.</p>",
+            "title": "أحمد",
+            "pos": "حولي",
+            "rating": 5,
+            "ayum_product": "توزيعات مناسبات",
+            "ayum_verified": true
+          },
+          "blocks": {}
+        },
+        "ayum_review_3": {
+          "type": "_ayum-testimonial-item",
+          "settings": {
+            "heading": "",
+            "content": "<p>الفراولة طعمها أقوى من الطازجة، وبنتي تاخذها بالمدرسة.</p>",
+            "title": "سارة",
+            "pos": "السالمية",
+            "rating": 5,
+            "ayum_product": "جيلي بيتزا مجفف",
+            "ayum_verified": true
+          },
+          "blocks": {}
+        },
+        "ayum_testimonial_item_jrpB3D": {
+          "type": "_ayum-testimonial-item",
+          "settings": {
+            "heading": "",
+            "content": "<p>الفراولة طعمها أقوى من الطازجة، وبنتي تاخذها بالمدرسة.</p>",
+            "title": "سارة",
+            "pos": "السالمية",
+            "rating": 5,
+            "ayum_product": "جيلي بيتزا مجفف",
+            "ayum_verified": true
+          },
+          "blocks": {}
+        },
+        "our-team": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 16,
+            "margin_bottom": 32
+          },
+          "blocks": {
+            "heading_section_ayum_reviews": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "4.8 من 5 · أكثر من 400 تقييم",
+                "line_height": "hdt-lh-1",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 36,
+                "font_size_heading": 21,
+                "letter_spacing_heading": 0
+              },
+              "blocks": {}
+            },
+            "sub_heading_section_ayum_reviews": {
+              "type": "_sub_heading_section",
+              "settings": {
+                "text": "<p>كل تقييم من عملية شراء موثّقة</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "text_size": "custom",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading_section_ayum_reviews",
+            "sub_heading_section_ayum_reviews"
+          ]
+        }
+      },
+      "block_order": [
+        "ayum_review_1",
+        "ayum_review_2",
+        "ayum_review_3",
+        "ayum_testimonial_item_jrpB3D"
+      ],
+      "settings": {
+        "ter_des": "ayum",
+        "cl_name": "#ffffff",
+        "cl_content": "#ffffff",
+        "cl_bd": "",
+        "cl_bg_item": "#e78333",
+        "bdr": 16,
+        "content_align": "right",
+        "col_dk": "3",
+        "col_tb": "2",
+        "col_mb": "1",
+        "space_horizontal": "20",
+        "space_vertical": "30",
+        "space_horizontal_mb": "4",
+        "space_vertical_mb": "30",
+        "layout": "carousel",
+        "loop": false,
+        "autoplay": 0,
+        "pauseOnHover": false,
+        "navUI": false,
+        "nav_position": "default",
+        "nav_visible": "always",
+        "nav_style": "default",
+        "nav_shape": "default",
+        "nav_size": "small",
+        "nav_hide_mobile": false,
+        "dotUI": false,
+        "pag_style": "default",
+        "pag_rounded": false,
+        "pag_space": 10,
+        "pag_mgt": 10,
+        "only_show_mobile": false,
+        "pag_hide_mobile": false,
+        "colors_by_section": true,
+        "color_scheme": "scheme-fe88a2ec-47a1-478d-8953-54da0178e18c",
+        "background_opacity": 0.4,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,24px,",
+        "ayum_show_header_stars": true,
+        "ayum_header_rating": 5,
+        "ayum_mobile_summary": "4.8 من 5 · +400 تقييم",
+        "ayum_subtitle_size_mobile": 13,
+        "ayum_star_color": "#ffcc00",
+        "ayum_badge_bg_color": "#ffffff",
+        "ayum_badge_text_color": "#2d7a4f",
+        "ayum_progress_track_color": "#26b3d0",
+        "ayum_show_progress": true,
+        "custom_class": "ayum-testimonial-section"
+      }
+    },
+    "ayum_shoppable_video": {
+      "type": "ayum-product-video",
+      "blocks": {
+        "ayum_video_1": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/c524a7ed5fbc410e8a175a1d9fe0bf70.HD-720p-1.6Mbps-68701371.mp4",
+            "external_video_url": "",
+            "product": "c45برواني-بيكان-جوكليت",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_video_2": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/7b439082930e43e58d2fbf6e973b1459.HD-720p-1.6Mbps-77414298.mp4",
+            "external_video_url": "",
+            "product": "c45برواني-بيكان-جوكليت-1",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_video_3": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/6a62f41bd599465aaeba74efe94e1fb1.HD-1080p-2.5Mbps-82852977.mp4",
+            "external_video_url": "",
+            "product": "c45برواني-بيكان-جوكليت-sm",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_video_4": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/4a05a193dc864e7c86689b4b39bfd9ec.HD-1080p-2.5Mbps-77078115.mp4",
+            "external_video_url": "",
+            "product": "c45برواني-بيكان-جوكليت-ss-copy",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_video_5": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/dddb058be297481cad4edfaf38160b6f.HD-1080p-2.5Mbps-77078113.mp4",
+            "external_video_url": "",
+            "product": "c69-صينية-الجمعات",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_product_video_fjDYdz": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/dddb058be297481cad4edfaf38160b6f.HD-1080p-2.5Mbps-77078113.mp4",
+            "external_video_url": "",
+            "product": "c69-صينية-الجمعات",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_product_video_hgkDyK": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/dddb058be297481cad4edfaf38160b6f.HD-1080p-2.5Mbps-77078113.mp4",
+            "external_video_url": "",
+            "product": "c69-صينية-الجمعات",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "product-video": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 16,
+            "margin_bottom": 32
+          },
+          "blocks": {
+            "heading_section_ayum_videos": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "شوفها وهي تتقرمش",
+                "line_height": "hdt-lh-1",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 36,
+                "font_size_heading": 21,
+                "letter_spacing_heading": 0
+              },
+              "blocks": {}
+            },
+            "sub_heading_section_ayum_videos": {
+              "type": "_sub_heading_section",
+              "settings": {
+                "text": "<p>كل فيديو يوريك منتج واحد — واطلبه من نفس الكارت</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "text_size": "custom",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading_section_ayum_videos",
+            "sub_heading_section_ayum_videos"
+          ]
+        }
+      },
+      "block_order": [
+        "ayum_video_1",
+        "ayum_video_2",
+        "ayum_video_3",
+        "ayum_video_4",
+        "ayum_video_5",
+        "ayum_product_video_fjDYdz",
+        "ayum_product_video_hgkDyK"
+      ],
+      "settings": {
+        "full_width": false,
+        "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
+        "style": "ayum",
+        "image_height": "adapt_image_first",
+        "fixed_height": 500,
+        "image_height_mb": "adapt_image_first",
+        "fixed_height_mb": 300,
+        "col_dk": "5",
+        "col_tb": "3",
+        "col_mb": "1",
+        "space_items": "x",
+        "loop": false,
+        "autoplay": 0,
+        "pauseOnHover": false,
+        "navUI": false,
+        "nav_position": "default",
+        "nav_visible": "always",
+        "nav_style": "default",
+        "nav_shape": "default",
+        "nav_size": "small",
+        "nav_hide_mobile": false,
+        "dotUI": false,
+        "pag_style": "default",
+        "pag_rounded": false,
+        "pag_space": 10,
+        "pag_mgt": 10,
+        "only_show_mobile": false,
+        "pag_hide_mobile": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "64px,,40px,",
+        "pd_mb": "24px,,24px,",
+        "ayum_gap": 38,
+        "ayum_gap_mb": 12,
+        "ayum_subtitle_size_mobile": 13,
+        "ayum_video_muted": true,
+        "show_video_controls": true,
+        "ayum_show_duration": true,
+        "ayum_show_progress": true,
+        "ayum_product_title_lines": "2",
+        "ayum_product_label": "المنتج في الفيديو",
+        "ayum_atc_label": "اطلب المنتج",
+        "ayum_primary_color": "#26b3d0",
+        "ayum_on_primary_color": "#ffffff",
+        "ayum_card_border_color": "#d3e3e8",
+        "ayum_price_color": "#ea3a79",
+        "ayum_views_text_color": "#4e6e70",
+        "custom_class": "ayum-product-video"
+      }
+    },
     "ayum_accordion_faq": {
       "type": "ayum-accordion",
       "blocks": {
@@ -1249,13 +1983,25 @@
         "hdt_background_parallax": false,
         "custom_class": "ayum-faq-home"
       }
+    },
+    "1755067183c661e3bf": {
+      "type": "apps",
+      "disabled": true,
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
     "ayum_slideshow_hero",
     "ayum_collections_list",
+    "ayum_tabs_collection_best_sellers",
+    "ayum_featured_collection_bundles",
     "ayum_image_text_about",
     "ayum_icon_box_freeze_dry",
-    "ayum_accordion_faq"
+    "ayum_testimonials",
+    "ayum_shoppable_video",
+    "ayum_accordion_faq",
+    "1755067183c661e3bf"
   ]
 }

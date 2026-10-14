@@ -125,6 +125,20 @@
     "home_keywords": "سناكس مجففة بالتجميد الكويت، فواكه مجففة بالتجميد، حلويات مجففة بالتجميد، سكاكر مجففة بالتجميد، فواكه مقرمشة، خضار مجففة بالتجميد، متجر سناكس الكويت، توصيل سناكس الكويت، باقات وتوزيعات سناكس، Freeze dried snacks Kuwait، Freeze dried fruits Kuwait، Freeze dried candy Kuwait",
     "login_sidebar": true,
     "content_for_index": [],
+    "blocks": {
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      },
+      "13047258039897440615": {
+        "type": "shopify://apps/judge-me-reviews/blocks/cart_drawer_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {
+          "widget_type": "review-widget"
+        }
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -170,8 +184,8 @@
       },
       "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce": {
         "settings": {
-          "text": "#222222",
-          "text2": "#878787",
+          "text": "#26383a",
+          "text2": "#6e8788",
           "background": "#ffffff",
           "background_gradient": "",
           "background2": "#f5f5f5",
@@ -182,9 +196,9 @@
           "accent_color": "#222222",
           "line_border": "#eeeeee",
           "overlay": "#000000",
-          "pr_text": "#000000",
+          "pr_text": "#26383a",
           "price": "#868686",
-          "sale_price": "#eb001b",
+          "sale_price": "#ea3a79",
           "input_primary": "#ffffff",
           "input_secondary": "#686868"
         }
@@ -212,16 +226,16 @@
       },
       "scheme-fe88a2ec-47a1-478d-8953-54da0178e18c": {
         "settings": {
-          "text": "#ffffff",
-          "text2": "#878787",
-          "background": "#383838",
+          "text": "#26383a",
+          "text2": "#6e8788",
+          "background": "#efd678",
           "background_gradient": "",
           "background2": "#f2f2f2",
           "button": "#ffffff",
           "button_label": "#222222",
           "button_border": "#ffffff",
           "secondary_button_label": "#383838",
-          "accent_color": "#56cfe1",
+          "accent_color": "#e78333",
           "line_border": "#e6e6e6",
           "overlay": "#000000",
           "pr_text": "#ffffff",

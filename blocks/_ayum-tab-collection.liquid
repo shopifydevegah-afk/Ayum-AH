@@ -1,0 +1,113 @@
+<!-- _ayum-tab-collection.liquid — AYUM copy of Kalles _tab-collection.liquid (original left untouched) -->
+{%- comment -%}
+  Differences from the native block:
+  - "_ayum-product-carousel" (AYUM card + slider progress) is allowed next to the native "_product-grid";
+  - the injected tab label is escaped for a CSS string (quotes, backslashes, "<").
+  Kept from the native block: the tab label (and optional icon) is injected into the section's tab button through
+  CSS ::before/::after content. Theme-block settings cannot be read from the section's section.blocks loop, so this
+  block — which can read its own settings — is the only place the label can come from.
+{%- endcomment -%}
+{%- assign index = section.blocks | find_index: 'id', block.id -%}
+{%- assign collection = collections[block.settings.collection] -%}
+{%- assign tab_label = block.settings.title | default: block.settings.collection.title | strip_newlines | replace: '\', '\\' | replace: "'", "\'" | replace: '<', '\3c ' -%}
+{%- if block.settings.hdt_icon_image != blank -%}
+  {%- style -%}
+    #{{ section.id }} .hdt-slider__slide:nth-of-type({{ index | plus: 1 }}) .hdt-collection-title-text:after {
+      content: '{{ tab_label }}';
+    }
+    #{{ section.id }} .hdt-slider__slide:nth-of-type({{ index | plus: 1 }}) .hdt-collection-title-text:before {
+      content: '';
+      background-image: url('{{ block.settings.hdt_icon_image | image_url: width: 34 }}');
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 34px;
+      height: 34px;
+      display: inline-block;
+      margin-inline-end: {{ block.settings.hdt_icon_spacing }}px;
+      vertical-align: middle;
+    }
+  {%- endstyle -%}
+{%- else -%}
+  {%- style -%}
+    #{{ section.id }} .hdt-slider__slide:nth-of-type({{ index | plus: 1 }}) .hdt-collection-title-text:before {
+      content: '{{ tab_label }}';
+    }
+  {%- endstyle -%}
+{%- endif -%}
+<div id="tab-{{ section.id }}-{{ collection.id }}-{{ block.blocks | map: "id" | first }}" class="hdt-tab-item" tab-item {% if index == 0 %} tab-selected {% endif %}>
+  {% content_for 'blocks', closest.collection: collection %}
+</div>
+{% schema %}
+{
+  "name": "t:sections.tabs_collections.blocks.tab_item.name",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.tabs_collections.blocks.tab_item.title",
+      "default": "t:sections.tabs_collections.blocks.tab_item.title"
+    },
+    {
+      "id": "collection",
+      "type": "collection",
+      "label": "t:sections.collection_products.settings.collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "hdt_show_icon_image",
+      "label": "Show icon image",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "hdt_icon_image",
+      "label": "Icon image",
+      "visible_if": "{{ block.settings.hdt_show_icon_image }}"
+    },
+    {
+      "type": "range",
+      "id": "hdt_icon_spacing",
+      "label": "Icon spacing with contents",
+      "default": 8,
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "visible_if": "{{ block.settings.hdt_show_icon_image }}"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "_ayum-product-carousel"
+    },
+    {
+      "type": "_product-grid"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.tabs_collections.blocks.tab_item.carousel_name",
+      "blocks": [
+        {
+          "type": "_ayum-product-carousel",
+          "settings": {
+            "collection": "{{ closest.collection }}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "t:sections.tabs_collections.blocks.tab_item.grid_name",
+      "blocks": [
+        {
+          "type": "_product-grid",
+          "settings": {
+            "collection": "{{ closest.collection }}"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
