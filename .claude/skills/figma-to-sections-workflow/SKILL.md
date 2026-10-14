@@ -167,9 +167,15 @@ Read the real AYUM values per node each time with `get_variable_defs` / `get_des
 
 **Resolution ladder for each color role (take the first that works):**
 
-1. An existing **color scheme variable** consumed through the native `colors_by_section` / `color_scheme` settings (or the scheme the section already inherits).
-2. An existing **native color setting** on the section or block (reuse it; never add a parallel duplicate).
+1. An existing **color scheme variable** consumed through the native `colors_by_section` / `color_scheme` settings (or the scheme the section — or a slide/block with its own `color_scheme` — already inherits).
+2. An existing **native color setting** on the section or block (reuse it; never add a parallel duplicate). This includes native `text_color` selects (`hdt-s-text` / `hdt-text-secondary` / `hdt-text-primary`): do not override their result with an AYUM color.
 3. A **new color setting on the isolated AYUM section/block** (never on the original Kalles file), with a meaningful label, the Figma value as its `default`, `"alpha": true` when the design needs transparency (the setting type supports it and the repo already uses it), and grouped under a clear `header`.
+
+**“Value missing” vs. “role missing” (mandatory test before adding a new color setting):**
+
+- **The scheme has the color role, but not the current Figma value:** this is merchant configuration, not a missing feature. Consume the native scheme variable. Report which scheme field the merchant should configure, preferably in a dedicated scheme assigned to this section rather than changing a shared scheme.
+- **The scheme structurally cannot express the role:** e.g. multiple independent per-card colors beyond the scheme slots, or no relevant scheme token at all. Only then consider an AYUM-specific color setting, and only if no existing native block/section control fits.
+- Ask: *If the merchant edited the assigned color scheme, could it reproduce this design?* If yes, do **not** create a parallel setting. Switching schemes must visibly affect the colors assigned to those roles.
 
 **No hardcoded colors (mandatory).** Never write a design color literal in Liquid, CSS, or JavaScript — e.g. `color: #EA3A79;`, `background-color: #26B3D0;`, `border-color: #4E6E70;`, `color: rgb(38, 56, 58);`, `rgba(...)` fills, or a hex inside a JS string. Allowed without a setting: `transparent`, `currentColor`, `inherit`, and values derived from scheme/setting variables (e.g. `rgb(var(--color-foreground) / .75)`, `color-mix(in srgb, var(--ayum-x) 75%, transparent)`). A Figma value may appear **only** as the `default` of a schema setting (or in a section/block preset).
 
@@ -191,7 +197,7 @@ A `style="--ayum-accent: …"` attribute on the wrapper (or on a block element f
 
 **Never** edit a shared color scheme, change global scheme definitions to suit one section, or hand-edit `config/settings_data.json` (schemes live there and only the merchant creates/edits them in the Theme Editor). Never scatter static design colors across CSS files.
 
-**Legacy note:** AYUM sections implemented before this rule may contain literal colors in `assets/dev1.css`. Do not copy them as a pattern. Migrate them only when a task touches that section (or the user asks), using the ladder above and preserving the current rendered result through the new settings' defaults.
+**Legacy note:** AYUM sections implemented before this rule may contain literal colors in `assets/dev1.css`. Do not copy them as a pattern. Migrate them only when a task touches that section (or the user asks), using the ladder above. Switching to the correct scheme variables may change rendered colors until the merchant configures the assigned scheme; do not add redundant color pickers simply to preserve old literal values. Record old rendered/Figma colors and specify which scheme fields to configure. Before retiring an obsolete setting, inspect existing template and section-group saved data and preserve merchant values.
 
 ### 2.9 Naming conventions for AYUM
 
@@ -929,8 +935,9 @@ Project-specific additions, each learned from a real failure or constraint in th
 | Situation | Source |
 | --- | --- |
 | A scheme variable can express the Figma color role | Native `colors_by_section` + `color_scheme`; consume `--color-*` / `--hdt-btn-*` |
+| The scheme has the right color role but not the current Figma value | Reuse the scheme variable; report the field/value for merchant configuration — do **not** add a redundant picker |
 | The base section/block already has a matching color or design setting | Reuse it; set the Figma value in the instance or preset |
-| No native source fits | New setting on the isolated AYUM file, Figma value as `default`, exposed as a scoped custom property |
+| No native source fits (scheme structurally lacks the role and no native setting fits) | New setting on the isolated AYUM file, Figma value as `default`, exposed as a scoped custom property |
 | Internal geometry with no merchant meaning | Scoped CSS constant, commented with its Figma source |
 | Tempted to edit a global scheme or `settings_data.json` | Never — scope the control to the section instead |
 
