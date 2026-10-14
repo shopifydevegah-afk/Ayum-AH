@@ -1,0 +1,64 @@
+<!-- blocks/_ayum-claim.liquid -->
+{%- comment -%}
+  One AYUM claim chip: text (optional shorter mobile text) in a pill whose border is the claim's
+  "Accent color" and whose background is that colour at 15%. Text colour comes from the colour scheme.
+  "Mobile position" places the chip on mobile, two per row: 1–2 = first row, 3–4 = second, 5–6 = third,
+  right to left within a row. Renders nothing when both texts are empty. Lives in blocks/_ayum-claims.liquid.
+{%- endcomment -%}
+{%- liquid
+  assign text = block.settings.text | strip
+  assign text_mb = block.settings.text_mobile | strip
+-%}
+{%- if text != blank or text_mb != blank -%}
+  <span class="ayum-claim" style="--ayum-claim-pos: {{ block.settings.mobile_position }};{% if block.settings.color != blank %} --ayum-claim-color: {{ block.settings.color.rgb }};{% endif %}" {{ block.shopify_attributes }}>
+    {%- if text != blank and text_mb != blank -%}
+      <span class="ayum-claim__text ayum-claim__text--desktop">{{ text | escape }}</span>
+      <span class="ayum-claim__text ayum-claim__text--mobile">{{ text_mb | escape }}</span>
+    {%- else -%}
+      <span class="ayum-claim__text">{{ text | default: text_mb | escape }}</span>
+    {%- endif -%}
+  </span>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Claim",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "بدون مواد حافظة"
+    },
+    {
+      "type": "text",
+      "id": "text_mobile",
+      "label": "Mobile text",
+      "info": "Optional. Shown below 768px instead of the text. Leave empty to use the text on mobile."
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Accent color",
+      "info": "Border; the background uses it at 15%.",
+      "default": "#26B3D0"
+    },
+    {
+      "type": "range",
+      "id": "mobile_position",
+      "label": "Mobile position",
+      "info": "Two claims per row on mobile: 1–2 first row, 3–4 second, 5–6 third (right to left).",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "Claim"
+    }
+  ]
+}
+{% endschema %}

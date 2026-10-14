@@ -1,0 +1,18 @@
+{%- comment -%}
+  Renders: an AYUM line icon, drawn on a 30×30 grid with a 2px round stroke in currentColor.
+  Source: Figma "How we freeze-dry" step icons (desktop 2001:270 / 2001:281 / 2001:292; the mobile
+  2001:789 / 2001:813 / 2001:822 are the same drawings at 22px). The snowflake is Figma's six arrow
+  arms (2001:293–2001:308) rotated 60° apart around the centre.
+  Accepts:
+  - icon: 'snowflake' | 'drop' | 'jar'
+  Usage: {% render 'ayum-icons', icon: 'snowflake' %}
+  The SVG is decorative (aria-hidden); size it with CSS width (height follows the viewBox).
+{%- endcomment -%}
+{%- case icon -%}
+  {%- when 'snowflake' -%}
+    <svg class="ayum-icon ayum-icon--snowflake" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 15.75V4.25M12.75 6.5 15 4.25l2.25 2.25"/><path d="M15 15.75V4.25M12.75 6.5 15 4.25l2.25 2.25" transform="rotate(60 15 15)"/><path d="M15 15.75V4.25M12.75 6.5 15 4.25l2.25 2.25" transform="rotate(120 15 15)"/><path d="M15 15.75V4.25M12.75 6.5 15 4.25l2.25 2.25" transform="rotate(180 15 15)"/><path d="M15 15.75V4.25M12.75 6.5 15 4.25l2.25 2.25" transform="rotate(240 15 15)"/><path d="M15 15.75V4.25M12.75 6.5 15 4.25l2.25 2.25" transform="rotate(300 15 15)"/></g></svg>
+  {%- when 'drop' -%}
+    <svg class="ayum-icon ayum-icon--drop" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3.25C12.5 6.125 6.625 13 6.625 18C6.625 20.2212 7.50736 22.3514 9.07798 23.922C10.6486 25.4926 12.7788 26.375 15 26.375C17.2212 26.375 19.3514 25.4926 20.922 23.922C22.4926 22.3514 23.375 20.2212 23.375 18C23.375 13 17.5 6.125 15 3.25Z"/><path d="M15 22.75V14.75"/><path d="M12 17.75L15 14.75L18 17.75"/></g></svg>
+  {%- when 'jar' -%}
+    <svg class="ayum-icon ayum-icon--jar" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.75 4.25H7.25C6.42157 4.25 5.75 4.92157 5.75 5.75V7C5.75 7.82843 6.42157 8.5 7.25 8.5H22.75C23.5784 8.5 24.25 7.82843 24.25 7V5.75C24.25 4.92157 23.5784 4.25 22.75 4.25Z"/><path d="M8.25 8.5H21.75V23.375C21.75 24.0049 21.4998 24.609 21.0544 25.0544C20.609 25.4998 20.0049 25.75 19.375 25.75H10.625C9.99511 25.75 9.39102 25.4998 8.94562 25.0544C8.50022 24.609 8.25 24.0049 8.25 23.375V8.5Z"/><path d="M12.25 15.75H17.75"/></g></svg>
+{%- endcase -%}

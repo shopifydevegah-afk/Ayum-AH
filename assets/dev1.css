@@ -726,3 +726,250 @@
     font-size: var(--ayum-stat-label-lg);
   }
 }
+
+/* ==========================================================================
+   Icon box — "How we freeze-dry" (Figma 2001:250 desktop / 2001:765 mobile)
+   sections/ayum-icon-box.liquid; steps = blocks/_ayum-icon-box.liquid (+ snippets/ayum-icons.liquid);
+   claim chips = blocks/_ayum-claims.liquid + _ayum-claim.liquid; heading = native section-heading.
+   Colours: the section's native colour scheme (Color Scheme 2 on the homepage, with the native
+   "Background opacity" at 0 so the section sits on the white page). The original Icon box CSS
+   variables are fed from it: card = Background at 60% (Figma "Surface 60%"), step title = Text,
+   description = Text 2, icon = Button label, border = Line border. Settings cover what one scheme
+   cannot hold: the subheading's muted colour (a third text colour, section setting) and the
+   per-item accents (icon circles, claim chips; block settings).
+   ========================================================================== */
+
+.ayum-icon-box {
+  /* Figma container insets: 16px mobile, 20px from 768px (1320 max -> 1280 content). */
+  --ayum-ib-pad: 16px;
+}
+.ayum-icon-box .hdt-container {
+  padding-inline: var(--ayum-ib-pad);
+}
+@media (min-width: 768px) {
+  .ayum-icon-box {
+    --ayum-ib-pad: 20px;
+  }
+}
+.ayum-icon-box .hdt-icon-box {
+  --heading-color: rgb(var(--color-foreground));
+  --description-color: rgb(var(--color-foreground2));
+  --icon-color: rgb(var(--hdt-btn-color));
+  --color-box: rgb(var(--color-background, var(--color-base-background)) / .6);
+  --border-color: rgb(var(--color-line-border));
+  /* Figma has no hover colours: the original hover background / content colours keep the normal ones. */
+  --color-box-hover: var(--color-box);
+  --color-content-hover: currentColor;
+}
+
+/* Heading + subheading (native section heading). The copy is Arabic in every locale. Figma line
+   heights: title "normal"; subheading 180% on mobile, 24.9px (16px text) on desktop. The subheading
+   block has no weight option: Figma uses Regular on mobile and Bold from 768px. */
+.ayum-icon-box .hdt-section-heading {
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+.ayum-icon-box .hdt-heading-block:not(.hdt-lh-1) {
+  line-height: normal;
+}
+/* "Subheading color" (section setting); when cleared, the subheading block's own Text color applies. */
+.ayum-icon-box--sub-color .hdt-subheading-block {
+  color: rgb(var(--ayum-ib-sub-color));
+  --text-color: rgb(var(--ayum-ib-sub-color));
+}
+.ayum-icon-box .hdt-subheading-block {
+  font-weight: 400;
+  line-height: 1.8;
+}
+@media (max-width: 767px) {
+  .ayum-icon-box .hdt-subheading-block.hdt-text-custom {
+    font-size: var(--ayum-ib-sub-mb);
+  }
+}
+@media (min-width: 768px) {
+  .ayum-icon-box .hdt-subheading-block {
+    font-weight: 700;
+    line-height: 1.556;
+  }
+}
+
+/* Claim chips. Mobile (Figma 2001:772): two per row, each row centred on its own, rows 8px apart,
+   chips 8px apart; a chip's "Mobile position" picks its row (1–2, 3–4, 5–6). The two pseudo-elements
+   are full-width line breaks between the rows (CSS order 5 and 9 sit between positions 2|3 and 4|5);
+   row spacing uses chip margins so the zero-height break lines add no gap. "Space below" is halved
+   below 1150px. */
+.ayum-icon-box .ayum-claims {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 8px;
+  margin-block: -4px calc(var(--ayum-claims-mb) / 2 - 4px);
+}
+.ayum-icon-box .ayum-claims:not(:has(.ayum-claim)) {
+  display: none;
+}
+.ayum-icon-box .ayum-claims::before,
+.ayum-icon-box .ayum-claims::after {
+  content: "";
+  flex-basis: 100%;
+  height: 0;
+}
+.ayum-icon-box .ayum-claims::before { order: 5; }
+.ayum-icon-box .ayum-claims::after { order: 9; }
+.ayum-icon-box .ayum-claim {
+  order: calc(var(--ayum-claim-pos, 6) * 2);
+  display: inline-flex;
+  align-items: center;
+  margin-block: 4px;
+  padding: 6px 12px;
+  border: 1px solid rgb(var(--ayum-claim-color, var(--color-accent)));
+  border-radius: 16px;
+  background-color: rgb(var(--ayum-claim-color, var(--color-accent)) / .15);
+  color: rgb(var(--color-foreground));
+  font-size: 11px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+.ayum-icon-box .ayum-claim__text--desktop {
+  display: none;
+}
+/* Tablet and desktop (Figma 2001:258): one centred row in block order, 10px apart. */
+@media (min-width: 768px) {
+  .ayum-icon-box .ayum-claims {
+    gap: 10px;
+    margin-block: 0 calc(var(--ayum-claims-mb) / 2);
+  }
+  .ayum-icon-box .ayum-claims::before,
+  .ayum-icon-box .ayum-claims::after {
+    display: none;
+  }
+  .ayum-icon-box .ayum-claim {
+    order: 0;
+    margin-block: 0;
+    padding: 8px 16px;
+    border-radius: 18px;
+    font-size: 13px;
+  }
+  .ayum-icon-box .ayum-claim__text--desktop {
+    display: inline;
+  }
+  .ayum-icon-box .ayum-claim__text--mobile {
+    display: none;
+  }
+}
+@media (min-width: 1150px) {
+  .ayum-icon-box .ayum-claims {
+    margin-block-end: var(--ayum-claims-mb);
+  }
+}
+
+/* Step cards. The grid follows the Arabic reading order in every locale (step 1 on the right);
+   each card is a text boundary. Cards in a row share one height. Native Icon box markup: the head
+   (icon + title) is flattened so icon, title and description lay out on one grid. Figma's card
+   padding (native "Padding content") is 28 / 28 / 42 / 12: the end side is narrower so the third
+   description stays on one line. */
+.ayum-icon-box .hdt-icon-box .hdt-row-grid {
+  direction: rtl;
+}
+.ayum-icon-box .ayum-step,
+.ayum-icon-box .ayum-step > .hdt-iconbox-item-wrapper {
+  height: 100%;
+}
+.ayum-icon-box .ayum-step .hdt-iconbox-item-wrapper {
+  direction: rtl;
+  unicode-bidi: isolate;
+  text-align: start;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  justify-items: start;
+  row-gap: 12px;
+  border-radius: var(--ayum-ib-radius-mb);
+}
+.ayum-icon-box .ayum-step .hdt-iconbox-head {
+  display: contents;
+}
+/* Icon circle: the step's "Icon background"; Figma 40px mobile / 52px desktop. */
+.ayum-icon-box .ayum-step .hdt-iconbox-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgb(var(--ayum-step-icon-bg, var(--color-accent)));
+  color: var(--icon-color);
+}
+.ayum-icon-box .ayum-step .hdt-iconbox-icon__svg {
+  display: flex;
+}
+.ayum-icon-box .ayum-step .hdt-iconbox-heading {
+  margin: 0;
+  color: var(--heading-color);
+  font-size: var(--ayum-ib-title-mb);
+  font-weight: var(--font-extrabold);
+  line-height: normal;
+  overflow-wrap: anywhere;
+}
+.ayum-icon-box .ayum-step .hdt-iconbox-des {
+  color: var(--description-color);
+  font-size: var(--ayum-ib-desc-mb);
+  font-weight: 700;
+  line-height: normal;
+  overflow-wrap: anywhere;
+}
+.ayum-icon-box .ayum-step__desc--desktop {
+  display: none;
+}
+/* Mobile (Figma 2001:784): icon on the right, title and description beside it (3px apart). */
+@media (max-width: 767px) {
+  .ayum-icon-box .ayum-step .hdt-iconbox-item-wrapper {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-content: center;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 3px;
+    padding: var(--ayum-ib-pad-mb, var(--padding-content));
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-icon {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-heading {
+    grid-column: 2;
+    align-self: end;
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-des {
+    grid-column: 2;
+    align-self: start;
+  }
+}
+/* Tablet and desktop (Figma 2001:268): icon at the top right, then title and description. */
+@media (min-width: 768px) {
+  .ayum-icon-box .ayum-step .hdt-iconbox-item-wrapper {
+    border-radius: var(--ayum-ib-radius);
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-icon {
+    width: 52px;
+    height: 52px;
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-heading {
+    font-size: var(--ayum-ib-title);
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-des {
+    font-size: var(--ayum-ib-desc);
+    font-weight: 400;
+    line-height: 1.8;
+  }
+  .ayum-icon-box .ayum-step__desc--desktop {
+    display: inline;
+  }
+  .ayum-icon-box .ayum-step__desc--mobile {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ayum-icon-box .hdt-iconbox-item:hover .hdt-iconbox-icon {
+    animation: none;
+  }
+}
