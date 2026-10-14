@@ -17,7 +17,7 @@
           "settings": {
             "collection": "الأكثر-مبيعا",
             "icon": "",
-            "ayum_color": "#EA3A79"
+            "ayum_color": "#ea3a79"
           }
         },
         "cat_ULRjDy": {
@@ -25,7 +25,7 @@
           "settings": {
             "collection": "الأكثر-مبيعا",
             "icon": "",
-            "ayum_color": "#26B3D0"
+            "ayum_color": "#26b3d0"
           }
         },
         "cat_xA8DAA": {
@@ -33,7 +33,7 @@
           "settings": {
             "collection": "الأكثر-مبيعا",
             "icon": "",
-            "ayum_color": "#E78333"
+            "ayum_color": "#e78333"
           }
         },
         "cat_WGpmpR": {
@@ -41,7 +41,7 @@
           "settings": {
             "collection": "الأكثر-مبيعا",
             "icon": "",
-            "ayum_color": "#B6D561"
+            "ayum_color": "#b6d561"
           }
         },
         "cat_Fc3DNG": {
@@ -49,7 +49,7 @@
           "settings": {
             "collection": "الأكثر-مبيعا",
             "icon": "",
-            "ayum_color": "#9570B9"
+            "ayum_color": "#9570b9"
           }
         }
       },
@@ -142,7 +142,7 @@
         "image_size": true,
         "show_vendor": false,
         "pr_border": "none",
-        "products_count": 12,
+        "products_count": 5,
         "col_dk": "3",
         "col_tb": "3",
         "col_mb": "2",
@@ -184,18 +184,94 @@
         "ayum_quick_all_label": "كل الفلاتر",
         "ayum_sidebar_title": "تصفية النتائج",
         "ayum_bottom_sheet": true,
+        "ayum_sheet_clear_label": "مسح الكل",
+        "ayum_sheet_results_label": "عرض [count] نتيجة",
         "ayum_card_tag": true,
         "ayum_card_tag_prefix": "",
         "ayum_card_tag_allow": "مجفف بالتجميد",
         "ayum_card_tag_metafield": "",
-        "ayum_sheet_clear_label": "مسح الكل",
-        "ayum_sheet_results_label": "عرض [count] نتيجة",
         "custom_class": "ayum-collection-products"
       }
     },
     "ayum_why": {
       "type": "ayum-icon-box",
       "blocks": {
+        "truck_card": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "truck",
+            "ayum_icon_bg": "#e78333",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "شحن خلال 24 ساعة",
+            "description": "داخل الكويت، مع إرجاع خلال 7 أيام بشرط ارجاع المنتج في حالة سليمة",
+            "ayum_description_mb": "وإرجاع خلال 7 أيام."
+          },
+          "blocks": {}
+        },
+        "shield_card": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "shield",
+            "ayum_icon_bg": "#b6d561",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "قرمشة تدوم",
+            "description": "عبوة مفرّغة من الهواء تحفظ المنتج لشهور بدون مواد حافظة.",
+            "ayum_description_mb": "عبوة دون مواد حافظة."
+          },
+          "blocks": {}
+        },
+        "noheat_card": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "noheat",
+            "ayum_icon_bg": "#ea3a79",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "تجفيف بدون حرارة",
+            "description": "التفريغ يسحب الماء ويحوّل الثلج لبخار، فالنكهة والقوام ما يتأثرون.",
+            "ayum_description_mb": "النكهة والقوام ما يتأثرون."
+          },
+          "blocks": {}
+        },
+        "factory_card": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "factory",
+            "ayum_icon_bg": "#26b3d0",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "المصنع الأكبر في الكويت",
+            "description": "ننتج منتجات التجفيف بالتجميد محلياً — معظم المنافسين يستوردون.",
+            "ayum_description_mb": "إنتاج محلي مش مستورد."
+          },
+          "blocks": {}
+        },
         "icon-box": {
           "type": "section-heading",
           "static": true,
@@ -217,7 +293,8 @@
                 "font_size_heading_lg": 34,
                 "font_size_heading": 23,
                 "letter_spacing_heading": 0
-              }
+              },
+              "blocks": {}
             },
             "why_subheading": {
               "type": "_sub_heading_section",
@@ -230,7 +307,8 @@
                 "font_size_text_lg": 16,
                 "font_size_text": 14,
                 "letter_spacing_text": 0
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -244,77 +322,8 @@
           "settings": {
             "margin_bottom": 0
           },
-          "blocks": {},
-          "block_order": []
-        },
-          "truck_card": {
-            "type": "_ayum-icon-box",
-            "settings": {
-              "url": "",
-              "open_in_new_tab": false,
-              "icon_position": "left",
-              "ayum_icon": "truck",
-              "ayum_icon_bg": "#E78333",
-              "image_width": 50,
-              "svg_width": 26,
-              "svg_width_mb": 18,
-              "ayum_number": "",
-              "heading": "شحن خلال 24 ساعة",
-              "description": "داخل الكويت، مع إرجاع خلال 7 أيام بشرط ارجاع المنتج في حالة سليمة",
-              "ayum_description_mb": "وإرجاع خلال 7 أيام."
-            }
-          },
-          "shield_card": {
-            "type": "_ayum-icon-box",
-            "settings": {
-              "url": "",
-              "open_in_new_tab": false,
-              "icon_position": "left",
-              "ayum_icon": "shield",
-              "ayum_icon_bg": "#B6D561",
-              "image_width": 50,
-              "svg_width": 26,
-              "svg_width_mb": 18,
-              "ayum_number": "",
-              "heading": "قرمشة تدوم",
-              "description": "عبوة مفرّغة من الهواء تحفظ المنتج لشهور بدون مواد حافظة.",
-              "ayum_description_mb": "عبوة دون مواد حافظة."
-            }
-          },
-          "noheat_card": {
-            "type": "_ayum-icon-box",
-            "settings": {
-              "url": "",
-              "open_in_new_tab": false,
-              "icon_position": "left",
-              "ayum_icon": "noheat",
-              "ayum_icon_bg": "#EA3A79",
-              "image_width": 50,
-              "svg_width": 26,
-              "svg_width_mb": 18,
-              "ayum_number": "",
-              "heading": "تجفيف بدون حرارة",
-              "description": "التفريغ يسحب الماء ويحوّل الثلج لبخار، فالنكهة والقوام ما يتأثرون.",
-              "ayum_description_mb": "النكهة والقوام ما يتأثرون."
-            }
-          },
-          "factory_card": {
-            "type": "_ayum-icon-box",
-            "settings": {
-              "url": "",
-              "open_in_new_tab": false,
-              "icon_position": "left",
-              "ayum_icon": "factory",
-              "ayum_icon_bg": "#26B3D0",
-              "image_width": 50,
-              "svg_width": 26,
-              "svg_width_mb": 18,
-              "ayum_number": "",
-              "heading": "المصنع الأكبر في الكويت",
-              "description": "ننتج منتجات التجفيف بالتجميد محلياً — معظم المنافسين يستوردون.",
-              "ayum_description_mb": "إنتاج محلي مش مستورد."
-            }
-          }
+          "blocks": {}
+        }
       },
       "block_order": [
         "truck_card",
@@ -335,22 +344,40 @@
         "space_horizontal_mb": "12",
         "space_vertical_mb": "12",
         "layout": "grid",
+        "loop": false,
+        "autoplay": 0,
+        "pauseOnHover": false,
+        "navUI": false,
+        "nav_position": "default",
+        "nav_visible": "always",
+        "nav_style": "default",
+        "nav_shape": "default",
+        "nav_size": "small",
+        "nav_hide_mobile": false,
+        "dotUI": false,
+        "pag_style": "default",
+        "pag_rounded": false,
+        "pag_space": 10,
+        "pag_mgt": 10,
+        "only_show_mobile": false,
+        "pag_hide_mobile": false,
         "colors_by_section": true,
         "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
-        "background_opacity": 0.35,
+        "background_opacity": 0.4,
         "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
         "mg": "",
         "mg_mb": "",
         "pd": "48px,,48px,",
         "pd_mb": "24px,,24px,",
+        "ayum_subheading_size_mb": 13,
+        "ayum_subheading_color": "",
         "ayum_title_size": 17,
         "ayum_title_size_mb": 12,
         "ayum_desc_size": 13,
         "ayum_desc_size_mb": 11,
         "ayum_radius": 16,
         "ayum_radius_mb": 14,
-        "ayum_subheading_size_mb": 13,
-        "ayum_subheading_color": "",
         "ayum_padding_mb": "14px,14px,14px,14px",
         "ayum_background_source": "accent",
         "ayum_card_surface": "background2",
