@@ -1208,3 +1208,56 @@ Figma: 2001:942 (3 مجموعات: المتجر مفتوحة، خدمة العم
 [مطلوب من التاجر في المحرر] footer_KwXhWr: Custom CSS class = ayum-footer-main. footer_ziwVXA: Custom CSS class = ayum-footer-bottom. عمود المتجر: Open on mobile by default = on. عمود عن أيم: Order on mobile = 1. عمود تواصل معنا: Width (mobile) = 0. (المتجر وخدمة العملاء يبقيان 0 فيحافظان على ترتيبهما.)
 Validated: node --check لـ custom.js. Not run: المتصفح والمحرر.
 إضافة 2026-10-14: إعداد جديد في blocks/_footer-column.liquid — "Hide whole column on mobile" (ayum_hide_column_mb، افتراضياً false) يضيف صنف hdt-hidden الأصلي نفسه (مثل Width (mobile) = 0)، فيُخفي العمود كله تحت 768px ويبقى ظاهراً على التابلت والديسكتوب. الخيار الأصلي "Hide on mobile" يخفي العنوان فقط. للاستخدام على عمود تواصل معنا.
+
+### 2026-10-14 — صفحة المجموعة: المرحلة B (سكاشن Kalles الأصلية + CSS فقط) — بانتظار التحقق الحي
+
+- **Figma:** `1:787` (ديسكتوب)، و`1:1081` (موبايل)، و`1:1287` (bottom sheet) عبر metadata + `get_design_context`.
+  - الأجزاء: الشريط، والهيدر، والشرائح، والكارت، والفلاتر، والترتيب، وتحميل المزيد، وشريط الموبايل، والـ sheet.
+- **القالب:** `templates/collection.json` (و`collection.custom-ayum.json` بنفس المفاتيح). فيه السكاشن الأصلية:
+  - `top-list-collections`.
+  - `main-heading` (`_heading_liquid` + `_heading_brc`).
+  - `main-collection` (بلوك `filter`).
+  - **لم يُنسخ أي سكشن أو بلوك أو كارت.**
+- **انحراف:** تعديلات غير مُلتزَمة من محرر الثيم (17:09) على `collection.json`، وهي إزالة صورة الهيدر وقيم parallax. حُفظت.
+- **النطاق (لا `custom_class` في السكاشن الأصلية):**
+  - التثبيت على مفتاح الهيدر `main_heading_PHNGje`، الفريد لقالبي AYUM.
+  - المفاتيح `collections_list_simple_4yRUED` و`main-collection` مشتركة مع كل قوالب Kalles التجريبية.
+  - **المحدِّدات:**
+    - الهيدر `[id$="__main_heading_PHNGje"]`.
+    - الشريط `…_4yRUED:has(+ heading)`.
+    - المنتجات `heading ~ [id$="__main-collection"]`.
+  - `dev1.css` يُحمَّل في صفحة المجموعة عبر شريط الإعلانات (`ayum-announcement-bar` في header-group).
+- **إعدادات أصلية غُيِّرت في `collection.json` (تعديل قيم فقط، بعد قراءة الملف مباشرة):**
+  - **main-collection:**
+    - تفعيل بلوك `filter` (sidebar دائم على الديسكتوب).
+    - `col_dk` 4→3.
+    - `product_des` 1→7: كارت Kalles الأصلي رقم 7 فيه زر الإضافة الأصلي `btn-ultra` بعرض كامل تحت السعر.
+    - `pagination_type` links→load_more.
+  - **main-heading:**
+    - نص `_heading_liquid` صار `{{ collection.title }}` + `<span class="ayum-collection-count">{{ collection.products_count }} منتج</span>`.
+    - `text_size` custom 36/22. مدى الموبايل خطوته 2، فلا يقبل 23.
+    - `pd` 48/24 و`pd_mb` 16/16.
+- **CSS (`dev1.css`، بلا ألوان حرفية):**
+  - الهيدر وشارة العدد.
+  - بطاقات الشريط + الحالة النشطة الأصلية `hdt-current-active` + الأسهم.
+  - أزرار الترتيب/التصفية وتحميل المزيد.
+  - كارت النمط 7: حشوة، وصورة داخلية، ومحاذاة وسط، وزر ممتلئ من ألوان زر المخطط.
+  - فلاتر الـ sidebar.
+  - drawer الفلاتر على الموبايل كـ bottom sheet: أسفل الشاشة، وزوايا 22، ومقبض.
+- **محجوب (يحتاج تعديل مصدر أصلي أو قرار — بانتظار الموافقة):**
+  1. **صور ولون مختلف لكل بطاقة في الشريط:** `top-list-collections` يطبع رابطاً نصياً فقط.
+  2. **شرائح الأقسام الفرعية:** لا مصدر أصلي. الخيارات: روابط فلتر نوع المنتج، أو collections فرعية، أو قائمة. يحتاج قرار.
+  3. **سطر الميتا "مجفف بالتجميد":** لا مصدر أصلي في الكارت.
+  4. **العدّ "24 منتج" وشرائح الفلاتر السريعة والفلاتر النشطة على الموبايل.**
+  5. **تذييل الـ sheet ("عرض N نتيجة"، "مسح الكل") وحركة الصعود:** `pos="bottom"` يحتاج تعديلاً في `main-collection`.
+  6. **عنوان drawer "تصفية النتائج":** نص اللغة `products.sidebar.label` مشترك.
+  7. **العدّ بين أقواس "(12)" في الفلاتر.**
+  8. **فجوة الشبكة:** خيارات `space_items` لا تعطي 20/12.
+  9. **"ليش تختار أيم" و"عن المجموعة" (SEO):** غير موجودين في قالب المجموعة. يلزم إضافة سكاشن.
+- **قيم مخطط يضبطها التاجر (body scheme / Scheme 1، و Scheme 2 للهيدر):**
+  - Button `#26B3D0` / Button label `#FFFFFF` (زر الإضافة).
+  - Price `#EA3A79`.
+  - Rating `#F2B640`.
+  - Line border `#D3E3E8`.
+  - Text 2 `#4E6E70`.
+- **تحقق:** بانتظار الـ preview الحي (كلمة المرور مغلقة). Not run حتى الآن.

@@ -28,6 +28,20 @@ Two companion files exist and remain authoritative for what they cover, but this
 
 ---
 
+## 0.0 Native Kalles first — mandatory decision gate for EVERY section
+
+This rule takes priority over older duplicate-first language in this skill, except when the user gives a newer, explicit, task-scoped exception. **Never duplicate just because a section is being used for AYUM.**
+
+1. **Native Kalles works without source edits:** Use the ORIGINAL Kalles section/type and native blocks directly, configured through existing Theme Editor settings. Scoped CSS is allowed without modifying native source. Do **not** duplicate it. Use its existing `custom_class` setting when present; otherwise use a stable per-instance wrapper/Shopify section ID for styling. Do not modify the original to add `custom_class`.
+2. **Native Kalles requires source edits:** If exact required functionality genuinely needs schema settings, Liquid/markup/JS changes, a new `custom_class` setting, or a changed native block, preserve the Kalles original untouched. Use ONE isolated AYUM copy of the closest native implementation. Reuse unchanged native dependencies. Make no redundant parallel settings; keep the selected merchant color scheme and use scheme variables first.
+3. **AYUM copy already exists:** For requested follow-up changes, edit the existing AYUM copy in place, never duplicate it again. During a completed-homepage audit, treat the AYUM copy as a **migration candidate**, not an automatic deletion target. Replace it with native Kalles only when every saved setting, block, UI detail, behavior, and dependency can be preserved and the user approves the migration.
+
+**Zero-regression migration gate:** The current merchant-configured homepage is the baseline; exact visual appearance, interactive behavior, responsive/RTL behavior, accessibility, color-scheme assignments and Theme Editor controls must survive. Inspect all current `templates/index.json` section and nested block IDs/types/settings, images/videos, products/collections, menu/links, styles, scripts and shared dependencies; compare native schemas field-by-field. A section type rename does NOT migrate custom block types or settings. For a full-homepage audit, perform READ-ONLY analysis and produce a section-by-section compatibility report and safe migration plan first. Do not edit any implementation file or delete duplicates in that audit. After approval, migrate **one section per task**, verify desktop/mobile browser results where possible and stop for approval before the next. If proof is incomplete, retain the AYUM copy. Never promise that static-only validation proves zero regressions.
+
+**Scope protection:** Header, footer, announcement bar and other shared section groups are not automatically part of a homepage `index.json` migration. Never alter original vendor source, unrelated templates, global CSS, `config/settings_data.json`, or merchant data just to reduce duplicated filenames.
+
+---
+
 ## 0. Scope and hard limits
 
 This skill governs: converting Figma nodes into Liquid sections/blocks/snippets, their `{% schema %}`, their CSS, any required JavaScript, template JSON wiring, localization, RTL, responsive behavior, accessibility, and the reporting around all of it.
@@ -314,12 +328,12 @@ Decision order for each requested section:
 
 1. Inspect the closest native Kalles section, blocks, snippets, schema, CSS, JS, and real template instances.
 2. When the original already achieves the requested design **without any source-file changes**, it may be used as-is and configured through its existing Theme Editor settings. Do not mutate its source.
-3. When AYUM needs **any section-level source change** (Liquid, markup, schema, settings/options, CSS hooks, or JavaScript behavior), **duplicate the closest native section into a clearly named isolated AYUM section**, then adapt the copy. This is the default for customized AYUM sections, even if the change appears minimal.
+3. First test whether existing Kalles settings, blocks, tokens and section-instance-scoped CSS can reproduce the design without native source edits. **Only when a native source change is genuinely unavoidable**, use one isolated AYUM copy of the closest native section (or the existing AYUM copy if already present). Adding a new schema setting, Liquid hook or `custom_class` to the original is prohibited. No automatic duplication for CSS-only adjustments.
 4. Preserve native behavior in the AYUM copy: use existing Kalles settings, tokens, color schemes, utilities, CSS patterns, blocks and integrations before adding new controls or implementation logic.
 5. Refer to unchanged native snippets, blocks, scripts and styles when they already behave correctly. If a shared block/snippet/component itself needs AYUM-specific source changes, make an AYUM-specific copy and update only AYUM call sites/references; do not edit the shared original. Avoid unnecessary copies of untouched dependencies.
 6. Create an entirely new section without a native base **only when no suitable existing Kalles section exists**, and explain the inspection evidence.
 
-**Isolation is mandatory; needless duplication of dependencies is not.** Duplicate the *section file* when customization requires source edits, but do not automatically duplicate every block, snippet, CSS/JS asset, or helper. A stylesheet or script specifically for the AYUM copy may be created if needed, with unique selectors/names and no effect on native instances.
+**Isolation is mandatory; needless duplication of sections or dependencies is not.** Use native Kalles directly when no source edit is needed; duplicate the *section file* only when customization requires source edits, and do not automatically duplicate every block, snippet, CSS/JS asset, or helper. A stylesheet or script specifically for the AYUM copy may be created if needed, with unique selectors/names and no effect on native instances.
 
 **Never modify for AYUM-specific design work:** original Kalles `sections/*.liquid` files, original shared `blocks/*.liquid` and `snippets/*.liquid` behavior, original vendor/global CSS/JS, or native presets. Do not insert an AYUM condition, custom class, new setting, or harmless-looking opt-in inside a native original. If a shared dependency needs a change, isolate it first. Changes to AYUM-owned files are permitted within the requested task scope.
 
@@ -363,16 +377,31 @@ An isolated AYUM section copy is required whenever the closest native Kalles sec
 
 ---
 
+### 5.3 Completed homepage native-first audit and controlled migration
+
+When asked to review completed AYUM homepage sections for unnecessary duplicates:
+
+1. **Audit first; no edits.** Inventory `templates/index.json` and every referenced active section, nested block, snippet, stylesheet, script and saved setting; do not conflate `sections/*-group.json` shared components with homepage content.
+2. For EACH AYUM section identify the nearest **original** Kalles section and native block types from actual files; compare schema IDs, options, nesting and functionality, not only visual similarity.
+3. Categorize as **Native-ready**, **Retain AYUM copy** (new source-level controls needed), or **Needs verification**; describe exact capability gaps. `custom_class` alone cannot justify modifying the original; use a Shopify instance ID or existing hook when appropriate.
+4. Record the existing merchant-selected color scheme **by actual ID**, every color/settings value, merchant content and effective layout; never silently switch schemes or discard new AYUM capabilities to fit native settings.
+5. For Native-ready sections produce a mapping of old → native `type`, section settings, `blocks`/`block_order`, static/nested blocks, stylesheet hooks and interactive behavior. Clearly flag unmappable fields. Provide baseline-and-post-migration screenshots and functional verification plan, rollback plan and dependencies.
+6. **Approval required before changing `index.json`** or removing a section, even when migration appears straightforward. Migrate just one section per approved phase; keep the previous AYUM implementation available for rollback until approved and verified.
+7. If the current storefront/Theme Editor data is newer than local template JSON, do not overwrite it or run `shopify theme pull` without explicit authorization. Require fresh, verifiable data before attempting any write.
+8. Do not infer successful pixel equivalence from schema parsing or static lint. Fail closed: retain the configured AYUM section when in doubt.
+
+---
+
 ## 6. Custom class setting rule (permanent)
 
-**Every reusable section must have an instance-specific custom class setting** unless:
+**Every new AYUM-owned reusable section requiring source customization should have an instance-specific custom class setting** unless:
 
 - the section already has an equivalent setting, or
 - the section is internal and cannot have schema, or
 - adding it would break a strict framework contract, or
 - there is a clearly documented technical reason not to add it.
 
-When no equivalent exists, add a text setting like:
+When no equivalent exists **in an AYUM-owned section**, add a text setting like:
 
 ```json
 {
@@ -394,6 +423,8 @@ Apply the value safely to the **outermost stable section wrapper**. Requirements
 - reuse the existing setting if the project already provides one
 
 The purpose is to let each section **instance** be targeted without editing Liquid again.
+
+**Native exemption:** An untouched native Kalles section does NOT need to gain a `custom_class` setting. Never duplicate or edit original Kalles solely to satisfy this convention. Prefer an existing native setting or the instance-specific Shopify wrapper for CSS isolation.
 
 **AYUM requirement:** inspect the current repository for an equivalent `custom_class` setting before adding one. Reuse an existing equivalent; do not copy previous-project-specific class names, stylesheet names, or section-instance values.
 
@@ -689,7 +720,7 @@ Before claiming completion, verify:
 - correct section instance was targeted
 - correct CSS file was used
 - CSS is scoped
-- custom class setting exists, or an equivalent existing setting was reused
+- custom class setting exists on an AYUM-owned customized section, or native Kalles is kept untouched and a stable instance-scoped hook is used
 - color schemes were inspected; every rendered color comes from a scheme variable, a native setting, or an AYUM setting (no color literals added)
 - native settings were reused for colors and other design properties wherever they could express the design; no duplicate settings were added
 - each new AYUM setting defaults to the Figma value and, when changed, visibly changes the result (and the original Kalles section is unaffected)
@@ -914,11 +945,13 @@ Project-specific additions, each learned from a real failure or constraint in th
 
 | Situation | Action |
 | --- | --- |
-| Existing section/snippet/component already does it | Use as-is; configure via existing settings |
-| Needs a visual tweak requiring a source edit to a native Kalles section | Duplicate the native section into an AYUM section; apply scoped styles only to the AYUM copy |
+| Original native Kalles section already does it, including with instance-scoped CSS | Use original type as-is; no duplicate and no vendor-source change |
+| Needs CSS styling only with a stable instance hook | Keep original native Kalles section; scope CSS without changing the source |
+| Needs an unavoidable source edit to a native Kalles section | Use ONE isolated AYUM copy; apply settings and styles to the copy, leave original untouched |
 | New AYUM option or behavior (even if potentially useful to all) | Add it to the isolated AYUM section/block; leave native originals unchanged |
 | AYUM change to a native shared snippet/block | Duplicate only that dependency, preserve behavior, and wire the AYUM copy to it |
 | Existing isolated AYUM section needs a fix | Modify that AYUM section in place; do not rebuild or duplicate again |
+| Reviewing completed AYUM homepage duplicates | Read-only inventory and safe mapping first; require approval before any one-section migration |
 | No suitable native section exists | Build a new AYUM section as a last resort, following native patterns |
 
 ### Text/content source
@@ -969,7 +1002,7 @@ Project-specific additions, each learned from a real failure or constraint in th
 
 - [ ] Edited only editable source — no `*.min.js`, `base.css`, `theme.css`, or `settings_data.json` hand-edits.
 - [ ] Preserved identifiers, presets, merchant data, native behavior, app boundaries, and the The4 license code.
-- [ ] Custom class setting present (or an existing equivalent reused); all CSS scoped.
+- [ ] For AYUM-owned customized sections, custom class setting present (or equivalent); untouched native sections use existing setting or stable instance hook; all CSS scoped.
 - [ ] Used tokens, logical properties, `ThemeEvents`, shared snippets — no hardcoded colors/fonts/spacing, no invented events, no DOM-parsed money, no Figma URLs.
 - [ ] Color-literal grep is clean (Figma values only as setting defaults/presets); new settings default to Figma, change the render when edited, and exist only in the isolated AYUM files; no duplicate of a native setting.
 - [ ] Blank/empty states, mobile media fallback, and preset all handled.

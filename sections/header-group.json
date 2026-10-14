@@ -71,6 +71,7 @@
             "header_mobile_colors": "scheme-1",
             "note_mobile": "",
             "ayum_show_extras": false,
+            "ayum_show_localization": false,
             "ayum_separator_color": "#145c702e"
           },
           "blocks": {}
@@ -127,6 +128,7 @@
         "ayum_search_font_size": 16,
         "ayum_search_font_size_mb": 12,
         "ayum_border_color": "#d3e3e8",
+        "ayum_padding_x_mb": 16,
         "ayum_padding_y_mb": 12,
         "ayum_row_gap_mb": 12,
         "ayum_show_desktop_nav": true,

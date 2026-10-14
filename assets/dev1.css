@@ -1122,3 +1122,281 @@
     display: none;
   }
 }
+
+/* ==========================================================================
+   Collection page (Figma 1:787 desktop / 1:1081 mobile / 1:1287 filter sheet)
+   templates/collection.json (+ collection.custom-ayum.json): native Kalles "Top list collections",
+   "Heading page" and "Collection page" sections, unchanged. None of them has a custom-class setting,
+   so the scope is anchored on the AYUM heading instance (key main_heading_PHNGje, unique to these two
+   templates — the Kalles demo collection templates use other heading keys):
+     heading .......... [id$="__main_heading_PHNGje"]
+     top list ......... the "Top list collections" section placed directly before that heading
+     products/filters . the "Collection page" section after that heading
+   Colours: native colour schemes only (each section's scheme, or the body scheme).
+   ========================================================================== */
+
+/* ---------- Heading page: title + dynamic product-count badge ---------- */
+/* The heading block's Liquid text is <span class="ayum-collection-title">{{ collection.title }}</span>
+   + <span class="ayum-collection-count">{{ collection.products_count }} …</span>. Title size comes from the
+   block's custom sizes (36 / 22). The block prints "font-weight: 500" on its own #id for custom sizes,
+   so the ExtraBold weight is set on the title span. */
+[id$="__main_heading_PHNGje"] .hdt-heading-liquid {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 10px;
+  line-height: normal;
+}
+[id$="__main_heading_PHNGje"] .ayum-collection-title {
+  font-weight: var(--font-extrabold);
+}
+[id$="__main_heading_PHNGje"] .ayum-collection-count {
+  padding: 4px 10px;
+  border-radius: 10px;
+  background-color: rgb(var(--color-background2));
+  color: rgb(var(--color-foreground2));
+  font-size: 11px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+@media (min-width: 768px) {
+  [id$="__main_heading_PHNGje"] .hdt-heading-liquid {
+    gap: 8px 12px;
+  }
+  [id$="__main_heading_PHNGje"] .ayum-collection-count {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+  }
+}
+
+/* ---------- Top list collections: collection cards + active state ---------- */
+/* Native markup is a text link per collection (no image, no per-collection colour); the active
+   collection gets the native .hdt-current-active class. Card = scheme surface, active = accent. */
+[id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-slider {
+  --nav-size: 44px;
+  --nav-rounded: 50%;
+  --nav-bg: rgb(var(--color-background, var(--color-base-background)));
+  --nav-border: transparent;
+  --nav-color: rgb(var(--color-foreground) / .75);
+  --nav-bg-hv: rgb(var(--color-accent));
+  --nav-border-hv: transparent;
+  --nav-color-hv: rgb(var(--color-background, var(--color-base-background)));
+}
+[id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-slider__slide a {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border: 1.5px solid transparent;
+  border-radius: 14px;
+  background-color: rgb(var(--color-accent) / .12);
+  color: rgb(var(--color-foreground));
+  font-size: 13px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+[id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-slider__slide.hdt-current-active a {
+  border-color: rgb(var(--color-accent));
+  background-color: rgb(var(--color-accent) / .22);
+}
+[id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-slider__navigation .hdt-slider__button,
+[id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-navigation .hdt-slider__button {
+  box-shadow: 0 2px 8px rgb(var(--color-overlay) / .14);
+}
+@media (min-width: 768px) {
+  [id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-slider__slide a {
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: 16px;
+    font-size: 19px;
+  }
+}
+
+/* ---------- Collection page: toolbar (sort / filter / load more) ---------- */
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-filter_btn {
+  padding: 9px 14px;
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-popover__sorting > button,
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-filter_btn {
+  border: 1px solid rgb(var(--color-line-border));
+  border-radius: 20px;
+  background-color: rgb(var(--color-background, var(--color-base-background)));
+  color: rgb(var(--color-foreground));
+  font-size: 13px;
+  font-weight: 700;
+}
+@media (min-width: 1150px) {
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-popover__sorting > button {
+    border-radius: 10px;
+  }
+}
+/* Load more (native button; Figma: 1.5px outline, 26px radius, 14 x 34 padding, 15px bold). */
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-loamore-btn {
+  --hdt-btn-border-width: 1.5px;
+  padding: 14px 34px;
+  border-radius: 26px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* ---------- Collection page: product cards (native card style 7, chosen in the section settings) ---------- */
+/* Visual match of the AYUM card (Figma 1:865 / 1:1172) on the native card: inset image, centred info,
+   filled full-width add-to-cart from the scheme's button colours. No homepage card code is used. */
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 {
+  --atc-cl: rgb(var(--hdt-btn-color));
+  --atc-bg-cl: rgb(var(--hdt-btn-bg));
+  --atc-cl-hover: rgb(var(--hdt-btn-hover-color));
+  --atc-bg-cl-hover: rgb(var(--hdt-btn-hover-bg));
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__wrapper {
+  gap: 6px;
+  padding: 10px;
+  border-color: rgb(var(--color-line-border));
+  background-color: rgb(var(--color-background, var(--color-base-background)));
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 :is(.hdt-card-product__media, .hdt-card-product__media-wrapp) {
+  border-radius: var(--radius-product-media);
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__info {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  text-align: center;
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__title {
+  color: rgb(var(--color-foreground));
+  font-size: 13px;
+  font-weight: var(--font-extrabold);
+  line-height: normal;
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-price-wrapp {
+  font-size: 15px;
+  font-weight: var(--font-extrabold);
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .star-rating__star {
+  width: 13px;
+  height: 13px;
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-pr-btns-group1 {
+  width: 100%;
+  margin-block-start: auto;
+  padding-block-start: 4px;
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
+  height: auto;
+  padding: 10px 12px;
+  border-color: rgb(var(--hdt-btn-bg));
+  border-radius: 24px;
+  font-size: 12px;
+  font-weight: var(--font-extrabold);
+}
+@media (min-width: 768px) {
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__wrapper {
+    gap: 8px;
+    padding: 14px;
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__info {
+    gap: 10px;
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__title {
+    font-size: 22px;
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-price-wrapp {
+    font-size: 20px;
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
+    padding: 12px;
+    font-size: 17px;
+  }
+}
+
+/* ---------- Collection page: filters (desktop sidebar + mobile drawer, native facets) ---------- */
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar :is(.hdt-filter-group, .hdt-widget) {
+  direction: rtl;
+  unicode-bidi: isolate;
+  padding-block-end: 18px;
+  border-block-end: 1px solid rgb(var(--color-line-border));
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar .hdt-facet-title {
+  color: rgb(var(--color-foreground));
+  font-size: 15px;
+  font-weight: var(--font-extrabold);
+}
+/* Option row: checkbox at the start (right), label beside it, count at the far end (left). */
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar .hdt-filter-group__list-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar .hdt-facets-label {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  gap: 10px;
+  color: rgb(var(--color-foreground2));
+  font-size: 14px;
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar .hdt-facets-label > span + span {
+  color: rgb(var(--color-foreground2) / .8);
+  font-size: 13px;
+  font-weight: 700;
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar .hdt-facets-checkbox {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgb(var(--color-line-border));
+  border-radius: 4px;
+  background-color: rgb(var(--color-background, var(--color-base-background)));
+  color: rgb(var(--color-accent));
+}
+
+/* Mobile filter drawer as a bottom sheet (Figma 1:1287): the native sidebar drawer dialog, docked to
+   the bottom with rounded top corners and a decorative handle. Open/close, focus, Escape, scroll lock
+   and facet updates stay native. */
+@media (max-width: 767px) {
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] :is(#hdt-shop-sidebar-drawer, #hdt-filter_form).hdt-dialog-drawer {
+    inset: auto 0 0 0;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 85dvh;
+    margin: 0;
+    border-radius: 22px 22px 0 0;
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] :is(#hdt-shop-sidebar-drawer, #hdt-filter_form).hdt-dialog-drawer::before {
+    content: "";
+    flex: none;
+    align-self: center;
+    width: 44px;
+    height: 5px;
+    margin: 10px auto 4px;
+    border-radius: 3px;
+    background-color: rgb(var(--color-line-border));
+    pointer-events: none;
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] :is(#hdt-shop-sidebar-drawer, #hdt-filter_form) .hdt-dialog-drawer__header {
+    direction: rtl;
+    justify-content: space-between;
+    padding: 8px 16px 14px;
+    border-block-end: 1px solid rgb(var(--color-line-border));
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] :is(#hdt-shop-sidebar-drawer, #hdt-filter_form) .hdt-dialog-drawer__inner {
+    overflow-y: auto;
+    padding: 16px;
+  }
+}
