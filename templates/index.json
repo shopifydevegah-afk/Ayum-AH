@@ -407,6 +407,58 @@
     "ayum_testimonials": {
       "type": "ayum-testimonial_section",
       "blocks": {
+        "ayum_review_1": {
+          "type": "_ayum-testimonial-item",
+          "settings": {
+            "heading": "",
+            "content": "<p>طلبت السكيتلز للتوزيعات وكل البنات سألوا وين</p><p>&nbsp;شريتها.</p>",
+            "title": "نورة",
+            "pos": "الجهراء",
+            "rating": 5,
+            "ayum_product": "سكيتلز مجفف بالتجميد",
+            "ayum_verified": true
+          },
+          "blocks": {}
+        },
+        "ayum_review_2": {
+          "type": "_ayum-testimonial-item",
+          "settings": {
+            "heading": "",
+            "content": "<p>صوّرت الفيديو وهي تتكسر ونشرته، جاني 30 سؤال بيوم واحد.</p>",
+            "title": "أحمد",
+            "pos": "حولي",
+            "rating": 5,
+            "ayum_product": "توزيعات مناسبات",
+            "ayum_verified": true
+          },
+          "blocks": {}
+        },
+        "ayum_review_3": {
+          "type": "_ayum-testimonial-item",
+          "settings": {
+            "heading": "",
+            "content": "<p>الفراولة طعمها أقوى من الطازجة، وبنتي تاخذها بالمدرسة.</p>",
+            "title": "سارة",
+            "pos": "السالمية",
+            "rating": 5,
+            "ayum_product": "جيلي بيتزا مجفف",
+            "ayum_verified": true
+          },
+          "blocks": {}
+        },
+        "ayum_testimonial_item_jrpB3D": {
+          "type": "_ayum-testimonial-item",
+          "settings": {
+            "heading": "",
+            "content": "<p>الفراولة طعمها أقوى من الطازجة، وبنتي تاخذها بالمدرسة.</p>",
+            "title": "سارة",
+            "pos": "السالمية",
+            "rating": 5,
+            "ayum_product": "جيلي بيتزا مجفف",
+            "ayum_verified": true
+          },
+          "blocks": {}
+        },
         "our-team": {
           "type": "section-heading",
           "static": true,
@@ -450,67 +502,47 @@
             "heading_section_ayum_reviews",
             "sub_heading_section_ayum_reviews"
           ]
-        },
-        "ayum_review_1": {
-          "type": "_ayum-testimonial-item",
-          "settings": {
-            "heading": "",
-            "content": "<p>طلبت السكيتلز للتوزيعات وكل البنات سألوا وين شريتها.</p>",
-            "title": "نورة",
-            "pos": "الجهراء",
-            "rating": 5,
-            "ayum_product": "سكيتلز مجفف بالتجميد",
-            "ayum_verified": false
-          }
-        },
-        "ayum_review_2": {
-          "type": "_ayum-testimonial-item",
-          "settings": {
-            "heading": "",
-            "content": "<p>صوّرت الفيديو وهي تتكسر ونشرته، جاني 30 سؤال بيوم واحد.</p>",
-            "title": "أحمد",
-            "pos": "حولي",
-            "rating": 5,
-            "ayum_product": "توزيعات مناسبات",
-            "ayum_verified": false
-          }
-        },
-        "ayum_review_3": {
-          "type": "_ayum-testimonial-item",
-          "settings": {
-            "heading": "",
-            "content": "<p>الفراولة طعمها أقوى من الطازجة، وبنتي تاخذها بالمدرسة.</p>",
-            "title": "سارة",
-            "pos": "السالمية",
-            "rating": 5,
-            "ayum_product": "جيلي بيتزا مجفف",
-            "ayum_verified": false
-          }
         }
       },
       "block_order": [
         "ayum_review_1",
         "ayum_review_2",
-        "ayum_review_3"
+        "ayum_review_3",
+        "ayum_testimonial_item_jrpB3D"
       ],
       "settings": {
         "ter_des": "ayum",
-        "cl_name": "#FFFFFF",
-        "cl_content": "#FFFFFF",
-        "cl_bg_item": "#E78333",
+        "cl_name": "#ffffff",
+        "cl_content": "#ffffff",
+        "cl_bd": "",
+        "cl_bg_item": "#e78333",
         "bdr": 16,
         "content_align": "right",
         "col_dk": "3",
         "col_tb": "2",
         "col_mb": "1",
         "space_horizontal": "20",
+        "space_vertical": "30",
         "space_horizontal_mb": "4",
+        "space_vertical_mb": "30",
         "layout": "carousel",
         "loop": false,
         "autoplay": 0,
         "pauseOnHover": false,
         "navUI": false,
+        "nav_position": "default",
+        "nav_visible": "always",
+        "nav_style": "default",
+        "nav_shape": "default",
+        "nav_size": "small",
+        "nav_hide_mobile": false,
         "dotUI": false,
+        "pag_style": "default",
+        "pag_rounded": false,
+        "pag_space": 10,
+        "pag_mgt": 10,
+        "only_show_mobile": false,
+        "pag_hide_mobile": false,
         "colors_by_section": true,
         "color_scheme": "scheme-fe88a2ec-47a1-478d-8953-54da0178e18c",
         "background_opacity": 0.4,
@@ -522,12 +554,12 @@
         "pd_mb": "24px,,24px,",
         "ayum_show_header_stars": true,
         "ayum_header_rating": 5,
-        "ayum_star_color": "#FFCC00",
-        "ayum_badge_bg_color": "#FFFFFF",
-        "ayum_badge_text_color": "#2D7A4F",
-        "ayum_progress_track_color": "#26B3D0",
+        "ayum_star_color": "#ffcc00",
+        "ayum_badge_bg_color": "#ffffff",
+        "ayum_badge_text_color": "#2d7a4f",
+        "ayum_progress_track_color": "#26b3d0",
         "ayum_show_progress": true,
-        "custom_class": ""
+        "custom_class": "ayum-testimonial-section"
       }
     }
   },
