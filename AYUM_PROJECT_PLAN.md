@@ -1217,3 +1217,41 @@ Validated: node --check لـ custom.js. Not run: المتصفح والمحرر.
 لم يتغير: templates/index.json، بطاقات المنتج، CSS، JS، الملفات الأصلية. نسخ احتياطية للملفين القديمين خارج المستودع (scratchpad)؛ الاسترجاع: git checkout للملفين وحذف الـ snippet.
 Not run: المتصفح (الكاروسيلان، البطاقات، الإضافة للسلة، شريط التقدم، السحب، RTL، المحرر).
 
+
+## 24. البنية النهائية للصفحة الرئيسية (معتمدة 2026-10-14)
+
+القرار: تبقى أقسام الصفحة الرئيسية التسعة كنسخ AYUM معزولة بأنواع كتلها الحالية، ولا تُرحَّل إلى Kalles الأصلي. أساس القرار تدقيقا البنية (2026-10-14): كل نسخة مبنية فعلاً على أصلها في Kalles (61–95% من markup القسم أصلي، ولا يزيد المحذوف من الأصل عن 5 أسطر)، وكلها تحمل بيانات محفوظة في كتل أو إعدادات AYUM لا يستوعبها الأصل.
+القواعد الدائمة (Native Kalles first، ونسخة AYUM واحدة فقط عند الحاجة لتعديل المصدر، وعدم تكرار نسخة AYUM موجودة، وبوابة الترحيل بلا تراجع) مكانها SKILL.md §0.0 و§5 و§5.3، ولا تُكرَّر هنا.
+
+### 24.1 الأقسام
+| instance في templates/index.json | نوع AYUM | الأصل في Kalles (لم يُعدَّل) | كتل/snippets AYUM | تبعيات أصلية مستخدمة كما هي | CSS / JS |
+| --- | --- | --- | --- | --- | --- |
+| ayum_slideshow_hero | ayum-slideshow | slideshow | — (_ayum-slide-item مسجَّل وغير مستخدم) | _slide-item، text_custom، heading، text، _button_group، button_custom، slideshow.css | dev1.css |
+| ayum_collections_list | ayum-collections-list | collections-list | _ayum-collection-item | section-heading، _heading_section، snippets/collection-item، hdt-collection-items.css | dev1.css |
+| ayum_tabs_collection_best_sellers | ayum-tabs-collection | tabs-collection | _ayum-tab-collection، _ayum-product-carousel، card-product-ayum | section-heading، _heading_section، hdt-tabs-collections.css، hdt-pagination.css، card-price، badges، card-product-media، btn-ultra | dev2.css، ayum-slider-progress.js |
+| ayum_featured_collection_bundles | ayum-featured-collection | featured-collection | _ayum-bundle-product-carousel، card-product-ayum-bundle، ayum-btn-ultra | section-heading، _heading_section، _sub_heading_section، card-price، badges، card-product-media | dev2.css، ayum-slider-progress.js |
+| ayum_image_text_about | ayum-image-text | image_text | _ayum-image-text-col، _ayum-description، _ayum-stats، _ayum-stat | _image-text-column، image، heading، hdt-image-with-text.css | dev1.css |
+| ayum_icon_box_freeze_dry | ayum-icon-box | icon-box | _ayum-icon-box، _ayum-claims، _ayum-claim، ayum-icons | section-heading، _heading_section، _sub_heading_section، hdt-icon-box.css | dev1.css |
+| ayum_testimonials | ayum-testimonial_section | testimonial_section | _ayum-testimonial-item، ayum-quote | section-heading، _heading_section، _sub_heading_section، testimonials.css | dev2.css، ayum-slider-progress.js |
+| ayum_shoppable_video | ayum-product-video | product-video | _ayum-product-video، ayum-btn-ultra | section-heading، _heading_section، _sub_heading_section، <hdt-video-player>، <hdt-slider> | dev2.css، ayum-shoppable-video.js، ayum-slider-progress.js |
+| ayum_accordion_faq | ayum-accordion | accordion | _ayum-accordion-item | section-heading، _heading_section، <hdt-accordion> | dev1.css |
+
+مشترك لكل الأقسام: <hdt-slider> الأصلي (لا مكتبة سلايدر ثانية)، ونظام color schemes الأصلي، وأدوات hdt- الأصلية. لكل قسم إعداد custom_class في نسخة AYUM.
+
+### 24.2 الكاروسيل المشترك
+- snippets/ayum-product-carousel.liquid: الجسم الوحيد للكاروسيل (نسخة _product-carousel الأصلية: البطاقات الأصلية 1–12، <hdt-slider>، زر عرض الكل) مع فرعي البطاقة 'ayum' و'ayum_bundle' وشريط <ayum-slider-progress> الاختياري.
+- blocks/_ayum-product-carousel.liquid (Best sellers) وblocks/_ayum-bundle-product-carousel.liquid (Bundles): غلافان رفيعان بنفس الأنواع والـ schema الكاملة (الـ schema يجب أن يبقى في ملف الكتلة). يمرّر كل منهما block وcarousel_collection (يُحسب داخل الكتلة لتبقى مصادر {{ closest.collection }} في سياقها) وcarousel_class وcarousel_style.
+- خيار البطاقة في schema كل كتلة يحدد الفرع المرسوم؛ card-product-ayum وcard-product-ayum-bundle يركّبان الـ snippets الأصلية (card-price، badges، card-product-media، btn-ultra، quick view، compare).
+- أي تعديل لاحق على الكاروسيل يكون في الـ snippet مرة واحدة، لا في الكتلتين.
+
+### 24.3 الملفات المشتركة خارج الصفحة الرئيسية (للعلم)
+- مجموعة الهيدر: ayum-announcement-bar، ayum-header (+ _ayum-menu-mobile، ayum-main-menu، ayum-header-icons)، وCSS في assets/main.css.
+- مجموعة الفوتر: sections/footer.liquid الأصلي مع تعديلات مصرَّح بها صراحةً لتلك المهمة فقط (custom_class، وفي _footer-column: ayum_open_mobile وayum_order_mb وayum_hide_column_mb، وفي _payment_icons: ayum_label)، وCSS مقيّد بـ .ayum-footer-main / .ayum-footer-bottom في main.css. هذا استثناء موثَّق من قاعدة عدم تعديل الأصل.
+- ملفات أصلية أخرى معدَّلة من مهام سابقة: layout/theme.liquid (ayum-arabic-font-face)، assets/custom.js (ربط أكورديون الفوتر بعد إعادة تحميل السكشن)، snippets/hdt-pr-card-rating.liquid (+ assets/fill_star_rating.svg وunfill_star_rating.svg).
+
+### 24.4 حالة الكود غير المستخدم (تدقيق 2026-10-14)
+- حُذف: assets/sedWCy1az وassets/sedxYrMsG (فارغان، بلا أي مرجع).
+- فارغة وبلا مرجع، بانتظار موافقة منفصلة: assets/dev1.css.tmp.* (3)، assets/dev2.css.tmp.* (2)، assets/ayum-shoppable-video.js.tmp.* (1).
+- غير مستخدم في البيانات المحفوظة ولا يُحذف دون موافقة منفصلة: blocks/_ayum-slide-item.liquid (مسجَّل في schema ayum-slideshow فقط).
+- بلا مرجع في الكود لكنه ليس ميتاً: templates/product.custom-ayum.json وtemplates/collection.custom-ayum.json (تُعيَّن من لوحة Shopify).
+- كل ملفات AYUM الأخرى مستخدمة.
