@@ -285,6 +285,7 @@
       "save_percent": "-{{ percent }}%",
       "ayum_save_percent": "Économisez {{ percent }}%",
       "ayum_add_bundle": "Ajouter le pack",
+      "ayum_verified_purchase": "Achat vérifié",
       "on_sale_single": "PROMO",
       "save_percent_single": "-{{ percent }}%",
       "badge_new": "Nouveau",

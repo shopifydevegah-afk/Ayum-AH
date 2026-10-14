@@ -403,10 +403,137 @@
         "ayum_sale_color": "#ea3a79",
         "custom_class": "ayum-featured-collection"
       }
+    },
+    "ayum_testimonials": {
+      "type": "ayum-testimonial_section",
+      "blocks": {
+        "our-team": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 16,
+            "margin_bottom": 32
+          },
+          "blocks": {
+            "heading_section_ayum_reviews": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "4.8 من 5 · أكثر من 400 تقييم",
+                "line_height": "hdt-lh-1",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 36,
+                "font_size_heading": 21,
+                "letter_spacing_heading": 0
+              },
+              "blocks": {}
+            },
+            "sub_heading_section_ayum_reviews": {
+              "type": "_sub_heading_section",
+              "settings": {
+                "text": "<p>كل تقييم من عملية شراء موثّقة</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "text_size": "custom",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading_section_ayum_reviews",
+            "sub_heading_section_ayum_reviews"
+          ]
+        },
+        "ayum_review_1": {
+          "type": "_ayum-testimonial-item",
+          "settings": {
+            "heading": "",
+            "content": "<p>طلبت السكيتلز للتوزيعات وكل البنات سألوا وين شريتها.</p>",
+            "title": "نورة",
+            "pos": "الجهراء",
+            "rating": 5,
+            "ayum_product": "سكيتلز مجفف بالتجميد",
+            "ayum_verified": false
+          }
+        },
+        "ayum_review_2": {
+          "type": "_ayum-testimonial-item",
+          "settings": {
+            "heading": "",
+            "content": "<p>صوّرت الفيديو وهي تتكسر ونشرته، جاني 30 سؤال بيوم واحد.</p>",
+            "title": "أحمد",
+            "pos": "حولي",
+            "rating": 5,
+            "ayum_product": "توزيعات مناسبات",
+            "ayum_verified": false
+          }
+        },
+        "ayum_review_3": {
+          "type": "_ayum-testimonial-item",
+          "settings": {
+            "heading": "",
+            "content": "<p>الفراولة طعمها أقوى من الطازجة، وبنتي تاخذها بالمدرسة.</p>",
+            "title": "سارة",
+            "pos": "السالمية",
+            "rating": 5,
+            "ayum_product": "جيلي بيتزا مجفف",
+            "ayum_verified": false
+          }
+        }
+      },
+      "block_order": [
+        "ayum_review_1",
+        "ayum_review_2",
+        "ayum_review_3"
+      ],
+      "settings": {
+        "ter_des": "ayum",
+        "cl_name": "#FFFFFF",
+        "cl_content": "#FFFFFF",
+        "cl_bg_item": "#E78333",
+        "bdr": 16,
+        "content_align": "right",
+        "col_dk": "3",
+        "col_tb": "2",
+        "col_mb": "1",
+        "space_horizontal": "20",
+        "space_horizontal_mb": "4",
+        "layout": "carousel",
+        "loop": false,
+        "autoplay": 0,
+        "pauseOnHover": false,
+        "navUI": false,
+        "dotUI": false,
+        "colors_by_section": true,
+        "color_scheme": "scheme-fe88a2ec-47a1-478d-8953-54da0178e18c",
+        "background_opacity": 0.4,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,24px,",
+        "ayum_show_header_stars": true,
+        "ayum_header_rating": 5,
+        "ayum_star_color": "#FFCC00",
+        "ayum_badge_bg_color": "#FFFFFF",
+        "ayum_badge_text_color": "#2D7A4F",
+        "ayum_progress_track_color": "#26B3D0",
+        "ayum_show_progress": true,
+        "custom_class": ""
+      }
     }
   },
   "order": [
     "ayum_tabs_collection_best_sellers",
-    "ayum_featured_collection_bundles"
+    "ayum_featured_collection_bundles",
+    "ayum_testimonials"
   ]
 }

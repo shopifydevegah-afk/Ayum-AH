@@ -293,6 +293,7 @@
       "save_percent": "-{{ percent }}%",
       "ayum_save_percent": "Save {{ percent }}%",
       "ayum_add_bundle": "Add bundle",
+      "ayum_verified_purchase": "Verified purchase",
       "on_sale_single": "SALE",
       "save_percent_single": "{{ percent }}% OFF",
       "badge_new": "New",

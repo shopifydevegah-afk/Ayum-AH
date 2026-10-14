@@ -405,7 +405,7 @@
 | H4 | Bundles — اسم المحرر: **Featured Coll. — Bundles** | index | `2001:156` / `2001:721` | Design-context inspected | Implemented | Partial (harness محلي فقط) | `ayum-featured-collection` (فرع `dev2-ah`)؛ انظر §23 |
 | H5 | About the brand | index | `2001:230` / `2001:749` | Metadata only | Not started | Not run | لا علاقة له بـ "H5" المذكور في الـ skill |
 | H6 | How we freeze-dry | index | `2001:250` / `2001:765` | Metadata only | Not started | Not run | — |
-| H7 | Reviews | index | `2001:316` / `2001:826` | Metadata only | Not started | Not run | محتوى حقيقي فقط |
+| H7 | Reviews — اسم المحرر: **Testimonials** (اسم Kalles الأصلي) | index | `2001:316` / `2001:826` | Design-context inspected | Implemented | Partial (harness محلي فقط) | `ayum-testimonial_section` (فرع `dev2-ah`)؛ انظر §23 |
 | H8 | Product videos | index | `2001:366` / `2001:861` | Metadata only | Not started | Not run | قرار التشغيل التلقائي |
 | H9 | FAQ | index | `2001:446` / `2001:911` | Metadata only | Not started | Not run | — |
 | S1 | Offer / announcement bar | **مشترك: كل الصفحات** | `2001:4` / `2001:582` | Metadata only | Not started | Not run | header-group |
@@ -536,3 +536,78 @@
   - **فحوص:** كل قيم الـ instance صالحة مقابل الـ schemas، وكل ملفات `render` موجودة، و`dev2.css` يُحمَّل من السكشن.
   - **مطلوب من المستخدم:** حفظ `templates/index.json` مرة واحدة ليُعاد رفعه (الملف لم يتغير محلياً فلن يُرفع تلقائياً)، ثم مراجعة طرفية `theme dev`. لم يُتحقق في Dev Preview.
 
+### 2026-10-14 — H7 Reviews / Testimonials — تنفيذ أول (فرع `dev2-ah`)
+- **Figma:** فُحصت `2001:316` (desktop) و`2001:826` (mobile) عبر `get_metadata` و`get_design_context` و`get_variable_defs` ولقطات الشاشة. لون نقطة "شراء موثّق" (#2D7A4F) = لون نص الشارة، فتُرسم بـ `currentColor`.
+- **الأساس الأصلي (لم يُعدَّل):** `sections/testimonial_section.liquid` (اسمه "Testimonials")، و`blocks/_testimonial_item.liquid`، و`snippets/quote_1.liquid`، و`snippets/rating_star.liquid`، و`assets/testimonials.css`.
+  - **لماذا هذا الأساس:** carousel متعدد الأعمدة (`<hdt-slider>`، و`col_dk/tb/mb`)، وإعدادات البطاقة (`cl_bg_item` و`cl_content` و`cl_name` و`bdr` والمسافات)، وheading ثابت. `testimonials_2` تخطيط صورة مزامَن، فهو أبعد.
+- **ملفات جديدة:**
+  - `sections/ayum-testimonial_section.liquid`: الاسم الظاهر بقي `t:sections.testimonials_section.name` = "Testimonials" (للسكشن والـ preset). يضيف تصميم `ter_des = ayum`، ونجوم الملخّص، وشريط التقدّم.
+  - `blocks/_ayum-testimonial-item.liquid`: الاسم "Testimonial"، وكل إعداداته الأصلية باقية، مع إضافة `ayum_product` و`ayum_verified` (افتراضياً false).
+  - `snippets/ayum-quote.liquid`: مقتبس من `quote_1`، ويستخدم `rating_star` الأصلي.
+- **ملفات معدَّلة:**
+  - `assets/dev2.css`: إضافات فقط تحت `.ayum-testimonial-section`.
+  - مفتاح `products.product.ayum_verified_purchase` في 6 لغات (ar: "شراء موثّق").
+  - `templates/index.json`: أُضيف `ayum_testimonials` بعد `ayum_featured_collection_bundles`، وبقية الملف مطابقة بايتاً ببايت.
+- **Scheme 5:** `scheme-fe88a2ec-47a1-478d-8953-54da0178e18c` مع `background_opacity` 0.4.
+  - يتحكم في الخلفية والعنوان (`hdt-s-text`) والعنوان الفرعي (`hdt-text-secondary`)، ونجوم الملخّص وتعبئة التقدّم (`--color-accent`).
+  - **[تحقق]** قيم Scheme 5 الحالية على هذا الفرع داكنة (#383838)؛ سيضبطها التاجر.
+- **إعدادات أصلية مُعاد استخدامها:** `cl_bg_item` #E78333، و`cl_content`/`cl_name` #FFFFFF، و`bdr` 16، و`content_align` right، و`col_dk/tb/mb` 3/2/1، و`space_horizontal` 20، و`space_horizontal_mb` 4، و`layout` carousel. والعنوان والعنوان الفرعي عبر `section-heading` الأصلي.
+- **إعدادات AYUM جديدة (Figma افتراضياً):** `ayum_show_header_stars`، و`ayum_header_rating` (يدوي، مع ملاحظة صريحة)، و`ayum_star_color` #FFCC00، و`ayum_badge_bg_color` #FFFFFF، و`ayum_badge_text_color` #2D7A4F (حد الشارة مشتق بنسبة 30%)، و`ayum_progress_track_color` #26B3D0 (بنسبة 12%)، و`ayum_show_progress`، و`custom_class`.
+- **المحتوى المبدئي:** نصوص Figma (الملخّص "4.8 من 5 · أكثر من 400 تقييم" و3 مراجعات) كمحتوى قابل للتعديل، وكل المراجعات `ayum_verified = false`.
+  - **يجب استبدالها بمراجعات وإحصاءات حقيقية قبل النشر.**
+- **قيود:**
+  - حجم العنوان الفرعي على الموبايل 14px (Figma 13px)، لأن نطاق الإعداد الأصلي خطوته 2.
+  - نجوم التقييم بهندسة LTR الأصلية، فنصف النجمة في أقصى اليسار.
+  - لون النصف الفارغ من نصف النجمة `#dedede` موروث من `<style>` عام في السكشن الأصلي، تُرك كما هو كي لا يتغير سلوك Kalles في الصفحة.
+- **فحوص:**
+  - JSON صارم، وأسماء ≤25، وكل قيم الـ instance صالحة (صُحّح 13 إلى 14)، وملفات `render` موجودة، و0 ألوان حرفية جديدة، والـ locales و`index.json` إضافات فقط.
+  - harness (Playwright، CSS/JS والخطوط الحقيقية) على 1440 و768 و375 و320: البطاقة 417×244 desktop و343 mobile، والنجوم ونصف النجمة في مكانها، والشارة اختيارية، والصورة الاختيارية يمين الاسم، والتقدّم 510×3 desktop فقط، ولا overflow.
+  - **Not run:** محرر الثيم والمتجر.
+- **متابعة 2026-10-14 — المسافات، الخطوط، صيغة الموبايل:**
+  - **أسباب ضغط المسافات:**
+    - نجوم الملخّص بـ `line-height: 0` في `rating_star`، فكان صندوقها 28px بدل 36 (موبايل 26).
+    - العنوان بـ `hdt-lh-1` من الـ instance، فكان سطره 36px بدل 40.
+    - صف نجوم البطاقة 14px بدل 25 (موبايل 16).
+    - هامش الـ heading الأصلي على الموبايل 16px بدل 14.
+  - **الإصلاح (`dev2.css`، كتلة Testimonials فقط):**
+    - `min-height` لصندوقي النجوم (36/26 و25/16)، و`line-height: 1.11` للعنوان.
+    - `direction: rtl` لمنطقة العنوان (محتوى عربي).
+    - `margin-block-start: -0.2rem` للـ carousel على الموبايل.
+  - **النتيجة في harness:**
+    - desktop: 48 / 36 / 16 / 40 / 16 / 25 / 32.
+    - mobile: 24 / 26 / 8 / 23 / 8 / 23 / 14.
+    - مطابقة لـ Figma.
+  - **الخط الثانوي:**
+    - **القياس:** عرض "سكيتلز مجفف بالتجميد" بوزن 700 = 126.3px (Figma 127)، و800 = 132.7، فالوزن المحلي مطابق.
+    - **السبب المرجّح في المتجر:** استخدام `--font-bold`/`--font-extrabold` النسبيين (وزن body + 300/400).
+    - **الإصلاح:** أوزان Almarai مطلقة (400/700/800) لنصوص هذا السكشن. الشارة لم تُلمس.
+  - **صيغة الموبايل:**
+    - إعداد جديد `ayum_mobile_summary`، افتراضياً "4.8 من 5 · +400 تقييم".
+    - يُعرض كـ `h3` تحت 768px ويُخفى العنوان الأصلي هناك. بـ `display:none` يبقى عنوان واحد فقط مكشوفاً لقارئ الشاشة.
+    - فارغ = العنوان الأصلي على الموبايل أيضاً.
+  - **حجم العنوان الفرعي على الموبايل:**
+    - إعداد جديد `ayum_subtitle_size_mobile` (10–24، خطوة 1، افتراضياً 13)، لأن نطاق الإعداد الأصلي خطوته 2.
+    - القيمة 14 المحفوظة في الإعداد الأصلي لم تُغيَّر، لكنها لا تؤثر على الموبايل في هذا السكشن.
+  - **ملاحظة:** شارة "شراء موثّق" ارتفاعها المرسوم 21px مقابل 18 في Figma، فالبطاقة أطول بـ 3px (226 مقابل 223). تُركت بطلب المستخدم.
+  - **الملفات:** `sections/ayum-testimonial_section.liquid` و`assets/dev2.css` فقط. لم يتغير `index.json` ولا الملفات الأصلية ولا Scheme 5.
+  - **Not run:** محرر الثيم.
+- **متابعة 2026-10-14 (2) — أحجام النجوم الفعلية ووزن السطر الثانوي:**
+  - **السبب:** المتابعة السابقة طابقت صناديق الأسطر لا النجوم المرئية. SVG النجمة الأصلي يملأ صندوقه، فالحجم المرئي = حجم الـ SVG.
+    - كان: 28px للملخّص و14px للبطاقة، والمسافة 2.8 و1.4px.
+    - المسافة كانت عبر هامش لكل نجمة، فتُضيف نصف مسافة عند طرفي الصف.
+  - **القياس من Figma (عدّ البكسلات الملوّنة في صور العقد):**
+    - الملخّص: 25×25 والمسافات 6/6/5/6 والصف 148 (موبايل: 18، ~4.75، والصف 108).
+    - البطاقة: ~12.5 والمسافة ~2.75 والصف 74 (موبايل: 11، والمسافات 3/3/2/3، والصف 65).
+  - **الإصلاح (`dev2.css`، Testimonials فقط):**
+    - `.rating` أصبح `inline-flex` مع `gap: var(--ayum-star-gap)`، و`margin: 0` للنجوم. إزاحات نصف النجمة ما زالت بنفس خطوة الحجم + المسافة.
+    - الأحجام: ملخّص 2.5rem / 0.58rem (موبايل 1.8 / 0.47)، وبطاقة 1.25rem / 0.28rem (موبايل 1.1 / 0.27).
+    - دُمجت قاعدتا `.ayum-quote__rating` على الموبايل في قاعدة واحدة.
+  - **التحقق بقياس البكسلات لما رسمناه نحن:**
+    - الملخّص desktop: 25، والمسافات 6/6/5/6، والصف 148 (مطابق لـ Figma). موبايل: 18، والصف 108–109.
+    - البطاقة desktop: 12، والصف 74. موبايل: 11، والمسافات 3/3/2/3، والصف 66.
+    - المسافة تحت حبر النجوم: البطاقة 18px (Figma 19)، والموبايل 15px (Figma 15)، والملخّص إلى العنوان 22px (Figma 23).
+  - **السطر الثانوي (المنتج):** `font-weight: 400` بنفس وزن نص المراجعة (طلب التاجر)، والاسم باقٍ 800.
+    - **المقاس:** body 400، product 400، name 800 على 1440 و375 و320.
+  - شارة "شراء موثّق" لم تُلمس (تحقق آلي).
+  - **الملفات:** `assets/dev2.css` فقط.
+  - **Not run:** محرر الثيم. الملف المحلي يُرفع عبر جلسة `theme dev` القائمة.

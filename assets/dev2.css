@@ -531,3 +531,257 @@
     font-weight: var(--font-bold);
   }
 }
+
+/* --------------------------------------------------------------------------
+   AYUM Testimonials (sections/ayum-testimonial_section.liquid, design "ayum")
+   Figma: 2001:316 (desktop 1440) / 2001:826 (mobile 375). 1rem = 10px.
+   Colours: section colour scheme (Scheme 5) for background / heading / subtitle / summary stars / progress fill;
+   native card settings (--cl-bg, --cl-content, --cl-name, --bdr); --ayum-* settings for review stars, badge, track.
+   -------------------------------------------------------------------------- */
+
+/* Stars — native rating_star markup. The native half star is positioned with physical offsets for a 13px star,
+   so the star row is pinned LTR (geometry only) and the offsets follow the AYUM star pitch. */
+.ayum-testimonial-section .hdt-rating-wapper {
+  min-height: 0;
+  margin: 0;
+  line-height: 0;
+  color: inherit;
+}
+.ayum-testimonial-section .hdt-rating-wapper .rating {
+  direction: ltr;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ayum-star-gap);   /* the absolutely positioned half star takes no part in the flex gap */
+}
+/* The native star SVG fills its whole box, so --ayum-star-size IS the visible star size. */
+.ayum-testimonial-section .hdt-rating-wapper svg {
+  flex: 0 0 auto;
+  width: var(--ayum-star-size);
+  height: var(--ayum-star-size);
+  margin: 0;
+  fill: currentColor;
+}
+.ayum-testimonial-section .hdt-rating-wapper .rating .last-star {
+  fill: currentColor;
+  opacity: 0.3;
+}
+.ayum-testimonial-section .hdt-rating-wapper .rating.rating_1-5 .star_half { left: calc((var(--ayum-star-size) + var(--ayum-star-gap)) * 1); }
+.ayum-testimonial-section .hdt-rating-wapper .rating.rating_2-5 .star_half { left: calc((var(--ayum-star-size) + var(--ayum-star-gap)) * 2); }
+.ayum-testimonial-section .hdt-rating-wapper .rating.rating_3-5 .star_half { left: calc((var(--ayum-star-size) + var(--ayum-star-gap)) * 3); }
+
+/* Header: summary stars (Figma 2001:319, 5 stars = 154px) */
+.ayum-testimonial-section .ayum-testimonials__stars {
+  --ayum-star-size: 2.5rem;   /* Figma 2001:319 visible star: 25 x 25 */
+  --ayum-star-gap: 0.58rem;   /* 5 stars + 4 gaps = 148px, as in Figma */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.6rem;   /* Figma 2001:318: 36px line box (the native star row collapses to line-height 0) */
+  margin-block-end: 1.6rem;
+  color: rgb(var(--color-accent));
+}
+/* Subtitle (Figma 2001:323): Almarai Bold 16 / 24.9. The native subheading uses the theme subheading font
+   (font_custom_sheading = Libre Baskerville, no Arabic glyphs); use the theme body font token instead. */
+.ayum-testimonial-section .hdt-section-heading_block .hdt-subheading-block {
+  font-family: var(--font-body-family);
+  font-weight: 700;   /* Almarai Bold (absolute: --font-bold follows the body weight setting + 300) */
+  line-height: 1.556;
+}
+/* Header text: Arabic content boundary, and Figma's "normal" line height (36px → 40px, 21px → 23px lines)
+   instead of the instance's native line-height 1. */
+.ayum-testimonial-section .hdt-section-heading_block,
+.ayum-testimonial-section .ayum-testimonials__mobile-summary {
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+.ayum-testimonial-section .hdt-section-heading_block .hdt-heading-block {
+  line-height: 1.11;
+}
+/* Mobile rating summary (section setting): hidden on desktop, replaces the native heading below 768px */
+.ayum-testimonial-section .ayum-testimonials__mobile-summary {
+  display: none;
+  margin: 0 0 0.8rem;
+  color: rgb(var(--color-foreground));
+  font-family: var(--font-heading-family);
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.11;
+  text-align: center;
+}
+
+/* Card (Figma 2001:325): native wrap (background var(--cl-bg), radius var(--bdr)), AYUM content order */
+.ayum-testimonial-section .hdt-quotes-des-ayum .testimonial-inner {
+  height: 100%;
+}
+.ayum-testimonial-section .ayum-quote {
+  /* Arabic content: direction declared at the card boundary; the slider track keeps the page dir. */
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  height: 100%;
+  padding: 2.4rem;
+  text-align: start;
+}
+.ayum-testimonial-section .ayum-quote__rating {
+  --ayum-star-size: 1.25rem;  /* Figma 2001:326 visible star: ~12.5px */
+  --ayum-star-gap: 0.28rem;   /* row 74px */
+  display: flex;
+  align-items: center;
+  min-height: 2.5rem;   /* Figma 2001:326: 25px line box */
+  color: rgb(var(--ayum-star));
+}
+.ayum-testimonial-section .ayum-quote__verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 1rem;
+  border: 1px solid rgb(var(--ayum-badge-text) / 0.3);
+  border-radius: var(--radius-full);
+  background-color: rgb(var(--ayum-badge-bg));
+  color: rgb(var(--ayum-badge-text));
+  font-size: 1.1rem;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.ayum-testimonial-section .ayum-quote__verified-dot {
+  flex: 0 0 auto;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+.ayum-testimonial-section .ayum-quote__heading {
+  margin: 0;
+  color: var(--cl-name);
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+.ayum-testimonial-section .ayum-quote__text,
+.ayum-testimonial-section .ayum-quote__text p {
+  width: 100%;
+  margin: 0;
+  color: var(--cl-content);
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.8;
+}
+/* Author block anchored to the bottom so cards of different text lengths stay aligned */
+.ayum-testimonial-section .ayum-quote__footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-block-start: auto;
+}
+.ayum-testimonial-section .ayum-quote__image {
+  flex: 0 0 auto;
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 0.8rem;
+  object-fit: cover;
+}
+.ayum-testimonial-section .ayum-quote__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+.ayum-testimonial-section .ayum-quote .ayum-quote__author {
+  margin: 0;
+  color: var(--cl-name);
+  font-size: 1.7rem;
+  font-weight: 800;   /* Almarai ExtraBold */
+  line-height: 1.15;
+}
+.ayum-testimonial-section .ayum-quote__product {
+  color: var(--cl-name);
+  font-size: 1.3rem;
+  font-weight: 400;   /* same weight as the review text (merchant requirement); the name above stays 800 */
+  line-height: 1.15;
+}
+
+/* Slider progress — desktop only (Figma 2001:364): track = setting at 12%, fill = scheme accent */
+.ayum-testimonial-section .ayum-slider-progress {
+  display: none;
+}
+.ayum-testimonial-section .ayum-slider-progress__thumb {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc((1 - var(--ayum-progress-size, 1)) * var(--ayum-progress, 0) * 100%);
+  width: calc(var(--ayum-progress-size, 1) * 100%);
+  border-radius: inherit;
+  background-color: rgb(var(--color-accent));
+}
+@media (min-width: 1150px) {
+  .ayum-testimonial-section .ayum-slider-progress {
+    position: relative;
+    display: block;
+    width: 51rem;
+    max-width: 100%;
+    height: 0.3rem;
+    margin: 3.2rem auto 0;
+    overflow: hidden;
+    border-radius: 0.2rem;
+    background-color: rgb(var(--ayum-progress-track) / 0.12);
+  }
+}
+
+/* Mobile (Figma 2001:826): one 343px card with the next one peeking, smaller type, Regular subtitle */
+@media (max-width: 767px) {
+  .ayum-testimonial-section .ayum-testimonials__stars {
+    --ayum-star-size: 1.8rem;   /* Figma 2001:829 visible star: 18px */
+    --ayum-star-gap: 0.47rem;   /* row 108px */
+    min-height: 2.6rem;   /* Figma 2001:828 */
+    margin-block-end: 0.8rem;
+  }
+  .ayum-testimonial-section .hdt-section-heading_block .hdt-subheading-block {
+    font-size: var(--ayum-subtitle-mb);   /* AYUM setting (Figma 13px; the native step-2 range cannot hold it) */
+    font-weight: 400;
+    line-height: 1.8;
+  }
+  .ayum-testimonial-section.ayum-testimonials--mobile-summary .ayum-testimonials__mobile-summary {
+    display: block;
+  }
+  .ayum-testimonial-section.ayum-testimonials--mobile-summary .hdt-section-heading_block .hdt-heading-block {
+    display: none;
+  }
+  /* Figma 2001:826: 14px from the subtitle to the cards; the heading block's native mobile margin is 16px. */
+  .ayum-testimonial-section .hdt-quotes-des-ayum {
+    margin-block-start: -0.2rem;
+  }
+  .ayum-testimonial-section .hdt-quotes-des-ayum .hdt-slider.hdt-prent {
+    --slide-size: 95.3%;   /* 343px card + 4px gap in the 375px frame, next card peeking */
+  }
+  /* Only when the section content sits in the theme container (1.5rem side padding in base.css). */
+  .ayum-testimonial-section:is(.hdt-container) .hdt-quotes-des-ayum .hdt-slider__viewport,
+  .ayum-testimonial-section .hdt-container .hdt-quotes-des-ayum .hdt-slider__viewport {
+    margin-inline-end: -1.5rem;
+  }
+  .ayum-testimonial-section .ayum-quote {
+    padding: 1.8rem;
+  }
+  .ayum-testimonial-section .ayum-quote__rating {
+    --ayum-star-size: 1.1rem;   /* Figma 2001:842 visible star: 11px */
+    --ayum-star-gap: 0.27rem;   /* row 65px */
+    min-height: 1.6rem;         /* Figma 2001:834: 16px line box */
+  }
+  .ayum-testimonial-section .ayum-quote__text,
+  .ayum-testimonial-section .ayum-quote__text p {
+    font-size: 1.5rem;
+    line-height: 1.85;
+  }
+  .ayum-testimonial-section .ayum-quote__meta {
+    gap: 0.2rem;
+  }
+  .ayum-testimonial-section .ayum-quote .ayum-quote__author {
+    font-size: 1.3rem;
+  }
+  .ayum-testimonial-section .ayum-quote__product {
+    font-size: 1.2rem;
+  }
+}
