@@ -406,7 +406,7 @@
 | H5 | About the brand | index | `2001:230` / `2001:749` | Metadata only | Not started | Not run | لا علاقة له بـ "H5" المذكور في الـ skill |
 | H6 | How we freeze-dry | index | `2001:250` / `2001:765` | Metadata only | Not started | Not run | — |
 | H7 | Reviews — اسم المحرر: **Testimonials** (اسم Kalles الأصلي) | index | `2001:316` / `2001:826` | Design-context inspected | Implemented | Partial (harness محلي فقط) | `ayum-testimonial_section` (فرع `dev2-ah`)؛ انظر §23 |
-| H8 | Product videos | index | `2001:366` / `2001:861` | Metadata only | Not started | Not run | قرار التشغيل التلقائي |
+| H8 | Product videos — اسم المحرر: **Shoppable Video** (اسم Kalles الأصلي) | index | `2001:366` / `2001:861` | Design-context inspected | Implemented | Partial (harness محلي فقط) | `ayum-product-video` (فرع `dev2-ah`)، بلا تشغيل تلقائي؛ انظر §23 |
 | H9 | FAQ | index | `2001:446` / `2001:911` | Metadata only | Not started | Not run | — |
 | S1 | Offer / announcement bar | **مشترك: كل الصفحات** | `2001:4` / `2001:582` | Metadata only | Not started | Not run | header-group |
 | S2 | Header + category nav | **مشترك: كل الصفحات** | `2001:8` + `2001:21` / `2001:586` | Metadata only | Not started | Not run | الأعلى خطراً |
@@ -536,6 +536,19 @@
   - **فحوص:** كل قيم الـ instance صالحة مقابل الـ schemas، وكل ملفات `render` موجودة، و`dev2.css` يُحمَّل من السكشن.
   - **مطلوب من المستخدم:** حفظ `templates/index.json` مرة واحدة ليُعاد رفعه (الملف لم يتغير محلياً فلن يُرفع تلقائياً)، ثم مراجعة طرفية `theme dev`. لم يُتحقق في Dev Preview.
 
+- **متابعة 2026-10-14 — عدد أسطر عنوان المنتج:**
+  - **الإعداد:** `ayum_product_title_lines` ("Product title lines"، select 1–4، افتراضياً "1") في البلوك `_ayum-bundle-product-carousel`، بجانب إعدادات البطاقة الأخرى.
+  - **التمرير:** `style="--ayum-product-title-lines: …"` على أغلفة `.ayum-bundle-carousel` الثلاثة.
+  - **CSS (`dev2.css`):**
+    - العنوان: line-clamp عبر `--ayum-product-title-lines` (`-webkit-line-clamp` + `line-clamp`) مع ellipsis، والاسم الكامل باقٍ في الرابط. ارتفاع محجوز بعدد الأسطر حتى تبقى البطاقات متساوية.
+    - `overflow-wrap: anywhere` للكلمات الطويلة، و`unicode-bidi: plaintext` حتى تظهر ellipsis الاسم الإنجليزي في نهايته الصحيحة.
+    - على الموبايل `text-align: right` (حافة بداية البطاقة RTL). على desktop يبقى الوسط عبر `match-parent`.
+  - **إعادة الاستخدام:** نمط `ayum_title_lines` في `_ayum-product-carousel` (Best sellers)، وآلية `-webkit-line-clamp` في `.hdt-line-clamp` الأصلية. لا إعداد Kalles أصلي لعدد الأسطر.
+  - **الارتفاع:** بطاقة الموبايل `min-height: 15.4rem` (ليست ثابتة)، فتكبر مع 3–4 أسطر (156 / 164 / 181px على 375). لم يُغيَّر أي قيد.
+  - **harness:** الأسطر 1–4 × 1440/375/320 مع عناوين عربية وإنجليزية طويلة وكلمة بلا مسافات: 12/12 بلا تداخل مع الوصف/السعر/الزر، والزر داخل البطاقة، ولا overflow.
+    - **ملاحظة اختبار:** العنوان الأصلي `.hdt-card-product__title` عليه `transition: all .25s`، فالقياس بعد تغيير المتغير في نفس الإطار يعطي قيماً وسطية. في المتجر القيمة تأتي من Liquid عند الرسم.
+  - **Not run:** محرر الثيم.
+
 ### 2026-10-14 — H7 Reviews / Testimonials — تنفيذ أول (فرع `dev2-ah`)
 - **Figma:** فُحصت `2001:316` (desktop) و`2001:826` (mobile) عبر `get_metadata` و`get_design_context` و`get_variable_defs` ولقطات الشاشة. لون نقطة "شراء موثّق" (#2D7A4F) = لون نص الشارة، فتُرسم بـ `currentColor`.
 - **الأساس الأصلي (لم يُعدَّل):** `sections/testimonial_section.liquid` (اسمه "Testimonials")، و`blocks/_testimonial_item.liquid`، و`snippets/quote_1.liquid`، و`snippets/rating_star.liquid`، و`assets/testimonials.css`.
@@ -611,3 +624,101 @@
   - شارة "شراء موثّق" لم تُلمس (تحقق آلي).
   - **الملفات:** `assets/dev2.css` فقط.
   - **Not run:** محرر الثيم. الملف المحلي يُرفع عبر جلسة `theme dev` القائمة.
+
+### 2026-10-14 — H8 Product videos / Shoppable Video — تنفيذ أول (فرع `dev2-ah`)
+- **Figma:** فُحصت `2001:366` (desktop) و`2001:861` (mobile) عبر `get_metadata` و`get_design_context` و`get_variable_defs` ولقطات الشاشة، وفُحص SVG زر التشغيل (`2040:141`): دائرة 60px بلون Ink 35% ومثلث أبيض.
+  - **[تحقق] تعارض:** Figma Desktop فيه **5** بطاقات (225×400 + لوحة 127، بمسافة 38px)، لا 4. طُبِّق Figma: `col_dk` = 5.
+  - **[تحقق] تعارض:** مؤشر التقدّم في Figma جزئي (≈67%) رغم أن البطاقات الخمس كلها ظاهرة. طُبِّق السلوك الحقيقي: الشريط يظهر فقط عندما تتحرك البطاقات فعلاً (أكثر من snap).
+- **الأساس الأصلي (لم يُعدَّل):** `sections/product-video.liquid` (اسمه "Shoppable Video") و`blocks/_product-video.liquid`، مع `<hdt-video-player>` و`<hdt-slider>` من `global.min.js`.
+  - **لماذا يحتاج نسخة:** الأصل يضع `autoplay` ثابتاً، ولا يدعم 5 أعمدة ولا التوسيط على الموبايل، وبطاقته مختلفة.
+- **ملفات جديدة:**
+  - `sections/ayum-product-video.liquid`: الاسم الظاهر "Shoppable Video" (للسكشن والـ preset). كل إعدادات الأصل باقية، و Style 1/2 يعملان كما في الأصل. أُضيف خيار Style = "AYUM" وخيار `col_dk` = 5.
+  - `blocks/_ayum-product-video.liquid`: كل إعدادات الأصل باقية، مع إضافة `ayum_poster` و`ayum_views`. أُزيلت القيمة الافتراضية لرابط YouTube التجريبي في النسخة فقط.
+  - `assets/ayum-shoppable-video.js`: عنصر `<ayum-shoppable-video>` يستدعي `play()`/`pause()` الأصليين و`goToTarget()` الأصلي.
+- **ملفات معدَّلة:**
+  - `assets/dev2.css`: إضافات فقط تحت `.ayum-product-video` (362 سطراً، بلا حذف).
+  - `assets/ayum-slider-progress.js`: سطر واحد. `scrollable` أصبح `api.scrollSnapList().length > 1` بدل `size < 1` (التقريب بالبكسل أظهر الشريط مع 5 بطاقات ظاهرة). لا يقرأ هذه السمة إلا هذا السكشن.
+  - `templates/index.json`: أُضيف `ayum_shoppable_video` بعد `ayum_testimonials`. التغيير الوحيد في الموجود هو فاصلة بعد `"ayum_testimonials"` في `order` (تحقق آلي: حذف الإضافة يعيد الملف الأصلي حرفياً).
+- **إعادة استخدام:**
+  - التشغيل: `<hdt-video-player>` بدون `autoplay` + سمة `group` الأصلية للتشغيل الحصري، وأحداث `media:play`/`media:pause` الأصلية.
+  - الـ slider: `<hdt-slider>` مع خيارات Embla عبر `config`، و`.is-selected` الأصلي للبطاقة النشطة.
+  - العنوان: `section-heading` الأصلي. السعر: `card-price` (مع `ayum-money`). الإضافة للسلة: `ayum-btn-ultra` الموجود مع `add_label`، أي نفس مسارات المتغيرات وquick add ونفاد المخزون.
+- **Scheme 3:** `scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce`.
+  - يتحكم في الخلفية والعنوان والعنوان الفرعي، وسطح البطاقة، والتسمية على الموبايل، وطبقات الفيديو (شارة المدة Ink 75%، ودائرة التشغيل Ink 35%، وشارة المشاهدات White 90%).
+- **إعدادات AYUM جديدة (Figma افتراضياً):**
+  - المسافات: `ayum_gap` 38 و`ayum_gap_mb` 12، لأن `space_items` الأصلي لا يتجاوز 20.
+  - `ayum_subtitle_size_mobile` 13، لأن خطوة الإعداد الأصلي 2.
+  - السلوك: `ayum_video_muted` (true)، و`ayum_show_duration`، و`ayum_show_progress`.
+  - النصوص: `ayum_product_label` ("المنتج في الفيديو")، و`ayum_atc_label` ("اطلب المنتج"؛ فارغ = ترجمة الثيم).
+  - الألوان: `ayum_primary_color` #26B3D0، و`ayum_on_primary_color` #FFFFFF، و`ayum_card_border_color` #D3E3E8، و`ayum_price_color` #EA3A79، و`ayum_views_text_color` #4E6E70.
+  - `custom_class`.
+- **المحتوى:**
+  - 5 بلوكات فارغة. الفيديو والمنتج يختارهما التاجر.
+  - المدة تُقرأ من `video.duration` (ملّي ثانية). المشاهدات نص يدوي اختياري (فارغ = مخفي)، ولا أرقام مختلَقة.
+  - بلا فيديو: placeholder في المحرر، ولا شيء في المتجر. بلا منتج: لا لوحة منتج.
+- **فحوص ثابتة:** JSON صارم، والأسماء ≤25، وكل قيم الـ instance والـ preset صالحة، وملفات `render` موجودة، وتوازن الوسوم، و0 ألوان حرفية، و0 روابط Figma، ونقاط التوقف 767/768 فقط، و`node --check` للـ JS.
+- **harness (Playwright، CSS/JS والخطوط الحقيقية، فيديو WebM حقيقي) على 1440 و1150 و1149 و768 و767 و375 و320، RTL وLTR:**
+  - **Desktop 1440:**
+    - الحشو 64/40، والعنوان 40، والعنوان الفرعي 24.9، والمسافات 16 و32.
+    - 5 بطاقات 227.6 (حاوية 1290 من إعداد الثيم مقابل 1280 في Figma)، والمسافة 38، والوسائط 9:16، واللوحة 127، والصورة 48، والزر 41.
+    - التقدّم 510×3 على بعد 32.
+  - **Mobile 375:**
+    - العنوان 23، والعنوان الفرعي 23.4، والمسافات 8 و14.
+    - البطاقة 172.1×436 في الوسط تماماً، والجارتان بشفافية 0.5، واللوحة 130، والزر 33، ولا صورة ولا تقدّم.
+  - **وظيفياً:**
+    - التشغيل والإيقاف بالزر وبـ Enter. تشغيل بطاقة يوقف الأخرى.
+    - السحب يغيّر البطاقة النشطة ويوقف الفيديو السابق. الضغط على بطاقة جانبية يوسّطها ثم يشغّلها.
+    - التمرير على desktop يوقف البطاقات الخارجة. زر الإضافة يرسل الفورم الأصلي.
+    - لا overflow أفقي، و0 أخطاء console.
+  - **أُصلح أثناء الاختبار:**
+    - جهة شارة المدة: `direction: ltr` كان يعكس الإزاحة المنطقية.
+    - ارتفاع سطر السعر: القائمة الأصلية بـ `line-height: 1`.
+    - البداية على الموبايل بالبطاقة الثانية (عند 3 بطاقات أو أكثر) لتظهر جارتان كما في Figma.
+- **Not run:** محرر الثيم والمتجر.
+  - رفع فيديو Shopify حقيقي، و`video_tag` الفعلي، وقيمة `video.duration`، والصوت عند `ayum_video_muted = false`.
+  - ربط منتج حقيقي، والسلة/الـ drawer، وquick add للمنتجات متعددة الخيارات، وإعادة تحميل السكشن في المحرر، و`section.blocks.size` مع البلوك الثابت.
+- **متابعة 2026-10-14 — شفافية البطاقة النشطة، شارة المشاهدات، أدوات التحكم الأصلية:**
+  - **Figma (أُعيد فحص `2001:366` و`2001:861`):**
+    - البطاقة النشطة على الموبايل opacity 1، والجارتان `opacity-50` على البطاقة كاملة، ولا blur.
+    - شارة المشاهدات أعلى يمين الفيديو: desktop 15/13 و`4px 10px` وradius 10 و11px Bold؛ mobile 15/12 و`3px 9px` وradius 9 و10px.
+  - **الشفافية — السبب الجذري:** القاعدة كانت مشروطة بـ `.is--enabled`، والـ slider الأصلي يحذف هذه الكلاس عند كل حدث `resize` من Embla (إخفاء/إظهار شريط عنوان المتصفح على الموبايل، وتغيير حجم معاينة المحرر).
+    - النتيجة: كل البطاقات بشفافية 1.
+    - تأكيد في harness بعد resize: القاعدة القديمة تطابق 0 شرائح والجديدة 5.
+    - **الإصلاح:** الشرط أصبح `.ayum-pv__slider:has(.is-selected)` (كلاس Embla الأصلي). desktop لم يتغير (كل البطاقات 1).
+  - **شارة المشاهدات:**
+    - الكود والـ CSS سليمان: تُعرض متى كان الحقل غير فارغ، `z-index: 2` فوق الفيديو، ولا شيء يخفيها.
+    - **السبب المرجّح:** حقل `ayum_views` (Views label) فارغ افتراضياً وفي كل البلوكات المزروعة. قيم المتجر غير متاحة محلياً (لم يُنفَّذ pull).
+    - **الإصلاح (نفس الـ id، بلا تكرار):**
+      - التسمية أصبحت "Views count badge"، مع placeholder "124 ألف مشاهدة" وشرح.
+      - أُزيل `visible_if` عن الحقل وعن صورة الـ poster ليظهرا دائماً في المحرر.
+      - لا أرقام مختلَقة.
+  - **أدوات التحكم الأصلية:**
+    - Kalles فيه `show_video_controls` فقط في `blocks/video.liquid` (بلوك آخر، افتراضياً false). أُضيف نفس الـ id للسكشن AYUM: "Show video controls"، checkbox، افتراضياً **true**.
+    - `video_tag: controls: section.settings.show_video_controls` + `data-controls` على الوسائط.
+    - JS يخفي الأدوات حتى أول تشغيل (مظهر Figma: دائرة + شارات)، ثم يظهرها. زر التشغيل في هذا الوضع هو الدائرة 60px فقط، فلا يغطي الأدوات.
+    - بعد البدء تختفي الدائرة وشارة المدة، لأن الأدوات تعرض الوقت وشريطها يغطي مكان الشارة. تعود كلها عندما تغادر البطاقة الشريحة النشطة.
+    - الضغط في أسفل 56px من الفيديو (شريط الأدوات) لا يصل للـ slider، فالسحب على شريط الوقت لا يحرّك الـ carousel. السحب على باقي الفيديو وعلى اللوحة يعمل.
+    - النقر على فيديو بطاقة جانبية يوسّطها دون تشغيل.
+    - عند إيقاف الإعداد يبقى سلوك الزر السابق (تشغيل/إيقاف بالضغط على الفيديو كله). YouTube/Vimeo بلا تغيير.
+  - **harness (فيديو WebM حقيقي، خادم بـ HTTP range):**
+    - **mobile:**
+      - 1/0.5/0.5 قبل resize وبعده وبعد السحب وبعد `goToIndex`، و`filter: none`.
+      - التشغيل يُظهر الأدوات. السحب على شريط الأدوات أبقى الشريحة نفسها. السحب على اللوحة وعلى أعلى الفيديو غيّر الشريحة.
+      - الفيديو السابق توقف وعاد لمظهر Figma. النقر على الجارة وسّطها. لا overflow.
+    - **desktop:** كل البطاقات 1. التشغيل الحصري يعمل. النقر على سطح الفيديو يشغّله أصلياً، والتقديم إلى 10.4s من 22s يعمل.
+    - **الوضع بدون أدوات:** نفس نتائج الاختبار الأول (تشغيل/إيقاف، Enter، حصري، إرسال فورم السلة).
+    - 0 أخطاء console.
+  - **الملفات:** `blocks/_ayum-product-video.liquid`، و`sections/ayum-product-video.liquid` (إعداد واحد)، و`assets/ayum-shoppable-video.js`، و`assets/dev2.css`. لم يتغير `index.json` ولا الملفات الأصلية ولا Scheme 3.
+  - **Not run:** محرر الثيم والمتجر.
+    - فيديوهات Shopify الحقيقية: أدوات iOS Safari/Android، ومنطقة 56px على أجهزة حقيقية، وملء الشاشة.
+    - قيم المشاهدات في بلوكات التاجر، وإعادة تحميل السكشن.
+- **متابعة 2026-10-14 — عدد أسطر اسم المنتج:**
+  - **الإعداد:** `ayum_product_title_lines` ("Product title lines"، select 1–4، افتراضياً "1") في schema السكشن `ayum-product-video`. إعداد واحد لكل البطاقات، ومستقل عن Bundles.
+  - **التمرير:** `--ayum-product-title-lines` في `{% style %}` السكشن.
+  - **CSS:**
+    - العنوان: line-clamp عبر `--ayum-product-title-lines` (`-webkit-line-clamp` + `line-clamp`) مع ellipsis، والاسم الكامل باقٍ في الرابط. ارتفاع محجوز بعدد الأسطر حتى تبقى البطاقات متساوية.
+    - `overflow-wrap: anywhere` للكلمات الطويلة، و`unicode-bidi: plaintext` حتى تظهر ellipsis الاسم الإنجليزي في نهايته الصحيحة.
+    - `text-align: right`. `--ayum-pv-title-lh` (1.133 desktop / 1.12 mobile) يربط الارتفاع المحجوز بارتفاع السطر.
+  - **الافتراضي يحافظ على Figma:** اللوحة 127 desktop و130 mobile.
+  - **harness:** الأسطر 1–4 × 1440/375/320: 12/12. الشفافية والأدوات والتقديم بلا تغيير.
+  - **Not run:** محرر الثيم.

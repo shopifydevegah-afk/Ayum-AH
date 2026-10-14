@@ -82,7 +82,8 @@
 
       this.style.setProperty('--ayum-progress-size', size.toFixed(4));
       this.style.setProperty('--ayum-progress', progress.toFixed(4));
-      this.toggleAttribute('scrollable', size < 1);
+      // More than one snap = the slides really scroll (pixel widths round, so `size < 1` can misfire by a pixel).
+      this.toggleAttribute('scrollable', api.scrollSnapList().length > 1);
     }
   }
 

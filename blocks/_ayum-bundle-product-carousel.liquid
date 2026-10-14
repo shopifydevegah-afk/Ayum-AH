@@ -38,7 +38,7 @@
   (min-width: 1150px) calc(({{ current_width }} -  ({{ space_item }}px * ( {{ section.settings.col_dk }} - 1 ))) * 1 / {{ section.settings.col_dk }}),(min-width: 768px) calc( ({{ current_width_tb }} - ({{ space_item_tb }}px * ( {{ section.settings.col_tb }} - 1 ))) * 1 / {{ section.settings.col_tb }}), calc( ({{ current_width_mb }} - ({{ space_item_mb }}px * ( {{ section.settings.col_mb }} - 1 ) )) * 1 / {{ section.settings.col_mb }})
 {%- endcapture -%}
 {%- if request.visual_preview_mode or block.settings.product_list == blank and block.settings.collection == blank %}  
-  <div class="hdt-product-carousel ayum-bundle-carousel">
+  <div class="hdt-product-carousel ayum-bundle-carousel" style="--ayum-product-title-lines: {{ block.settings.ayum_product_title_lines | default: 1 }};">
     <hdt-slider id="Slider-{{ section.id }}" class="hdt-slide-center-{{ block.settings.hdt_slide_center }} hdt-collection-products hdt-slider__products hdt-collection-has-pr{{ block.settings.product_des }} hdt-pr-border_{{ block.settings.pr_border }} hdt-ratio--{{ block.settings.image_ratio }} {% unless block.settings.image_size %} hdt-ratio--contain{% endunless %} hdt-slider hdt-slider-parent hdt-slide-spacing-{{ block.settings.space_items }} hdt-relative {% if block.settings.navUI %}hdt-slider-has-nav{% endif %} {% if block.settings.dotUI %}hdt-slider-has-dots-dk{% endif %} lg:hdt-slides-{{ block.settings.col_dk | default: "auto" }} md:hdt-slides-{{ block.settings.col_tb | default: "auto" }} hdt-slides-{{ block.settings.col_mb | default: "auto" }}" config='{ "id": "Slider-{{ block.id }}", "navUI": {{ block.settings.navUI }}, "dotUI": true, "loop": {{ block.settings.loop }}, "autoPlay": {{ block.settings.autoplay | times: 1000 }}, "pauseOnHover": {{ block.settings.pauseOnHover }}{% if block.settings.hdt_slide_center %}, "containScroll": "trimSnaps", "align": "center"{% endif %} }'>
       <div class="hdt-slider__viewport hdt-relative">
         <div class="hdt-slider__container">
@@ -71,7 +71,7 @@
 {%- else -%}
   {%- if block.settings.product_list != blank %}
     {%- paginate block.settings.product_list by block.settings.products_count -%}
-      <div class="hdt-product-carousel ayum-bundle-carousel">
+      <div class="hdt-product-carousel ayum-bundle-carousel" style="--ayum-product-title-lines: {{ block.settings.ayum_product_title_lines | default: 1 }};">
         <hdt-slider id="Slider-{{ block.id }}" class="hdt-opacity-out-container-{{ block.settings.hdt_opacity_out_container }} hdt-slider-center-{{ block.settings.hdt_slide_center }} hdt-collection-products hdt-slider__products hdt-collection-has-pr{{ block.settings.product_des }} hdt-pr-border_{{ block.settings.pr_border }} hdt-ratio--{{ block.settings.image_ratio }} {% unless block.settings.image_size %} hdt-ratio--contain{% endunless %} hdt-slider hdt-slider-parent hdt-slide-spacing-{{ block.settings.space_items }} hdt-relative {% if block.settings.navUI %}hdt-slider-has-nav{% endif %} {% if block.settings.dotUI %}hdt-slider-has-dots-dk{% endif %} lg:hdt-slides-{{ block.settings.col_dk | default: "auto" }} md:hdt-slides-{{ block.settings.col_tb | default: "auto" }} hdt-slides-{{ block.settings.col_mb | default: "auto" }}"  config='{ "id": "Slider-{{ block.id }}", "navUI": {{ block.settings.navUI }}, "dotUI": true, "loop": {{ block.settings.loop }}, "autoPlay": {{ block.settings.autoplay | times: 1000 }}, "pauseOnHover": {{ block.settings.pauseOnHover }}, "navUICenter": true{% if block.settings.hdt_slide_center %}, "containScroll": "trimSnaps", "align": "center"{% endif %} }'>
           <div class="hdt-slider__viewport hdt-relative">
             <div class="hdt-slider__container">
@@ -245,7 +245,7 @@
   {%- else -%}
     {%- assign collection = collections[block.settings.collection] -%}
     {%- paginate collection.products by block.settings.products_count -%}
-      <div class="hdt-product-carousel ayum-bundle-carousel">
+      <div class="hdt-product-carousel ayum-bundle-carousel" style="--ayum-product-title-lines: {{ block.settings.ayum_product_title_lines | default: 1 }};">
         <hdt-slider id="Slider-{{ block.id }}" class="hdt-opacity-out-container-{{ block.settings.hdt_opacity_out_container }} hdt-slider-center-{{ block.settings.hdt_slide_center }} hdt-collection-products hdt-slider__products hdt-collection-has-pr{{ block.settings.product_des }} hdt-pr-border_{{ block.settings.pr_border }} hdt-ratio--{{ block.settings.image_ratio }} {% unless block.settings.image_size %} hdt-ratio--contain{% endunless %} hdt-slider hdt-slider-parent hdt-slide-spacing-{{ block.settings.space_items }} hdt-relative {% if block.settings.navUI %}hdt-slider-has-nav{% endif %} {% if block.settings.dotUI %}hdt-slider-has-dots-dk{% endif %} lg:hdt-slides-{{ block.settings.col_dk | default: "auto" }} md:hdt-slides-{{ block.settings.col_tb | default: "auto" }} hdt-slides-{{ block.settings.col_mb | default: "auto" }}" config='{ "id": "Slider-{{ block.id }}", "navUI": {{ block.settings.navUI }}, "dotUI": true, "loop": {{ block.settings.loop }}, "autoPlay": {{ block.settings.autoplay | times: 1000 }}, "pauseOnHover": {{ block.settings.pauseOnHover }}, "navUICenter": true{% if block.settings.hdt_slide_center %}, "containScroll": "trimSnaps", "align": "center"{% endif %} }'>
           <div class="hdt-slider__viewport hdt-relative">
             <div class="hdt-slider__container">
@@ -1415,6 +1415,19 @@
       "type": "header",
       "content": "AYUM bundle card",
       "info": "Applies when Product card design is \"AYUM bundle\"."
+    },
+    {
+      "type": "select",
+      "id": "ayum_product_title_lines",
+      "label": "Product title lines",
+      "info": "Maximum visible lines for bundle names; longer names end with an ellipsis. Cards reserve the same title height so they stay aligned.",
+      "options": [
+        { "value": "1", "label": "1 line" },
+        { "value": "2", "label": "2 lines" },
+        { "value": "3", "label": "3 lines" },
+        { "value": "4", "label": "4 lines" }
+      ],
+      "default": "1"
     },
     {
       "type": "checkbox",

@@ -319,14 +319,19 @@
   text-align: center;
 }
 
-/* Title + short description (Figma 2001:169 / 2001:171): one line each, reserved height keeps cards aligned */
+/* Title + short description (Figma 2001:169 / 2001:171): one line each by default; the title line count comes from the
+   carousel block setting "Product title lines" (--ayum-product-title-lines). The reserved height keeps cards aligned. */
 .ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: var(--ayum-product-title-lines, 1);
+  line-clamp: var(--ayum-product-title-lines, 1);
   overflow: hidden;
+  overflow-wrap: anywhere;   /* a long unbroken word wraps inside the clamp instead of overflowing the card */
+  unicode-bidi: plaintext;   /* direction from the title itself: an English name ends with its ellipsis on the right */
+  text-align: match-parent;  /* ...while keeping the card alignment (centre on desktop, start on mobile) */
   width: 100%;
-  min-height: 1.15em;
+  min-height: calc(var(--ayum-product-title-lines, 1) * 1.15em);
   color: rgb(var(--color-foreground));
   font-size: 2.2rem;
   font-weight: var(--font-extrabold);
@@ -497,6 +502,7 @@
   }
   .ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__title {
     font-size: 1.5rem;
+    text-align: right;   /* RTL card start edge; the title's own (plaintext) direction must not move an English name left */
   }
   .ayum-featured-collection .ayum-bundle-card .ayum-bundle-card__excerpt {
     font-size: 1.1rem;
@@ -783,5 +789,395 @@
   }
   .ayum-testimonial-section .ayum-quote__product {
     font-size: 1.2rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   AYUM Shoppable Video (sections/ayum-product-video.liquid, style "ayum")
+   Figma: 2001:366 (desktop 1440) / 2001:861 (mobile 375). 1rem = 10px.
+   Colours: section colour scheme (Scheme 3) for background, heading, subtitle, card surface, mobile label and media
+   overlays (--color-foreground / --color-background); --ayum-* settings for button, progress, card border, price and
+   views-badge text. Media overlay alphas are Figma constants (Ink 75% / 35%, White 90%).
+   -------------------------------------------------------------------------- */
+
+/* Header (Figma 2001:367): heading 36 ExtraBold, subtitle Almarai Bold 16 / 24.9, 16px apart, 32px above the cards.
+   The native subheading uses the theme subheading font (no Arabic glyphs); use the theme body font token. */
+.ayum-product-video .hdt-section-heading_block {
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+.ayum-product-video .hdt-section-heading_block .hdt-heading-block {
+  line-height: 1.11;
+}
+.ayum-product-video .hdt-section-heading_block .hdt-subheading-block {
+  font-family: var(--font-body-family);
+  font-weight: 700;
+  line-height: 1.556;
+}
+
+/* Slider: Figma gap 38px (tablet/desktop setting) between 9:16 cards; slide count from the native col_dk / col_tb. */
+.ayum-product-video .ayum-pv__slider {
+  --slide-spacing: var(--ayum-pv-gap);
+}
+
+/* Card (Figma 2040:135): 16px radius, 1px inside border, scheme surface */
+.ayum-product-video .ayum-pv__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1.6rem;
+  background-color: rgb(var(--color-background));
+  direction: rtl;   /* Arabic content boundary: inline-start = right in every storefront locale */
+  unicode-bidi: isolate;
+  transition: opacity 0.3s ease;
+}
+.ayum-product-video .ayum-pv__card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border: 1px solid rgb(var(--ayum-card-border));
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Media (Figma 2040:136): 9:16 frame, video covers it (never stretched) */
+.ayum-product-video .ayum-pv__media {
+  position: relative;
+  flex: 0 0 auto;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  background-color: rgb(var(--color-background2));
+}
+.ayum-product-video .ayum-pv__media hdt-video-player {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.ayum-product-video .ayum-pv__media :is(.ayum-pv__poster, .ayum-pv__placeholder) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.ayum-product-video .ayum-pv__media[data-started] .ayum-pv__poster {
+  display: none;
+}
+
+/* Play button (Figma 2040:141): 60px circle, Ink 35%, white triangle. The button covers the whole frame so a click
+   anywhere toggles playback; the circle hides while playing and returns (as pause) on hover / keyboard focus. */
+.ayum-product-video .ayum-pv__play {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgb(var(--color-background));
+  cursor: pointer;
+}
+.ayum-product-video .ayum-pv__play-icon {
+  display: grid;
+  place-items: center;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background-color: rgb(var(--color-foreground) / 0.35);
+  transition: opacity 0.2s ease;
+}
+.ayum-product-video .ayum-pv__play-icon svg {
+  width: 6rem;
+  height: 6rem;
+}
+.ayum-product-video .ayum-pv__icon-pause,
+.ayum-product-video .ayum-pv__media[data-playing] .ayum-pv__icon-play {
+  display: none;
+}
+.ayum-product-video .ayum-pv__media[data-playing] .ayum-pv__icon-pause {
+  display: inline;
+}
+.ayum-product-video .ayum-pv__media[data-playing] .ayum-pv__play-icon {
+  opacity: 0;
+}
+.ayum-product-video .ayum-pv__media[data-playing] .ayum-pv__play:is(:hover, :focus-visible) .ayum-pv__play-icon {
+  opacity: 1;
+}
+.ayum-product-video .ayum-pv__play:focus-visible {
+  outline: 2px solid rgb(var(--color-background));
+  outline-offset: -0.4rem;
+  border-radius: 1.6rem;
+}
+/* Native controls (section setting "Show video controls"): the play button is only the 60px circle, so the video and
+   its controls bar stay clickable; once playback starts the browser controls take over (they show the time, so the
+   duration badge — which would sit under the control bar — and the circle step aside). The script restores both when
+   the card leaves the active slide. */
+.ayum-product-video .ayum-pv__media[data-controls] .ayum-pv__play {
+  inset: 0;
+  width: 6rem;
+  height: 6rem;
+  margin: auto;
+  border-radius: 50%;
+}
+.ayum-product-video .ayum-pv__media[data-controls] .ayum-pv__play:focus-visible {
+  outline-offset: 0.2rem;
+  border-radius: 50%;
+}
+.ayum-product-video .ayum-pv__media[data-controls][data-started] :is(.ayum-pv__play, .ayum-pv__badge--duration) {
+  display: none;
+}
+
+/* Badges (Figma 2040:139 views, top-right; 2040:137 duration, bottom-left): Almarai Bold 11, pill 4 / 10 */
+.ayum-product-video .ayum-pv__badge {
+  position: absolute;
+  z-index: 2;
+  padding: 0.4rem 1rem;
+  border-radius: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.ayum-product-video .ayum-pv__badge--views {
+  inset-block-start: 1.5rem;
+  inset-inline-start: 1.3rem;
+  background-color: rgb(var(--color-background) / 0.9);
+  color: rgb(var(--ayum-views-text));
+}
+.ayum-product-video .ayum-pv__badge--duration {
+  inset-block-end: 2.4rem;
+  inset-inline-end: 1.6rem;
+  background-color: rgb(var(--color-foreground) / 0.75);
+  color: rgb(var(--color-background));
+}
+
+/* Product panel (Figma 2040:145): 14px padding, 10px gap; image right, name over price, button below */
+.ayum-product-video .ayum-pv__panel {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.4rem;
+}
+.ayum-product-video .ayum-pv__product {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.ayum-product-video .ayum-pv__thumb {
+  flex: 0 0 4.8rem;
+  width: 4.8rem;
+  height: 4.8rem;
+  overflow: hidden;
+  border-radius: 0.8rem;
+}
+.ayum-product-video .ayum-pv__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ayum-product-video .ayum-pv__info {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.8rem;
+  min-width: 0;
+}
+.ayum-product-video .ayum-pv__label {
+  display: none;   /* mobile only (Figma 2040:1383) */
+  margin: 0;
+  color: rgb(var(--color-foreground2));
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+/* Product name: clamped to the section setting "Product title lines" (--ayum-product-title-lines, default 1) with an
+   ellipsis; the full name stays in the link. Every card reserves the same title height so prices and buttons align. */
+.ayum-product-video .ayum-pv__title {
+  --ayum-pv-title-lh: 1.133;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--ayum-product-title-lines, 1);
+  line-clamp: var(--ayum-product-title-lines, 1);
+  max-width: 100%;
+  min-height: calc(var(--ayum-product-title-lines, 1) * var(--ayum-pv-title-lh) * 1em);
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  unicode-bidi: plaintext;   /* direction from the title itself: an English name ends with its ellipsis on the right */
+  text-align: right;   /* the card is pinned RTL, so its start edge is always the right; "start" would follow the title's own direction */
+  color: rgb(var(--color-foreground));
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: var(--ayum-pv-title-lh);
+}
+.ayum-product-video .ayum-pv__title:hover {
+  color: rgb(var(--ayum-primary));
+}
+/* Price — native card-price. Specificity (0,5,0) beats the native sale colour rule (0,4,0). */
+.ayum-product-video .ayum-pv__price .hdt-price-wrapp {
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.12;
+}
+.ayum-product-video .ayum-pv__price .hdt-price__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 0.2rem 0.6rem;
+  line-height: inherit;   /* native list uses line-height 1 */
+}
+.ayum-product-video .ayum-pv__price .hdt-price-wrapp .hdt-price__list .hdt-price {
+  order: -1;
+  color: rgb(var(--ayum-price));
+  font-size: inherit;
+  line-height: inherit;   /* Figma line boxes: 19px desktop, 15px mobile */
+  white-space: nowrap;
+}
+.ayum-product-video .ayum-pv__price .hdt-price__list .hdt-compare-at-price {
+  color: rgb(var(--color-foreground2));
+  font-size: 0.75em;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* Add to cart (Figma 2040:153): native btn-ultra via ayum-btn-ultra, full-width pill, ExtraBold 17 */
+.ayum-product-video .ayum-pv__atc {
+  margin-block-start: auto;
+}
+.ayum-product-video .ayum-pv__atc :is(wrapp-hdt-pr-frm, wrapp-hdt-open-modal-btn, hdt-tooltip, .hdt-product-form) {
+  display: flex;
+  width: 100%;
+}
+.ayum-product-video .ayum-pv__atc .hdt-pr_btn :where(a, button) {
+  justify-content: center;
+  width: 100%;
+  padding: 1.1rem 1.2rem;
+  border: 0;
+  border-radius: 2.2rem;
+  background-color: rgb(var(--ayum-primary));
+  color: rgb(var(--ayum-on-primary));
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.12;
+  transition: background-color 0.2s ease;
+}
+.ayum-product-video .ayum-pv__atc .hdt-pr_btn :where(a, button):hover {
+  background-color: rgb(var(--ayum-primary) / 0.85);
+  color: rgb(var(--ayum-on-primary));
+}
+.ayum-product-video .ayum-pv__atc .hdt-pr_btn :where(a, button):focus-visible {
+  outline: 2px solid rgb(var(--ayum-primary));
+  outline-offset: 2px;
+}
+.ayum-product-video .ayum-pv__atc .hdt-pr-card-icon {
+  display: none;
+}
+
+/* Progress (Figma 2001:444): 510 x 3, 32px under the cards, track = primary 12%, thumb = primary. Tablet and desktop
+   only, and only when the cards actually scroll (a full static bar would not reflect anything). */
+.ayum-product-video .ayum-slider-progress {
+  display: none;
+}
+.ayum-product-video .ayum-slider-progress__thumb {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc((1 - var(--ayum-progress-size, 1)) * var(--ayum-progress, 0) * 100%);
+  width: calc(var(--ayum-progress-size, 1) * 100%);
+  border-radius: inherit;
+  background-color: rgb(var(--ayum-primary));
+}
+@media (min-width: 768px) {
+  .ayum-product-video .ayum-slider-progress[scrollable] {
+    position: relative;
+    display: block;
+    width: 51rem;
+    max-width: 100%;
+    height: 0.3rem;
+    margin: 3.2rem auto 0;
+    overflow: hidden;
+    border-radius: 0.2rem;
+    background-color: rgb(var(--ayum-primary) / 0.12);
+  }
+}
+
+/* Mobile (Figma 2001:861): centred active card (172 of 375px) with both neighbours peeking at 50% opacity, 12px gap,
+   full-bleed track. The slide box is card + gap with the gap split on both sides, so Embla's centre alignment centres
+   the card itself. Opacity follows the native .is-selected class (set by the slider on the snapped slide). */
+@media (max-width: 767px) {
+  .ayum-product-video .hdt-section-heading_block .hdt-subheading-block {
+    font-size: var(--ayum-subtitle-mb);   /* AYUM setting (Figma 13px; the native step-2 range cannot hold it) */
+    font-weight: 400;
+    line-height: 1.8;
+  }
+  .ayum-product-video .ayum-pv__slider {
+    --slide-spacing: 0px;
+    --slide-size: calc(45.9% + var(--ayum-pv-gap-mb));
+    margin-block-start: -0.2rem;   /* Figma 14px under the subtitle; the heading block's native mobile margin is 16px */
+  }
+  /* Only when the content sits in the theme container (1.5rem side padding in base.css). */
+  .ayum-product-video .hdt-container > .ayum-pv__slider {
+    margin-inline: -1.5rem;
+  }
+  .ayum-product-video .ayum-pv__slider .hdt-slider__container {
+    margin-inline-start: 0;
+  }
+  .ayum-product-video .ayum-pv__slider .hdt-slider__slide {
+    padding-inline: calc(var(--ayum-pv-gap-mb) / 2);
+  }
+  /* Guard = "the slider has selected a slide" (native Embla .is-selected). Not .is--enabled: the native slider removes
+     that class on every Embla resize (mobile address-bar show/hide, editor preview resize), which cancelled the dimming. */
+  .ayum-product-video .ayum-pv__slider:has(.is-selected) .hdt-slider__slide:not(.is-selected) .ayum-pv__card {
+    opacity: 0.5;
+  }
+  .ayum-product-video .ayum-pv__badge {
+    padding: 0.3rem 0.9rem;
+    border-radius: 0.9rem;
+    font-size: 1rem;
+  }
+  .ayum-product-video .ayum-pv__badge--views {
+    inset-inline-start: 1.2rem;
+  }
+  .ayum-product-video .ayum-pv__badge--duration {
+    inset-block-end: 1.7rem;
+    inset-inline-end: 1.2rem;
+  }
+  /* Panel (Figma 2040:1382): label, name, price stacked, full-width button; no product image */
+  .ayum-product-video .ayum-pv__panel {
+    gap: 0.8rem;
+  }
+  .ayum-product-video .ayum-pv__thumb {
+    display: none;
+  }
+  .ayum-product-video .ayum-pv__label {
+    display: block;
+  }
+  .ayum-product-video .ayum-pv__title {
+    --ayum-pv-title-lh: 1.12;
+    font-size: 1.7rem;
+  }
+  .ayum-product-video .ayum-pv__price .hdt-price-wrapp {
+    font-size: 1.3rem;
+    line-height: 1.15;
+  }
+  .ayum-product-video .ayum-pv__atc .hdt-pr_btn :where(a, button) {
+    padding: 1rem;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    line-height: 1.08;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ayum-product-video .ayum-pv__card,
+  .ayum-product-video .ayum-pv__play-icon {
+    transition: none;
   }
 }
