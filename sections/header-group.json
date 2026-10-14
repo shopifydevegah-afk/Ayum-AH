@@ -74,10 +74,90 @@
         "pd": "",
         "pd_mb": ""
       }
+    },
+    "ayum_header": {
+      "type": "ayum-header",
+      "blocks": {
+        "menu_mobile": {
+          "type": "_ayum-menu-mobile",
+          "static": true,
+          "settings": {
+            "main_menu_mobile": "",
+            "menu_categories": "",
+            "only_click_icon": false,
+            "header_mobile_colors": "scheme-1",
+            "note_mobile": "",
+            "ayum_show_extras": false,
+          "ayum_show_localization": false,
+            "ayum_separator_color": "rgba(20, 92, 112, 0.18)"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [],
+      "settings": {
+        "header_layout": "logo_left",
+        "header_fullwidth": false,
+        "header_border_bottom": true,
+        "logo_width": 86,
+        "header_height": 101,
+        "header_colors": "scheme-1",
+        "header_bottom_height": 67,
+        "header_bottom_colors": "scheme-1",
+        "main_menu": "main-menu",
+        "lazy_mn": false,
+        "menu_position": "center",
+        "menu_size": "base",
+        "menu_weight": "bold",
+        "text_transform": false,
+        "dropdown_arrow": false,
+        "spacing_nav": 32,
+        "open_event": "hover",
+        "header_menu_colors": "scheme-1",
+        "header_categories": false,
+        "header_border": "bottom",
+        "h_icon": "ayum",
+        "hover_icon": "1",
+        "search_type": "big_form",
+        "enabled_user": false,
+        "enabled_wishlist": false,
+        "enabled_cart": true,
+        "cart_des": "1",
+        "header_height_mb": 60,
+        "logo_width_mb": 62,
+        "ayum_search_placeholder": "دوّر على منتجك… (سكيتلز، جيلي كولا، فراولة)",
+        "ayum_search_placeholder_mb": "دوّر على منتجك… (سكيتلز، جيلي كولا)",
+        "ayum_search_bg": "#e4edf0",
+        "ayum_search_width": 520,
+        "ayum_search_height": 49,
+        "ayum_search_height_mb": 33,
+        "ayum_search_radius": 24,
+        "ayum_search_radius_mb": 22,
+        "ayum_search_padding": 16,
+        "ayum_search_padding_mb": 14,
+        "ayum_search_font_size": 16,
+        "ayum_search_font_size_mb": 12,
+        "ayum_border_color": "#d3e3e8",
+        "ayum_padding_x_mb": 16,
+        "ayum_padding_y_mb": 12,
+        "ayum_row_gap_mb": 12,
+        "ayum_show_desktop_nav": true,
+        "ayum_highlight_link": "كل المنتجات",
+        "ayum_nav_font_size": 14,
+        "ayum_nav_highlight_size": 17,
+        "ayum_menu_font_size": 17,
+        "ayum_menu_row_height": 60,
+        "ayum_menu_padding": 24,
+        "custom_class": "",
+        "header_transparent": false,
+        "sticky_type": "on_scroll_up",
+        "sticky_glass": false
+      }
     }
   },
   "order": [
     "ayum_announcement_bar",
+    "ayum_header",
     "custom_liquid_BCTxT9"
   ]
 }

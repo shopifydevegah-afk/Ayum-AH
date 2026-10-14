@@ -1,1 +1,427 @@
 /* main.css */
+
+/* =====================================================================
+   AYUM shared header — sections/ayum-header.liquid
+   Figma: desktop header 2001:8, category nav 2001:21, mobile header 2001:586, mobile menu 35:309.
+   Loaded by sections/ayum-header.liquid only. Every rule is scoped to .ayum-header (the
+   <hdt-sticky-header>), .ayum-header-section (the section wrapper) or .ayum-menu-mobile (the drawer).
+   Colours: native colour-scheme variables (--color-foreground / --color-background / --color-accent /
+   --hdt-btn-*) plus the section's AYUM settings (--ayum-border, --ayum-search-bg, --ayum-menu-sep).
+   Sizes: --ayum-* custom properties emitted by the section from its settings.
+   Breakpoints: 768 / 1150 only (theme tiers).
+   ===================================================================== */
+
+
+/* ---------------------------------------------------------------------
+   Header — Mobile & tablet (< 1150px)  · Figma 2001:586
+   Row 1: menu button | logo (centred) | cart. Row 2: search bar.
+   --------------------------------------------------------------------- */
+
+/* Hairline under the header row. Inset shadow on an inner wrapper: no layout box
+   is added to the height-observed <hdt-sticky-header>. */
+.ayum-header .ayum-header__main--border {
+  box-shadow: inset 0 -1px 0 rgb(var(--ayum-border));
+}
+
+.ayum-header .ayum-header__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-areas: "menu logo icons";
+  grid-template-rows: var(--header-height2);
+  align-items: center;
+  column-gap: 8px;
+  padding-block: var(--ayum-pad-y-mb);
+}
+
+.ayum-header.ayum-header--search-bar .ayum-header__row {
+  grid-template-areas:
+    "menu logo icons"
+    "search search search";
+  grid-template-rows: var(--header-height2) auto;
+  row-gap: var(--ayum-row-gap-mb);
+}
+
+.ayum-header .ayum-header__menu-btn {
+  grid-area: menu;
+  justify-self: start;
+}
+
+.ayum-header .ayum-header__logo {
+  grid-area: logo;
+  justify-self: center;
+  min-width: 0;
+}
+
+.ayum-header .ayum-header__icons {
+  grid-area: icons;
+  justify-self: end;
+  min-width: 0;
+}
+
+/* Side padding (Figma 2028:2: 16px) on the real header container, below 768px. The native
+   .hdt-container gives 15px; tablet/desktop keep the native container padding. */
+@media (max-width: 767px) {
+  .ayum-header .ayum-header__main > .hdt-container {
+    padding-inline: var(--ayum-pad-x-mb);
+  }
+}
+
+/* Menu button (Figma burger 2001:604: 24 × 17.5, Ink 75%) in a 44px tap target. The native
+   .hdt-menu-bar rule keeps the glyph at the button's inline-start edge, so the glyph sits exactly
+   on the container padding line (Figma: 16px from the right edge in RTL). */
+.ayum-header .ayum-header__burger {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: rgb(var(--color-foreground) / .75);
+  background: transparent;
+  border: 0;
+}
+
+.ayum-header .ayum-header__burger svg {
+  width: 24px;
+  height: auto;
+}
+
+/* Icons: the search bar replaces the search icon at every width. */
+.ayum-header.ayum-header--search-bar .hdt-site-nav_search {
+  display: none;
+}
+
+/* The native icon group adds 10px of inline-end padding; Figma puts the 44px (mobile) / 60px
+   (desktop) cart button directly on the container edge (2001:588 x=0, 2001:9 x=20 = container padding). */
+.ayum-header .hdt-site-top_nav {
+  padding-inline-end: 0;
+}
+
+.ayum-header .hdt-site-top_nav .hdt-site-nav_icon a {
+  color: rgb(var(--color-foreground) / .75);
+}
+
+.ayum-header .hdt-site-top_nav .hdt-site-nav_icon a:hover {
+  color: rgb(var(--color-accent));
+}
+
+/* Cart (Figma 2001:589): 44px button, 21px bag, 16px count badge. Badge colours stay on the
+   native --hdt-btn-* scheme variables; its corner placement is the native RTL/LTR rule. */
+.ayum-header .hdt-site-nav_cart > a {
+  min-width: 44px;
+  min-height: 44px;
+  justify-content: center;
+}
+
+.ayum-header .hdt-site-nav_cart svg {
+  width: 21px;
+  height: 21px;
+}
+
+.ayum-header .hdt-site-top_nav .hdt-site-nav_icon a .hdt-count-box {
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: var(--font-medium);
+}
+
+
+/* ---------------------------------------------------------------------
+   Header — Desktop (≥ 1150px)  · Figma 2001:8
+   logo | search (centred, max 520) | cart. Height = native "Header height".
+   --------------------------------------------------------------------- */
+
+@media (min-width: 1150px) {
+  .ayum-header .ayum-header__row,
+  .ayum-header.ayum-header--search-bar .ayum-header__row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, var(--ayum-search-width)) minmax(0, 1fr);
+    grid-template-areas: "logo search icons";
+    grid-template-rows: auto;
+    column-gap: 24px;
+    padding-block: 0;
+  }
+
+  .ayum-header .ayum-header__logo {
+    justify-self: start;
+  }
+
+  /* Cart: 60px button, 28.6px bag, 20.5px badge (Figma 2001:9 / 2001:13). */
+  .ayum-header .hdt-site-nav_cart > a {
+    min-width: 60px;
+    min-height: 60px;
+  }
+
+  .ayum-header .hdt-site-nav_cart svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .ayum-header .hdt-site-top_nav .hdt-site-nav_icon a .hdt-count-box {
+    min-width: 20px;
+    height: 20px;
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: var(--font-bold);
+  }
+}
+
+
+/* ---------------------------------------------------------------------
+   Search  · Figma 2001:15 (desktop) / 2001:608 (mobile)
+   Native <hdt-predictive-search> form; only its appearance changes.
+   --------------------------------------------------------------------- */
+
+.ayum-header .ayum-header__search {
+  grid-area: search;
+  width: 100%;
+  min-width: 0;
+  justify-self: center;
+}
+
+.ayum-header .ayum-search .ayum-search__inner {
+  gap: 8px;
+  min-height: var(--ayum-search-h-mb);
+  padding: 0;
+  padding-inline: var(--ayum-search-px-mb);
+  background-color: rgb(var(--ayum-search-bg));
+  border: 0;
+  border-radius: var(--ayum-search-radius-mb);
+}
+
+.ayum-header .ayum-search .ayum-search__inner:focus-within {
+  outline: 2px solid rgb(var(--color-foreground) / .35);
+  outline-offset: 2px;
+}
+
+.ayum-header .ayum-search .ayum-search__field {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ayum-header .ayum-search .ayum-search__input {
+  width: 100%;
+  height: var(--ayum-search-h-mb);
+  padding: 0;
+  color: rgb(var(--color-foreground));
+  font-size: var(--ayum-search-fs-mb);
+  font-weight: var(--font-normal);
+  line-height: 1.8;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.ayum-header .ayum-search .ayum-search__input:focus {
+  outline: none;
+}
+
+.ayum-header .ayum-search .ayum-search__input::placeholder {
+  color: rgb(var(--color-foreground) / .35);
+  opacity: 1;
+}
+
+.ayum-header .ayum-search .ayum-search__input:focus::placeholder {
+  color: transparent;
+}
+
+/* Shorter mobile/tablet placeholder (Figma 2001:611), shown while the input is empty. */
+.ayum-header .ayum-search .ayum-search__ph-mb {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  overflow: hidden;
+  color: rgb(var(--color-foreground) / .35);
+  font-size: var(--ayum-search-fs-mb);
+  line-height: 1.8;
+  text-align: start;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+.ayum-header .ayum-search .ayum-search__input--alt-ph::placeholder {
+  color: transparent;
+}
+
+.ayum-header .ayum-search .ayum-search__input:not(:placeholder-shown) + .ayum-search__ph-mb,
+.ayum-header .ayum-search .ayum-search__input:focus + .ayum-search__ph-mb {
+  display: none;
+}
+
+.ayum-header .ayum-search .ayum-search__submit {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  color: rgb(var(--color-foreground) / .35);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.ayum-header .ayum-search .ayum-search__submit:hover,
+.ayum-header .ayum-search .ayum-search__submit:focus-visible {
+  color: rgb(var(--color-foreground) / .75);
+}
+
+.ayum-header .ayum-search .ayum-search__icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+@media (min-width: 1150px) {
+  .ayum-header .ayum-search .ayum-search__inner {
+    min-height: var(--ayum-search-h);
+    padding-inline: var(--ayum-search-px);
+    border-radius: var(--ayum-search-radius);
+  }
+
+  .ayum-header .ayum-search .ayum-search__input {
+    height: var(--ayum-search-h);
+    font-size: var(--ayum-search-fs);
+    font-weight: var(--font-bold);
+    line-height: 1.55;
+  }
+
+  /* Desktop shows the input's own (long) placeholder. */
+  .ayum-header .ayum-search .ayum-search__input--alt-ph::placeholder {
+    color: rgb(var(--color-foreground) / .35);
+  }
+
+  .ayum-header .ayum-search .ayum-search__input--alt-ph:focus::placeholder {
+    color: transparent;
+  }
+
+  .ayum-header .ayum-search .ayum-search__ph-mb {
+    display: none;
+  }
+
+  .ayum-header .ayum-search .ayum-search__icon {
+    width: 23px;
+    height: 23px;
+  }
+}
+
+
+/* ---------------------------------------------------------------------
+   Desktop Navigation  · Figma 2001:21
+   Separate row below the header (native .hdt-bottom-header, desktop only).
+   Row height = native "Bottom header height"; gap = native "Spacing" (no 0.7 scaling).
+   --------------------------------------------------------------------- */
+
+/* Native "Header border" select, redrawn as inset hairlines in the AYUM divider colour. */
+.ayum-header .ayum-header__nav.hdt-header-border-bottom {
+  border-bottom: 0;
+  box-shadow: inset 0 -1px 0 rgb(var(--ayum-border));
+}
+
+.ayum-header .ayum-header__nav.hdt-header-border-top {
+  border-top: 0;
+  box-shadow: inset 0 1px 0 rgb(var(--ayum-border));
+}
+
+.ayum-header .ayum-header__nav.hdt-header-border-top_bottom {
+  border-block: 0;
+  box-shadow: inset 0 1px 0 rgb(var(--ayum-border)), inset 0 -1px 0 rgb(var(--ayum-border));
+}
+
+.ayum-header #hdt-nav-ul {
+  column-gap: var(--spacing-menu-item);
+}
+
+.ayum-header #hdt-nav-ul > li > .hdt-menu-link,
+.ayum-header #hdt-nav-ul > li > hdt-header-menu > details > summary {
+  font-size: var(--ayum-nav-fs);
+  line-height: normal;
+}
+
+/* Highlighted item (header setting "Highlighted menu item"). */
+.ayum-header #hdt-nav-ul > li.ayum-nav-item--highlight > .hdt-menu-link,
+.ayum-header #hdt-nav-ul > li.ayum-nav-item--highlight > hdt-header-menu > details > summary {
+  color: rgb(var(--color-accent));
+  font-size: var(--ayum-nav-hl-fs);
+  font-weight: var(--font-extrabold);
+}
+
+
+/* ---------------------------------------------------------------------
+   Mobile Menu  · Figma 35:309
+   Native drawer (blocks/_ayum-menu-mobile.liquid); opens from the inline-start side
+   (right in RTL), where the menu button sits.
+   --------------------------------------------------------------------- */
+
+.ayum-menu-mobile.hdt-drawer-menu-mb .hdt-dialog-drawer {
+  width: min(375px, calc(100vw - 40px));
+  max-width: none;
+  box-shadow: 0 10px 30px -6px rgb(var(--color-overlay) / .12);
+}
+
+/* Header row (72px) holding the menu icon, which closes the drawer. */
+.ayum-menu-mobile.hdt-drawer-menu-mb .hdt-dialog-drawer__header {
+  position: static;
+  justify-content: flex-start;
+  min-height: 72px;
+  padding: 0;
+  padding-inline: var(--ayum-menu-px);
+  border: 0;
+}
+
+.ayum-menu-mobile.hdt-drawer-menu-mb .hdt-dialog-drawer__header .hdt-dialog-btn__close {
+  position: static;
+  width: 44px;
+  height: 44px;
+  margin-inline-start: -7px;
+  color: rgb(var(--color-foreground));
+  background-color: transparent;
+}
+
+.ayum-menu-mobile .ayum-menu-mobile__close-icon {
+  width: 30px;
+  height: auto;
+}
+
+.ayum-menu-mobile.hdt-drawer-menu-mb .hdt-dialog-drawer__inner #tab-mobile {
+  max-height: calc(100dvh - 72px);
+}
+
+.ayum-menu-mobile .ayum-menu-mobile__tabs--single {
+  display: none;
+}
+
+/* Rows: 60px, 24px side padding, divider under each row. */
+.ayum-menu-mobile .hdt-menu-on-mobile .hdt-nav__ul-mb li .hdt-menu-link {
+  min-height: var(--ayum-menu-row-h);
+  padding-inline-end: var(--ayum-menu-px);
+  border-bottom-color: var(--ayum-menu-sep);
+  line-height: normal;
+}
+
+.ayum-menu-mobile .hdt-menu-on-mobile .hdt-nav__ul-mb > li > .hdt-menu-link,
+.ayum-menu-mobile .hdt-menu-on-mobile .hdt-nav__ul-mb > li > hdt-accordion > details > .hdt-menu-link {
+  padding-inline-start: var(--ayum-menu-px);
+  font-size: var(--ayum-menu-fs);
+  font-weight: var(--font-bold);
+}
+
+.ayum-menu-mobile .hdt-menu-on-mobile .hdt-nav__ul-mb > li.ayum-menu-item--highlight > .hdt-menu-link,
+.ayum-menu-mobile .hdt-menu-on-mobile .hdt-nav__ul-mb > li.ayum-menu-item--highlight > hdt-accordion > details > .hdt-menu-link {
+  color: rgb(var(--color-accent));
+}
+
+
+/* ---------------------------------------------------------------------
+   Responsive Adjustments
+   --------------------------------------------------------------------- */
+
+/* Tablet (768–1149, not designed): the mobile two-row layout, with the search bar capped
+   at the desktop search width and centred instead of running the full container width. */
+@media (min-width: 768px) {
+  .ayum-header .ayum-header__search {
+    max-width: var(--ayum-search-width);
+  }
+}

@@ -329,8 +329,8 @@ QA: Not run ← Partial ← Verified. يتطلب Verified فحصاً فعليا�
 | H8 | Product videos — اسم المحرر: Shoppable Video (اسم Kalles الأصلي) | index | 2001:366 / 2001:861 | Design-context inspected | Implemented | Partial (harness محلي فقط) | ayum-product-video (فرع dev2-ah)، بلا تشغيل تلقائي؛ انظر §23 |
 | H9 | FAQ | index | 2001:446 / 2001:911 | Design-context inspected | Implemented | Partial | sections/ayum-accordion.liquid (نسخة Accordion) + blocks/_ayum-accordion-item.liquid + dev1.css؛ Color Scheme 7؛ أجوبة 2–5 يضيفها التاجر. QA على صفحة ملتقطة، لا preview حي لهذا الـ worktree |
 | S1 | Offer / announcement bar | مشترك: كل الصفحات | 2001:4 / 2001:582 | Design-context inspected | Implemented (زر نسخ الكود) | Partial | sections/ayum-announcement-bar.liquid + assets/ayum-copy-code.js + dev1.css؛ QA على HTML الـ preview الحقيقي + أصول حية، لا على المتجر الحي |
-| S2 | Header + category nav | مشترك: كل الصفحات | 2001:8 + 2001:21 / 2001:586 | Metadata only | Not started | Not run | الأعلى خطراً |
-| S3 | Mobile menu | مشترك: كل الصفحات | — / 35:309 | Metadata only | Not started | Not run | يعتمد على S2 |
+| S2 | Header + category nav | مشترك: كل الصفحات | 2001:8 + 2001:21 / 2001:586 | Design-context inspected | Implemented | Not run | sections/ayum-header.liquid (نسخة Header menu bottom) + snippets/ayum-main-menu و ayum-header-icons + assets/main.css؛ instance ayum_header في header-group.json. يحتاج Color Scheme مخصص للهيدر (انظر §23) |
+| S3 | Mobile menu | مشترك: كل الصفحات | — / 35:309 | Design-context inspected | Implemented (مع S2) | Not run | blocks/_ayum-menu-mobile.liquid (نسخة _menu_mobile) + main.css |
 | S4 | Footer | مشترك: كل الصفحات | 2001:483 / 2001:942 | Metadata only | Not started | Not run | footer-group |
 | S5 | Mobile bottom nav | مشترك: كل الصفحات | — / 2001:1034 | Metadata only | Not started | Not run | system-group |
 | — | Newsletter | خارج النطاق | 2001:472 (مخفي) / — | Metadata only | — | — | مخفي في Figma |
@@ -1147,3 +1147,32 @@ text-align: right. --ayum-pv-title-lh (1.133 desktop / 1.12 mobile) يربط ا�
 الافتراضي يحافظ على Figma: اللوحة 127 desktop و130 mobile.
 harness: الأسطر 1–4 × 1440/375/320: 12/12. الشفافية والأدوات والتقديم بلا تغيير.
 Not run: محرر الثيم.
+
+### 2026-10-14 — S2 Header + category nav وS3 Mobile menu (تنفيذ)
+Figma (get_design_context + get_metadata على العقد الأربع، كلها قُرئت بنجاح): الهيدر ديسكتوب 2001:8، شريط الفئات 2001:21، هيدر الموبايل 2001:586، قائمة الموبايل 35:309. أيقونتا السلة والبحث من Figma (مقلوبتان رأسياً في التصميم) نُقلتا كمسارات SVG بـ currentColor.
+الحالة قبل التنفيذ: header-group.json بلا أي سكشن هيدر؛ instance الـ demo (header_inline_blocks_xePFbC) حُذف من محرر الثيم في الكومِت 96bc08e. لا ترحيل ولا حذف لبيانات.
+الأساس: sections/header-menu-bottom-blocks.liquid (صف هيدر + صف .hdt-bottom-header للديسكتوب). لم يُعدَّل أي ملف أصلي.
+الملفات الجديدة: sections/ayum-header.liquid (نسخة)، blocks/_ayum-menu-mobile.liquid (نسخة _menu_mobile)، snippets/ayum-main-menu.liquid (نسخة main-menu + كلاس التمييز)، snippets/ayum-header-icons.liquid (نسخة header_group_icons + مجموعة أيقونات "AYUM").
+الملفات المعدلة: assets/main.css (كان تعليقاً فقط وغير محمَّل؛ يُحمَّل الآن من ayum-header فقط)، sections/header-group.json (إضافة ayum_header بعد شريط العرض؛ باقي المدخلات بلا تغيير).
+التخطيط: صف "Logo left" صار CSS grid. ديسكتوب ≥1150: لوجو | بحث (max 520، في الوسط) | سلة، وشريط القائمة صف مستقل تحته (67px). أقل من 1150: زر القائمة | لوجو في الوسط | سلة، والبحث صف ثانٍ (12/60/12/33/12 = 129). التابلت يأخذ تخطيط الموبايل مع حد أقصى لعرض البحث.
+البحث: نموذج hdt-predictive-search أصلي واحد للصفين. placeholder الموبايل الأقصر طبقة CSS (aria-hidden) تظهر فقط والحقل فارغ؛ الـ placeholder والـ aria-label الحقيقيان نص الديسكتوب. ملاحظة: custom.js يحوّل البحث إلى صفحة النتائج الكاملة عندما dir=rtl (سلوك موجود مسبقاً، لم يُغيَّر).
+القائمة: من link_list main_menu (Shopify). التمييز بإعداد "Highlighted menu item" (عنوان أو handle أو URL)، يضيف كلاساً للعنصر المطابق على الديسكتوب والموبايل، فلا يعتمد على الترتيب. المسافة 32px على كل الديسكتوب (أُلغي ضرب 0.7 في النسخة فقط).
+الدرج: hdt-drawer/dialog الأصلي (فتح، إغلاق، Escape، overlay، قفل التمرير، accordions). زر الإغلاق مرسوم كأيقونة القائمة من Figma مع aria-label "Close". شريط التبويب يُخفى عند وجود تبويب واحد. روابط wishlist/search/account والملاحظة اختيارية (مطفأة).
+الألوان: header_colors وheader_bottom_colors وheader_mobile_colors = scheme-1 (خلفية بيضاء، accent #EA3A79 للتمييز). إعدادات AYUM فقط للأدوار غير الموجودة لكل scheme: ayum_border_color (#D3E3E8)، ayum_search_bg (#E4EDF0)، ayum_separator_color في البلوك (rgba(20,92,112,.18)). الشارة تستخدم --hdt-btn-* الأصلية.
+[مطلوب من التاجر] لمطابقة Figma تماماً: إنشاء Color Scheme مخصص للهيدر (text #26383A، background #FFFFFF، button #E78333، button label #FFFFFF، accent #EA3A79) وتعيينه في الحقول الثلاثة. مع scheme-1 تبقى الشارة سوداء (#222222) والنص #222222.
+[مطلوب من التاجر] اختيار صورة اللوجو (لا لوجو محفوظ؛ يظهر اسم المتجر)، والتأكد أن قائمة main-menu تحتوي الروابط العشرة.
+عناصر "العنوان/الوصف تحت العنوان/المسافة": لا يوجد عنوان في هذه العقد، فلم تُضف.
+Validated (ثابت): JSON للـ schema (بعد إزالة تعليق /* */ والفاصلة الزائدة الموروثة من الأصل) وheader-group.json؛ لا ids مكررة؛ قيم الـ instance ضمن الـ schema والـ ranges؛ توازن وسوم Liquid؛ لا ألوان حرفية خارج defaults؛ لا left/right فيزيائية؛ breakpoints 768/1150 فقط؛ لا روابط Figma؛ الملفات الأصلية بلا تغيير.
+Not run: shopify theme dev/check، أي فحص في المتصفح (العرض، responsive 320–1440، RTL/LTR، فتح/إغلاق الدرج، البحث التنبؤي، السلة، sticky، إعادة تحميل السكشن في المحرر).
+متابعة 2026-10-14 (bugfix) — EGP، "جميع الفئات"، وحشوة الموبايل:
+Figma: أُعيدت قراءة العقد الأربع (get_metadata) بنجاح، والقيم مطابقة للتنفيذ الأول.
+EGP — السبب: بلوك _ayum-menu-mobile ورث من _menu_mobile صف العملة/اللغة (slot="footer")، ويُرسم عندما يكون للمتجر أكثر من دولة حتى مع currency_type = "1". الإصلاح: الصف كله (مع غلافه) لا يُرسم إلا عند تفعيل إعداد جديد في البلوك ayum_show_localization ("Show currency & language selectors"، افتراضياً false). نظام العملة العام وباقي أماكن المحدِّد بلا تغيير.
+"جميع الفئات" — السبب: نموذج البحث في ayum-header نسخ فرع {% if settings.search_form_by_type %} من الأصل، والإعداد العام مفعَّل. الإصلاح: حُذف الفرع من نموذج AYUM فقط (لا CSS إخفاء)، والإعداد العام بقي كما هو لنماذج البحث الأخرى. JS البحث يتعامل مع غياب الـ select (this.select اختياري)، والحقل يأخذ كل العرض المتاح (flex: 1).
+حشوة الموبايل — السبب: (1) قاعدة .hdt-menu-bar الأصلية (justify-content: flex-start) تغلب على hdt-justify-center، فالأيقونة كانت أصلاً على حافة الزر، وهامش -10px الذي أضفته سحبها إلى ~5px من حافة الشاشة. (2) .hdt-site-top_nav الأصلي يضيف padding-inline-end: 10px فكانت السلة على 25px بدلاً من 16. (3) .hdt-container على الموبايل 15px وFigma 16px (2028:2).
+الإصلاح: حُذف الهامش السالب. أُضيف ayum_padding_x_mb ("Mobile side padding"، افتراضياً 16) مطبَّقاً على .ayum-header__main > .hdt-container تحت 768px. padding-inline-end: 0 لمجموعة الأيقونات داخل ayum-header (Figma: زر السلة على حافة الحاوية في الديسكتوب والموبايل). النتيجة المحسوبة: أيقونة القائمة على 16px من اليمين، زر السلة على 16px من اليسار، والبحث 16px من الجهتين. اللوجو في الوسط (grid 1fr auto 1fr بحشوتين متساويتين).
+باقي المراجعة (الارتفاعات 12/60/12/33/12، أحجام السلة والشارة، صفوف الدرج 72/60/24، شريط الفئات): مطابقة، بلا تغيير.
+ملاحظة غير مُصلحة (خارج النطاق): عرض محتوى الديسكتوب يأتي من إعداد page_width العام المشترك بين كل السكاشن، وقد يختلف عن 1280px في Figma.
+الملفات: sections/ayum-header.liquid، blocks/_ayum-menu-mobile.liquid، assets/main.css، sections/header-group.json (قيمتان جديدتان في ayum_header فقط). شريط العرض والملفات الأصلية بلا تغيير.
+Validated (ثابت): JSON للـ schema والمجموعة، لا ids مكررة، قيم الـ instance معرّفة، توازن الوسوم، لا ألوان حرفية، breakpoints 767/768/1150 فقط.
+Not run: أي فحص في المتصفح (320/375/390/767/768/1150/1440، الدرج، البحث، sticky).
+
