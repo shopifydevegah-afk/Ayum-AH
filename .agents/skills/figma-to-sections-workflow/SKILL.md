@@ -19,12 +19,12 @@ This skill is the **permanent source of truth** for converting the AYUM Figma de
 
 - These are context frames only; implementation still requires the exact desktop/mobile node for the one target section.
 
-Two companion files exist and remain authoritative for what they cover, but this skill does not require them:
+Companion files are repository-dependent. Read the ones that actually exist; do not assume a filename or overwrite an existing agent orientation file:
 
-- [AGENTS.md](../../../AGENTS.md) — short repository orientation (mandatory, do not modify from this skill).
+- `AGENTS.md` and/or `CLAUDE.md` — agent-specific repository orientation. Read every existing relevant file; never create, rename, replace, or modify either merely to apply this skill. If both exist and conflict, flag the conflict and honor the latest explicit user instruction.
 - [AYUM_PROJECT_PLAN.md](../../../AYUM_PROJECT_PLAN.md) — **project-specific** section inventory, Figma node map, status tracker (§22), implementation log (§23), and open questions (§20). **Permanent workflow rules live here in SKILL.md; per-section status and decisions live in the project plan.** Do not duplicate this skill inside the plan, and do not move workflow rules into the plan.
 
-> Note: a root-level `SKILL.md` (the Kalles development standard) exists in git history but is **deleted in the working tree**. Do not rely on it. Everything from it that applies to AYUM work is reproduced or adapted below. There is also a separate skill directory `.Codex/skills/kalles-figma-to-sections-workflow/` — leave it alone; do not delete or edit it.
+> Note: a root-level `SKILL.md` (the Kalles development standard) exists in git history but is **deleted in the working tree**. Do not rely on it. Everything from it that applies to AYUM work is reproduced or adapted below. There is also a separate skill directory a separate legacy Kalles workflow directory may exist under `.Codex/skills/` or `.claude/skills/` — inspect before relying on it; leave it unchanged.
 
 ---
 
@@ -39,6 +39,18 @@ This skill governs: converting Figma nodes into Liquid sections/blocks/snippets,
 - Never start the next section after finishing one. Stop and report.
 - Never modify Shopify implementation files during an audit/plan/report-only task.
 - Never claim something was tested when it was only inspected statically.
+
+---
+
+
+### 0.1 Cross-branch and cross-agent applicability (mandatory)
+
+- This single workflow applies to AYUM branches using either Claude Code (`CLAUDE.md`, `.claude/skills/`) or Codex (`AGENTS.md`, `.Codex/skills/`). The agent must read the project-specific orientation and current project plan actually present in its own working tree; do not assume another branch's filesystem state or agent configuration.
+- Do not edit the original native Kalles section just to add `custom_class`, settings, CSS hooks, or a harmless opt-in. Use native Kalles unchanged when its existing settings suffice; otherwise isolate source changes in the AYUM copy. Preserve unchanged native dependencies rather than duplicating them.
+- Previously implemented AYUM sections are updated in place for follow-up fixes, with no additional duplicate.
+- Settings-first includes non-color controls. Colors follow: existing section or block color scheme role → existing native setting → new independent AYUM setting only when the role cannot be represented otherwise. A missing Figma *value* in the selected scheme is not a missing scheme *role*. Never hardcode a rendered design color.
+- Do not execute `shopify theme dev`, `shopify theme check`, `shopify theme push`, `shopify theme pull`, publish/deploy, or Git commit/push without the user's explicit authorization. Inspection and targeted local read-only validation remain allowed.
+- If a branch's `AYUM_PROJECT_PLAN.md`, live template JSON, color schemes, locale, or theme version disagree with this skill's historical observations, the current repository is authoritative for its state. Report discrepancies; do not silently force historical state on another branch.
 
 ---
 
@@ -65,9 +77,9 @@ This skill governs: converting Figma nodes into Liquid sections/blocks/snippets,
 13. Existing theme conventions come after direct section-specific Figma requirements.
 14. Agent assumptions have the lowest priority.
 
-Codex must inspect the **exact** desktop and mobile nodes supplied for each task. A whole-page Figma node must **not** be used as a substitute for exact section nodes when exact nodes are available.
+The implementation agent (Claude Code or Codex) must inspect the **exact** desktop and mobile nodes supplied for each task. A whole-page Figma node must **not** be used as a substitute for exact section nodes when exact nodes are available.
 
-Supplementary ordering for non-Figma conflicts (applies below rule 1 and above rule 14): current explicit user request → this skill → `AGENTS.md` → verified **active** code path in this repository → `AYUM_PROJECT_PLAN.md` → verified Shopify OS 2.0 / Liquid platform behavior → general engineering practice → assumptions (state them).
+Supplementary ordering for non-Figma conflicts (applies below rule 1 and above rule 14): current explicit user request → this skill → existing `AGENTS.md` / `CLAUDE.md` → verified **active** code path in this repository → `AYUM_PROJECT_PLAN.md` → verified Shopify OS 2.0 / Liquid platform behavior → general engineering practice → assumptions (state them).
 
 When a conflict cannot be resolved safely: state the conflict, cite the evidence for each side, mark it **Needs verification**, and choose the least destructive path. Do not silently pick a convention.
 
@@ -96,7 +108,7 @@ Re-verify anything marked *Needs verification* before relying on it.
 
 - Design tokens live in `snippets/css-variables.liquid` inside a `:root { … }` `{% style %}` block, computed from `settings.*`. Families: spacing `--spacing-*`, colors `--color-*` / `--hdt-btn-*`, typography `--f_family_1..5` / `--font-*` / `--text-*` / `--h0-size..h6-size` (+ `-mb` mobile), layout `--container-max-width*`, radii `--radius-*`.
 - **`--color-*` tokens are space-separated RGB triplets** (e.g. `34 34 34`), consumed as `rgb(var(--color-x))` or `rgb(var(--color-x) / .5)`. `color: var(--color-foreground)` alone is invalid.
-- **Color schemes (verified in `snippets/css-variables.liquid` + `config/settings_schema.json`).** Schemes are defined by the merchant in Theme settings (`color_schemes` group: `text`, `text2`, `background`, `background2`, `background_gradient`, `button`, `button_label`, `button_border`, `secondary_button_label`, `accent_color`, `line_border`, `overlay`, price/input colors). A section opts in through the native `colors_by_section` checkbox + `color_scheme` setting, which renders `color-scheme="{{ section.settings.color_scheme }}"` on its wrapper; `css-variables.liquid` emits, per scheme, `[color-scheme="<id>"] { --color-background, --gradient-background, --color-background2, --color-foreground, --color-foreground2, --color-accent, --color-secondary, --color-tertiary, --hdt-btn-color/-bg/-border-color/-hover-*, --hdt-btn-secondary-*, --hdt-btn-tertiary-* }`. `--color-line-border`, `--color-overlay`, `--color-pr-*` and `--color-input-*` are emitted **only from the body scheme** (`color_scheme_body`) at `:root`, not per scheme. Utility classes consume them: `.hdt-s-gradient` (background, honoring `--background-opacity`) and `.hdt-s-text` / `.hdt-s-text2` (text). See §2.8 for the mandatory color policy.
+- **Color schemes (verified in `snippets/css-variables.liquid` + `config/settings_schema.json`).** Schemes are defined by the merchant in Theme settings (`color_schemes` group: `text`, `text2`, `background`, `background2`, `background_gradient`, `button`, `button_label`, `button_border`, `secondary_button_label`, `accent_color`, `line_border`, `overlay`, price/input colors). A section opts in through the native `colors_by_section` checkbox + `color_scheme` setting, which renders `color-scheme="{{ section.settings.color_scheme }}"` on its wrapper; `css-variables.liquid` emits, per scheme, `[color-scheme="<id>"] { --color-background, --gradient-background, --color-background2, --color-foreground, --color-foreground2, --color-accent, --color-secondary, --color-tertiary, --hdt-btn-color/-bg/-border-color/-hover-*, --hdt-btn-secondary-*, --hdt-btn-tertiary-*, --hdt-btn-outline-*, --hdt-link-*, --color-line-border, --color-overlay, --color-pr-*, --color-input-* }`. `:root` carries the same set from the body scheme (`color_scheme_body`) **except `--color-background`** — use `rgb(var(--color-background, var(--color-base-background)))` when no scheme wrapper may be present. Utility classes consume them: `.hdt-s-gradient` (background, honoring `--background-opacity`) and `.hdt-s-text` / `.hdt-s-text2` (text). See §2.8 for the mandatory color policy.
 - Global CSS loads **once**, at the end of `css-variables.liquid`: `base.css` + `theme.css` (preload), then `product-card.css`, `collection-products.css`. Do not re-load these anywhere. `base.css` is a Tailwind-preflight + `hdt-` utility library — **do not hand-edit**.
 - Per-section CSS is lazy-loaded as the **first line(s)** of the section file: `{{ 'NAME.css' | asset_url | stylesheet_tag }}`. The theme uses external `asset_url` stylesheets exclusively — there are **zero** `{% stylesheet %}` embedded blocks.
 - Instance-scoped CSS goes in an inline `{% style %}` block scoped by `#shopify-section-{{ section.id }}` (or `.hdt-section-spacing-{{ section.id }}` via `{% render 'spacing-vars', box: section %}`).
@@ -167,9 +179,18 @@ Read the real AYUM values per node each time with `get_variable_defs` / `get_des
 
 **Resolution ladder for each color role (take the first that works):**
 
+1. An existing **color scheme variable** consumed through the native `colors_by_section` / `color_scheme` settings (or the scheme the section — or a slide/block with its own `color_scheme` — already inherits).
+2. An existing **native color setting** on the section or block (reuse it; never add a parallel duplicate). This includes native `text_color` selects (`hdt-s-text` / `hdt-text-secondary` / `hdt-text-primary`): do not override their result with an AYUM color.
 1. An existing **color scheme variable** consumed through the native `colors_by_section` / `color_scheme` settings (or the scheme the section already inherits).
 2. An existing **native color setting** on the section or block (reuse it; never add a parallel duplicate).
 3. A **new color setting on the isolated AYUM section/block** (never on the original Kalles file), with a meaningful label, the Figma value as its `default`, `"alpha": true` when the design needs transparency (the setting type supports it and the repo already uses it), and grouped under a clear `header`.
+
+**"Value missing" vs "role missing" (mandatory test before step 3).** Distinguish the two cases:
+
+- **The scheme does not currently contain the Figma value** (e.g. the store's accent is cyan, Figma's is pink; scheme text is #222, Figma's heading is #26383A). This is **not** a reason to add a setting. The role exists in the scheme; the value is merchant configuration. Consume the scheme variable, and in the report tell the merchant which scheme fields to set (preferably on a dedicated scheme assigned to the section, so shared schemes are untouched).
+- **The scheme structurally cannot represent the role** — the design needs more independent colors of one kind than a scheme has slots for (e.g. four collection cards each with their own label color), or a role with no scheme token at all. Only this case justifies step 3, and only when no native setting fits.
+
+Ask: "if the merchant edited a scheme, could it produce this design?" If yes, no new color setting. A scheme switch must visibly change every color the scheme is expected to control; an AYUM color that overrides a scheme-controlled role makes the implementation incomplete.
 
 **No hardcoded colors (mandatory).** Never write a design color literal in Liquid, CSS, or JavaScript — e.g. `color: #EA3A79;`, `background-color: #26B3D0;`, `border-color: #4E6E70;`, `color: rgb(38, 56, 58);`, `rgba(...)` fills, or a hex inside a JS string. Allowed without a setting: `transparent`, `currentColor`, `inherit`, and values derived from scheme/setting variables (e.g. `rgb(var(--color-foreground) / .75)`, `color-mix(in srgb, var(--ayum-x) 75%, transparent)`). A Figma value may appear **only** as the `default` of a schema setting (or in a section/block preset).
 
@@ -191,6 +212,7 @@ A `style="--ayum-accent: …"` attribute on the wrapper (or on a block element f
 
 **Never** edit a shared color scheme, change global scheme definitions to suit one section, or hand-edit `config/settings_data.json` (schemes live there and only the merchant creates/edits them in the Theme Editor). Never scatter static design colors across CSS files.
 
+**Legacy note:** AYUM sections implemented before this rule may contain literal colors in `assets/dev1.css`. Do not copy them as a pattern. Migrate them only when a task touches that section (or the user asks), using the ladder above. Migrating to scheme variables may change the rendered colors until the merchant configures the scheme; that is expected — do not preserve the old look by adding pickers. Record the old values (the merchant's stored values and the Figma values) in the report as the scheme values to configure, and remove a replaced setting only after checking the stored template/section-group data.
 **Legacy note:** AYUM sections implemented before this rule may contain literal colors in `assets/dev1.css`. Do not copy them as a pattern. Migrate them only when a task touches that section (or the user asks), using the ladder above and preserving the current rendered result through the new settings' defaults.
 
 ### 2.9 Naming conventions for AYUM
@@ -247,13 +269,13 @@ Inspect, where available:
 - desktop/mobile differences · hidden layers
 - decorative assets · exportable assets
 
-**Codex must not infer exact values by visually measuring screenshots when node data is available.** Screenshots confirm overall appearance *after* the real node values have been read.
+**The implementation agent (Claude Code or Codex) must not infer exact values by visually measuring screenshots when node data is available.** Screenshots confirm overall appearance *after* the real node values have been read.
 
 Practical notes for the AYUM Figma file (`7cOVp6r92Z3heL1aTMP5N3`):
 
 - Full-page desktop context: `2001:3` — https://www.figma.com/design/7cOVp6r92Z3heL1aTMP5N3/Ayum--Copy-autolayout?node-id=2001-3&t=xvA1tZ1dkOjKjKcf-0
 - Full-page mobile context: `2001:581` — https://www.figma.com/design/7cOVp6r92Z3heL1aTMP5N3/Ayum--Copy-autolayout?node-id=2001-581&t=xvA1tZ1dkOjKjKcf-0
-- These two links are **page-level context only**. For implementation, Codex must still inspect and use the exact desktop/mobile node IDs for the single target section, per the source-of-truth rules above.
+- These two links are **page-level context only**. For implementation, The implementation agent (Claude Code or Codex) must still inspect and use the exact desktop/mobile node IDs for the single target section, per the source-of-truth rules above.
 - Do not carry any old previous-project frame IDs, draft/duplicate-node warnings, or node maps into AYUM. Build the AYUM node map from this Figma file and record verified section nodes in `AYUM_PROJECT_PLAN.md`.
 - If a large-node metadata call exceeds the token limit, query the section's own node instead of repeatedly requesting the whole page.
 - **Figma asset URLs are short-lived and must never reach a production file.** Do not paste a `figma.com` or `api/mcp/asset` URL into Liquid, CSS, JS, or template JSON. If an icon or decorative glyph is needed, download it once and store/transcribe it locally using the project's established asset pattern. Never store a large raw SVG string inside `templates/*.json`.
@@ -455,7 +477,7 @@ Schema rules:
 
 ## 9. CSS rules
 
-Before editing CSS, inspect the project and identify the correct stylesheet for the target page or component. Codex must:
+Before editing CSS, inspect the project and identify the correct stylesheet for the target page or component. The implementation agent (Claude Code or Codex) must:
 
 - confirm the stylesheet is actually loaded on the target template
 - use the correct page-specific or component-specific file
@@ -820,7 +842,7 @@ After every implementation or bugfix: update the §22 status and append/extend a
 - implementing the full site in one task
 - implementing unrelated sections
 - creating a new section before inspecting existing options
-- duplicating a section when scoped extension is enough
+- duplicating an existing isolated AYUM section unnecessarily, or duplicating native dependencies that can safely be reused unchanged
 - deleting existing schema settings
 - renaming setting IDs casually
 - removing blocks
@@ -929,7 +951,9 @@ Project-specific additions, each learned from a real failure or constraint in th
 | Situation | Source |
 | --- | --- |
 | A scheme variable can express the Figma color role | Native `colors_by_section` + `color_scheme`; consume `--color-*` / `--hdt-btn-*` |
+| The scheme has the role but not the Figma value | Still the scheme variable — no new setting; report the scheme values for the merchant to set |
 | The base section/block already has a matching color or design setting | Reuse it; set the Figma value in the instance or preset |
+| No native source fits (the scheme structurally cannot hold the role, e.g. several independent per-item colors) | New setting on the isolated AYUM file, Figma value as `default`, exposed as a scoped custom property |
 | No native source fits | New setting on the isolated AYUM file, Figma value as `default`, exposed as a scoped custom property |
 | Internal geometry with no merchant meaning | Scoped CSS constant, commented with its Figma source |
 | Tempted to edit a global scheme or `settings_data.json` | Never — scope the control to the section instead |
@@ -969,4 +993,20 @@ Project-specific additions, each learned from a real failure or constraint in th
 - [ ] Ran the validation checks in §21 and recorded each as Passed / Failed / Not run / Not available / Requires manual verification.
 - [ ] Wrote the final report in the §22 format, honestly distinguishing inspected vs validated vs not testable.
 - [ ] Updated `AYUM_PROJECT_PLAN.md` §22 status and §23 log.
-- [ ] **Did not start the next section.**
+
+---
+
+## Appendix A — Merge provenance and conflict resolution (2026-10-14)
+
+This unified document consolidates three supplied AYUM skill variants: the earlier existing-first variant, a formatted Codex-oriented color-scheme-first + isolated-AYUM variant, and a plaintext isolated-AYUM variant. The full upstream text files should be kept as backups if literal historical wording is needed. No obsolete rule is reinstated merely because it was present in an older variant.
+
+| Conflicting variants | Effective merged requirement |
+| --- | --- |
+| Original section may be extended vs. original section must stay untouched | Native Kalles originals are never modified for AYUM-specific work. Configure unchanged originals, otherwise duplicate section source into an AYUM-owned file. |
+| Existing-first wording interpreted as modifying source vs. isolated-AYUM | Reuse existing native behavior/settings first; isolate *source changes*; avoid unnecessary copies of native dependencies. |
+| Add new color pickers whenever the scheme does not currently match a Figma hex vs. scheme-role-first | Missing value is merchant scheme configuration, not a reason for another setting; add a new picker only for independently unrepresentable roles. |
+| Color variable list inconsistently claimed some tokens only exist at root vs. additional per-scheme roles | Inspect actual current `snippets/css-variables.liquid` and `config/settings_schema.json`; treat the richer scheme-token description above as a candidate, not a substitute for repository inspection. |
+| Codex / `AGENTS.md` exclusive vs. Claude Code / `CLAUDE.md` | Both agents may follow this workflow; read the actual present orientation file(s) and current project's skill path. |
+| Older branch/state claims vs. newer project branch state | Verify directly in the active branch; do not presume locale, 390px vs. 375px design frame, or historical implementations exist. |
+
+**Integrity rule:** This appendix records superseded positions for traceability, not as operative instructions. All numbered requirements above remain in effect.
