@@ -69,6 +69,21 @@
         {%- endif -%}
         {%- assign show_section = true -%}
         <div class="hdt-slider__slide{% if category.handle == collection.handle %} hdt-current-active{% endif %}">
+          {%- if section.settings.ayum_cards -%}
+            {%- comment -%} AYUM image card (opt-in "AYUM image cards"): block image, else the collection image, else a placeholder. {%- endcomment -%}
+            {%- assign card_image = block.settings.ayum_image | default: category.featured_image -%}
+            <a href="{{ category.url }}" class="ayum-tl-card"{% if block.settings.ayum_color != blank %} style="--ayum-tl-color: {{ block.settings.ayum_color.rgb }};"{% endif %}{% if category.handle == collection.handle %} aria-current="page"{% endif %} {{ block.shopify_attributes }}>
+              <span class="ayum-tl-card__media">
+                {%- if card_image != blank -%}
+                  {{ card_image | image_url: width: 160 | image_tag: width: 61, height: 61, loading: 'lazy', alt: '', widths: '61,122,160' }}
+                {%- else -%}
+                  {{ 'collection-1' | placeholder_svg_tag: 'hdt-placeholder-svg' }}
+                {%- endif -%}
+              </span>
+              <span class="ayum-tl-card__title">{{ category.title }}</span>
+              <span class="ayum-tl-card__arrow" aria-hidden="true">&lsaquo;</span>
+            </a>
+          {%- else -%}
           <a href="{{ category.url }}">
             {%- if block.settings.icon != blank -%}
               <span class="hdt-slide__icon">
@@ -77,6 +92,7 @@
             {%- endif -%}
             {{- category.title -}}
           </a>
+          {%- endif -%}
         </div>
       {%- endfor -%}
     {%- when 'menu' -%}
@@ -109,7 +125,7 @@
 {%- endcapture -%}
 {%- if show_section -%}
   <div class="{% if section.settings.hide_mobile %}hdt-hidden md:hdt-block{% endif %}">
-    <div class="{{ parent }} {% if section.settings.hdt_background_parallax %} hdt-animate--parallax-bg {% endif %}" {%- if section.settings.colors_by_section %} color-scheme="{{ section.settings.color_scheme }}" style="--background-opacity: {{ section.settings.background_opacity }};" {%- endif %}>
+    <div class="{{ parent }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class | strip | escape }}{% endif %} {% if section.settings.hdt_background_parallax %} hdt-animate--parallax-bg {% endif %}" {%- if section.settings.colors_by_section %} color-scheme="{{ section.settings.color_scheme }}" style="--background-opacity: {{ section.settings.background_opacity }};" {%- endif %}>
       <div class="{{ child }}">
         {%- if section.settings.section_background != blank -%}
           {% liquid
@@ -314,6 +330,22 @@
       "label": "Padding (Mobile)",
       "placeholder": ",,50px,",
       "visible_if": "{{ section.settings.pd != blank }}"
+    },
+    {
+      "type": "header",
+      "content": "AYUM"
+    },
+    {
+      "type": "checkbox",
+      "id": "ayum_cards",
+      "label": "AYUM image cards",
+      "info": "Show each added collection as a card with its image and color (Collections added mode).",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
     }
     ],
     "blocks": [
@@ -332,6 +364,18 @@
             "label": "t:blocks.icon.custom_svg_icon.label",
             "info": "t:blocks.icon.custom_svg_icon.content"
           },
+          {
+            "type": "image_picker",
+            "id": "ayum_image",
+            "label": "AYUM card image",
+            "info": "Optional. Used by \"AYUM image cards\"; the collection image is used when empty."
+          },
+          {
+            "type": "color",
+            "id": "ayum_color",
+            "label": "AYUM card color",
+            "info": "Optional. Card tint, border and arrow color for \"AYUM image cards\"."
+          }
         ]
       }
     ],

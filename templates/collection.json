@@ -16,35 +16,40 @@
           "type": "cat",
           "settings": {
             "collection": "الأكثر-مبيعا",
-            "icon": ""
+            "icon": "",
+            "ayum_color": "#EA3A79"
           }
         },
         "cat_ULRjDy": {
           "type": "cat",
           "settings": {
             "collection": "الأكثر-مبيعا",
-            "icon": ""
+            "icon": "",
+            "ayum_color": "#26B3D0"
           }
         },
         "cat_xA8DAA": {
           "type": "cat",
           "settings": {
             "collection": "الأكثر-مبيعا",
-            "icon": ""
+            "icon": "",
+            "ayum_color": "#E78333"
           }
         },
         "cat_WGpmpR": {
           "type": "cat",
           "settings": {
             "collection": "الأكثر-مبيعا",
-            "icon": ""
+            "icon": "",
+            "ayum_color": "#B6D561"
           }
         },
         "cat_Fc3DNG": {
           "type": "cat",
           "settings": {
             "collection": "الأكثر-مبيعا",
-            "icon": ""
+            "icon": "",
+            "ayum_color": "#9570B9"
           }
         }
       },
@@ -69,7 +74,9 @@
         "mg": "",
         "mg_mb": "",
         "pd": "24px,,24px,",
-        "pd_mb": ""
+        "pd_mb": "14px,,14px,",
+        "ayum_cards": true,
+        "custom_class": "ayum-collection-top-list"
       }
     },
     "main_heading_PHNGje": {
@@ -78,7 +85,7 @@
         "heading_liquid_wcaa7G": {
           "type": "_heading_liquid",
           "settings": {
-            "text": "{{ collection.title }} <span class=\"ayum-collection-count\">{{ collection.products_count }} منتج</span>",
+            "text": "{{ collection.title }} <span class=\"ayum-collection-count\">{{ collection.all_products_count }} منتج</span>",
             "line_height": "",
             "font_family": "hdt-font-1",
             "text_size": "custom",
@@ -110,7 +117,8 @@
         "mg": "",
         "mg_mb": "",
         "pd": "48px,,24px,",
-        "pd_mb": "16px,,16px,"
+        "pd_mb": "16px,,16px,",
+        "custom_class": "ayum-collection-heading"
       }
     },
     "main-collection": {
@@ -142,7 +150,7 @@
         "pagination_type": "load_more",
         "enable_progressbar": true,
         "paginate_pos": "center",
-        "dis_pagination": 40,
+        "dis_pagination": 36,
         "btn_label": "",
         "btn_style": "hdt-btn-outline",
         "size": "xl",
@@ -161,20 +169,221 @@
         "hdt_background_parallax": false,
         "mg": "",
         "mg_mb": "",
-        "pd": ",,30px,",
-        "pd_mb": ",,22px,",
+        "pd": ",,48px,",
+        "pd_mb": ",,16px,",
         "sidebar_drawer": false,
         "sidebar_position": "left",
         "sidebar_size": "small",
         "colors_by_section_sb": true,
-        "color_scheme_sb": "",
-        "background_opacity_sb": 1
+        "color_scheme_sb": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
+        "background_opacity_sb": 1,
+        "ayum_tabs_filter": "filter.p.product_type",
+        "ayum_tabs_all_label": "الكل",
+        "ayum_count_label": "[count] منتج",
+        "ayum_quick_filters": true,
+        "ayum_quick_all_label": "كل الفلاتر",
+        "ayum_sidebar_title": "تصفية النتائج",
+        "ayum_bottom_sheet": true,
+        "ayum_card_tag": true,
+        "ayum_card_tag_prefix": "",
+        "ayum_card_tag_allow": "مجفف بالتجميد",
+        "ayum_card_tag_metafield": "",
+        "ayum_sheet_clear_label": "مسح الكل",
+        "ayum_sheet_results_label": "عرض [count] نتيجة",
+        "custom_class": "ayum-collection-products"
+      }
+    },
+    "ayum_why": {
+      "type": "ayum-icon-box",
+      "blocks": {
+        "icon-box": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 16,
+            "margin_bottom": 32
+          },
+          "blocks": {
+            "why_heading": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "ليش تختار أيم",
+                "line_height": "",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 34,
+                "font_size_heading": 23,
+                "letter_spacing_heading": 0
+              }
+            },
+            "why_subheading": {
+              "type": "_sub_heading_section",
+              "settings": {
+                "text": "<p>مو بس منتج مختلف — طريقة تصنيع مختلفة من الأساس</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": true,
+                "text_size": "custom",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              }
+            }
+          },
+          "block_order": [
+            "why_heading",
+            "why_subheading"
+          ]
+        },
+        "claims": {
+          "type": "_ayum-claims",
+          "static": true,
+          "settings": {
+            "margin_bottom": 0
+          },
+          "blocks": {},
+          "block_order": []
+        },
+          "truck_card": {
+            "type": "_ayum-icon-box",
+            "settings": {
+              "url": "",
+              "open_in_new_tab": false,
+              "icon_position": "left",
+              "ayum_icon": "truck",
+              "ayum_icon_bg": "#E78333",
+              "image_width": 50,
+              "svg_width": 26,
+              "svg_width_mb": 18,
+              "ayum_number": "",
+              "heading": "شحن خلال 24 ساعة",
+              "description": "داخل الكويت، مع إرجاع خلال 7 أيام بشرط ارجاع المنتج في حالة سليمة",
+              "ayum_description_mb": "وإرجاع خلال 7 أيام."
+            }
+          },
+          "shield_card": {
+            "type": "_ayum-icon-box",
+            "settings": {
+              "url": "",
+              "open_in_new_tab": false,
+              "icon_position": "left",
+              "ayum_icon": "shield",
+              "ayum_icon_bg": "#B6D561",
+              "image_width": 50,
+              "svg_width": 26,
+              "svg_width_mb": 18,
+              "ayum_number": "",
+              "heading": "قرمشة تدوم",
+              "description": "عبوة مفرّغة من الهواء تحفظ المنتج لشهور بدون مواد حافظة.",
+              "ayum_description_mb": "عبوة دون مواد حافظة."
+            }
+          },
+          "noheat_card": {
+            "type": "_ayum-icon-box",
+            "settings": {
+              "url": "",
+              "open_in_new_tab": false,
+              "icon_position": "left",
+              "ayum_icon": "noheat",
+              "ayum_icon_bg": "#EA3A79",
+              "image_width": 50,
+              "svg_width": 26,
+              "svg_width_mb": 18,
+              "ayum_number": "",
+              "heading": "تجفيف بدون حرارة",
+              "description": "التفريغ يسحب الماء ويحوّل الثلج لبخار، فالنكهة والقوام ما يتأثرون.",
+              "ayum_description_mb": "النكهة والقوام ما يتأثرون."
+            }
+          },
+          "factory_card": {
+            "type": "_ayum-icon-box",
+            "settings": {
+              "url": "",
+              "open_in_new_tab": false,
+              "icon_position": "left",
+              "ayum_icon": "factory",
+              "ayum_icon_bg": "#26B3D0",
+              "image_width": 50,
+              "svg_width": 26,
+              "svg_width_mb": 18,
+              "ayum_number": "",
+              "heading": "المصنع الأكبر في الكويت",
+              "description": "ننتج منتجات التجفيف بالتجميد محلياً — معظم المنافسين يستوردون.",
+              "ayum_description_mb": "إنتاج محلي مش مستورد."
+            }
+          }
+      },
+      "block_order": [
+        "truck_card",
+        "shield_card",
+        "noheat_card",
+        "factory_card"
+      ],
+      "settings": {
+        "enable_border": false,
+        "enable_box_shadow": false,
+        "source": "svg",
+        "padding": "24px,24px,24px,24px",
+        "col_dk": "4",
+        "col_tb": "2",
+        "col_mb": "2",
+        "space_horizontal": "20",
+        "space_vertical": "20",
+        "space_horizontal_mb": "12",
+        "space_vertical_mb": "12",
+        "layout": "grid",
+        "colors_by_section": true,
+        "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
+        "background_opacity": 0.35,
+        "section_layout": "wrapper_container",
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,24px,",
+        "ayum_title_size": 17,
+        "ayum_title_size_mb": 12,
+        "ayum_desc_size": 13,
+        "ayum_desc_size_mb": 11,
+        "ayum_radius": 16,
+        "ayum_radius_mb": 14,
+        "ayum_subheading_size_mb": 13,
+        "ayum_subheading_color": "",
+        "ayum_padding_mb": "14px,14px,14px,14px",
+        "ayum_background_source": "accent",
+        "ayum_card_surface": "background2",
+        "ayum_card_opacity": 50,
+        "ayum_icon_size": 48,
+        "ayum_icon_size_mb": 32,
+        "ayum_layout_mb": "stack",
+        "ayum_desc_color": "text80",
+        "custom_class": "ayum-collection-benefits"
+      }
+    },
+    "ayum_seo": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{%- if collection.description != blank -%}<div class=\"ayum-collection-seo__card\"><h2 class=\"ayum-collection-seo__title\">عن {{ collection.title | escape }}</h2><div class=\"hdt-rte ayum-collection-seo__text\">{{ collection.description }}</div></div>{%- endif -%}",
+        "custom_class": "ayum-collection-seo",
+        "colors_by_section": true,
+        "color_scheme": "scheme-fe88a2ec-47a1-478d-8953-54da0178e18c",
+        "background_opacity": 0.3,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "28px,,28px,"
       }
     }
   },
   "order": [
     "collections_list_simple_4yRUED",
     "main_heading_PHNGje",
-    "main-collection"
+    "main-collection",
+    "ayum_why",
+    "ayum_seo"
   ]
 }

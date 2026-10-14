@@ -755,7 +755,7 @@
   --heading-color: rgb(var(--color-foreground));
   --description-color: rgb(var(--color-foreground2));
   --icon-color: rgb(var(--hdt-btn-color));
-  --color-box: rgb(var(--color-background, var(--color-base-background)) / .6);
+  --color-box: rgb(var(--ayum-ib-card, var(--color-background, var(--color-base-background))) / var(--ayum-ib-card-opacity, .6));
   --border-color: rgb(var(--color-line-border));
   /* Figma has no hover colours: the original hover background / content colours keep the normal ones. */
   --color-box-hover: var(--color-box);
@@ -894,8 +894,8 @@
 }
 /* Icon circle: the step's "Icon background"; Figma 40px mobile / 52px desktop. */
 .ayum-icon-box .ayum-step .hdt-iconbox-icon {
-  width: 40px;
-  height: 40px;
+  width: var(--ayum-ib-icon-mb, 40px);
+  height: var(--ayum-ib-icon-mb, 40px);
   border-radius: 50%;
   background-color: rgb(var(--ayum-step-icon-bg, var(--color-accent)));
   color: var(--icon-color);
@@ -950,8 +950,8 @@
     border-radius: var(--ayum-ib-radius);
   }
   .ayum-icon-box .ayum-step .hdt-iconbox-icon {
-    width: 52px;
-    height: 52px;
+    width: var(--ayum-ib-icon, 52px);
+    height: var(--ayum-ib-icon, 52px);
   }
   .ayum-icon-box .ayum-step .hdt-iconbox-heading {
     font-size: var(--ayum-ib-title);
@@ -966,6 +966,34 @@
   }
   .ayum-icon-box .ayum-step__desc--mobile {
     display: none;
+  }
+}
+/* Options used by "Why choose AYUM" (Figma 1:1007 / 55:730); all off by default.
+   - Section background color = Accent: the scheme's Accent at the native Background opacity.
+   - Description color = Text at 80%.
+   - Card layout (mobile) = Icon above text: icon, title and description stacked (Figma 55:734). */
+.ayum-icon-box--bg-accent.hdt-s-gradient,
+.ayum-icon-box--bg-accent .hdt-s-gradient {
+  background: rgb(var(--color-accent) / var(--background-opacity, 1));
+}
+.ayum-icon-box--desc-text80 .hdt-icon-box {
+  --description-color: rgb(var(--color-foreground) / .8);
+}
+@media (max-width: 767px) {
+  .ayum-icon-box--stack-mb .ayum-step .hdt-iconbox-item-wrapper {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    align-items: start;
+    row-gap: 8px;
+  }
+  .ayum-icon-box--stack-mb .ayum-step :is(.hdt-iconbox-icon, .hdt-iconbox-heading, .hdt-iconbox-des) {
+    grid-column: 1;
+    grid-row: auto;
+    align-self: auto;
+  }
+  .ayum-icon-box--stack-mb .ayum-step .hdt-iconbox-des {
+    font-weight: 400;
+    line-height: 1.75;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1125,14 +1153,14 @@
 
 /* ==========================================================================
    Collection page (Figma 1:787 desktop / 1:1081 mobile / 1:1287 filter sheet)
-   templates/collection.json (+ collection.custom-ayum.json): native Kalles "Top list collections",
-   "Heading page" and "Collection page" sections, unchanged. None of them has a custom-class setting,
-   so the scope is anchored on the AYUM heading instance (key main_heading_PHNGje, unique to these two
-   templates — the Kalles demo collection templates use other heading keys):
-     heading .......... [id$="__main_heading_PHNGje"]
-     top list ......... the "Top list collections" section placed directly before that heading
-     products/filters . the "Collection page" section after that heading
-   Colours: native colour schemes only (each section's scheme, or the body scheme).
+   templates/collection.json: native Kalles sections, each scoped by its Theme Editor "Custom CSS class":
+     .ayum-collection-top-list ... "Top list collections" (AYUM cards option on)
+     .ayum-collection-heading .... "Heading page"
+     .ayum-collection-products ... "Collection page" (filter tabs, quick filters, bottom sheet, card tag options)
+     .ayum-collection-benefits ... AYUM "Icon box" (Why choose AYUM)
+     .ayum-collection-seo ........ native "Custom Liquid" printing collection.description
+   Colours: native colour schemes only (each section's scheme, or the body scheme); per-item accents come
+   from block colour settings (top-list cards, icon circles).
    ========================================================================== */
 
 /* ---------- Heading page: title + dynamic product-count badge ---------- */
@@ -1140,7 +1168,7 @@
    + <span class="ayum-collection-count">{{ collection.products_count }} …</span>. Title size comes from the
    block's custom sizes (36 / 22). The block prints "font-weight: 500" on its own #id for custom sizes,
    so the ExtraBold weight is set on the title span. */
-[id$="__main_heading_PHNGje"] .hdt-heading-liquid {
+.ayum-collection-heading .hdt-heading-liquid {
   direction: rtl;
   unicode-bidi: isolate;
   display: flex;
@@ -1150,12 +1178,12 @@
   gap: 8px 10px;
   line-height: normal;
 }
-[id$="__main_heading_PHNGje"] .ayum-collection-title {
+.ayum-collection-heading .ayum-collection-title {
   font-weight: var(--font-extrabold);
 }
 /* The Heading page section paints no scheme background (only its optional image/overlay), so the
    badge uses the scheme Background as its surface (Scheme 2: #E4EDF0 = Figma badge). */
-[id$="__main_heading_PHNGje"] .ayum-collection-count {
+.ayum-collection-heading .ayum-collection-count {
   padding: 4px 10px;
   border-radius: 10px;
   background-color: rgb(var(--color-background, var(--color-base-background)));
@@ -1166,20 +1194,28 @@
   white-space: nowrap;
 }
 @media (min-width: 768px) {
-  [id$="__main_heading_PHNGje"] .hdt-heading-liquid {
+  .ayum-collection-heading .hdt-heading-liquid {
     gap: 8px 12px;
   }
-  [id$="__main_heading_PHNGje"] .ayum-collection-count {
+  .ayum-collection-heading .ayum-collection-count {
     padding: 5px 12px;
     border-radius: 12px;
     font-size: 12px;
   }
 }
 
-/* ---------- Top list collections: collection cards + active state ---------- */
-/* Native markup is a text link per collection (no image, no per-collection colour); the active
-   collection gets the native .hdt-current-active class. Card = scheme surface, active = accent. */
-[id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-slider {
+/* ---------- Top list collections: AYUM cards (Figma 1:812 desktop / 1:1095 mobile) ---------- */
+/* Section option "AYUM cards": image at the start (right), title + arrow at the end. Each card's colour is
+   its block's "Card color" (--ayum-tl-color), else the scheme Accent: tint 12%, current collection 22% + border.
+   The card selectors include ".hdt-slider .hdt-slider__slide a" to outrank the native theme.css rule
+   ".hdt-top-list-collections .hdt-slider .hdt-slider__slide a { padding: 10px 0; gap: 5px }", which otherwise
+   removed the inner padding (image touching the card edge). Figma insets: 12 image side / 20 text side / 12
+   vertical (desktop), 8 / 14 / 8 (mobile); cards 8px apart (desktop), 10px (mobile). */
+.ayum-collection-top-list {
+  border-block-end: 1px solid rgb(var(--color-line-border));
+}
+.ayum-collection-top-list .hdt-slider {
+  --slide-spacing: 10px;
   --nav-size: 44px;
   --nav-rounded: 50%;
   --nav-bg: rgb(var(--color-background, var(--color-base-background)));
@@ -1189,45 +1225,97 @@
   --nav-border-hv: transparent;
   --nav-color-hv: rgb(var(--color-background, var(--color-base-background)));
 }
-[id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-slider__slide a {
+.ayum-collection-top-list .hdt-navigation .hdt-slider__button {
+  box-shadow: 0 2px 8px rgb(var(--color-overlay) / .14);
+  border-radius: 22px;
+}
+.ayum-collection-top-list .hdt-slider .hdt-slider__slide a.ayum-tl-card {
+  --ayum-tl: var(--ayum-tl-color, var(--color-accent));
   direction: rtl;
   unicode-bidi: isolate;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
-  padding: 10px 14px;
+  padding-block: 8px;
+  padding-inline: 8px 14px;
   border: 1.5px solid transparent;
   border-radius: 14px;
-  background-color: rgb(var(--color-accent) / .12);
+  background-color: rgb(var(--ayum-tl) / .12);
   color: rgb(var(--color-foreground));
-  font-size: 13px;
-  font-weight: 700;
   line-height: normal;
   white-space: nowrap;
 }
-[id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-slider__slide.hdt-current-active a {
-  border-color: rgb(var(--color-accent));
-  background-color: rgb(var(--color-accent) / .22);
+.ayum-collection-top-list .hdt-slider .hdt-slider__slide.hdt-current-active a.ayum-tl-card {
+  border-color: rgb(var(--ayum-tl));
+  background-color: rgb(var(--ayum-tl) / .22);
 }
-[id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-slider__navigation .hdt-slider__button,
-[id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-navigation .hdt-slider__button {
-  box-shadow: 0 2px 8px rgb(var(--color-overlay) / .14);
+.ayum-collection-top-list .hdt-slider .hdt-slider__slide a.ayum-tl-card:hover {
+  color: rgb(var(--color-foreground));
+}
+/* Figma mobile has no arrows: the strip is swiped, with the next card partly visible. */
+@media (max-width: 767px) {
+  .ayum-collection-top-list .hdt-navigation {
+    display: none;
+  }
+}
+.ayum-collection-top-list .ayum-tl-card__media {
+  flex: none;
+  width: 54px;
+  height: 54px;
+  margin-inline-end: auto;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: rgb(var(--ayum-tl) / .35);
+}
+.ayum-collection-top-list .ayum-tl-card__media :is(img, svg) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ayum-collection-top-list .ayum-tl-card__title {
+  font-size: 13px;
+  font-weight: var(--font-extrabold);
+}
+.ayum-collection-top-list .ayum-tl-card__arrow {
+  color: rgb(var(--ayum-tl));
+  font-size: 12px;
+  font-weight: var(--font-extrabold);
 }
 @media (min-width: 768px) {
-  [id$="__collections_list_simple_4yRUED"]:has(+ [id$="__main_heading_PHNGje"]) .hdt-slider__slide a {
+  .ayum-collection-top-list .hdt-slider {
+    --slide-spacing: 8px;
+  }
+  .ayum-collection-top-list .hdt-slider .hdt-slider__slide a.ayum-tl-card {
+    width: 258px;
+    height: 84px;
     gap: 8px;
-    padding: 14px 20px;
+    padding-block: 12px;
+    padding-inline: 12px 20px;
     border-radius: 16px;
+  }
+  .ayum-collection-top-list .ayum-tl-card__media {
+    width: 61px;
+    height: 61px;
+    border-radius: 12px;
+  }
+  .ayum-collection-top-list .ayum-tl-card__title {
+    overflow: hidden;
     font-size: 19px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+  }
+  .ayum-collection-top-list .ayum-tl-card__arrow {
+    font-size: 25px;
   }
 }
 
 /* ---------- Collection page: toolbar (sort / filter / load more) ---------- */
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-filter_btn {
+.ayum-collection-products .hdt-filter_btn {
   padding: 9px 14px;
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-popover__sorting > button,
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-filter_btn {
+.ayum-collection-products .hdt-popover__sorting > button,
+.ayum-collection-products .hdt-filter_btn {
   border: 1px solid rgb(var(--color-line-border));
   border-radius: 20px;
   background-color: rgb(var(--color-background, var(--color-base-background)));
@@ -1236,38 +1324,123 @@
   font-weight: 700;
 }
 @media (min-width: 1150px) {
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-popover__sorting > button {
+  .ayum-collection-products .hdt-popover__sorting > button {
+    gap: 4px;
+    padding: 9px 14px;
     border-radius: 10px;
   }
 }
-/* Load more (native button; Figma: 1.5px outline, 26px radius, 14 x 34 padding, 15px bold). */
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-loamore-btn {
-  --hdt-btn-border-width: 1.5px;
-  padding: 14px 34px;
-  border-radius: 26px;
-  font-size: 15px;
+/* Sort label (Figma "ترتيب: الأكثر مبيعاً"): the native short label ("ترتيب", translated) followed by the
+   selected option (the native [change-text] span, updated by the native sorting script) at every width. */
+.ayum-collection-products .hdt-popover__sorting > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: normal;
+}
+.ayum-collection-products .hdt-popover__sorting > button > span {
+  display: inline;
+}
+.ayum-collection-products .hdt-popover__sorting > button > span:not([change-text]) {
+  order: -1;
+}
+.ayum-collection-products .hdt-popover__sorting > button > span:not([change-text])::after {
+  content: ":";
+}
+.ayum-collection-products .hdt-popover__sorting > button > svg {
+  width: 9px;
+  margin-inline-start: 8px;
+  color: rgb(var(--color-foreground2));
+}
+/* Load more (Figma 1:938 + 1:941 desktop, 1:1222 + 1:1224 mobile): the native button first, the native
+   count text ("… 12 من 52 …", loaded / filtered total) below it. Figma has no progress track, so the bar is
+   hidden; the text stays (it is part of the native "Enable progress bar" option). Button: 1.5px outline in
+   Text, 26px radius, 14 x 34 padding, 15px bold (desktop); full width, 13px padding, 24px radius, 14px
+   (mobile). Text: 18px regular (desktop) / 13px bold (mobile), Text 2. */
+.ayum-collection-products .hdt-pagination-wrapper[loadmore-btn-wrapp] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.ayum-collection-products .hdt-pagination-wrapper[loadmore-btn-wrapp] > wrapp-hdt-lm-main-url {
+  order: 1;
+  display: block;
+  width: 100%;
+}
+.ayum-collection-products .hdt-pagination-wrapper[loadmore-btn-wrapp] > .hdt-lm-bar {
+  order: 2;
+  width: auto;
+  margin: 0;
+}
+.ayum-collection-products .hdt-lm-bar-progress {
+  display: none;
+}
+.ayum-collection-products .hdt-lm-bar-text {
+  display: block;
+  margin: 0;
+  color: rgb(var(--color-foreground2));
+  font-size: 13px;
   font-weight: 700;
+  line-height: normal;
+  text-align: center;
+}
+.ayum-collection-products .hdt-pagination-wrapper .hdt-loamore-btn {
+  --hdt-btn-border-width: 1.5px;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  padding: 13px 16px;
+  border: 1.5px solid rgb(var(--color-foreground));
+  border-radius: 24px;
+  background-color: transparent;
+  color: rgb(var(--color-foreground));
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+}
+.ayum-collection-products .hdt-pagination-wrapper .hdt-loamore-btn:hover {
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background, var(--color-base-background)));
+}
+@media (min-width: 768px) {
+  .ayum-collection-products .hdt-pagination-wrapper[loadmore-btn-wrapp] {
+    gap: 20px;
+  }
+  .ayum-collection-products .hdt-pagination-wrapper[loadmore-btn-wrapp] > wrapp-hdt-lm-main-url {
+    width: auto;
+  }
+  .ayum-collection-products .hdt-pagination-wrapper .hdt-loamore-btn {
+    width: auto;
+    padding: 14px 34px;
+    border-radius: 26px;
+    font-size: 15px;
+  }
+  .ayum-collection-products .hdt-lm-bar-text {
+    font-size: 18px;
+    font-weight: 400;
+  }
 }
 
 /* ---------- Collection page: product cards (native card style 7, chosen in the section settings) ---------- */
 /* Visual match of the AYUM card (Figma 1:865 / 1:1172) on the native card: inset image, centred info,
    filled full-width add-to-cart from the scheme's button colours. No homepage card code is used. */
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 {
+.ayum-collection-products .hdt-pr-style7 {
   --atc-cl: rgb(var(--hdt-btn-color));
   --atc-bg-cl: rgb(var(--hdt-btn-bg));
   --atc-cl-hover: rgb(var(--hdt-btn-hover-color));
   --atc-bg-cl-hover: rgb(var(--hdt-btn-hover-bg));
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__wrapper {
+.ayum-collection-products .hdt-pr-style7 .hdt-card-product__wrapper {
   gap: 6px;
   padding: 10px;
   border-color: rgb(var(--color-line-border));
   background-color: rgb(var(--color-background, var(--color-base-background)));
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 :is(.hdt-card-product__media, .hdt-card-product__media-wrapp) {
+.ayum-collection-products .hdt-pr-style7 :is(.hdt-card-product__media, .hdt-card-product__media-wrapp) {
   border-radius: var(--radius-product-media);
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__info {
+.ayum-collection-products .hdt-pr-style7 .hdt-card-product__info {
   direction: rtl;
   unicode-bidi: isolate;
   display: flex;
@@ -1278,41 +1451,37 @@
   padding: 0;
   text-align: center;
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__title {
+.ayum-collection-products .hdt-pr-style7 .hdt-card-product__title {
   color: rgb(var(--color-foreground));
   font-size: 13px;
   font-weight: var(--font-extrabold);
   line-height: normal;
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-price-wrapp {
+.ayum-collection-products .hdt-pr-style7 .hdt-price-wrapp {
   font-size: 15px;
   font-weight: var(--font-extrabold);
 }
 /* Price colours from the scheme's product colours, with the native meaning restored inside cards
    (product-card.css paints the sale price with the regular Price token): current price = Price,
    sale price = Sale price, compare-at = muted Price, struck through. */
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-price {
+.ayum-collection-products .hdt-pr-style7 .hdt-price {
   color: rgb(var(--color-pr-price));
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-compare-at-price:not([hidden]) + .hdt-price {
+.ayum-collection-products .hdt-pr-style7 .hdt-compare-at-price:not([hidden]) + .hdt-price {
   color: rgb(var(--color-pr-sale-price));
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-compare-at-price {
+.ayum-collection-products .hdt-pr-style7 .hdt-compare-at-price {
   color: rgb(var(--color-pr-price) / .55);
   font-size: .8em;
   font-weight: 400;
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .star-rating__star {
-  width: 13px;
-  height: 13px;
-}
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-pr-btns-group1 {
+.ayum-collection-products .hdt-pr-style7 .hdt-pr-btns-group1 {
   width: 100%;
   margin-block-start: auto;
   padding-block-start: 4px;
 }
 /* Figma button: 33px mobile / 43px desktop (12px / 17px ExtraBold label, 24px radius). */
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
+.ayum-collection-products .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
   height: 33px;
   padding: 0 12px;
   border-color: rgb(var(--hdt-btn-bg));
@@ -1321,45 +1490,45 @@
   font-weight: var(--font-extrabold);
 }
 @media (min-width: 768px) {
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__wrapper {
+  .ayum-collection-products .hdt-pr-style7 .hdt-card-product__wrapper {
     gap: 8px;
     padding: 14px;
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__info {
+  .ayum-collection-products .hdt-pr-style7 .hdt-card-product__info {
     gap: 10px;
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__title {
+  .ayum-collection-products .hdt-pr-style7 .hdt-card-product__title {
     font-size: 22px;
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-price-wrapp {
+  .ayum-collection-products .hdt-pr-style7 .hdt-price-wrapp {
     font-size: 20px;
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
+  .ayum-collection-products .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
     height: 43px;
     font-size: 17px;
   }
 }
 
 /* ---------- Collection page: filters (desktop sidebar + mobile drawer, native facets) ---------- */
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar :is(.hdt-filter-group, .hdt-widget) {
+.ayum-collection-products .hdt-main-sidebar :is(.hdt-filter-group, .hdt-widget) {
   direction: rtl;
   unicode-bidi: isolate;
   padding-block-end: 18px;
   border-block-end: 1px solid rgb(var(--color-line-border));
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar .hdt-facet-title {
+.ayum-collection-products .hdt-main-sidebar .hdt-facet-title {
   color: rgb(var(--color-foreground));
   font-size: 15px;
   font-weight: var(--font-extrabold);
 }
 /* Option row: checkbox at the start (right), label beside it, count at the far end (left). */
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar .hdt-filter-group__list-item label {
+.ayum-collection-products .hdt-main-sidebar .hdt-filter-group__list-item label {
   display: flex;
   align-items: center;
   gap: 10px;
   width: 100%;
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar .hdt-facets-label {
+.ayum-collection-products .hdt-main-sidebar .hdt-facets-label {
   display: flex;
   flex: 1;
   justify-content: space-between;
@@ -1367,12 +1536,12 @@
   color: rgb(var(--color-foreground2));
   font-size: 14px;
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar .hdt-facets-label > span + span {
+.ayum-collection-products .hdt-main-sidebar .hdt-facets-label > span + span {
   color: rgb(var(--color-foreground2) / .8);
   font-size: 13px;
   font-weight: 700;
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-main-sidebar .hdt-facets-checkbox {
+.ayum-collection-products .hdt-main-sidebar .hdt-facets-checkbox {
   flex: none;
   width: 18px;
   height: 18px;
@@ -1386,7 +1555,7 @@
    the bottom with rounded top corners and a decorative handle. Open/close, focus, Escape, scroll lock
    and facet updates stay native. */
 @media (max-width: 767px) {
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] :is(#hdt-shop-sidebar-drawer, #hdt-filter_form).hdt-dialog-drawer {
+  .ayum-collection-products :is(#hdt-shop-sidebar-drawer, #hdt-filter_form).hdt-dialog-drawer {
     inset: auto 0 0 0;
     width: 100%;
     max-width: 100%;
@@ -1395,7 +1564,7 @@
     margin: 0;
     border-radius: 22px 22px 0 0;
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] :is(#hdt-shop-sidebar-drawer, #hdt-filter_form).hdt-dialog-drawer::before {
+  .ayum-collection-products :is(#hdt-shop-sidebar-drawer, #hdt-filter_form).hdt-dialog-drawer::before {
     content: "";
     flex: none;
     align-self: center;
@@ -1406,13 +1575,13 @@
     background-color: rgb(var(--color-line-border));
     pointer-events: none;
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] :is(#hdt-shop-sidebar-drawer, #hdt-filter_form) .hdt-dialog-drawer__header {
+  .ayum-collection-products :is(#hdt-shop-sidebar-drawer, #hdt-filter_form) .hdt-dialog-drawer__header {
     direction: rtl;
     justify-content: space-between;
     padding: 8px 16px 14px;
     border-block-end: 1px solid rgb(var(--color-line-border));
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] :is(#hdt-shop-sidebar-drawer, #hdt-filter_form) .hdt-dialog-drawer__inner {
+  .ayum-collection-products :is(#hdt-shop-sidebar-drawer, #hdt-filter_form) .hdt-dialog-drawer__inner {
     overflow-y: auto;
     padding: 16px;
   }
@@ -1421,56 +1590,609 @@
 /* ---------- Collection page: corrections after the rendered-DOM audit ---------- */
 /* Heading weight: the heading block prints "#block-<id> { font-weight: 500 }" whenever a custom size
    is used and has no weight setting, so ExtraBold (Figma) needs !important to beat that ID rule. */
-[id$="__main_heading_PHNGje"] .hdt-heading-liquid {
+.ayum-collection-heading .hdt-heading-liquid {
   font-weight: var(--font-extrabold) !important;
 }
-[id$="__main_heading_PHNGje"] .ayum-collection-count {
+.ayum-collection-heading .ayum-collection-count {
   font-weight: 700;
 }
 
 /* Add to cart (native btn-ultra): label only and centred, as in Figma; the cart icon is decorative. */
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__btn-ultra {
+.ayum-collection-products .hdt-pr-style7 .hdt-card-product__btn-ultra {
   justify-content: center;
 }
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__btn-ultra .hdt-pr-card-icon {
+.ayum-collection-products .hdt-pr-style7 .hdt-card-product__btn-ultra .hdt-pr-card-icon {
   display: none;
 }
 
 /* Ratings: a product without reviews prints "0 out of 5" with five empty stars and "(0)"; hide that
    row rather than show a misleading rating. Products with real review data keep their stars. */
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .star-rating:is([aria-label^="0 "], [aria-label^="0.0 "]) {
+.ayum-collection-products .hdt-pr-style7 .star-rating:is([aria-label^="0 "], [aria-label^="0.0 "]) {
   display: none;
 }
 
 /* Sidebar group titles: no underline (Figma), title text only. */
-[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] #hdt-shop-sidebar-drawer .hdt-facet-title_group::after {
+.ayum-collection-products #hdt-shop-sidebar-drawer .hdt-facet-title_group::after {
   display: none;
 }
 
 /* Mobile toolbar (Figma 1:1139): sort as a full-width pill on the first row, the filter button below.
    The floating side tab duplicates the filter button (both open the same native drawer). */
 @media (max-width: 767px) {
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-shop-control {
+  .ayum-collection-products .hdt-shop-control {
     flex-wrap: wrap;
     row-gap: 10px;
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-shop-control > .hdt-control-sorting {
+  .ayum-collection-products .hdt-shop-control > .hdt-control-sorting {
     order: -1;
     flex: 0 0 100%;
     max-width: 100%;
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-shop-control > .hdt-control-layout:empty {
+  .ayum-collection-products .hdt-shop-control > .hdt-control-layout:empty {
     display: none;
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-control-sorting :is(hdt-popover-sorting, hdt-popover-sorting > button) {
+  .ayum-collection-products .hdt-control-sorting :is(hdt-popover-sorting, hdt-popover-sorting > button) {
     width: 100%;
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-popover__sorting > button {
+  .ayum-collection-products .hdt-popover__sorting > button {
     justify-content: center;
     min-height: 37px;
     border-radius: 22px;
   }
-  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-sidebar-btn {
+  .ayum-collection-products .hdt-sidebar-btn {
     display: none;
+  }
+}
+
+/* ---------- Collection page: subcategory filter tabs (Figma 1:1128) ---------- */
+/* Section option "Filter tabs": the values of one native filter (product type). Links are native facet URLs
+   (AJAX + history via wrapp-hdt-facet-url). Inactive = muted surface, active = scheme button colours. */
+.ayum-collection-products .ayum-filter-tabs {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  gap: 8px;
+  margin-block-end: 16px;
+  padding-block: 10px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ayum-collection-products .ayum-filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+.ayum-collection-products .ayum-filter-tabs__tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  border-radius: 18px;
+  background-color: rgb(var(--color-foreground2) / .14);
+  color: rgb(var(--color-foreground2));
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+.ayum-collection-products .ayum-filter-tabs__tab:hover {
+  color: rgb(var(--color-foreground));
+}
+.ayum-collection-products .ayum-filter-tabs__tab.is-active {
+  background-color: rgb(var(--hdt-btn-bg));
+  color: rgb(var(--hdt-btn-color));
+}
+@media (max-width: 767px) {
+  .ayum-collection-products .ayum-filter-tabs {
+    border-block: 1px solid rgb(var(--color-line-border));
+  }
+}
+@media (min-width: 768px) {
+  .ayum-collection-products .ayum-filter-tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-block-end: 24px;
+    padding-block: 0;
+  }
+  .ayum-collection-products .ayum-filter-tabs__tab {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+  }
+}
+
+/* Toolbar product count (section option "Product count text"). */
+.ayum-collection-products .ayum-results-count {
+  color: rgb(var(--color-foreground2));
+  font-size: 18px;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+}
+.ayum-collection-products .hdt-control-filter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+@media (max-width: 767px) {
+  .ayum-collection-products .ayum-results-count {
+    display: none;
+  }
+}
+
+/* ---------- Collection page: mobile quick filters + active filters (Figma 1:1139) ---------- */
+/* One chip per native filter group; each opens the native filter drawer. "All filters (n)" sits last. */
+/* Shown below 768px only (the display here would otherwise beat the md:hdt-hidden utility). */
+.ayum-collection-products .ayum-quick-filters {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: none;
+  gap: 8px;
+  margin-block: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+@media (max-width: 767px) {
+  .ayum-collection-products .ayum-quick-filters {
+    display: flex;
+  }
+  /* Figma 1:1139: the toolbar block sits 16px below the tabs, its rows 10px apart (native margins are 40px). */
+  .ayum-collection-products .hdt-shop-control {
+    margin-block: 16px 10px;
+  }
+  .ayum-collection-products .ayum-quick-filters {
+    margin-block: 0 16px;
+  }
+  /* The quick-filter row has its own "all filters" chip, so the native filter button row is not repeated
+     (only when the chips open the sidebar drawer; the facets drawer lives inside that row). */
+  .ayum-collection-products:has(.ayum-quick-filters__all[aria-controls="hdt-shop-sidebar-drawer"]) .hdt-shop-control > .hdt-control-filter {
+    display: none;
+  }
+}
+.ayum-collection-products .ayum-quick-filters::-webkit-scrollbar {
+  display: none;
+}
+.ayum-collection-products .ayum-quick-filters :is(.ayum-quick-filters__chip, .ayum-quick-filters__all) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid rgb(var(--color-line-border));
+  border-radius: 20px;
+  background-color: rgb(var(--color-background, var(--color-base-background)));
+  color: rgb(var(--color-foreground));
+  font-size: 13px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+.ayum-collection-products .ayum-quick-filters__chip::after {
+  content: "\25BE";
+  color: rgb(var(--color-foreground2));
+  font-size: 10px;
+}
+.ayum-collection-products .ayum-quick-filters__chip.is-active {
+  border-color: rgb(var(--hdt-btn-bg));
+  background-color: rgb(var(--hdt-btn-bg));
+  color: rgb(var(--hdt-btn-color));
+}
+.ayum-collection-products .ayum-quick-filters__chip.is-active::after {
+  color: inherit;
+}
+.ayum-collection-products .ayum-quick-filters__all {
+  order: 1;
+  background-color: rgb(var(--color-foreground2) / .14);
+  font-weight: var(--font-extrabold);
+}
+/* Native active filters: small removable chips, "clear all" in the accent colour. */
+.ayum-collection-products .hdt-active-filters {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ayum-collection-products .hdt-active-filters__remove {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 12px;
+  background-color: rgb(var(--color-foreground2) / .14);
+  color: rgb(var(--color-foreground2));
+  font-size: 11px;
+  font-weight: 700;
+}
+.ayum-collection-products .hdt-active-filters__clear-all {
+  border: 0;
+  background: none;
+  color: rgb(var(--color-pr-price));
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ---------- Collection page: sidebar title + bottom-sheet footer (Figma 1:787 / 1:1287) ---------- */
+.ayum-collection-products .ayum-sidebar-heading {
+  margin: 0 0 20px;
+  color: rgb(var(--color-foreground));
+  font-size: 20px;
+  font-weight: var(--font-extrabold);
+  line-height: normal;
+  text-align: start;
+  direction: rtl;
+}
+/* Section option "Filter drawer as bottom sheet": the native drawer opens from the bottom below 768px
+   (pos="bottom"); this footer stays at the bottom of the sheet. "Show results" closes the drawer. */
+/* Shown below 1150px only, where the sidebar is a drawer (the display here would otherwise beat lg:hdt-hidden). */
+.ayum-collection-products .ayum-sheet-footer {
+  direction: rtl;
+  display: none;
+  flex: none;
+  gap: 12px;
+  padding: 14px 16px calc(20px + env(safe-area-inset-bottom));
+  border-block-start: 1px solid rgb(var(--color-line-border));
+  background-color: rgb(var(--color-background, var(--color-base-background)));
+}
+@media (max-width: 1149px) {
+  .ayum-collection-products .ayum-sheet-footer {
+    display: flex;
+  }
+}
+.ayum-collection-products .ayum-sheet-footer wrapp-hdt-facet-url {
+  display: contents;
+}
+/* Figma 1:1342: two equal pills 12px apart, 13px vertical padding, 24px radius; "clear" = 1.5px Text 2 outline
+   (14px bold), "show results" = filled scheme button (17px ExtraBold). */
+.ayum-collection-products :is(.ayum-sheet-footer__clear, .ayum-sheet-footer__apply) {
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 13px 12px;
+  border-radius: 24px;
+  line-height: normal;
+  white-space: nowrap;
+}
+.ayum-collection-products .ayum-sheet-footer__clear {
+  border: 1.5px solid rgb(var(--color-foreground2));
+  color: rgb(var(--color-foreground2));
+  font-size: 14px;
+  font-weight: 700;
+}
+.ayum-collection-products .ayum-sheet-footer__apply {
+  border: 1.5px solid rgb(var(--hdt-btn-bg));
+  font-size: 17px;
+  font-weight: var(--font-extrabold);
+  background-color: rgb(var(--hdt-btn-bg));
+  color: rgb(var(--hdt-btn-color));
+}
+.ayum-collection-products .ayum-bottom-sheet .hdt-dialog-drawer__inner {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---------- Collection page: card rating value + product tag (Figma 1:865) ---------- */
+/* Card option "show product tag": rating (stars + average + count) at the start, tag at the end. */
+.ayum-collection-products .hdt-pr-style7 .ayum-card-meta {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 8px;
+  width: 100%;
+  min-height: 18px;
+}
+/* Real ratings only (products.metafields.reviews.rating via the native snippet); unrated products keep the
+   row hidden (rule above). Stars 11px, 1px apart; average in Text 2, 11px (mobile) / 13px (desktop) bold;
+   the review count is not part of the Figma row. Product info: 11px regular (mobile) / 13px bold (desktop). */
+.ayum-collection-products .hdt-pr-style7 .star-rating {
+  gap: 4px;
+}
+.ayum-collection-products .hdt-pr-style7 .star-rating__stars {
+  gap: 1px;
+}
+.ayum-collection-products .hdt-pr-style7 .star-rating__star {
+  width: 11px;
+  height: 11px;
+}
+.ayum-collection-products .hdt-pr-style7 .star-rating__average {
+  display: inline;
+  color: rgb(var(--color-foreground2));
+  font-size: 11px;
+  font-weight: 700;
+  line-height: normal;
+}
+.ayum-collection-products .hdt-pr-style7 .star-rating__count {
+  display: none;
+}
+.ayum-collection-products .hdt-pr-style7 .ayum-card-tag {
+  margin-inline-start: auto;
+  overflow: hidden;
+  color: rgb(var(--color-foreground2));
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (min-width: 768px) {
+  .ayum-collection-products .hdt-pr-style7 .star-rating__average,
+  .ayum-collection-products .hdt-pr-style7 .ayum-card-tag {
+    font-size: 13px;
+    font-weight: 700;
+  }
+}
+
+/* ---------- Why choose AYUM (AYUM Icon box instance, Figma 1:1007 / 55:730) ---------- */
+/* All values come from the instance settings (scheme 7 Accent at 35%, cards = Background 2 at 50%,
+   icon above text on mobile). Only the spacing that has no setting is set here. */
+@media (max-width: 767px) {
+  .ayum-collection-benefits .hdt-section-heading {
+    margin-block-end: 16px;
+  }
+}
+
+/* ---------- Collection copy / SEO (native Custom Liquid, Figma 1:1027 / 1:1225) ---------- */
+/* Scheme 5 at 30% (section setting); a start-side bar in the scheme Accent; heading = Text, copy = Text 2. */
+.ayum-collection-seo:not(:has(.ayum-collection-seo__card)) {
+  display: none;
+}
+.ayum-collection-seo .ayum-collection-seo__card {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-inline-start: 16px;
+  border-inline-start: 3px solid rgb(var(--color-accent));
+  text-align: start;
+}
+.ayum-collection-seo .ayum-collection-seo__title {
+  margin: 0;
+  color: rgb(var(--color-foreground));
+  font-size: 17px;
+  font-weight: var(--font-extrabold);
+  line-height: normal;
+}
+.ayum-collection-seo .ayum-collection-seo__text,
+.ayum-collection-seo .ayum-collection-seo__text :is(p, li) {
+  color: rgb(var(--color-foreground2));
+  font-size: 13px;
+  line-height: 1.9;
+}
+.ayum-collection-seo .ayum-collection-seo__text > :last-child {
+  margin-block-end: 0;
+}
+@media (min-width: 768px) {
+  .ayum-collection-seo .ayum-collection-seo__card {
+    gap: 12px;
+    padding-inline-start: 24px;
+    border-inline-start-width: 4px;
+  }
+  .ayum-collection-seo .ayum-collection-seo__title {
+    font-size: 23px;
+  }
+  .ayum-collection-seo .ayum-collection-seo__text,
+  .ayum-collection-seo .ayum-collection-seo__text :is(p, li) {
+    font-size: 15px;
+  }
+}
+
+/* ---------- Collection page: desktop layout (Figma 1:857 "07 / Filters + grid") ---------- */
+/* From 1150px the native content (tabs, toolbar, active filters, grid + sidebar row) is laid out on one CSS
+   grid: the filter sidebar (280px) in the first column, which is the right in RTL and follows the page
+   direction, the toolbar / active filters / product grid in the second column, 32px apart. The native
+   row wrapper becomes display: contents so its two columns join the grid; no markup is moved. Toolbar:
+   48px below the tabs, 20px above the grid; sidebar top aligned with the toolbar. */
+@media (min-width: 1150px) {
+  .ayum-collection-products .hdt-container:has(> .hdt-shop-control) {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: 32px;
+    align-items: start;
+  }
+  .ayum-collection-products .hdt-container:has(> .hdt-shop-control) > * {
+    grid-column: 1 / -1;
+  }
+  .ayum-collection-products .hdt-container:has(> .hdt-shop-control) > .ayum-filter-tabs {
+    grid-row: 1;
+    margin-block-end: 48px;
+  }
+  .ayum-collection-products .hdt-container:has(> .hdt-shop-control) > .hdt-shop-control {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0 0 20px;
+  }
+  .ayum-collection-products .hdt-container:has(> .hdt-shop-control) > .hdt-active-filters {
+    grid-column: 2;
+    grid-row: 3;
+    margin: 0 0 20px;
+  }
+  .ayum-collection-products .hdt-container:has(> .hdt-shop-control) > .hdt-sidebar_drawer_false {
+    display: contents;
+  }
+  .ayum-collection-products .hdt-sidebar_drawer_false > .hdt-shop-content {
+    grid-column: 2;
+    grid-row: 4;
+    width: auto;
+    max-width: none;
+    padding-inline: 0;
+  }
+  .ayum-collection-products .hdt-sidebar_drawer_false > .hdt-main-sidebar {
+    grid-column: 1;
+    grid-row: 2 / span 3;
+    width: auto;
+    max-width: none;
+    padding-inline: 0;
+  }
+}
+
+/* Product grid gaps: Figma 20px (desktop) / 12px (mobile); the native spacing options have no 20 / 12. */
+.ayum-collection-products .hdt-collection-products {
+  gap: 12px;
+}
+@media (min-width: 768px) {
+  .ayum-collection-products .hdt-collection-products {
+    gap: 16px;
+  }
+}
+@media (min-width: 1150px) {
+  .ayum-collection-products .hdt-collection-products {
+    gap: 20px;
+  }
+}
+/* Card image corners (Figma 10px inside the 16px card). */
+.ayum-collection-products .hdt-pr-style7 :is(.hdt-card-product__media, .hdt-card-product__media-wrapp) {
+  border-radius: 10px;
+}
+
+/* ---------- Collection page: facet groups (desktop sidebar Figma 1:942, sheet Figma 1:1294) ---------- */
+/* Group: title (15px ExtraBold, Text) with the native toggle icon (Text 2) at the end, options 12px apart,
+   18px below the last option a divider, next group 20px (desktop) / 18px (sheet) below. Option: checkbox at
+   the start, label 14px regular (Text 2), count 13px bold (Text 2) at the end. Checkbox 18px / 4px radius
+   (desktop), 20px / 5px (sheet). */
+.ayum-collection-products .hdt-main-sidebar .hdt-filter-group {
+  margin: 0 0 20px;
+}
+.ayum-collection-products .hdt-main-sidebar .hdt-filter-group-summary {
+  margin: 0;
+  padding: 0;
+}
+.ayum-collection-products .hdt-main-sidebar .hdt-facet-title {
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  line-height: normal;
+}
+.ayum-collection-products .hdt-main-sidebar .hdt-facet-title svg {
+  color: rgb(var(--color-foreground2));
+}
+.ayum-collection-products .hdt-main-sidebar .hdt-filter-group__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 12px 0 0;
+  padding: 0;
+}
+.ayum-collection-products .hdt-main-sidebar .hdt-filter-group__list-item {
+  margin: 0;
+  padding: 0;
+}
+.ayum-collection-products .hdt-main-sidebar .hdt-facets-label {
+  font-weight: 400;
+  line-height: normal;
+}
+.ayum-collection-products .hdt-main-sidebar .hdt-facets-label > span + span {
+  color: rgb(var(--color-foreground2));
+}
+.ayum-collection-products .hdt-main-sidebar input:checked + label .hdt-facets-checkbox {
+  border-color: rgb(var(--color-accent));
+}
+@media (max-width: 1149px) {
+  .ayum-collection-products .hdt-main-sidebar .hdt-filter-group {
+    margin-block-end: 18px;
+    padding-block-end: 16px;
+  }
+  .ayum-collection-products .hdt-main-sidebar .hdt-facets-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+  }
+  /* Sheet header (Figma 1:1291): title 20px ExtraBold, close at the end. */
+  .ayum-collection-products #hdt-shop-sidebar-drawer .hdt-dialog-drawer__header h6 {
+    color: rgb(var(--color-foreground));
+    font-size: 20px;
+    font-weight: var(--font-extrabold);
+    line-height: normal;
+    text-transform: none;
+  }
+  .ayum-collection-products #hdt-shop-sidebar-drawer .hdt-dialog-btn__close {
+    color: rgb(var(--color-foreground2));
+  }
+}
+
+/* ---------- Collection page: Figma line boxes and native spacing resets ---------- */
+/* Figma's "normal" line height for Almarai is 1.15 (13px text in a 15px box); the browser's normal for
+   Almarai is about 1.5, which made the sort / load-more / sheet buttons, chips and tabs taller than Figma
+   (sort 40 vs 33, load more 54 vs 45). Controls use 1.15 so the Figma paddings give the Figma heights. */
+.ayum-collection-products :is(.hdt-popover__sorting > button, .hdt-popover__sorting > button > span, .hdt-loamore-btn, .hdt-loamore-btn > span, .ayum-sheet-footer__clear, .ayum-sheet-footer__apply, .ayum-quick-filters__chip, .ayum-quick-filters__all, .ayum-filter-tabs__tab, .hdt-active-filters__remove, .ayum-results-count, .hdt-lm-bar-text),
+.ayum-collection-top-list .ayum-tl-card :is(.ayum-tl-card__title, .ayum-tl-card__arrow) {
+  line-height: 1.15;
+}
+@media (min-width: 1150px) {
+  .ayum-collection-products .hdt-popover__sorting > button {
+    min-height: 0;
+  }
+}
+/* Sheet footer (Figma 1:1342): the primary "show results" button at the start (right in RTL). */
+.ayum-collection-products .ayum-sheet-footer__apply {
+  order: -1;
+}
+/* Facet options: the native ".hdt-filter ul:not(--color) li + li { margin-top: 1rem }" is replaced by the
+   12px list gap above. */
+.ayum-collection-products .hdt-main-sidebar .hdt-filter ul .hdt-filter-group__list-item + .hdt-filter-group__list-item {
+  margin-top: 0;
+}
+.ayum-collection-products .hdt-main-sidebar .hdt-filter .hdt-filter-group__display {
+  padding-block-end: 0;
+}
+.ayum-collection-products .hdt-main-sidebar .hdt-filter .hdt-facets-label {
+  line-height: 1.15;
+}
+/* Card (Figma 1:865 / 1:1172): image, info and button 8px (desktop) / 6px (mobile) apart. The native info
+   block adds a 15px top margin and the button row a 4px top padding; both are removed. Meta row 17px. */
+.ayum-collection-products .hdt-pr-style7 .hdt-card-product__info {
+  margin-block-start: 0;
+}
+.ayum-collection-products .hdt-pr-style7 .hdt-pr-btns-group1 {
+  padding-block-start: 0;
+}
+.ayum-collection-products .hdt-pr-style7 :is(.ayum-card-meta, .star-rating, .ayum-card-tag) {
+  min-height: 17px;
+  line-height: 1.15;
+}
+.ayum-collection-products .hdt-pr-style7 .hdt-card-product__title,
+.ayum-collection-products .hdt-pr-style7 .hdt-price-wrapp {
+  line-height: 1.15;
+}
+/* Figma draws borders inside the frame: the vertical paddings below subtract the border so the boxes keep the
+   Figma heights (sort 33, load more 45 / 42, sheet buttons 45). */
+@media (min-width: 1150px) {
+  .ayum-collection-products .hdt-popover__sorting > button {
+    padding-block: 8px;
+  }
+}
+.ayum-collection-products .hdt-pagination-wrapper .hdt-loamore-btn {
+  padding-block: 11.5px;
+}
+.ayum-collection-products :is(.ayum-sheet-footer__clear, .ayum-sheet-footer__apply) {
+  padding-block: 11.5px;
+}
+@media (min-width: 768px) {
+  .ayum-collection-products .hdt-pagination-wrapper .hdt-loamore-btn {
+    padding-block: 12.5px;
+  }
+}
+/* Figma draws a divider under every filter group; the native ".hdt-sidebar_drawer_false .hdt-filter
+   .hdt-contents:not(:last-child) > details { border: none }" kept it on the last group only. */
+.ayum-collection-products .hdt-sidebar_drawer_false .hdt-filter .hdt-contents > details.hdt-filter-group {
+  border-block-end: 1px solid rgb(var(--color-line-border));
+}
+/* Load more spacing (Figma: 36px below the last row on desktop, 12px on mobile): collection pages add a 4rem
+   top padding and a top border to the pagination (hdt-pagination.css) on top of the section's "distance"
+   setting; Figma has neither. The distance setting stays in control (mobile = a third of it). */
+.ayum-collection-products .hdt-pagination-wrapper[loadmore-btn-wrapp] {
+  margin-top: calc(var(--pagination-distance) / 3);
+  padding-top: 0;
+  border-top: 0;
+}
+@media (min-width: 768px) {
+  .ayum-collection-products .hdt-pagination-wrapper[loadmore-btn-wrapp] {
+    margin-top: var(--pagination-distance);
   }
 }

@@ -34,6 +34,16 @@
       {%- if section.settings.ayum_padding_mb != blank %}
       --ayum-ib-pad-mb: {{ pd_mb }};
       {%- endif %}
+      {%- if section.settings.ayum_card_surface == 'background2' or section.settings.ayum_card_opacity != 60 %}
+      --ayum-ib-card: {% if section.settings.ayum_card_surface == 'background2' %}var(--color-background2){% else %}var(--color-background, var(--color-base-background)){% endif %};
+      --ayum-ib-card-opacity: {{ section.settings.ayum_card_opacity | divided_by: 100.0 }};
+      {%- endif %}
+      {%- if section.settings.ayum_icon_size != 52 %}
+      --ayum-ib-icon: {{ section.settings.ayum_icon_size }}px;
+      {%- endif %}
+      {%- if section.settings.ayum_icon_size_mb != 40 %}
+      --ayum-ib-icon-mb: {{ section.settings.ayum_icon_size_mb }}px;
+      {%- endif %}
     }
 {% endstyle %}
 {% liquid
@@ -53,7 +63,7 @@
       assign sizes  = '100vw'
   endcase
 %}
-<div class="{{ parent }} ayum-icon-box{% if section.settings.ayum_subheading_color != blank %} ayum-icon-box--sub-color{% endif %}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class | strip | escape }}{% endif %} {% if section.settings.hdt_background_parallax %} hdt-animate--parallax-bg {% endif %}" {%- if section.settings.colors_by_section %} color-scheme="{{ section.settings.color_scheme }}" style="--background-opacity: {{ section.settings.background_opacity }};"{%- endif %}>
+<div class="{{ parent }} ayum-icon-box{% if section.settings.ayum_subheading_color != blank %} ayum-icon-box--sub-color{% endif %}{% if section.settings.ayum_background_source == 'accent' %} ayum-icon-box--bg-accent{% endif %}{% if section.settings.ayum_layout_mb == 'stack' %} ayum-icon-box--stack-mb{% endif %}{% if section.settings.ayum_desc_color == 'text80' %} ayum-icon-box--desc-text80{% endif %}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class | strip | escape }}{% endif %} {% if section.settings.hdt_background_parallax %} hdt-animate--parallax-bg {% endif %}" {%- if section.settings.colors_by_section %} color-scheme="{{ section.settings.color_scheme }}" style="--background-opacity: {{ section.settings.background_opacity }};"{%- endif %}>
   <div class="{{ child }}">
     {%- if section.settings.section_background != blank -%}
       {% liquid
@@ -334,6 +344,10 @@
             "label": "10px"
           },
           {
+            "value": "12",
+            "label": "12px"
+          },
+          {
             "value": "15",
             "label": "15px"
           },
@@ -376,6 +390,10 @@
           {
             "value": "10",
             "label": "10px"
+          },
+          {
+            "value": "12",
+            "label": "12px"
           },
           {
             "value": "15",
@@ -828,6 +846,101 @@
         "label": "Padding content (mobile)",
         "info": "Top, right, bottom, left. Leave empty to use \"Padding content\" on mobile too.",
         "default": "14px,14px,14px,14px"
+      },
+      {
+        "type": "select",
+        "id": "ayum_background_source",
+        "label": "Section background color",
+        "info": "Color scheme role used for the section background, at the section's Background opacity.",
+        "options": [
+          {
+            "value": "background",
+            "label": "Background"
+          },
+          {
+            "value": "accent",
+            "label": "Accent"
+          }
+        ],
+        "default": "background"
+      },
+      {
+        "type": "select",
+        "id": "ayum_card_surface",
+        "label": "Card color",
+        "options": [
+          {
+            "value": "background",
+            "label": "Background"
+          },
+          {
+            "value": "background2",
+            "label": "Background 2"
+          }
+        ],
+        "default": "background"
+      },
+      {
+        "type": "range",
+        "id": "ayum_card_opacity",
+        "label": "Card opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "default": 60
+      },
+      {
+        "type": "range",
+        "id": "ayum_icon_size",
+        "label": "Icon circle size (desktop)",
+        "min": 24,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "default": 52
+      },
+      {
+        "type": "range",
+        "id": "ayum_icon_size_mb",
+        "label": "Icon circle size (mobile)",
+        "min": 24,
+        "max": 64,
+        "step": 1,
+        "unit": "px",
+        "default": 40
+      },
+      {
+        "type": "select",
+        "id": "ayum_layout_mb",
+        "label": "Card layout (mobile)",
+        "options": [
+          {
+            "value": "row",
+            "label": "Icon beside text"
+          },
+          {
+            "value": "stack",
+            "label": "Icon above text"
+          }
+        ],
+        "default": "row"
+      },
+      {
+        "type": "select",
+        "id": "ayum_desc_color",
+        "label": "Description color",
+        "options": [
+          {
+            "value": "text2",
+            "label": "Text 2"
+          },
+          {
+            "value": "text80",
+            "label": "Text at 80%"
+          }
+        ],
+        "default": "text2"
       },
       {
         "type": "text",
