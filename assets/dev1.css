@@ -1153,10 +1153,12 @@
 [id$="__main_heading_PHNGje"] .ayum-collection-title {
   font-weight: var(--font-extrabold);
 }
+/* The Heading page section paints no scheme background (only its optional image/overlay), so the
+   badge uses the scheme Background as its surface (Scheme 2: #E4EDF0 = Figma badge). */
 [id$="__main_heading_PHNGje"] .ayum-collection-count {
   padding: 4px 10px;
   border-radius: 10px;
-  background-color: rgb(var(--color-background2));
+  background-color: rgb(var(--color-background, var(--color-base-background)));
   color: rgb(var(--color-foreground2));
   font-size: 11px;
   font-weight: 700;
@@ -1286,6 +1288,20 @@
   font-size: 15px;
   font-weight: var(--font-extrabold);
 }
+/* Price colours from the scheme's product colours, with the native meaning restored inside cards
+   (product-card.css paints the sale price with the regular Price token): current price = Price,
+   sale price = Sale price, compare-at = muted Price, struck through. */
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-price {
+  color: rgb(var(--color-pr-price));
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-compare-at-price:not([hidden]) + .hdt-price {
+  color: rgb(var(--color-pr-sale-price));
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-compare-at-price {
+  color: rgb(var(--color-pr-price) / .55);
+  font-size: .8em;
+  font-weight: 400;
+}
 [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .star-rating__star {
   width: 13px;
   height: 13px;
@@ -1295,9 +1311,10 @@
   margin-block-start: auto;
   padding-block-start: 4px;
 }
+/* Figma button: 33px mobile / 43px desktop (12px / 17px ExtraBold label, 24px radius). */
 [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
-  height: auto;
-  padding: 10px 12px;
+  height: 33px;
+  padding: 0 12px;
   border-color: rgb(var(--hdt-btn-bg));
   border-radius: 24px;
   font-size: 12px;
@@ -1318,7 +1335,7 @@
     font-size: 20px;
   }
   [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
-    padding: 12px;
+    height: 43px;
     font-size: 17px;
   }
 }

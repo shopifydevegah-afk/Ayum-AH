@@ -1,8 +1,8 @@
 # AYUM — خطة المشروع وحالة التنفيذ (مدمجة من الفروع)
 
-> **Merge date:** 2026-10-14. Consolidated from three supplied files: dev1-ah plan, dev2-ah plan, and the earlier baseline plan. This is a documentation merge only. It does not merge Git branches, verify repository state, or deploy theme changes. The current repository is authoritative.
+> **Merge date:** 2026-10-14. Consolidated from three supplied files: dev1-ah plan, dev2-ah plan, and the earlier baseline plan. This version additionally reconciles three later supplied copies: preserves the Collection-page follow-ups from one copy and the shared-carousel log and finalized Homepage architecture (§24) from another. This is a documentation merge only. It does not merge Git branches, verify repository state, or deploy theme changes. The current repository is authoritative.
 
-> **مهم:** بعض فقرات التدقيق الأولي والاقتراحات في §§4–21 تصف حالة يوم 2026-10-11 وليست حالة الفرع الحالية. للقرارات المنفذة يُرجع إلى §22 و§23، مع فحص المستودع قبل أي عمل جديد. قواعد الـ workflow مصدرها `SKILL.md`، ولا تُستبدل بهذه الخطة.
+> **مهم:** بعض فقرات التدقيق الأولي والاقتراحات في §§4–21 تصف حالة يوم 2026-10-11 وليست حالة الفرع الحالية. للقرارات المنفذة يُرجع إلى §22 و§23 و§24، مع فحص المستودع قبل أي عمل جديد. سجلات صفحة المجموعة في §23 تصف حالة التحقق الجزئي وقت كتابتها، وليست إثباتًا لحالة التشغيل الحالية. قواعد الـ workflow مصدرها `SKILL.md`، ولا تُستبدل بهذه الخطة.
 
 AYUM — خطة المشروع وحالة التنفيذ
 الغرض: تحفظ هذه الوثيقة حالة مشروع AYUM: خريطة Figma، ومن يملك كل منطقة في الثيم، والقرارات، والأسئلة المفتوحة، وتتبّع الحالة (§22)، وسجل التنفيذ (§23). قواعد العمل الدائمة موجودة في .claude/skills/figma-to-sections-workflow/SKILL.md ولا تُكرَّر هنا. عند أي تعارض في قواعد العمل يُرجع إلى الـ skill. أما حالة المستودع الفعلية فتُتحقَّق من الملفات نفسها (انظر §7). تاريخ الإنشاء: 2026-10-11. أُنشئت الوثيقة بعد تدقيق أولي للقراءة فقط، ولم يُنفَّذ أي سكشن.
@@ -321,7 +321,7 @@ QA: Not run ← Partial ← Verified. يتطلب Verified فحصاً فعليا�
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | H1 | Hero | index | 2001:33 / 2001:612 | Design-context inspected | Implemented | Partial | sections/ayum-slideshow.liquid + assets/dev1.css؛ الصور يرفعها التاجر. QA في harness محلي فقط، لا على المتجر |
 | H2 | Categories | index | 2001:55 / 2001:626 | Design-context inspected | Implemented | Partial | sections/ayum-collections-list.liquid + blocks/_ayum-collection-item.liquid + dev1.css؛ المجموعات والصور يختارها التاجر |
-| H3 | Best sellers (tabs) — اسم المحرر: Featured Collection | index | 2001:80 / 2001:647 | Design-context inspected | Implemented (+ متابعة 2026-10-13) | Partial (harness محلي فقط) | ayum-tabs-collection (فرع dev2-ah)؛ انظر §23 |
+| H3 | Best sellers (tabs) — اسم المحرر: Featured Collection | index | 2001:80 / 2001:647 | Design-context inspected | Implemented (+ متابعة 2026-10-13) | Partial (harness محلي فقط) | ayum-tabs-collection (فرع dev2-ah)؛ انظر §23 ؛ 2026-10-14: جسم الكاروسيل في snippets/ayum-product-carousel.liquid |
 | H4 | Bundles — اسم المحرر: Featured Coll. — Bundles | index | 2001:156 / 2001:721 | Design-context inspected | Implemented | Partial (harness محلي فقط) | ayum-featured-collection (فرع dev2-ah)؛ انظر §23 |
 | H5 | About the brand | index | 2001:230 / 2001:749 | Design-context inspected | Implemented | Partial | sections/ayum-image-text.liquid (نسخة Image with text) + blocks/_ayum-image-text-col و_ayum-stats و_ayum-stat + dev1.css؛ Color Scheme 4؛ الصورة يرفعها التاجر. QA على الـ preview الحي (theme dev) |
 | H6 | How we freeze-dry | index | 2001:250 / 2001:765 | Design-context inspected | Implemented | Partial | sections/ayum-icon-box.liquid (نسخة Icon box) + _ayum-icon-box و_ayum-claims و_ayum-claim + snippets/ayum-icons.liquid + dev1.css؛ Color Scheme 2 + Background opacity 0 + Subheading color؛ QA على صفحة ملتقطة، لا preview حي لهذا الـ worktree |
@@ -1296,3 +1296,78 @@ Validated: node --check لـ custom.js. Not run: المتصفح والمحرر.
   6. سطر الميتا في الكارت.
   7. عدّ المنتجات في شريط الأدوات.
   8. سكشن "ليش تختار أيم": غير موجود؛ إضافته = تغيير بنيوي في القالب.
+
+### 2026-10-14 — H3/H4 متابعة: دمج كود الكاروسيل المكرر (refactor بلا تغيير مرئي)
+القرار: من تدقيق البنية — blocks/_ayum-product-carousel.liquid وblocks/_ayum-bundle-product-carousel.liquid كانا نسختين كاملتين من _product-carousel الأصلي، والفرق بينهما 7 أسطر كود فقط.
+التنفيذ: جسم الكتلة المشترك نُقل إلى snippets/ayum-product-carousel.liquid (489 سطراً). الكتلتان صارتا غلافين رفيعين: نفس النوع والملف والـ schema حرفياً، وتمرّر كل منهما block وcarousel_collection (يُحسب داخل الكتلة حتى تبقى مصادر {{ closest.collection }} في سياقها) وcarousel_class وcarousel_style. الـ snippet يحمل فرعي البطاقة ayum وayum_bundle، وخيار البطاقة في schema كل كتلة يحدد أيهما يُرسم.
+السبب في أن التوفير ~413 سطراً لا ~1400: الـ schema (~995 سطراً لكل كتلة) يجب أن يبقى في ملف الكتلة نفسه.
+التحقق الثابت: القالب الفعلي لكل كتلة (الـ snippet مع معاملاتها ومن دون فرع البطاقة الأخرى) مطابق حرفياً للجسم السابق؛ الـ schema مطابق بايت ببايت؛ JSON صالح، لا ids مكررة، الوسوم متوازنة. نطاق Liquid: لا content_for ولا shopify_attributes في الجسم؛ section عام داخل الـ snippets ونمط block: block مستخدم أصلاً (snippets/collection-item.liquid من _collection_item، و_product-list → _product_list_carousel).
+لم يتغير: templates/index.json، بطاقات المنتج، CSS، JS، الملفات الأصلية. نسخ احتياطية للملفين القديمين خارج المستودع (scratchpad)؛ الاسترجاع: git checkout للملفين وحذف الـ snippet.
+Not run: المتصفح (الكاروسيلان، البطاقات، الإضافة للسلة، شريط التقدم، السحب، RTL، المحرر).
+
+## 24. البنية النهائية للصفحة الرئيسية (معتمدة 2026-10-14)
+
+القرار: تبقى أقسام الصفحة الرئيسية التسعة كنسخ AYUM معزولة بأنواع كتلها الحالية، ولا تُرحَّل إلى Kalles الأصلي. أساس القرار تدقيقا البنية (2026-10-14): كل نسخة مبنية فعلاً على أصلها في Kalles (61–95% من markup القسم أصلي، ولا يزيد المحذوف من الأصل عن 5 أسطر)، وكلها تحمل بيانات محفوظة في كتل أو إعدادات AYUM لا يستوعبها الأصل.
+القواعد الدائمة (Native Kalles first، ونسخة AYUM واحدة فقط عند الحاجة لتعديل المصدر، وعدم تكرار نسخة AYUM موجودة، وبوابة الترحيل بلا تراجع) مكانها SKILL.md §0.0 و§5 و§5.3، ولا تُكرَّر هنا.
+
+### 24.1 الأقسام
+| instance في templates/index.json | نوع AYUM | الأصل في Kalles (لم يُعدَّل) | كتل/snippets AYUM | تبعيات أصلية مستخدمة كما هي | CSS / JS |
+| --- | --- | --- | --- | --- | --- |
+| ayum_slideshow_hero | ayum-slideshow | slideshow | — (_ayum-slide-item مسجَّل وغير مستخدم) | _slide-item، text_custom، heading، text، _button_group، button_custom، slideshow.css | dev1.css |
+| ayum_collections_list | ayum-collections-list | collections-list | _ayum-collection-item | section-heading، _heading_section، snippets/collection-item، hdt-collection-items.css | dev1.css |
+| ayum_tabs_collection_best_sellers | ayum-tabs-collection | tabs-collection | _ayum-tab-collection، _ayum-product-carousel، card-product-ayum | section-heading، _heading_section، hdt-tabs-collections.css، hdt-pagination.css، card-price، badges، card-product-media، btn-ultra | dev2.css، ayum-slider-progress.js |
+| ayum_featured_collection_bundles | ayum-featured-collection | featured-collection | _ayum-bundle-product-carousel، card-product-ayum-bundle، ayum-btn-ultra | section-heading، _heading_section، _sub_heading_section، card-price، badges، card-product-media | dev2.css، ayum-slider-progress.js |
+| ayum_image_text_about | ayum-image-text | image_text | _ayum-image-text-col، _ayum-description، _ayum-stats، _ayum-stat | _image-text-column، image، heading، hdt-image-with-text.css | dev1.css |
+| ayum_icon_box_freeze_dry | ayum-icon-box | icon-box | _ayum-icon-box، _ayum-claims، _ayum-claim، ayum-icons | section-heading، _heading_section، _sub_heading_section، hdt-icon-box.css | dev1.css |
+| ayum_testimonials | ayum-testimonial_section | testimonial_section | _ayum-testimonial-item، ayum-quote | section-heading، _heading_section، _sub_heading_section، testimonials.css | dev2.css، ayum-slider-progress.js |
+| ayum_shoppable_video | ayum-product-video | product-video | _ayum-product-video، ayum-btn-ultra | section-heading، _heading_section، _sub_heading_section، <hdt-video-player>، <hdt-slider> | dev2.css، ayum-shoppable-video.js، ayum-slider-progress.js |
+| ayum_accordion_faq | ayum-accordion | accordion | _ayum-accordion-item | section-heading، _heading_section، <hdt-accordion> | dev1.css |
+
+مشترك لكل الأقسام: <hdt-slider> الأصلي (لا مكتبة سلايدر ثانية)، ونظام color schemes الأصلي، وأدوات hdt- الأصلية. لكل قسم إعداد custom_class في نسخة AYUM.
+
+### 24.2 الكاروسيل المشترك
+- snippets/ayum-product-carousel.liquid: الجسم الوحيد للكاروسيل (نسخة _product-carousel الأصلية: البطاقات الأصلية 1–12، <hdt-slider>، زر عرض الكل) مع فرعي البطاقة 'ayum' و'ayum_bundle' وشريط <ayum-slider-progress> الاختياري.
+- blocks/_ayum-product-carousel.liquid (Best sellers) وblocks/_ayum-bundle-product-carousel.liquid (Bundles): غلافان رفيعان بنفس الأنواع والـ schema الكاملة (الـ schema يجب أن يبقى في ملف الكتلة). يمرّر كل منهما block وcarousel_collection (يُحسب داخل الكتلة لتبقى مصادر {{ closest.collection }} في سياقها) وcarousel_class وcarousel_style.
+- خيار البطاقة في schema كل كتلة يحدد الفرع المرسوم؛ card-product-ayum وcard-product-ayum-bundle يركّبان الـ snippets الأصلية (card-price، badges، card-product-media، btn-ultra، quick view، compare).
+- أي تعديل لاحق على الكاروسيل يكون في الـ snippet مرة واحدة، لا في الكتلتين.
+
+### 24.3 الملفات المشتركة خارج الصفحة الرئيسية (للعلم)
+- مجموعة الهيدر: ayum-announcement-bar، ayum-header (+ _ayum-menu-mobile، ayum-main-menu، ayum-header-icons)، وCSS في assets/main.css.
+- مجموعة الفوتر: sections/footer.liquid الأصلي مع تعديلات مصرَّح بها صراحةً لتلك المهمة فقط (custom_class، وفي _footer-column: ayum_open_mobile وayum_order_mb وayum_hide_column_mb، وفي _payment_icons: ayum_label)، وCSS مقيّد بـ .ayum-footer-main / .ayum-footer-bottom في main.css. هذا استثناء موثَّق من قاعدة عدم تعديل الأصل.
+- ملفات أصلية أخرى معدَّلة من مهام سابقة: layout/theme.liquid (ayum-arabic-font-face)، assets/custom.js (ربط أكورديون الفوتر بعد إعادة تحميل السكشن)، snippets/hdt-pr-card-rating.liquid (+ assets/fill_star_rating.svg وunfill_star_rating.svg).
+
+### 24.4 حالة الكود غير المستخدم (تدقيق 2026-10-14)
+- حُذف: assets/sedWCy1az وassets/sedxYrMsG (فارغان، بلا أي مرجع).
+- فارغة وبلا مرجع، بانتظار موافقة منفصلة: assets/dev1.css.tmp.* (3)، assets/dev2.css.tmp.* (2)، assets/ayum-shoppable-video.js.tmp.* (1).
+- غير مستخدم في البيانات المحفوظة ولا يُحذف دون موافقة منفصلة: blocks/_ayum-slide-item.liquid (مسجَّل في schema ayum-slideshow فقط).
+- بلا مرجع في الكود لكنه ليس ميتاً: templates/product.custom-ayum.json وtemplates/collection.custom-ayum.json (تُعيَّن من لوحة Shopify).
+- كل ملفات AYUM الأخرى مستخدمة.
+
+#### 2026-10-14 — متابعة 3: تدقيق على render حقيقي لهذا الـ worktree (In Progress — غير مكتملة)
+
+- **الـ preview:** خدم هذا الـ worktree لفترة؛ بصمة `dev1.css` مطابقة. التُقط render حقيقي (`live4`). بعدها أُغلق بكلمة المرور، فاستمر القياس على هذا الـ render مع `dev1.css` المحلي.
+- **انحراف قالب/إعدادات بين المحلي وثيم Shopify (بانتظار مزامنة آمنة):**
+  - الشريط على Shopify يعرض 5 شرائح كلها `/collections/الأكثر-مبيعا`. القالب المحلي `show_type: all` بلا بلوكات (كان يعرض 20 مجموعة مختلفة).
+  - **السبب المرجَّح:** أُضيفت في المحرر 5 بلوكات collection تشير لنفس المجموعة، ولم تصل للملف المحلي.
+  - الأزرار فيروزية على Shopify، و`settings_data.json` المحلي يقول `#222`. أي أن تعديلات المخطط أيضاً غير مُزامَنة.
+  - **لم يُعدَّل `collection.json`:** theme dev سيرفع النسخة القديمة ويمحو البلوكات.
+- **CSS (مُتحقق على الـ render الحقيقي):**
+  - **شارة العدد:** صارت من scheme Background (`#E4EDF0`). الهيدر لا يرسم خلفية المخطط، فكانت بيضاء على أبيض.
+  - **ألوان السعر:** أُعيد المعنى الأصلي داخل الكارت. السعر الحالي = Price، وسعر التخفيض = Sale price، والسعر قبل التخفيض = Price بنسبة 55% مشطوب.
+  - **زر الإضافة:** 43px ديسكتوب و33px موبايل (Figma).
+  - **الأعرض 320–1440:** لا overflow، و3/2 أعمدة، والصورة مربعة (إعداد التاجر).
+  - الـ sheet أسفل الشاشة بزوايا 22 ومقبض، وEscape يغلق.
+- **حالة البنود:**
+  - **صحيح:** الكارت (هيكل، زر، أعمدة)، والـ sidebar يميناً، و"تحميل المزيد" الأصلي يعمل ("لقد شاهدت 12 من 52 منتج")، والتقييم الحقيقي (metafields `reviews.rating`) مع إخفاء الصفري، والشارات الأصلية الديناميكية (خصم من compare-at، وجديد، والأكثر مبيعاً).
+  - **إعداد التاجر:** Sale price `#EA3A79`؛ وبلوكات الشريط (مجموعة مختلفة لكل بلوك)؛ و"Show description" (SEO).
+  - **مصدر أصلي (بانتظار الموافقة):**
+    - صورة ولون لكل بطاقة في الشريط.
+    - الشرائح الفرعية.
+    - عنوان "تصفية النتائج".
+    - تذييل الـ sheet + `pos=bottom`.
+    - متوسط التقييم بدل العدد.
+    - سطر الميتا.
+    - العدّ في شريط الأدوات.
+    - شرائح الفلاتر السريعة.
+    - `custom_class`.
+  - **إضافة بنيوية للقالب (بعد المزامنة):** "ليش تختار أيم" بإعادة استخدام `ayum-icon-box`.
