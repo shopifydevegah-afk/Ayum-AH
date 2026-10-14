@@ -1400,3 +1400,60 @@
     padding: 16px;
   }
 }
+
+/* ---------- Collection page: corrections after the rendered-DOM audit ---------- */
+/* Heading weight: the heading block prints "#block-<id> { font-weight: 500 }" whenever a custom size
+   is used and has no weight setting, so ExtraBold (Figma) needs !important to beat that ID rule. */
+[id$="__main_heading_PHNGje"] .hdt-heading-liquid {
+  font-weight: var(--font-extrabold) !important;
+}
+[id$="__main_heading_PHNGje"] .ayum-collection-count {
+  font-weight: 700;
+}
+
+/* Add to cart (native btn-ultra): label only and centred, as in Figma; the cart icon is decorative. */
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__btn-ultra {
+  justify-content: center;
+}
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .hdt-card-product__btn-ultra .hdt-pr-card-icon {
+  display: none;
+}
+
+/* Ratings: a product without reviews prints "0 out of 5" with five empty stars and "(0)"; hide that
+   row rather than show a misleading rating. Products with real review data keep their stars. */
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-pr-style7 .star-rating:is([aria-label^="0 "], [aria-label^="0.0 "]) {
+  display: none;
+}
+
+/* Sidebar group titles: no underline (Figma), title text only. */
+[id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] #hdt-shop-sidebar-drawer .hdt-facet-title_group::after {
+  display: none;
+}
+
+/* Mobile toolbar (Figma 1:1139): sort as a full-width pill on the first row, the filter button below.
+   The floating side tab duplicates the filter button (both open the same native drawer). */
+@media (max-width: 767px) {
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-shop-control {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-shop-control > .hdt-control-sorting {
+    order: -1;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-shop-control > .hdt-control-layout:empty {
+    display: none;
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-control-sorting :is(hdt-popover-sorting, hdt-popover-sorting > button) {
+    width: 100%;
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-popover__sorting > button {
+    justify-content: center;
+    min-height: 37px;
+    border-radius: 22px;
+  }
+  [id$="__main_heading_PHNGje"] ~ [id$="__main-collection"] .hdt-sidebar-btn {
+    display: none;
+  }
+}
