@@ -1,0 +1,39 @@
+<!-- blocks/_ayum-claims.liquid -->
+{%- comment -%}
+  AYUM claim chips row (Figma 2001:258 desktop / 2001:772 mobile), pinned in sections/ayum-icon-box.liquid
+  between the section heading and the step cards. Holds "Claim" blocks (blocks/_ayum-claim.liquid) that
+  can be added, removed and reordered.
+  - Desktop/tablet: one centred row in block order, first claim on the right; wraps if it runs out of room.
+  - Mobile: two claims per row, arranged by each claim's "Mobile position".
+  "Space below" is halved below 1150px (same rule as the native section heading's margin).
+  Styled in assets/dev1.css (.ayum-claims).
+{%- endcomment -%}
+<div class="ayum-claims" style="--ayum-claims-mb: {{ block.settings.margin_bottom }}px;" {{ block.shopify_attributes }}>
+  {% content_for 'blocks' %}
+</div>
+
+{% schema %}
+{
+  "name": "Claims",
+  "tag": null,
+  "blocks": [{ "type": "_ayum-claim" }],
+  "settings": [
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Space below",
+      "info": "Halved below 1150px.",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Claims"
+    }
+  ]
+}
+{% endschema %}

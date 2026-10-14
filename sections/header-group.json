@@ -11,6 +11,53 @@
   "name": "t:sections.name_group.header",
   "type": "header",
   "sections": {
+    "ayum_announcement_bar": {
+      "type": "ayum-announcement-bar",
+      "blocks": {
+        "announcement_ayum1": {
+          "type": "announcement",
+          "settings": {
+            "link": "",
+            "text": "خصم 10% على أول طلب — كود AYUM10",
+            "adding_border": false,
+            "countdown": "2025-12-30 15:00:00",
+            "txt_day": "days",
+            "text_highlight": "",
+            "hdt_font_size": 16,
+            "ayum_show_copy": true
+          }
+        }
+      },
+      "block_order": [
+        "announcement_ayum1"
+      ],
+      "settings": {
+        "show_line_separator": false,
+        "close_btn": "0",
+        "height": 49,
+        "fontsize": 14,
+        "design": "slider",
+        "hdt_using_image_icon": false,
+        "space_item": 30,
+        "speed": 0.3,
+        "direction": "rtl",
+        "pausable": false,
+        "effect": "carousel",
+        "au_time": 5,
+        "pause_when_hover": true,
+        "colors_by_section": true,
+        "color_scheme": "scheme-6707cc8e-6558-49d9-8759-f7d934d9fe4f",
+        "background_opacity": 1,
+        "full_width": true,
+        "ayum_height_mb": 40,
+        "ayum_copy_enable": true,
+        "ayum_copy_label": "انسخ الكود",
+        "ayum_copy_code": "AYUM10",
+        "ayum_copy_success": "تم نسخ الكود",
+        "ayum_copy_error": "تعذّر النسخ",
+        "custom_class": "ayum-announcement-bar"
+      }
+    },
     "custom_liquid_BCTxT9": {
       "type": "custom-liquid",
       "disabled": true,
@@ -30,6 +77,7 @@
     }
   },
   "order": [
+    "ayum_announcement_bar",
     "custom_liquid_BCTxT9"
   ]
 }

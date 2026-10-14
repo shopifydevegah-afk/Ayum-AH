@@ -1,0 +1,73 @@
+<!-- blocks/_ayum-stats.liquid -->
+{%- comment -%}
+  AYUM statistics row (Figma 2001:240 desktop / 2001:755 mobile): a row of "Statistic" blocks
+  (blocks/_ayum-stat.liquid) that can be added, removed and reordered.
+  - Desktop: items sit side by side, aligned with the Content block's text alignment.
+  - Mobile: equal-width columns in one row, centred.
+  - Font sizes come from the settings below; colours from the colour scheme (number = Accent,
+    label = Text 2). Styled in assets/dev1.css (.ayum-stats).
+  - Only available inside the AYUM "Content" block (blocks/_ayum-image-text-col.liquid).
+{%- endcomment -%}
+<div class="ayum-stats" style="--ayum-stat-value-lg: {{ block.settings.value_size_lg }}px; --ayum-stat-value-mb: {{ block.settings.value_size_mb }}px; --ayum-stat-label-lg: {{ block.settings.label_size_lg }}px; --ayum-stat-label-mb: {{ block.settings.label_size_mb }}px;" {{ block.shopify_attributes }}>
+  {% content_for 'blocks' %}
+</div>
+
+{% schema %}
+{
+  "name": "Statistics",
+  "tag": null,
+  "blocks": [{ "type": "_ayum-stat" }],
+  "settings": [
+    {
+      "type": "range",
+      "id": "value_size_lg",
+      "label": "Number size (desktop)",
+      "min": 14,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "value_size_mb",
+      "label": "Number size (mobile)",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 23
+    },
+    {
+      "type": "range",
+      "id": "label_size_lg",
+      "label": "Label size (desktop)",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "label_size_mb",
+      "label": "Label size (mobile)",
+      "min": 9,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    }
+  ],
+  "presets": [
+    {
+      "name": "Statistics",
+      "blocks": [
+        { "type": "_ayum-stat", "settings": { "value": "+400", "label": "تقييم من عملائنا", "label_mobile": "تقييم" } },
+        { "type": "_ayum-stat", "settings": { "value": "5", "label": "خطوط منتجات" } },
+        { "type": "_ayum-stat", "settings": { "value": "100%", "label": "تصنيع كويتي" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
