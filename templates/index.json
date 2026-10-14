@@ -279,7 +279,7 @@
         "ayum_card_border_color": "#d3e3e8",
         "ayum_price_color": "#ea3a79",
         "ayum_badge_text_color": "#ea3a79",
-        "custom_class": ""
+        "custom_class": "ayum-tabs-collection"
       }
     },
     "ayum_featured_collection_bundles": {
@@ -288,8 +288,9 @@
         "ayum_bundle_carousel": {
           "type": "_ayum-bundle-product-carousel",
           "settings": {
-            "collection": "",
+            "collection": "الأكثر-مبيعا",
             "products_count": 8,
+            "product_list": [],
             "pr_border": "none",
             "product_des": "ayum_bundle",
             "image_ratio": "square",
@@ -302,11 +303,35 @@
             "col_mb": "1",
             "space_items": "20",
             "pagination": false,
+            "paginate_pos": "center",
+            "dis_pagination": 30,
+            "btn_label": "",
+            "btn_style": "",
+            "icon": "none",
+            "size": "m",
+            "btn_fw": "medium",
+            "font_size_btn": 14,
+            "padding_btn": 30,
+            "min_width_btn": 100,
+            "min_width_dt_btn": 100,
+            "min_height_btn": 40,
             "loop": false,
             "autoplay": 0,
             "pauseOnHover": false,
             "navUI": false,
+            "nav_position": "default",
+            "nav_visible": "always",
+            "nav_style": "default",
+            "nav_shape": "default",
+            "nav_size": "small",
+            "nav_hide_mobile": false,
             "dotUI": false,
+            "pag_style": "default",
+            "pag_rounded": true,
+            "pag_space": 10,
+            "pag_mgt": 10,
+            "only_show_mobile": false,
+            "pag_hide_mobile": false,
             "ayum_show_description": true,
             "ayum_description_length": 40,
             "ayum_atc_label": "",
@@ -372,11 +397,11 @@
         "mg_mb": "",
         "pd": "48px,,48px,",
         "pd_mb": "24px,,24px,",
-        "ayum_primary_color": "#26B3D0",
-        "ayum_on_primary_color": "#FFFFFF",
-        "ayum_card_border_color": "#D3E3E8",
-        "ayum_sale_color": "#EA3A79",
-        "custom_class": ""
+        "ayum_primary_color": "#26b3d0",
+        "ayum_on_primary_color": "#ffffff",
+        "ayum_card_border_color": "#d3e3e8",
+        "ayum_sale_color": "#ea3a79",
+        "custom_class": "ayum-featured-collection"
       }
     }
   },
