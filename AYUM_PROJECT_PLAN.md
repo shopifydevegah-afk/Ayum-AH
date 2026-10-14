@@ -329,8 +329,8 @@ QA: Not run ← Partial ← Verified. يتطلب Verified فحصاً فعليا�
 | H8 | Product videos — اسم المحرر: Shoppable Video (اسم Kalles الأصلي) | index | 2001:366 / 2001:861 | Design-context inspected | Implemented | Partial (harness محلي فقط) | ayum-product-video (فرع dev2-ah)، بلا تشغيل تلقائي؛ انظر §23 |
 | H9 | FAQ | index | 2001:446 / 2001:911 | Design-context inspected | Implemented | Partial | sections/ayum-accordion.liquid (نسخة Accordion) + blocks/_ayum-accordion-item.liquid + dev1.css؛ Color Scheme 7؛ أجوبة 2–5 يضيفها التاجر. QA على صفحة ملتقطة، لا preview حي لهذا الـ worktree |
 | S1 | Offer / announcement bar | مشترك: كل الصفحات | 2001:4 / 2001:582 | Design-context inspected | Implemented (زر نسخ الكود) | Partial | sections/ayum-announcement-bar.liquid + assets/ayum-copy-code.js + dev1.css؛ QA على HTML الـ preview الحقيقي + أصول حية، لا على المتجر الحي |
-| S2 | Header + category nav | مشترك: كل الصفحات | 2001:8 + 2001:21 / 2001:586 | Metadata only | Not started | Not run | الأعلى خطراً |
-| S3 | Mobile menu | مشترك: كل الصفحات | — / 35:309 | Metadata only | Not started | Not run | يعتمد على S2 |
+| S2 | Header + category nav | مشترك: كل الصفحات | 2001:8 + 2001:21 / 2001:586 | Design-context inspected | Implemented | Not run | sections/ayum-header.liquid (نسخة Header menu bottom) + snippets/ayum-main-menu و ayum-header-icons + assets/main.css؛ instance ayum_header في header-group.json. يحتاج Color Scheme مخصص للهيدر (انظر §23) |
+| S3 | Mobile menu | مشترك: كل الصفحات | — / 35:309 | Design-context inspected | Implemented (مع S2) | Not run | blocks/_ayum-menu-mobile.liquid (نسخة _menu_mobile) + main.css |
 | S4 | Footer | مشترك: كل الصفحات | 2001:483 / 2001:942 | Metadata only | Not started | Not run | footer-group |
 | S5 | Mobile bottom nav | مشترك: كل الصفحات | — / 2001:1034 | Metadata only | Not started | Not run | system-group |
 | — | Newsletter | خارج النطاق | 2001:472 (مخفي) / — | Metadata only | — | — | مخفي في Figma |
@@ -1147,3 +1147,64 @@ text-align: right. --ayum-pv-title-lh (1.133 desktop / 1.12 mobile) يربط ا�
 الافتراضي يحافظ على Figma: اللوحة 127 desktop و130 mobile.
 harness: الأسطر 1–4 × 1440/375/320: 12/12. الشفافية والأدوات والتقديم بلا تغيير.
 Not run: محرر الثيم.
+
+### 2026-10-14 — S2 Header + category nav وS3 Mobile menu (تنفيذ)
+Figma (get_design_context + get_metadata على العقد الأربع، كلها قُرئت بنجاح): الهيدر ديسكتوب 2001:8، شريط الفئات 2001:21، هيدر الموبايل 2001:586، قائمة الموبايل 35:309. أيقونتا السلة والبحث من Figma (مقلوبتان رأسياً في التصميم) نُقلتا كمسارات SVG بـ currentColor.
+الحالة قبل التنفيذ: header-group.json بلا أي سكشن هيدر؛ instance الـ demo (header_inline_blocks_xePFbC) حُذف من محرر الثيم في الكومِت 96bc08e. لا ترحيل ولا حذف لبيانات.
+الأساس: sections/header-menu-bottom-blocks.liquid (صف هيدر + صف .hdt-bottom-header للديسكتوب). لم يُعدَّل أي ملف أصلي.
+الملفات الجديدة: sections/ayum-header.liquid (نسخة)، blocks/_ayum-menu-mobile.liquid (نسخة _menu_mobile)، snippets/ayum-main-menu.liquid (نسخة main-menu + كلاس التمييز)، snippets/ayum-header-icons.liquid (نسخة header_group_icons + مجموعة أيقونات "AYUM").
+الملفات المعدلة: assets/main.css (كان تعليقاً فقط وغير محمَّل؛ يُحمَّل الآن من ayum-header فقط)، sections/header-group.json (إضافة ayum_header بعد شريط العرض؛ باقي المدخلات بلا تغيير).
+التخطيط: صف "Logo left" صار CSS grid. ديسكتوب ≥1150: لوجو | بحث (max 520، في الوسط) | سلة، وشريط القائمة صف مستقل تحته (67px). أقل من 1150: زر القائمة | لوجو في الوسط | سلة، والبحث صف ثانٍ (12/60/12/33/12 = 129). التابلت يأخذ تخطيط الموبايل مع حد أقصى لعرض البحث.
+البحث: نموذج hdt-predictive-search أصلي واحد للصفين. placeholder الموبايل الأقصر طبقة CSS (aria-hidden) تظهر فقط والحقل فارغ؛ الـ placeholder والـ aria-label الحقيقيان نص الديسكتوب. ملاحظة: custom.js يحوّل البحث إلى صفحة النتائج الكاملة عندما dir=rtl (سلوك موجود مسبقاً، لم يُغيَّر).
+القائمة: من link_list main_menu (Shopify). التمييز بإعداد "Highlighted menu item" (عنوان أو handle أو URL)، يضيف كلاساً للعنصر المطابق على الديسكتوب والموبايل، فلا يعتمد على الترتيب. المسافة 32px على كل الديسكتوب (أُلغي ضرب 0.7 في النسخة فقط).
+الدرج: hdt-drawer/dialog الأصلي (فتح، إغلاق، Escape، overlay، قفل التمرير، accordions). زر الإغلاق مرسوم كأيقونة القائمة من Figma مع aria-label "Close". شريط التبويب يُخفى عند وجود تبويب واحد. روابط wishlist/search/account والملاحظة اختيارية (مطفأة).
+الألوان: header_colors وheader_bottom_colors وheader_mobile_colors = scheme-1 (خلفية بيضاء، accent #EA3A79 للتمييز). إعدادات AYUM فقط للأدوار غير الموجودة لكل scheme: ayum_border_color (#D3E3E8)، ayum_search_bg (#E4EDF0)، ayum_separator_color في البلوك (rgba(20,92,112,.18)). الشارة تستخدم --hdt-btn-* الأصلية.
+[مطلوب من التاجر] لمطابقة Figma تماماً: إنشاء Color Scheme مخصص للهيدر (text #26383A، background #FFFFFF، button #E78333، button label #FFFFFF، accent #EA3A79) وتعيينه في الحقول الثلاثة. مع scheme-1 تبقى الشارة سوداء (#222222) والنص #222222.
+[مطلوب من التاجر] اختيار صورة اللوجو (لا لوجو محفوظ؛ يظهر اسم المتجر)، والتأكد أن قائمة main-menu تحتوي الروابط العشرة.
+عناصر "العنوان/الوصف تحت العنوان/المسافة": لا يوجد عنوان في هذه العقد، فلم تُضف.
+Validated (ثابت): JSON للـ schema (بعد إزالة تعليق /* */ والفاصلة الزائدة الموروثة من الأصل) وheader-group.json؛ لا ids مكررة؛ قيم الـ instance ضمن الـ schema والـ ranges؛ توازن وسوم Liquid؛ لا ألوان حرفية خارج defaults؛ لا left/right فيزيائية؛ breakpoints 768/1150 فقط؛ لا روابط Figma؛ الملفات الأصلية بلا تغيير.
+Not run: shopify theme dev/check، أي فحص في المتصفح (العرض، responsive 320–1440، RTL/LTR، فتح/إغلاق الدرج، البحث التنبؤي، السلة، sticky، إعادة تحميل السكشن في المحرر).
+متابعة 2026-10-14 (bugfix) — EGP، "جميع الفئات"، وحشوة الموبايل:
+Figma: أُعيدت قراءة العقد الأربع (get_metadata) بنجاح، والقيم مطابقة للتنفيذ الأول.
+EGP — السبب: بلوك _ayum-menu-mobile ورث من _menu_mobile صف العملة/اللغة (slot="footer")، ويُرسم عندما يكون للمتجر أكثر من دولة حتى مع currency_type = "1". الإصلاح: الصف كله (مع غلافه) لا يُرسم إلا عند تفعيل إعداد جديد في البلوك ayum_show_localization ("Show currency & language selectors"، افتراضياً false). نظام العملة العام وباقي أماكن المحدِّد بلا تغيير.
+"جميع الفئات" — السبب: نموذج البحث في ayum-header نسخ فرع {% if settings.search_form_by_type %} من الأصل، والإعداد العام مفعَّل. الإصلاح: حُذف الفرع من نموذج AYUM فقط (لا CSS إخفاء)، والإعداد العام بقي كما هو لنماذج البحث الأخرى. JS البحث يتعامل مع غياب الـ select (this.select اختياري)، والحقل يأخذ كل العرض المتاح (flex: 1).
+حشوة الموبايل — السبب: (1) قاعدة .hdt-menu-bar الأصلية (justify-content: flex-start) تغلب على hdt-justify-center، فالأيقونة كانت أصلاً على حافة الزر، وهامش -10px الذي أضفته سحبها إلى ~5px من حافة الشاشة. (2) .hdt-site-top_nav الأصلي يضيف padding-inline-end: 10px فكانت السلة على 25px بدلاً من 16. (3) .hdt-container على الموبايل 15px وFigma 16px (2028:2).
+الإصلاح: حُذف الهامش السالب. أُضيف ayum_padding_x_mb ("Mobile side padding"، افتراضياً 16) مطبَّقاً على .ayum-header__main > .hdt-container تحت 768px. padding-inline-end: 0 لمجموعة الأيقونات داخل ayum-header (Figma: زر السلة على حافة الحاوية في الديسكتوب والموبايل). النتيجة المحسوبة: أيقونة القائمة على 16px من اليمين، زر السلة على 16px من اليسار، والبحث 16px من الجهتين. اللوجو في الوسط (grid 1fr auto 1fr بحشوتين متساويتين).
+باقي المراجعة (الارتفاعات 12/60/12/33/12، أحجام السلة والشارة، صفوف الدرج 72/60/24، شريط الفئات): مطابقة، بلا تغيير.
+ملاحظة غير مُصلحة (خارج النطاق): عرض محتوى الديسكتوب يأتي من إعداد page_width العام المشترك بين كل السكاشن، وقد يختلف عن 1280px في Figma.
+الملفات: sections/ayum-header.liquid، blocks/_ayum-menu-mobile.liquid، assets/main.css، sections/header-group.json (قيمتان جديدتان في ayum_header فقط). شريط العرض والملفات الأصلية بلا تغيير.
+Validated (ثابت): JSON للـ schema والمجموعة، لا ids مكررة، قيم الـ instance معرّفة، توازن الوسوم، لا ألوان حرفية، breakpoints 767/768/1150 فقط.
+Not run: أي فحص في المتصفح (320/375/390/767/768/1150/1440، الدرج، البحث، sticky).
+
+### 2026-10-14 — S4 Footer: تحسين التصميم على مثيلي Kalles الأصليين (CSS + إعداد واحد)
+Figma: 2001:483 (desktop) و2001:942 (mobile)، get_design_context قُرئ بنجاح.
+المثيلان: footer_KwXhWr (الرئيسي) وfooter_ziwVXA (السفلي)، النوع footer الأصلي. لم يُنشأ قسم أو نسخة.
+تنبيه بيانات: إعدادات التاجر الحالية للفوتر موجودة على المتجر فقط؛ footer-group.json المحلي ما زال نسخة الاستعادة (بيانات demo) وغير مُلتزَم. لم يُعدَّل. موصّل Shopify متصل بمتجر آخر (Peace Lily) فلم تُقرأ البيانات الحية. لا ترفع footer-group.json المحلي (استخدم push --only للملفين المعدلين) حتى لا تُستبدل إعدادات المحرر.
+الملفات: assets/main.css (قسم Footer جديد)، blocks/_footer-column.liquid (تعديل أصلي مصرَّح به: إعداد ayum_open_mobile "Open on mobile by default"، افتراضياً false، يضيف .open لعمود الأكورديون).
+CSS (مقيّد بـ [id$="__footer_KwXhWr"] و[id$="__footer_ziwVXA"]، الأدوار حسب المحتوى لا الترتيب):
+ديسكتوب ≥1150: عمود البراند (الذي فيه صورة) 375px في البداية + 56px، وأعمدة الروابط موزعة حتى النهاية (justify-between). عنوان ← روابط 10px (الأصل 20px ثابت).
+موبايل <768: لوجو في الوسط عند محاذاة الموبايل "Center"؛ صفوف الأكورديون padding 16 وفاصل 15%؛ +/− بلون 70% وخط 2px؛ 12px بين العنوان والروابط عند الفتح.
+السفلي ≥768: فاصل 15% + 24px، صف الدفع (label + أيقونات) في جهة النهاية، الروابط القانونية أفقية في جهة البداية (18px)، الحقوق في جهة النهاية، 36px بين الصفين. موبايل: الدفع في الوسط (عمودي، 10px) ← الروابط أفقية ملتفة في الوسط (14px) ← الحقوق في الوسط.
+الألوان: درجات من --color-foreground للـ scheme (روابط 70%، قانونية 65%، خلفية الأيقونات الاجتماعية 18%). لا ألوان حرفية.
+[مطلوب من التاجر — إعدادات أصلية] Section padding: الرئيسي 56px,,36px, / موبايل 32px,,22px,؛ السفلي 0px,,32px, / موبايل 0px,,28px,. هوامش الأعمدة (mg/mg_mb) فارغة. السفلي: Use colors by section + نفس scheme الرئيسي (Scheme 10). صورة اللوجو: Custom width 153 / تابلت 153 / موبايل 64. عمود البراند: محاذاة الموبايل Center. النص: حجم مخصص 13، line height 1.8. Socials: style Default، size Medium، radius 20، spacing 20. عناوين الأعمدة: Custom 15، وزن ExtraBold. روابط القوائم: Custom 18 (القانونية 13). عمود "تواصل معنا": Width (mobile) = 0 لإخفائه على الموبايل. أعمدة الأكورديون: Only mobile (collapse) مفعّل، و"Open on mobile by default" لعمود المتجر. أيقونات الدفع: height 27.
+Validated (ثابت): JSON للـ schema، لا ids مكررة، توازن الوسوم، أقواس CSS، لا ألوان حرفية، breakpoints 767/768/1150 فقط.
+Not run: أي فحص في المتصفح أو المحرر.
+
+متابعة 2026-10-14 — S4 Footer: custom_class + مطابقة Figma أدق:
+Figma: 2001:483 و2001:942 (design context + screenshots من نفس الجلسة، get_variable_defs وget_metadata أُعيدا الآن).
+أسباب الفروق المتبقية: (1) CSS السابق كان مقيداً بمعرّف المثيل وترك القيم المحسوبة لإعدادات أصلية لم تُضبط (padding 75px، هامش 50px للأعمدة، spacers، أحجام الخطوط). (2) الفوتر السفلي كان مبنياً على أعمدة، بينما مكان كتل الدفع/الحقوق/الروابط داخل الأعمدة غير معروف (البيانات الحية على المتجر فقط). (3) الأكورديون الأصلي بلا حالة فتح افتراضية ولا ترتيب للموبايل. (4) لا يوجد عنوان لأيقونات الدفع.
+custom_class: إعداد text جديد "Custom CSS class" في sections/footer.liquid يُضاف إلى غلاف .hdt-section-inner. القيم المطلوبة: footer_KwXhWr = ayum-footer-main، footer_ziwVXA = ayum-footer-bottom. [مطلوب من التاجر] ضبطهما في المحرر؛ لم يُكتبا في footer-group.json المحلي لأنه نسخة demo قديمة وغير مُلتزَمة.
+CSS (assets/main.css): حُذف قسم الفوتر السابق (المقيد بالمعرّف والقاعدة غير المقيدة) واستُبدل بقسم مقيد بالكلاسين فقط (66 selector، تدقيق: صفر غير مقيد). الحاوية 1320/20px (موبايل 16px). المسافات عبر متغيرات --pd-*/--mg-* الأصلية: الرئيسي 56/36 (موبايل 32/22)، السفلي 0/32 (موبايل 0/28)، هوامش الأعمدة 0. البراند: لوجو 153 (64 موبايل)، فجوة 14 (موبايل 10 + 22 قبل الأيقونات)، وصف 13/1.8 بنسبة 75%، أيقونات 40px بخلفية 18% وفجوة 10، spacers داخل عمود البراند مخفية. الأعمدة: عناوين 15/800، روابط 18/400 بنسبة 70%، فجوة 10، ومن العنوان للروابط 10. ديسكتوب: البراند 375 + 56 ثم توزيع الأعمدة. موبايل: صفوف 16px وفاصل 15% وعلامات +/− 12px بخط 2px بنسبة 70%.
+الفوتر السفلي: الأعمدة مسطّحة (display: contents، مع احترام أصناف width 0 لكل breakpoint) وتُرتّب الكتل حسب النوع. ≥768: فاصل داخل الحاوية + 24px، صف الدفع (العنوان بجانب الأيقونات) في جهة النهاية، ثم الروابط القانونية في البداية والحقوق في النهاية بفارق 36px. موبايل: الدفع (العنوان فوق، 10px) ← الروابط القانونية (13/700، فجوة 14) ← الحقوق (11/400) بفارق 6px.
+Liquid: blocks/_footer-column.liquid — "Open on mobile by default" صار يرسم الحالة الأصلية نفسها (.open + height: auto inline كما يفعل سكربت custom.js) بدل CSS، وإعداد جديد "Order on mobile" (0–10) يُقرأ فقط تحت ayum-footer-main. blocks/_payment_icons.liquid — إعداد "Label" (افتراضي "طرق الدفع") يُرسم <p class="hdt-payments-label">.
+[مطلوب من التاجر] Custom CSS class للمثيلين؛ "Open on mobile by default" لعمود المتجر؛ "Order on mobile" = 1 لعمود عن أيم؛ Width (mobile) = 0 لعمود تواصل معنا؛ تفعيل colors by section للسفلي بنفس scheme الرئيسي؛ حذف أي كتلة نصية منفصلة لعنوان الدفع إن وُجدت (لتفادي التكرار).
+Validated (ثابت): JSON للـ schema في الملفات الثلاثة، لا ids مكررة، توازن الوسوم والأقواس، تدقيق selectors، لا ألوان حرفية ولا !important، CSS الهيدر بلا تغيير.
+Not run: المتصفح والمحرر (كل العروض، الأكورديون، الترتيب، الدفع).
+
+متابعة 2026-10-14 — S4 Footer: ترتيب الأكورديون وإظهاره وحالته الافتراضية على الموبايل:
+Figma: 2001:942 (3 مجموعات: المتجر مفتوحة، خدمة العملاء، عن أيم مغلقتان) و2001:483 (4 أعمدة على الديسكتوب منها تواصل معنا).
+السبب: الكود جاهز منذ المتابعة السابقة ("Order on mobile"، و"Open on mobile by default" الذي يرسم الحالة الأصلية .open + height، وإعداد Width (mobile) = 0 الأصلي للإخفاء على الموبايل)، لكن القيم لم تُضبط على كتل المتجر الحية؛ footer-group.json المحلي نسخة demo قديمة. اختار التاجر ضبطها من المحرر.
+إصلاح كود واحد: assets/custom.js — ربط عناوين الأكورديون داخل الفوتر بعد shopify:section:load (كان السكربت الأصلي يربطها مرة واحدة عند التحميل، فتتوقف بعد إعادة تحميل السكشن في المحرر).
+[مطلوب من التاجر في المحرر] footer_KwXhWr: Custom CSS class = ayum-footer-main. footer_ziwVXA: Custom CSS class = ayum-footer-bottom. عمود المتجر: Open on mobile by default = on. عمود عن أيم: Order on mobile = 1. عمود تواصل معنا: Width (mobile) = 0. (المتجر وخدمة العملاء يبقيان 0 فيحافظان على ترتيبهما.)
+Validated: node --check لـ custom.js. Not run: المتصفح والمحرر.
+إضافة 2026-10-14: إعداد جديد في blocks/_footer-column.liquid — "Hide whole column on mobile" (ayum_hide_column_mb، افتراضياً false) يضيف صنف hdt-hidden الأصلي نفسه (مثل Width (mobile) = 0)، فيُخفي العمود كله تحت 768px ويبقى ظاهراً على التابلت والديسكتوب. الخيار الأصلي "Hide on mobile" يخفي العنوان فقط. للاستخدام على عمود تواصل معنا.

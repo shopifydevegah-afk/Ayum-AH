@@ -1,4 +1,8 @@
 <div class="hdt-payments-wrap">
+  {%- comment -%} AYUM: optional label shown with the icons (Figma 2001:573 / 2001:979). {%- endcomment -%}
+  {%- if block.settings.ayum_label != blank -%}
+    <p class="hdt-payments-label">{{ block.settings.ayum_label | escape }}</p>
+  {%- endif -%}
   {%- assign arr = block.settings.svg | remove: ' ' | split: "," -%}
   <div class="hdt-pr hdt-row-flex" style="--height-img:{{ block.settings.height }}px; gap:10px;">
     {%- for img in arr -%}
@@ -39,6 +43,13 @@
         "id": "height",
         "label": "t:blocks.payment.settings.height",
         "default": 30
+      },
+      {
+        "type": "text",
+        "id": "ayum_label",
+        "label": "Label",
+        "info": "Optional text shown with the payment icons. Leave empty to hide.",
+        "default": "طرق الدفع"
       }
     ],
     "presets":[
