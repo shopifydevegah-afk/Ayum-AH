@@ -150,7 +150,7 @@
       "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d": {
         "settings": {
           "text": "#26383a",
-          "text2": "#6E8788",
+          "text2": "#6e8788",
           "background": "#e4edf0",
           "background_gradient": "",
           "background2": "#ffffff",
@@ -254,17 +254,17 @@
       },
       "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37": {
         "settings": {
-          "text": "#222222",
-          "text2": "#878787",
-          "background": "#f6f6f8",
+          "text": "#26383A",
+          "text2": "#4E6E70",
+          "background": "#DEF4F8",
           "background_gradient": "",
-          "background2": "#f2f2f2",
+          "background2": "#FFFFFF",
           "button": "#222222",
           "button_label": "#ffffff",
           "button_border": "#222222",
           "secondary_button_label": "#222222",
-          "accent_color": "#56cfe1",
-          "line_border": "#e6e6e6",
+          "accent_color": "#26B3D0",
+          "line_border": "#D3E3E8",
           "overlay": "#000000",
           "pr_text": "#222222",
           "price": "#696969",
