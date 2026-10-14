@@ -759,10 +759,158 @@
         "ayum_label_orange": "#e78333",
         "custom_class": "ayum-collections-list"
       }
+    },
+    "ayum_image_text_about": {
+      "type": "ayum-image-text",
+      "blocks": {
+        "about_media": {
+          "type": "_image-text-column",
+          "blocks": {
+            "about_image": {
+              "type": "image",
+              "settings": {
+                "image_ratio": "adapt_image",
+                "img_effect": "none",
+                "b_effect": "none",
+                "custom_width": "full"
+              }
+            }
+          },
+          "block_order": [
+            "about_image"
+          ],
+          "settings": {
+            "image_position": ""
+          }
+        },
+        "about_content": {
+          "type": "_ayum-image-text-col",
+          "blocks": {
+            "about_subtitle": {
+              "type": "heading",
+              "settings": {
+                "heading": "<p>قصتنا</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "line_height": "",
+                "font_weight": "bold",
+                "heading_size": "h_custom",
+                "text_color": "hdt-text-primary",
+                "font_size_heading_lg": 17,
+                "font_size_heading": 12,
+                "letter_spacing_heading": 0
+              }
+            },
+            "about_title": {
+              "type": "heading",
+              "settings": {
+                "heading": "<h2>أول مصنع تجفيف بالتجميد في الكويت</h2>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "line_height": "",
+                "font_weight": "bold",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 34,
+                "font_size_heading": 24,
+                "letter_spacing_heading": 0
+              }
+            },
+            "about_description": {
+              "type": "_ayum-description",
+              "settings": {
+                "text": "<p>معظم المنتجات المشابهة في السوق مستوردة. إحنا الوحيدين اللي ننتجها محلياً —</p><p>من الفاكهة الطازجة للحلويات المفضلة عندك، نشيل الماء بالكامل تقريباً بدون حرارة، فيفضل الطعم والقيمة الغذائية والقوام يتحول لقرمشة.</p>",
+                "text_mobile": "<p>معظم المنتجات المشابهة في السوق مستوردة. إحنا الوحيدين اللي ننتجها محلياً — نشيل الماء بالكامل تقريباً بدون حرارة، فيفضل الطعم والقيمة الغذائية والقوام يتحول لقرمشة.</p>",
+                "font_size_lg": 18,
+                "font_size_mb": 14,
+                "text_color": "hdt-text-secondary"
+              }
+            },
+            "about_stats": {
+              "type": "_ayum-stats",
+              "blocks": {
+                "about_stat_1": {
+                  "type": "_ayum-stat",
+                  "settings": {
+                    "value": "+400",
+                    "label": "تقييم من عملائنا",
+                    "label_mobile": "تقييم"
+                  }
+                },
+                "about_stat_2": {
+                  "type": "_ayum-stat",
+                  "settings": {
+                    "value": "5",
+                    "label": "خطوط منتجات",
+                    "label_mobile": ""
+                  }
+                },
+                "about_stat_3": {
+                  "type": "_ayum-stat",
+                  "settings": {
+                    "value": "100%",
+                    "label": "تصنيع كويتي",
+                    "label_mobile": ""
+                  }
+                }
+              },
+              "block_order": [
+                "about_stat_1",
+                "about_stat_2",
+                "about_stat_3"
+              ],
+              "settings": {
+                "value_size_lg": 26,
+                "value_size_mb": 23,
+                "label_size_lg": 18,
+                "label_size_mb": 11
+              }
+            }
+          },
+          "block_order": [
+            "about_subtitle",
+            "about_title",
+            "about_description",
+            "about_stats"
+          ],
+          "settings": {
+            "alignment": "right",
+            "alignment_mb": "center",
+            "colors_by_block": false,
+            "align_center": true,
+            "padding_h": 0,
+            "padding_v": 0,
+            "padding_h_mb": 0,
+            "padding_v_mb": 0
+          }
+        }
+      },
+      "block_order": [
+        "about_media",
+        "about_content"
+      ],
+      "custom_css": [],
+      "settings": {
+        "colors_by_section": true,
+        "background_opacity": 1,
+        "section_layout": "wrapper_container",
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,18px,",
+        "color_scheme": "scheme-23cf8966-8e57-4acd-9bb3-bb85f222fbb9",
+        "hdt_background_parallax": false,
+        "ayum_image_height": 380,
+        "ayum_image_height_mb": 220,
+        "ayum_image_radius": 20,
+        "ayum_image_radius_mb": 16,
+        "custom_class": "ayum-about"
+      }
     }
   },
   "order": [
     "ayum_slideshow_hero",
-    "ayum_collections_list"
+    "ayum_collections_list",
+    "ayum_image_text_about"
   ]
 }

@@ -512,3 +512,217 @@
   opacity: 1;
   border: 0;
 }
+
+/* ==========================================================================
+   Image with text — "About the brand" (Figma 2001:230 desktop / 2001:749 mobile)
+   sections/ayum-image-text.liquid; Content = blocks/_ayum-image-text-col.liquid with native heading
+   blocks, blocks/_ayum-description.liquid and blocks/_ayum-stats.liquid (+ _ayum-stat.liquid);
+   Media = native _image-text-column + image blocks.
+   Colours: only the section's native colour scheme (Color Scheme 4 on the homepage):
+   background = scheme Background (.hdt-s-gradient + "Background opacity"); title = heading block
+   "Text color: Default" (Text); subtitle = "Accent"; description = "Secondary" (Text 2);
+   statistic numbers = Accent; statistic labels = Text 2.
+   ========================================================================== */
+
+.ayum-image-text {
+  /* Figma container insets: 16px mobile, 20px from 768px (1320 max -> 1280 content). */
+  --ayum-it-pad: 16px;
+  /* Figma gaps: 14px between image, text and stats on mobile; 24px content stack on desktop. */
+  --ayum-it-gap: 14px;
+}
+.ayum-image-text .hdt-container {
+  padding-inline: var(--ayum-it-pad);
+}
+
+/* Columns. The grid is pinned LTR (geometry only) so the Media block's native "Image position:
+   First" puts the image on the LEFT in every storefront locale, as in Figma ("Last" = right).
+   Text direction is restored on the Content column. Mobile stacks in DOM order: image on top. */
+.ayum-image-text .hdt-row-grid {
+  direction: ltr;
+  row-gap: var(--ayum-it-gap);
+}
+/* Figma: both columns are vertically centred (the Content block's native "Content align center"
+   does it for the text). */
+.ayum-image-text .hdt-row-grid > :not(.ayum-it-content) {
+  align-self: center;
+}
+@media (min-width: 768px) {
+  .ayum-image-text {
+    --ayum-it-pad: 20px;
+  }
+  /* Tablet is not designed: a narrower column gap than desktop. */
+  .ayum-image-text .hdt-row-grid {
+    column-gap: 32px;
+  }
+}
+@media (min-width: 1150px) {
+  .ayum-image-text {
+    --ayum-it-gap: 24px;
+  }
+  /* Figma desktop: 56px between image and content. */
+  .ayum-image-text .hdt-row-grid {
+    column-gap: 56px;
+  }
+}
+
+/* Image: fixed height + radius from the section's "Image" settings, cropped with object-fit: cover
+   (native .hdt-ratio child rule). The fixed height replaces the native ratio spacer. */
+.ayum-image-text .hdt-image-wrap {
+  height: var(--ayum-it-img-h-mb);
+  border-radius: var(--ayum-it-img-radius-mb);
+}
+.ayum-image-text .hdt-image-wrap::before {
+  padding-bottom: 0;
+}
+@media (min-width: 768px) {
+  .ayum-image-text .hdt-image-wrap {
+    height: var(--ayum-it-img-h);
+    border-radius: var(--ayum-it-img-radius);
+  }
+}
+
+/* Content stack. Text boundary: the copy is Arabic in every locale. */
+.ayum-image-text .ayum-it-content {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ayum-it-gap);
+}
+/* Map the native alignment setting onto the RTL copy column (same mapping as the hero). Kalles
+   defines .hdt-text-right as "text-align: end", which inside the RTL boundary is the LEFT. Inside
+   it start = right, so "right" maps to start and "left" maps to end. */
+.ayum-image-text .ayum-it-content.hdt-text-right { text-align: start; }
+.ayum-image-text .ayum-it-content.hdt-text-left { text-align: end; }
+@media (min-width: 768px) {
+  .ayum-image-text .ayum-it-content.md\:hdt-text-center { text-align: center; }
+  .ayum-image-text .ayum-it-content.md\:hdt-text-right { text-align: start; }
+  .ayum-image-text .ayum-it-content.md\:hdt-text-left { text-align: end; }
+}
+/* Figma mobile: subtitle and title sit 8px apart (14px stack gap - 6px). A custom-size heading
+   block prints its own <style> element after its <div>, hence "+ style +". */
+@media (max-width: 767px) {
+  .ayum-image-text .ayum-it-content > .hdt-h_custom + style + .hdt-h_custom {
+    margin-top: -6px;
+  }
+}
+
+/* Subtitle + title: native heading blocks, sizes from their h_custom settings (17/12, 34/24).
+   Almarai ships 400/700/800 and the bold text in this Figma section is ExtraBold, so the native
+   "Bold" weight option renders 800 here (the other weight options are unchanged). Line height:
+   subtitle "normal", title (h1-h6) 145%, unless the block's own "Line height" option is set. */
+.ayum-image-text .hdt-h_custom.hdt-font-bold {
+  font-weight: var(--font-extrabold);
+}
+.ayum-image-text .hdt-h_custom:not(.hdt-lh-1-2, .hdt-lh-1) {
+  line-height: normal;
+}
+.ayum-image-text .hdt-h_custom:not(.hdt-lh-1-2, .hdt-lh-1) :is(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.45;
+}
+
+/* Description: blocks/_ayum-description.liquid. Sizes from its settings (18 / 14; tablet uses the
+   midpoint), optional mobile text below 768px. Figma line heights: 185% mobile, 190% desktop. The
+   desktop text is two paragraphs with no gap between them (Figma line break after the dash). */
+.ayum-image-text .ayum-desc {
+  font-size: var(--ayum-desc-fs-mb);
+  line-height: 1.85;
+}
+.ayum-image-text .ayum-desc .hdt-rte > * + * {
+  margin-block-start: 0;
+}
+.ayum-image-text .ayum-desc__desktop {
+  display: none;
+}
+@media (min-width: 768px) {
+  .ayum-image-text .ayum-desc {
+    font-size: calc((var(--ayum-desc-fs-mb) + var(--ayum-desc-fs-lg)) / 2);
+    line-height: 1.9;
+  }
+  .ayum-image-text .ayum-desc__desktop {
+    display: block;
+  }
+  .ayum-image-text .ayum-desc__mobile {
+    display: none;
+  }
+}
+@media (min-width: 1150px) {
+  .ayum-image-text .ayum-desc {
+    font-size: var(--ayum-desc-fs-lg);
+  }
+}
+
+/* Statistics: blocks/_ayum-stats.liquid / _ayum-stat.liquid. Mobile (Figma 2001:755): one row of
+   equal-width centred columns, 10px apart; labels wrap instead of overflowing at 320px. */
+.ayum-image-text .ayum-stats {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+.ayum-image-text .ayum-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  text-align: center;
+}
+.ayum-image-text .ayum-stat__value {
+  color: rgb(var(--color-accent));
+  font-size: var(--ayum-stat-value-mb);
+  font-weight: var(--font-extrabold);
+  line-height: normal;
+}
+/* Figma labels ("Muted") are a lighter step of the description colour: Text 2 at 80%. */
+.ayum-image-text .ayum-stat__label {
+  color: rgb(var(--color-foreground2) / .8);
+  font-size: var(--ayum-stat-label-mb);
+  line-height: normal;
+  overflow-wrap: anywhere;
+}
+.ayum-image-text .ayum-stat__label--desktop {
+  display: none;
+}
+/* Tablet and desktop (Figma 2001:240): side by side, 32px apart (24px on tablet), aligned with
+   the Content block's alignment; wraps instead of overflowing on narrow columns. The Figma frame
+   has 9px bottom padding. */
+@media (min-width: 768px) {
+  .ayum-image-text .ayum-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    padding-bottom: 9px;
+  }
+  .ayum-image-text .ayum-stat {
+    text-align: inherit;
+  }
+  .ayum-image-text .ayum-stat__value {
+    font-size: calc((var(--ayum-stat-value-mb) + var(--ayum-stat-value-lg)) / 2);
+  }
+  .ayum-image-text .ayum-stat__label {
+    font-size: calc((var(--ayum-stat-label-mb) + var(--ayum-stat-label-lg)) / 2);
+  }
+  .ayum-image-text .ayum-stat__label--desktop {
+    display: block;
+  }
+  .ayum-image-text .ayum-stat__label--mobile {
+    display: none;
+  }
+  .ayum-image-text .md\:hdt-text-right .ayum-stats { justify-content: flex-start; }
+  .ayum-image-text .md\:hdt-text-right .ayum-stat { align-items: flex-start; }
+  .ayum-image-text .md\:hdt-text-center .ayum-stats { justify-content: center; }
+  .ayum-image-text .md\:hdt-text-left .ayum-stats { justify-content: flex-end; }
+  .ayum-image-text .md\:hdt-text-left .ayum-stat { align-items: flex-end; }
+}
+@media (min-width: 1150px) {
+  .ayum-image-text .ayum-stats {
+    column-gap: 32px;
+  }
+  .ayum-image-text .ayum-stat__value {
+    font-size: var(--ayum-stat-value-lg);
+  }
+  .ayum-image-text .ayum-stat__label {
+    font-size: var(--ayum-stat-label-lg);
+  }
+}

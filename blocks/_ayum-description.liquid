@@ -1,8 +1,9 @@
 <!-- blocks/_ayum-description.liquid -->
 {%- comment -%}
-  AYUM slide description with an optional mobile-specific text (Figma 2001:40 / 2001:619).
+  AYUM description with an optional mobile-specific text (hero Figma 2001:40 / 2001:619; About 2001:238 / 2001:754).
   - "Mobile description" replaces "Description" below 768px; when empty, "Description" is used everywhere.
-  - Only available inside "Slide (AYUM)" (blocks/_ayum-slide-item.liquid). Styled in assets/dev1.css (.ayum-desc).
+  - Only available inside "Slide (AYUM)" (blocks/_ayum-slide-item.liquid) and the AYUM "Content" block of Image with
+    text (blocks/_ayum-image-text-col.liquid). Styled in assets/dev1.css (.ayum-desc, scoped per section).
   - "Text color" is the native Kalles text-block select: colours come from the slide's colour scheme.
 {%- endcomment -%}
 {%- liquid

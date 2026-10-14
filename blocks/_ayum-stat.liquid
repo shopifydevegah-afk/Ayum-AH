@@ -1,0 +1,57 @@
+<!-- blocks/_ayum-stat.liquid -->
+{%- comment -%}
+  One AYUM statistic: number + label, with an optional shorter mobile label (below 768px).
+  When "Mobile label" is empty, "Label" is used everywhere. Renders nothing when number and label
+  are both empty. The number uses dir="auto" so values such as "+400" and "100%" keep their
+  written order inside the Arabic (RTL) content. Lives in blocks/_ayum-stats.liquid.
+{%- endcomment -%}
+{%- liquid
+  assign value = block.settings.value | strip
+  assign label = block.settings.label | strip
+  assign label_mobile = block.settings.label_mobile | strip
+-%}
+{%- if value != blank or label != blank -%}
+  <div class="ayum-stat" {{ block.shopify_attributes }}>
+    {%- if value != blank -%}
+      <span class="ayum-stat__value" dir="auto">{{ value | escape }}</span>
+    {%- endif -%}
+    {%- if label_mobile != blank and label != blank -%}
+      <span class="ayum-stat__label ayum-stat__label--desktop">{{ label | escape }}</span>
+      <span class="ayum-stat__label ayum-stat__label--mobile">{{ label_mobile | escape }}</span>
+    {%- elsif label != blank or label_mobile != blank -%}
+      <span class="ayum-stat__label">{{ label | default: label_mobile | escape }}</span>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Statistic",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "value",
+      "label": "Number",
+      "default": "+400"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "تقييم من عملائنا"
+    },
+    {
+      "type": "text",
+      "id": "label_mobile",
+      "label": "Mobile label",
+      "info": "Optional. Shown below 768px instead of the label. Leave empty to use the label on mobile."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Statistic"
+    }
+  ]
+}
+{% endschema %}

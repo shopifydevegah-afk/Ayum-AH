@@ -403,7 +403,7 @@
 | H2 | Categories | index | `2001:55` / `2001:626` | Design-context inspected | Implemented | Partial | `sections/ayum-collections-list.liquid` + `blocks/_ayum-collection-item.liquid` + `dev1.css`؛ المجموعات والصور يختارها التاجر |
 | H3 | Best sellers (tabs) | index | `2001:80` / `2001:647` | Metadata only | Not started | Not run | قرار البطاقة؛ التقييم محجوب |
 | H4 | Bundles | index | `2001:156` / `2001:721` | Metadata only | Not started | Not run | يعتمد على H3 |
-| H5 | About the brand | index | `2001:230` / `2001:749` | Metadata only | Not started | Not run | لا علاقة له بـ "H5" المذكور في الـ skill |
+| H5 | About the brand | index | `2001:230` / `2001:749` | Design-context inspected | Implemented | Partial | `sections/ayum-image-text.liquid` (نسخة Image with text) + `blocks/_ayum-image-text-col` و`_ayum-stats` و`_ayum-stat` + `dev1.css`؛ Color Scheme 4؛ الصورة يرفعها التاجر. QA على الـ preview الحي (theme dev) |
 | H6 | How we freeze-dry | index | `2001:250` / `2001:765` | Metadata only | Not started | Not run | — |
 | H7 | Reviews | index | `2001:316` / `2001:826` | Metadata only | Not started | Not run | محتوى حقيقي فقط |
 | H8 | Product videos | index | `2001:366` / `2001:861` | Metadata only | Not started | Not run | قرار التشغيل التلقائي |
@@ -741,3 +741,56 @@
   - **الأقسام الأخرى:** 0 من 318 عنصراً تغيّر.
   - ألوان حرفية في `dev1.css`: 0.
 - **Not run:** إخراج Shopify الحي للـ Liquid الجديد، ومحرر الثيم الفعلي.
+
+### 2026-10-14 — H5 About the brand (تنفيذ)
+
+- **Figma:** `2001:230` (ديسكتوب) و`2001:749` (موبايل)، عبر `get_design_context` مع لقطة. صورة Figma محفوظة خارج المستودع ليرفعها التاجر. لم تُضَف للثيم.
+- **الأساس الأصلي:** `sections/image_text.liquid` ("Image with text"). فيه بلوك Media (`_image-text-column` ← `image`) وبلوك Content (`_image-text-col` ← heading/text/button/…).
+  - `custom-section` + `_counter` (اقتراح التدقيق) لا يكفي: `_counter` رقمي فقط، بلا عنوان ولا نص موبايل ولا بادئة "+".
+- **النسخة المعزولة:** `sections/ayum-image-text.liquid`. الاسم في المحرر `t:sections.image_text.name` = "Image with text" (نفس الأصل).
+  - **الإضافات:** `dev1.css`، والكلاس `ayum-image-text`، و`custom_class`، وإعدادات "Image": ارتفاع 380/220 ونصف قطر 20/16.
+  - الـ preset صار محتوى About.
+  - **الأصل وبلوكاته بلا تعديل.**
+- **البلوكات:**
+  - **مُعاد استخدامها بلا تعديل:**
+    - `_image-text-column` + `image`.
+    - `heading` للعنوان الفرعي (Accent، h_custom 17/12) وللعنوان (`<h2>`، Default، h_custom 34/24).
+  - **`_ayum-description`:** للوصف، مع نص موبايل منفصل، و18/14، وSecondary. عُدِّل تعليقه فقط.
+  - **`_ayum-image-text-col` ("Content"):** نسخة من `_image-text-col` تقبل أيضاً `_ayum-description` و`_ayum-stats`.
+  - **جديدة:**
+    - `_ayum-stats` ("Statistics"): صف قابل للإضافة والحذف وإعادة الترتيب، مع أحجام 26/23 و18/11.
+    - `_ayum-stat` ("Statistic"): رقم، وعنوان، وعنوان موبايل اختياري يرجع للعنوان عند الفراغ.
+- **Color Scheme 4 = `scheme-23cf8966-8e57-4acd-9bb3-bb85f222fbb9`:** الرابع في ترتيب `color_schemes`.
+  - مستخدم أيضاً في `main-product-tabs` في 11 قالب منتج تجريبي من Kalles، وليس في قوالب AYUM.
+- **ربط الألوان (المخطط فقط، بلا أي إعداد لون جديد):**
+  - الخلفية = Background (`.hdt-s-gradient` + Background opacity 1).
+  - العنوان = Text.
+  - العنوان الفرعي والأرقام = Accent.
+  - الوصف = Text 2.
+  - عناوين الإحصاءات = Text 2 بنسبة 80% (Figma Muted `#6E8788` ≈ `#4E6E70` بنسبة 80% على الخلفية).
+- **قيم مطلوبة من التاجر في Scheme 4 (لم تُعدَّل تلقائياً):**
+  - Background `#ffffff` ← `#FBECE0`. هذا هو اللون المعتم المكافئ لـ `#E78333` بنسبة 15% فوق الأبيض؛ مدى Background opacity خطوته 0.1 ولا يقبل 0.15.
+  - Text `#222222` ← `#26383A`.
+  - Text 2 `#878787` ← `#4E6E70`.
+  - Accent `#56cfe1` ← `#E78333`.
+  - **أثر جانبي:** يغيّر أيضاً تبويبات المنتج في قوالب Kalles التجريبية.
+- **التخطيط:**
+  - الشبكة مثبتة `direction: ltr` (هندسة فقط)، فالصورة يساراً في كل لغة. النص `rtl` على عمود المحتوى.
+  - المسافات: 56 ديسكتوب، و32 تابلت، و14/24 بين عناصر المحتوى، و8 بين العنوان الفرعي والعنوان على الموبايل.
+  - Bold الأصلي = 800 داخل السكشن.
+- **القالب:**
+  - أُضيف `ayum_image_text_about` في آخر `order` بعد `ayum_collections_list`، لأن Best sellers وBundles لم تُبنيا بعد.
+  - السكاشن الأخرى مطابقة بايتاً ببايت؛ السطر الوحيد المتغير فاصلة في `order`.
+  - لم يُلاحظ انحراف: الـ preview يعرض نفس السكاشن والصور، و21/21 نصاً عربياً من القالب.
+  - الصورة فارغة (placeholder) حتى يرفعها التاجر.
+- **تحقق (الـ preview الحي عبر theme dev):**
+  - **1440:** صورة 612×380 يساراً، ونصف قطر 20، وفجوة 56، وحشوة 48/48، وحاوية 1320/20.
+  - **العنوان:** سطر واحد بارتفاع 49.
+  - **الوصف:** 1+2 أسطر بارتفاع 103 (Figma 102). المحتوى 303 ومتوسّط عمودياً.
+  - **الإحصاءات:** يميناً بفجوة 32، و26/18، وفجوة 2.
+  - **375:** صورة 343×220 ونصف قطر 16، والنص في الوسط، والعنوان سطران، ووصف الموبايل 4 أسطر، والإحصاءات صف واحد بثلاثة أعمدة 108 وفجوة 10، والحشوة 24/18.
+  - **1150 و1149 و768 و767 و390 و320:** لا overflow أفقي، والإحصاءات صف واحد على الموبايل.
+  - **المخطط:** تعديل متغيرات Scheme 4 إلى قيم Figma غيّر كل الأدوار، والتبديل إلى مخطط آخر غيّرها.
+  - **أول قياس:** فجوة العنوان الفرعي/العنوان على الموبايل كانت 14 لا 8، لأن بلوك heading يطبع `<style>` بعد الـ div. صُحِّح المحدِّد إلى `+ style +`. بعد التصحيح صارت 8 عند 375 و320، و24 على الديسكتوب. القياس على HTML الصفحة الحقيقية الملتقطة مع `dev1.css` الحي، لأن الـ preview عاد لكلمة المرور.
+- **LTR (محاكاة `dir=ltr` على الصفحة الملتقطة):** نفس التخطيط؛ الصورة يساراً، والنص العربي يميناً، والإحصاءات تبدأ بـ +400 من اليمين. صفحة `/en` الحقيقية لم تُفحص بسبب كلمة المرور.
+- **Not run:** محرر الثيم الفعلي، والمتجر المنشور.
