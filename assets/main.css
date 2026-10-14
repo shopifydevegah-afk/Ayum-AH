@@ -425,3 +425,450 @@
     max-width: var(--ayum-search-width);
   }
 }
+
+
+/* =====================================================================
+   AYUM footer — the two native Kalles "footer" instances (sections/footer.liquid)
+   Figma: desktop 2001:483, mobile 2001:942.
+   Scope: the section setting "Custom CSS class" on each instance —
+     .ayum-footer-main   → footer_KwXhWr (brand + link columns)
+     .ayum-footer-bottom → footer_ziwVXA (payments, legal links, copyright)
+   The class sits on the footer's .hdt-section-inner wrapper. Clearing it returns the
+   instance to plain native Kalles styling; nothing below touches unscoped Kalles classes.
+   Roles are found by content, not by position or block id:
+     main   — brand column = the column with a footer image; link columns = columns with a heading.
+     bottom — payments = the payment-icons block; legal = the link-list block; copyright = the rest.
+   Section and column spacing is set through the native --pd-* / --mg-* custom properties
+   (snippets/spacing-vars.liquid) so the native padding machinery stays in charge of layout.
+   Colours: tints of the section colour-scheme foreground (Figma: white at 15–75 %).
+   Loaded by sections/ayum-header.liquid, which renders on every page.
+   ===================================================================== */
+
+
+/* ---------------------------------------------------------------------
+   Footer — Shared container  · Figma 2026:2 (1320 max, 20px sides) / 2042:2 (16px sides)
+   --------------------------------------------------------------------- */
+
+:is(.ayum-footer-main, .ayum-footer-bottom) > .hdt-container,
+:is(.ayum-footer-main, .ayum-footer-bottom) > .hdt-container-full {
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+:is(.ayum-footer-main, .ayum-footer-bottom) > :is(.hdt-container, .hdt-container-full) > .hdt-row {
+  margin-inline: 0;
+}
+
+/* Columns: Figma spacing replaces the per-column margin/side padding settings. */
+:is(.ayum-footer-main, .ayum-footer-bottom) .hdt-footer-col-block > .hdt-section-spacing {
+  --mg-block-start: 0px;
+  --mg-block-end: 0px;
+  --mg-inline-start: 0px;
+  --mg-inline-end: 0px;
+  --pd-inline-start: 0px;
+  --pd-inline-end: 0px;
+}
+
+@media (min-width: 768px) {
+  :is(.ayum-footer-main, .ayum-footer-bottom) > .hdt-container,
+  :is(.ayum-footer-main, .ayum-footer-bottom) > .hdt-container-full {
+    padding-inline: 20px;
+  }
+}
+
+
+/* ---------------------------------------------------------------------
+   Footer — Main: section spacing
+   Mobile 32 top / 22 to the bottom footer (2042:2 gap); desktop 56 top / 36 (2026:2 gap).
+   --------------------------------------------------------------------- */
+
+.ayum-footer-main {
+  --mg-block-start: 0px;
+  --mg-block-end: 0px;
+  --pd-block-start: 32px;
+  --pd-block-end: 22px;
+}
+
+@media (min-width: 768px) {
+  .ayum-footer-main {
+    --pd-block-start: 56px;
+    --pd-block-end: 36px;
+  }
+}
+
+
+/* ---------------------------------------------------------------------
+   Footer — Main: brand column  · Figma 2001:943 (mobile) / 2001:507 (desktop)
+   --------------------------------------------------------------------- */
+
+.ayum-footer-main .hdt-footer-col-block:has(.hdt-block-footer-image) .hdt-col-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+/* Gaps come from the Figma Auto Layout above, so spacer blocks inside the brand column rest. */
+.ayum-footer-main .hdt-footer-col-block:has(.hdt-block-footer-image) .hdt-spacer-block {
+  display: none;
+}
+
+/* Logo 64 × 59 (mobile) / 153 × 142 (desktop); height follows the image ratio. */
+.ayum-footer-main .hdt-block-footer-image {
+  width: auto;
+}
+
+.ayum-footer-main .hdt-block-footer-image .hdt-image-wrap {
+  width: 64px;
+  max-width: 64px;
+}
+
+.ayum-footer-main .hdt-block-footer-image .hdt-image-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Description: 13px / 1.8, 75 % tint. */
+.ayum-footer-main .hdt-footer-col-block:has(.hdt-block-footer-image) .hdt-col-content > :not(.hdt-block-footer-image, .hdt-socials-block, .hdt-spacer-block) {
+  width: 100%;
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgb(var(--color-foreground) / .75);
+}
+
+.ayum-footer-main .hdt-footer-col-block:has(.hdt-block-footer-image) .hdt-col-content > :not(.hdt-block-footer-image, .hdt-socials-block, .hdt-spacer-block) * {
+  margin-block: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+/* Social: 22px below the description on mobile (10px column gap + 12px). */
+.ayum-footer-main .hdt-socials-block {
+  margin-block-start: 12px;
+}
+
+/* 40px circles on an 18 % tint, 20px glyphs, 10px apart (2001:946). */
+.ayum-footer-main .hdt-socials__list {
+  gap: 10px;
+  margin-inline-start: 0;
+}
+
+.ayum-footer-main .hdt-socials__list li a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: rgb(var(--color-foreground));
+  background-color: rgb(var(--color-foreground) / .18);
+}
+
+.ayum-footer-main .hdt-socials__list li a svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (min-width: 768px) {
+  .ayum-footer-main .hdt-footer-col-block:has(.hdt-block-footer-image) .hdt-col-content {
+    align-items: flex-start;
+    gap: 14px;
+    text-align: start;
+  }
+
+  .ayum-footer-main .hdt-block-footer-image .hdt-image-wrap {
+    width: 153px;
+    max-width: 153px;
+  }
+
+  .ayum-footer-main .hdt-socials-block {
+    margin-block-start: 0;
+  }
+}
+
+
+/* ---------------------------------------------------------------------
+   Footer — Main: link columns  · Figma 2001:486 / 2001:960
+   Headings 15 / ExtraBold, links 18 / Regular at 70 %, 10px rhythm, start-aligned.
+   --------------------------------------------------------------------- */
+
+.ayum-footer-main .hdt-footer-col-block:has(.hdt-footer-heading) :is(.hdt-footer-heading, .hdt-col-content) {
+  text-align: start;
+}
+
+.ayum-footer-main .hdt-footer-heading {
+  font-size: 15px;
+  font-weight: var(--font-extrabold);
+  line-height: normal;
+}
+
+.ayum-footer-main .hdt-menu-list {
+  gap: 10px;
+}
+
+.ayum-footer-main .hdt-menu-list .hdt--menu_item {
+  font-size: 18px;
+  font-weight: var(--font-normal);
+  line-height: normal;
+  color: rgb(var(--color-foreground) / .7);
+}
+
+.ayum-footer-main .hdt-menu-list .hdt--menu_item:hover {
+  color: rgb(var(--color-accent));
+}
+
+@media (min-width: 768px) {
+  /* Heading → links 10px (native hardcodes 20px). */
+  .ayum-footer-main .hdt-footer-col-block:has(.hdt-footer-heading) .hdt-footer-heading + .hdt-collapse-content {
+    margin-block-start: 10px;
+  }
+}
+
+
+/* ---------------------------------------------------------------------
+   Footer — Main: desktop layout (≥ 1150px)  · Figma 2001:484
+   Brand (375px) at the inline-start (right in RTL), 56px gap, link columns spread to the
+   inline-end (2001:485 justify-between), all top-aligned.
+   --------------------------------------------------------------------- */
+
+@media (min-width: 1150px) {
+  .ayum-footer-main > :is(.hdt-container, .hdt-container-full) > .hdt-row {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+
+  .ayum-footer-main > :is(.hdt-container, .hdt-container-full) > .hdt-row > .hdt-footer-col-block {
+    flex: 0 1 auto;
+    width: auto;
+    min-width: 0;
+  }
+
+  .ayum-footer-main > :is(.hdt-container, .hdt-container-full) > .hdt-row > .hdt-footer-col-block:has(.hdt-block-footer-image) {
+    order: -1;
+    flex: 0 0 375px;
+    width: 375px;
+    margin-inline-end: 56px;
+  }
+
+  .ayum-footer-main > :is(.hdt-container, .hdt-container-full) > .hdt-row > .hdt-footer-col-block:has(.hdt-footer-heading) ~ .hdt-footer-col-block:has(.hdt-footer-heading) {
+    margin-inline-start: auto;
+  }
+}
+
+
+/* ---------------------------------------------------------------------
+   Footer — Main: mobile accordion (< 768px)  · Figma 2001:959 – 2001:977
+   Rows: 16px top/bottom, divider under each, title at the inline-start (right in RTL),
+   +/− at the inline-end. Order comes from the column setting "Order on mobile";
+   the open state from "Open on mobile by default" (native accordion state).
+   --------------------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .ayum-footer-main .hdt-footer-col-block {
+    order: var(--ayum-order-mb, 0);
+  }
+
+  /* Brand block → first accordion row: 22px (2042:2 gap). */
+  .ayum-footer-main .hdt-footer-col-block:has(.hdt-block-footer-image) > .hdt-section-spacing {
+    --mg-block-end: 22px;
+  }
+
+  .ayum-footer-main .hdt-footer-col-block:has(.hdt-footer-heading) {
+    border-block-end: 1px solid rgb(var(--color-foreground) / .15);
+  }
+
+  .ayum-footer-main .hdt-footer-col-block:has(.hdt-footer-heading) > .hdt-section-spacing {
+    --pd-block-start: 16px;
+    --pd-block-end: 16px;
+  }
+
+  .ayum-footer-main .hdt-footer-heading {
+    min-height: 25px;
+  }
+
+  /* Open row: 12px between title and links (2001:960 gap). */
+  .ayum-footer-main .hdt-footer-col-block .hdt-section-spacing.open > .hdt-footer-heading + .hdt-collapse-content {
+    margin-block-start: 12px;
+  }
+
+  /* +/− marks: 12px wide, 2px strokes, 70 % tint (2001:962 "−" at 22px ExtraBold). */
+  .ayum-footer-main .hdt-footer-collapse-true .hdt-footer-heading .hdt-collapse-icon {
+    width: 12px;
+    height: 25px;
+  }
+
+  .ayum-footer-main .hdt-footer-collapse-true .hdt-footer-heading .hdt-collapse-icon::before {
+    width: 12px;
+    height: 2px;
+    background-color: rgb(var(--color-foreground) / .7);
+  }
+
+  .ayum-footer-main .hdt-footer-collapse-true .hdt-footer-heading .hdt-collapse-icon::after {
+    width: 2px;
+    height: 12px;
+    background-color: rgb(var(--color-foreground) / .7);
+  }
+}
+
+
+/* ---------------------------------------------------------------------
+   Footer — Bottom  · Figma 2001:524 – 2001:579 (desktop) / 2001:978 – 2001:1033 (mobile)
+   The column wrappers are flattened (display: contents) so the blocks can be placed by
+   role whichever column holds them. Hidden columns (native width 0) stay hidden.
+   Mobile: payments (label above icons) → legal links → copyright, centred.
+   --------------------------------------------------------------------- */
+
+.ayum-footer-bottom {
+  --mg-block-start: 0px;
+  --mg-block-end: 0px;
+  --pd-block-start: 0px;
+  --pd-block-end: 28px;
+}
+
+.ayum-footer-bottom > :is(.hdt-container, .hdt-container-full) > .hdt-row {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  row-gap: 6px;
+  font-size: 11px;
+  line-height: normal;
+  text-align: center;
+  color: rgb(var(--color-foreground) / .5);
+}
+
+/* Flatten visible columns only: the native width-0 classes (hdt-hidden / md: / lg:) keep
+   hiding their column in their own range. */
+.ayum-footer-bottom .hdt-footer-col-block > .hdt-section-spacing,
+.ayum-footer-bottom .hdt-footer-col-block .hdt-col-content {
+  display: contents;
+}
+
+@media (max-width: 767px) {
+  .ayum-footer-bottom .hdt-footer-col-block:not(.hdt-hidden) {
+    display: contents;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1149px) {
+  .ayum-footer-bottom .hdt-footer-col-block:not(.md\:hdt-hidden) {
+    display: contents;
+  }
+}
+
+@media (min-width: 1150px) {
+  .ayum-footer-bottom .hdt-footer-col-block:not(.lg\:hdt-hidden) {
+    display: contents;
+  }
+}
+
+.ayum-footer-bottom .hdt-col-content > .hdt-spacer-block {
+  display: none;
+}
+
+/* Payments */
+.ayum-footer-bottom .hdt-col-content > :is(.hdt-payments-wrap, :has(.hdt-payments-wrap)) {
+  order: -2;
+  margin-block-end: 16px;
+}
+
+.ayum-footer-bottom .hdt-payments-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.ayum-footer-bottom .hdt-payments-label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: var(--font-bold);
+  line-height: normal;
+  color: rgb(var(--color-foreground) / .6);
+}
+
+.ayum-footer-bottom .hdt-payments-wrap .hdt-row-flex {
+  justify-content: center;
+}
+
+.ayum-footer-bottom .hdt-payments-wrap img {
+  height: 27px;
+  width: auto;
+}
+
+/* Legal links: one wrapping row, 13 / Bold at 65 %. */
+.ayum-footer-bottom .hdt-col-content > :has(.hdt-menu-list) {
+  order: -1;
+}
+
+.ayum-footer-bottom .hdt-menu-list {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 14px;
+}
+
+.ayum-footer-bottom .hdt-menu-list .hdt--menu_item {
+  font-size: 13px;
+  font-weight: var(--font-bold);
+  line-height: normal;
+  color: rgb(var(--color-foreground) / .65);
+}
+
+.ayum-footer-bottom .hdt-menu-list .hdt--menu_item:hover {
+  color: rgb(var(--color-accent));
+}
+
+/* Copyright: 11px Regular (mobile) / 13px Bold (desktop) at 50 %. */
+.ayum-footer-bottom .hdt-col-content > :not(.hdt-payments-wrap, .hdt-spacer-block):not(:has(.hdt-payments-wrap, .hdt-menu-list)) {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+}
+
+.ayum-footer-bottom .hdt-col-content > :not(.hdt-payments-wrap, .hdt-spacer-block):not(:has(.hdt-payments-wrap, .hdt-menu-list)) * {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+}
+
+@media (min-width: 768px) {
+  .ayum-footer-bottom {
+    --pd-block-end: 32px;
+  }
+
+  /* Divider inside the content width, 24px above the payments row, 36px between rows. */
+  .ayum-footer-bottom > :is(.hdt-container, .hdt-container-full) > .hdt-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 24px;
+    row-gap: 36px;
+    padding-block-start: 24px;
+    border-block-start: 1px solid rgb(var(--color-foreground) / .15);
+    font-size: 13px;
+    font-weight: var(--font-bold);
+    text-align: start;
+  }
+
+  /* Row 1: payments on their own line, label beside the icons, at the inline-end (left in RTL). */
+  .ayum-footer-bottom .hdt-col-content > :is(.hdt-payments-wrap, :has(.hdt-payments-wrap)) {
+    flex: 0 0 100%;
+    margin-block-end: 0;
+  }
+
+  .ayum-footer-bottom .hdt-payments-wrap {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  /* Row 2: legal links at the inline-start (right in RTL), copyright pushed to the inline-end. */
+  .ayum-footer-bottom .hdt-col-content > :has(.hdt-menu-list) {
+    margin-inline-end: auto;
+  }
+
+  .ayum-footer-bottom .hdt-menu-list {
+    justify-content: flex-start;
+    gap: 6px 18px;
+  }
+}

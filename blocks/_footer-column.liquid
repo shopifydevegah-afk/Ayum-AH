@@ -9,6 +9,7 @@
     {%- endcapture -%}
     {{ width | replace: ' 8%', '8.33333333%' | replace: '16%', '16.66666667%' | replace: '33%', '33.33333333%' | replace: '41%', '41.66666667%' | replace: '58%', '58.33333333%' | replace: '66%', '66.66666667%' | replace: '83%', '83.33333333%' | replace: '91%', '91.66666667%' }}
     row-gap: {{ block.settings.space | times: 0.5 }}px;
+    --ayum-order-mb: {{ block.settings.ayum_order_mb | default: 0 }};
     width: var(--width-group);
   }
   @media (min-width: 768px) {
@@ -56,19 +57,28 @@
   }
 {% endstyle %}
 {%- capture visible -%}
-{%- if block.settings.width == 0 %} hdt-hidden{% endif -%}
+{%- comment -%} AYUM: "Hide whole column on mobile" uses the same native hdt-hidden class as Width (mobile) = 0. {%- endcomment -%}
+{%- if block.settings.width == 0 or block.settings.ayum_hide_column_mb %} hdt-hidden{% endif -%}
 {%- if block.settings.width_md == 0 %} md:hdt-hidden{% else %} md:hdt-flex{% endif -%}
 {%- if block.settings.width_lg == 0 %} lg:hdt-hidden{% else %} lg:hdt-flex{% endif -%}
 {%- endcapture -%}
 <div {%- if block.settings.colors_by_section %} color-scheme="{{ block.settings.color_scheme }}" style="--background-opacity: {{ block.settings.background_opacity }};" {%- endif %} class="hdt-group-block--{{ block.id }} hdt-footer-col-block {%- if block.settings.colors_by_section %} hdt-s-gradient {% endif %} {{ visible }} hdt-text-{{ block.settings.alignment_mb }} md:hdt-text-{{ block.settings.alignment }}" {{ block.shopify_attributes }}>
-  <div class="hdt-section-spacing hdt-section-spacing-{{ block.id }}">
+  {%- comment -%}
+    AYUM: "Open on mobile by default" renders the native accordion state itself — .open on this wrapper and
+    an inline height on the content, exactly what the footer accordion script in assets/custom.js sets on click
+    (the script closes it with height 0 on the next click, and clears inline heights from 768px up).
+    --ayum-order-mb (above) is only read by the AYUM footer styles in assets/main.css.
+  {%- endcomment -%}
+  {%- assign ayum_open = false -%}
+  {%- if block.settings.ayum_open_mobile and block.settings.col_heading != blank -%}{%- assign ayum_open = true -%}{%- endif -%}
+  <div class="hdt-section-spacing hdt-section-spacing-{{ block.id }}{% if ayum_open %} open{% endif %}">
   {%- if block.settings.col_heading != blank -%}
     <div class="hdt-footer-heading hdt-text-{{ block.settings.sec_heading_size }} hdt-font-{{ block.settings.font_weight_text }} collapsible hdt-flex md:hdt-block hdt-align-center hdt-justify-between hdt-s-text">
       <span class="hdt-footer-heading-text">{{ block.settings.col_heading }}</span>
       <span class="hdt-collapse-icon hdt-relative"></span>
     </div>
   {%- endif -%}
-  <div class="hdt-col-content{% if block.settings.col_heading != blank %} hdt-collapse-content{% endif %} hdt-text-{{ block.settings.alignment_mb }} md:hdt-text-{{ block.settings.alignment }}">
+  <div class="hdt-col-content{% if block.settings.col_heading != blank %} hdt-collapse-content{% endif %} hdt-text-{{ block.settings.alignment_mb }} md:hdt-text-{{ block.settings.alignment }}"{% if ayum_open %} style="height: auto;"{% endif %}>
     {% content_for "blocks" %}
   </div>
   {%- if block.settings.sec_heading_size == "custom" -%}
@@ -161,6 +171,30 @@
       "id": "only_mobile",
       "label": "t:blocks.footer_column.settings.only_mobile",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "ayum_open_mobile",
+      "label": "Open on mobile by default",
+      "info": "Accordion columns only (needs a column heading and the collapse option above).",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "ayum_hide_column_mb",
+      "label": "Hide whole column on mobile",
+      "info": "Hides the column and its content below 768px. It stays visible on tablet and desktop.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "ayum_order_mb",
+      "label": "Order on mobile",
+      "info": "Lower numbers come first. Used by footers with the custom class \"ayum-footer-main\".",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 0
     },
     {
       "type": "select",
