@@ -206,8 +206,8 @@
           "line_border": "#eeeeee",
           "overlay": "#000000",
           "pr_text": "#26383a",
-          "price": "#868686",
-          "sale_price": "#ea3a79",
+          "price": "#EA3A79",
+          "sale_price": "#686868",
           "input_primary": "#ffffff",
           "input_secondary": "#686868"
         }

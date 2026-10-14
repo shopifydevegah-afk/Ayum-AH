@@ -11,8 +11,52 @@
   "sections": {
     "collections_list_simple_4yRUED": {
       "type": "top-list-collections",
+      "blocks": {
+        "cat_mXq6Mi": {
+          "type": "cat",
+          "settings": {
+            "collection": "الأكثر-مبيعا",
+            "icon": ""
+          }
+        },
+        "cat_ULRjDy": {
+          "type": "cat",
+          "settings": {
+            "collection": "الأكثر-مبيعا",
+            "icon": ""
+          }
+        },
+        "cat_xA8DAA": {
+          "type": "cat",
+          "settings": {
+            "collection": "الأكثر-مبيعا",
+            "icon": ""
+          }
+        },
+        "cat_WGpmpR": {
+          "type": "cat",
+          "settings": {
+            "collection": "الأكثر-مبيعا",
+            "icon": ""
+          }
+        },
+        "cat_Fc3DNG": {
+          "type": "cat",
+          "settings": {
+            "collection": "الأكثر-مبيعا",
+            "icon": ""
+          }
+        }
+      },
+      "block_order": [
+        "cat_mXq6Mi",
+        "cat_ULRjDy",
+        "cat_xA8DAA",
+        "cat_WGpmpR",
+        "cat_Fc3DNG"
+      ],
       "settings": {
-        "show_type": "all",
+        "show_type": "collection_added",
         "menu": "footer",
         "sort": "alphabetical",
         "hide_mobile": false,
@@ -86,7 +130,7 @@
         "read_more_height": 300,
         "description_position": "before",
         "product_des": "7",
-        "image_ratio": "custom-pr",
+        "image_ratio": "square",
         "image_size": true,
         "show_vendor": false,
         "pr_border": "none",
@@ -110,10 +154,10 @@
         "cat_source": "1",
         "cat_link_list": "",
         "count": false,
-        "colors_by_section": false,
-        "color_scheme": "scheme-1",
+        "colors_by_section": true,
+        "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
         "background_opacity": 0,
-        "section_layout": "container",
+        "section_layout": "wrapper_container",
         "hdt_background_parallax": false,
         "mg": "",
         "mg_mb": "",
