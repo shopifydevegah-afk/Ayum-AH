@@ -321,8 +321,8 @@ QA: Not run ← Partial ← Verified. يتطلب Verified فحصاً فعليا�
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | H1 | Hero | index | 2001:33 / 2001:612 | Design-context inspected | Implemented | Partial | sections/ayum-slideshow.liquid + assets/dev1.css؛ الصور يرفعها التاجر. QA في harness محلي فقط، لا على المتجر |
 | H2 | Categories | index | 2001:55 / 2001:626 | Design-context inspected | Implemented | Partial | sections/ayum-collections-list.liquid + blocks/_ayum-collection-item.liquid + dev1.css؛ المجموعات والصور يختارها التاجر |
-| H3 | Best sellers (tabs) — اسم المحرر: Featured Collection | index | 2001:80 / 2001:647 | Design-context inspected | Implemented (+ متابعة 2026-10-13) | Partial (harness محلي فقط) | ayum-tabs-collection (فرع dev2-ah)؛ انظر §23 |
-| H4 | Bundles — اسم المحرر: Featured Coll. — Bundles | index | 2001:156 / 2001:721 | Design-context inspected | Implemented | Partial (harness محلي فقط) | ayum-featured-collection (فرع dev2-ah)؛ انظر §23 |
+| H3 | Best sellers (tabs) — اسم المحرر: Featured Collection | index | 2001:80 / 2001:647 | Design-context inspected | Implemented (+ متابعة 2026-10-13) | Partial (harness محلي فقط) | ayum-tabs-collection (فرع dev2-ah)؛ انظر §23 ؛ 2026-10-14: جسم الكاروسيل في snippets/ayum-product-carousel.liquid |
+| H4 | Bundles — اسم المحرر: Featured Coll. — Bundles | index | 2001:156 / 2001:721 | Design-context inspected | Implemented | Partial (harness محلي فقط) | ayum-featured-collection (فرع dev2-ah)؛ انظر §23 ؛ 2026-10-14: يشارك snippets/ayum-product-carousel.liquid مع H3 |
 | H5 | About the brand | index | 2001:230 / 2001:749 | Design-context inspected | Implemented | Partial | sections/ayum-image-text.liquid (نسخة Image with text) + blocks/_ayum-image-text-col و_ayum-stats و_ayum-stat + dev1.css؛ Color Scheme 4؛ الصورة يرفعها التاجر. QA على الـ preview الحي (theme dev) |
 | H6 | How we freeze-dry | index | 2001:250 / 2001:765 | Design-context inspected | Implemented | Partial | sections/ayum-icon-box.liquid (نسخة Icon box) + _ayum-icon-box و_ayum-claims و_ayum-claim + snippets/ayum-icons.liquid + dev1.css؛ Color Scheme 2 + Background opacity 0 + Subheading color؛ QA على صفحة ملتقطة، لا preview حي لهذا الـ worktree |
 | H7 | Reviews — اسم المحرر: Testimonials (اسم Kalles الأصلي) | index | 2001:316 / 2001:826 | Design-context inspected | Implemented | Partial (harness محلي فقط) | ayum-testimonial_section (فرع dev2-ah)؛ انظر §23 |
@@ -1208,3 +1208,12 @@ Figma: 2001:942 (3 مجموعات: المتجر مفتوحة، خدمة العم
 [مطلوب من التاجر في المحرر] footer_KwXhWr: Custom CSS class = ayum-footer-main. footer_ziwVXA: Custom CSS class = ayum-footer-bottom. عمود المتجر: Open on mobile by default = on. عمود عن أيم: Order on mobile = 1. عمود تواصل معنا: Width (mobile) = 0. (المتجر وخدمة العملاء يبقيان 0 فيحافظان على ترتيبهما.)
 Validated: node --check لـ custom.js. Not run: المتصفح والمحرر.
 إضافة 2026-10-14: إعداد جديد في blocks/_footer-column.liquid — "Hide whole column on mobile" (ayum_hide_column_mb، افتراضياً false) يضيف صنف hdt-hidden الأصلي نفسه (مثل Width (mobile) = 0)، فيُخفي العمود كله تحت 768px ويبقى ظاهراً على التابلت والديسكتوب. الخيار الأصلي "Hide on mobile" يخفي العنوان فقط. للاستخدام على عمود تواصل معنا.
+
+### 2026-10-14 — H3/H4 متابعة: دمج كود الكاروسيل المكرر (refactor بلا تغيير مرئي)
+القرار: من تدقيق البنية — blocks/_ayum-product-carousel.liquid وblocks/_ayum-bundle-product-carousel.liquid كانا نسختين كاملتين من _product-carousel الأصلي، والفرق بينهما 7 أسطر كود فقط.
+التنفيذ: جسم الكتلة المشترك نُقل إلى snippets/ayum-product-carousel.liquid (489 سطراً). الكتلتان صارتا غلافين رفيعين: نفس النوع والملف والـ schema حرفياً، وتمرّر كل منهما block وcarousel_collection (يُحسب داخل الكتلة حتى تبقى مصادر {{ closest.collection }} في سياقها) وcarousel_class وcarousel_style. الـ snippet يحمل فرعي البطاقة ayum وayum_bundle، وخيار البطاقة في schema كل كتلة يحدد أيهما يُرسم.
+السبب في أن التوفير ~413 سطراً لا ~1400: الـ schema (~995 سطراً لكل كتلة) يجب أن يبقى في ملف الكتلة نفسه.
+التحقق الثابت: القالب الفعلي لكل كتلة (الـ snippet مع معاملاتها ومن دون فرع البطاقة الأخرى) مطابق حرفياً للجسم السابق؛ الـ schema مطابق بايت ببايت؛ JSON صالح، لا ids مكررة، الوسوم متوازنة. نطاق Liquid: لا content_for ولا shopify_attributes في الجسم؛ section عام داخل الـ snippets ونمط block: block مستخدم أصلاً (snippets/collection-item.liquid من _collection_item، و_product-list → _product_list_carousel).
+لم يتغير: templates/index.json، بطاقات المنتج، CSS، JS، الملفات الأصلية. نسخ احتياطية للملفين القديمين خارج المستودع (scratchpad)؛ الاسترجاع: git checkout للملفين وحذف الـ snippet.
+Not run: المتصفح (الكاروسيلان، البطاقات، الإضافة للسلة، شريط التقدم، السحب، RTL، المحرر).
+
