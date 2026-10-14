@@ -933,6 +933,63 @@
     "ayum_icon_box_freeze_dry": {
       "type": "ayum-icon-box",
       "blocks": {
+        "freeze_step_1": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "snowflake",
+            "ayum_icon_bg": "#ea3a79",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 30,
+            "svg_width_mb": 22,
+            "ayum_number": "1",
+            "heading": "تجميد سريع",
+            "description": "تجميد عند −40° يقفل الطعم واللون داخل المنتج.",
+            "ayum_description_mb": "تجميد عند −40° يقفل الطعم واللون."
+          },
+          "blocks": {}
+        },
+        "freeze_step_2": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "drop",
+            "ayum_icon_bg": "#26b3d0",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 30,
+            "svg_width_mb": 22,
+            "ayum_number": "2",
+            "heading": "سحب الماء",
+            "description": "التفريغ يحوّل الثلج لبخار مباشرة — بدون حرارة تحرق النكهة.",
+            "ayum_description_mb": "التفريغ يحوّل الثلج لبخار بدون حرارة."
+          },
+          "blocks": {}
+        },
+        "freeze_step_3": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "jar",
+            "ayum_icon_bg": "#b6d561",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 30,
+            "svg_width_mb": 22,
+            "ayum_number": "3",
+            "heading": "تعبئة محكمة",
+            "description": "عبوة مفرّغة من الهواء تحفظ القرمشة لشهور بدون مواد حافظة.",
+            "ayum_description_mb": "عبوة مفرّغة تحفظ القرمشة لشهور."
+          },
+          "blocks": {}
+        },
         "icon-box": {
           "type": "section-heading",
           "static": true,
@@ -954,7 +1011,8 @@
                 "font_size_heading_lg": 36,
                 "font_size_heading": 21,
                 "letter_spacing_heading": 0
-              }
+              },
+              "blocks": {}
             },
             "freeze_subtitle": {
               "type": "_sub_heading_section",
@@ -967,7 +1025,8 @@
                 "font_size_text_lg": 16,
                 "font_size_text": 14,
                 "letter_spacing_text": 0
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -982,100 +1041,53 @@
             "margin_bottom": 32
           },
           "blocks": {
-            "freeze_claim_1": {
+            "freeze_claim_4": {
               "type": "_ayum-claim",
               "settings": {
-                "text": "بدون مواد حافظة",
-                "text_mobile": "",
-                "color": "#26B3D0",
+                "text": "تصنيع كويتي 100%",
+                "text_mobile": "تصنيع كويتي",
+                "color": "#b6d561",
                 "mobile_position": 3
-              }
-            },
-            "freeze_claim_2": {
-              "type": "_ayum-claim",
-              "settings": {
-                "text": "بدون ألوان صناعية",
-                "text_mobile": "",
-                "color": "#EA3A79",
-                "mobile_position": 1
-              }
+              },
+              "blocks": {}
             },
             "freeze_claim_3": {
               "type": "_ayum-claim",
               "settings": {
                 "text": "مناسب لكل الأعمار",
                 "text_mobile": "لكل الأعمار",
-                "color": "#E78333",
-                "mobile_position": 2
-              }
+                "color": "#e78333",
+                "mobile_position": 1
+              },
+              "blocks": {}
             },
-            "freeze_claim_4": {
+            "freeze_claim_2": {
               "type": "_ayum-claim",
               "settings": {
-                "text": "تصنيع كويتي 100%",
-                "text_mobile": "تصنيع كويتي",
-                "color": "#B6D561",
+                "text": "بدون ألوان صناعية",
+                "text_mobile": "",
+                "color": "#ea3a79",
+                "mobile_position": 2
+              },
+              "blocks": {}
+            },
+            "freeze_claim_1": {
+              "type": "_ayum-claim",
+              "settings": {
+                "text": "بدون مواد حافظة",
+                "text_mobile": "",
+                "color": "#26b3d0",
                 "mobile_position": 4
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
-            "freeze_claim_1",
-            "freeze_claim_2",
+            "freeze_claim_4",
             "freeze_claim_3",
-            "freeze_claim_4"
+            "freeze_claim_2",
+            "freeze_claim_1"
           ]
-        },
-        "freeze_step_1": {
-          "type": "_ayum-icon-box",
-          "settings": {
-            "url": "",
-            "open_in_new_tab": false,
-            "icon_position": "left",
-            "ayum_icon": "snowflake",
-            "ayum_icon_bg": "#EA3A79",
-            "image_width": 50,
-            "svg_width": 30,
-            "svg_width_mb": 22,
-            "ayum_number": "1",
-            "heading": "تجميد سريع",
-            "description": "تجميد عند −40° يقفل الطعم واللون داخل المنتج.",
-            "ayum_description_mb": "تجميد عند −40° يقفل الطعم واللون."
-          }
-        },
-        "freeze_step_2": {
-          "type": "_ayum-icon-box",
-          "settings": {
-            "url": "",
-            "open_in_new_tab": false,
-            "icon_position": "left",
-            "ayum_icon": "drop",
-            "ayum_icon_bg": "#26B3D0",
-            "image_width": 50,
-            "svg_width": 30,
-            "svg_width_mb": 22,
-            "ayum_number": "2",
-            "heading": "سحب الماء",
-            "description": "التفريغ يحوّل الثلج لبخار مباشرة — بدون حرارة تحرق النكهة.",
-            "ayum_description_mb": "التفريغ يحوّل الثلج لبخار بدون حرارة."
-          }
-        },
-        "freeze_step_3": {
-          "type": "_ayum-icon-box",
-          "settings": {
-            "url": "",
-            "open_in_new_tab": false,
-            "icon_position": "left",
-            "ayum_icon": "jar",
-            "ayum_icon_bg": "#B6D561",
-            "image_width": 50,
-            "svg_width": 30,
-            "svg_width_mb": 22,
-            "ayum_number": "3",
-            "heading": "تعبئة محكمة",
-            "description": "عبوة مفرّغة من الهواء تحفظ القرمشة لشهور بدون مواد حافظة.",
-            "ayum_description_mb": "عبوة مفرّغة تحفظ القرمشة لشهور."
-          }
         }
       },
       "block_order": [
@@ -1097,23 +1109,41 @@
         "space_horizontal_mb": "8",
         "space_vertical_mb": "8",
         "layout": "grid",
+        "loop": false,
+        "autoplay": 0,
+        "pauseOnHover": false,
+        "navUI": false,
+        "nav_position": "default",
+        "nav_visible": "always",
+        "nav_style": "default",
+        "nav_shape": "default",
+        "nav_size": "small",
+        "nav_hide_mobile": false,
+        "dotUI": false,
+        "pag_style": "default",
+        "pag_rounded": false,
+        "pag_space": 10,
+        "pag_mgt": 10,
+        "only_show_mobile": false,
+        "pag_hide_mobile": false,
         "colors_by_section": true,
+        "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
         "background_opacity": 0,
         "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
         "mg": "",
         "mg_mb": "",
         "pd": "48px,,48px,",
         "pd_mb": "24px,,24px,",
+        "ayum_subheading_size_mb": 13,
+        "ayum_subheading_color": "#6e8788",
         "ayum_title_size": 20,
         "ayum_title_size_mb": 17,
         "ayum_desc_size": 14,
         "ayum_desc_size_mb": 13,
         "ayum_radius": 16,
         "ayum_radius_mb": 14,
-        "ayum_subheading_size_mb": 13,
         "ayum_padding_mb": "14px,14px,14px,14px",
-        "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
-        "hdt_background_parallax": false,
         "custom_class": "ayum-freeze-dry"
       }
     }
