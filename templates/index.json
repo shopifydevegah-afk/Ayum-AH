@@ -332,6 +332,7 @@
             "pag_mgt": 10,
             "only_show_mobile": false,
             "pag_hide_mobile": false,
+            "ayum_product_title_lines": "2",
             "ayum_show_description": true,
             "ayum_description_length": 40,
             "ayum_atc_label": "",
@@ -554,6 +555,8 @@
         "pd_mb": "24px,,24px,",
         "ayum_show_header_stars": true,
         "ayum_header_rating": 5,
+        "ayum_mobile_summary": "4.8 من 5 · +400 تقييم",
+        "ayum_subtitle_size_mobile": 13,
         "ayum_star_color": "#ffcc00",
         "ayum_badge_bg_color": "#ffffff",
         "ayum_badge_text_color": "#2d7a4f",
@@ -565,6 +568,76 @@
     "ayum_shoppable_video": {
       "type": "ayum-product-video",
       "blocks": {
+        "ayum_video_1": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/c524a7ed5fbc410e8a175a1d9fe0bf70.HD-720p-1.6Mbps-68701371.mp4",
+            "external_video_url": "",
+            "product": "c45برواني-بيكان-جوكليت",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_video_2": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/7b439082930e43e58d2fbf6e973b1459.HD-720p-1.6Mbps-77414298.mp4",
+            "external_video_url": "",
+            "product": "c45برواني-بيكان-جوكليت-1",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_video_3": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/6a62f41bd599465aaeba74efe94e1fb1.HD-1080p-2.5Mbps-82852977.mp4",
+            "external_video_url": "",
+            "product": "c45برواني-بيكان-جوكليت-sm",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_video_4": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/4a05a193dc864e7c86689b4b39bfd9ec.HD-1080p-2.5Mbps-77078115.mp4",
+            "external_video_url": "",
+            "product": "c45برواني-بيكان-جوكليت-ss-copy",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_video_5": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/dddb058be297481cad4edfaf38160b6f.HD-1080p-2.5Mbps-77078113.mp4",
+            "external_video_url": "",
+            "product": "c69-صينية-الجمعات",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_product_video_fjDYdz": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/dddb058be297481cad4edfaf38160b6f.HD-1080p-2.5Mbps-77078113.mp4",
+            "external_video_url": "",
+            "product": "c69-صينية-الجمعات",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
+        "ayum_product_video_hgkDyK": {
+          "type": "_ayum-product-video",
+          "settings": {
+            "video": "shopify://files/videos/dddb058be297481cad4edfaf38160b6f.HD-1080p-2.5Mbps-77078113.mp4",
+            "external_video_url": "",
+            "product": "c69-صينية-الجمعات",
+            "ayum_views": "47 ألف مشاهدة"
+          },
+          "blocks": {}
+        },
         "product-video": {
           "type": "section-heading",
           "static": true,
@@ -608,26 +681,6 @@
             "heading_section_ayum_videos",
             "sub_heading_section_ayum_videos"
           ]
-        },
-        "ayum_video_1": {
-          "type": "_ayum-product-video",
-          "settings": {}
-        },
-        "ayum_video_2": {
-          "type": "_ayum-product-video",
-          "settings": {}
-        },
-        "ayum_video_3": {
-          "type": "_ayum-product-video",
-          "settings": {}
-        },
-        "ayum_video_4": {
-          "type": "_ayum-product-video",
-          "settings": {}
-        },
-        "ayum_video_5": {
-          "type": "_ayum-product-video",
-          "settings": {}
         }
       },
       "block_order": [
@@ -635,19 +688,39 @@
         "ayum_video_2",
         "ayum_video_3",
         "ayum_video_4",
-        "ayum_video_5"
+        "ayum_video_5",
+        "ayum_product_video_fjDYdz",
+        "ayum_product_video_hgkDyK"
       ],
       "settings": {
         "full_width": false,
         "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
         "style": "ayum",
+        "image_height": "adapt_image_first",
+        "fixed_height": 500,
+        "image_height_mb": "adapt_image_first",
+        "fixed_height_mb": 300,
         "col_dk": "5",
         "col_tb": "3",
+        "col_mb": "1",
+        "space_items": "x",
         "loop": false,
         "autoplay": 0,
         "pauseOnHover": false,
         "navUI": false,
+        "nav_position": "default",
+        "nav_visible": "always",
+        "nav_style": "default",
+        "nav_shape": "default",
+        "nav_size": "small",
+        "nav_hide_mobile": false,
         "dotUI": false,
+        "pag_style": "default",
+        "pag_rounded": false,
+        "pag_space": 10,
+        "pag_mgt": 10,
+        "only_show_mobile": false,
+        "pag_hide_mobile": false,
         "mg": "",
         "mg_mb": "",
         "pd": "64px,,40px,",
@@ -656,16 +729,18 @@
         "ayum_gap_mb": 12,
         "ayum_subtitle_size_mobile": 13,
         "ayum_video_muted": true,
+        "show_video_controls": true,
         "ayum_show_duration": true,
         "ayum_show_progress": true,
+        "ayum_product_title_lines": "2",
         "ayum_product_label": "المنتج في الفيديو",
         "ayum_atc_label": "اطلب المنتج",
-        "ayum_primary_color": "#26B3D0",
-        "ayum_on_primary_color": "#FFFFFF",
-        "ayum_card_border_color": "#D3E3E8",
-        "ayum_price_color": "#EA3A79",
-        "ayum_views_text_color": "#4E6E70",
-        "custom_class": ""
+        "ayum_primary_color": "#26b3d0",
+        "ayum_on_primary_color": "#ffffff",
+        "ayum_card_border_color": "#d3e3e8",
+        "ayum_price_color": "#ea3a79",
+        "ayum_views_text_color": "#4e6e70",
+        "custom_class": "ayum-product-video"
       }
     }
   },
