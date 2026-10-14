@@ -1,0 +1,1124 @@
+/* ==========================================================================
+   dev1.css — AYUM scoped overrides
+   Loaded only by sections/ayum-slideshow.liquid. Every rule is scoped to
+   .ayum-slideshow so the original Kalles slideshow is unaffected.
+   Breakpoints: 768px (md) / 1150px (lg) only.
+   Colours: native Kalles colour-scheme variables first (--color-*, --hdt-btn-*), resolved from the
+   nearest [color-scheme] wrapper (slide, section, or the body scheme at :root). AYUM colour settings
+   exist only for roles a scheme cannot represent (the collection-card label palette).
+   ========================================================================== */
+
+/* ---------- Hero slideshow (Figma 2001:33 desktop / 2001:612 mobile) ---------- */
+
+.ayum-slideshow {
+  /* Horizontal inset of the copy block. Figma mobile: 32px padding. */
+  --ayum-hero-pad-c: 32px;
+  /* Light surface (arrow buttons, mobile inactive dots, arrow hover icon) = the colour
+     scheme background: the section's scheme when "colors by section" is on, else the body scheme
+     (:root defines only --color-base-background). */
+  --ayum-hero-surface: rgb(var(--color-background, var(--color-base-background)));
+}
+@media (min-width: 768px) {
+  .ayum-slideshow {
+    /* Figma desktop: 120px right padding on a 1440 frame (120 / 1440 = 8.334vw). */
+    --ayum-hero-pad-c: clamp(32px, 8.334vw, 120px);
+  }
+}
+
+/* Slide grid: replace the native 50px gutters + container max-width with the
+   Figma insets. Mobile: copy starts 18px from the top. */
+.ayum-slideshow .hdt-slide_inner {
+  --media-overlap-content-gap-r: 18px;
+  --media-overlap-content-gap-c: var(--ayum-hero-pad-c);
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-slide_inner {
+    --media-overlap-content-gap-r: 24px;
+  }
+}
+
+/* Geometry-only track: pinned LTR so the "center-end" content position puts the
+   Arabic copy on the right in every storefront locale. Text direction is
+   restored on .hdt-content-inner below. */
+.ayum-slideshow .hdt-slide_inner > .hdt-content-type-container {
+  direction: ltr;
+  max-width: none;
+}
+.ayum-slideshow .hdt-content {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-content {
+    max-width: 520px;
+  }
+}
+
+/* Mobile bottom shade (Figma 2001:613 gradient layer). Uses ::before because
+   the native "Overlay" option already uses ::after on this element. Colour = the scheme
+   "Overlay" colour; at 18% it darkens white as much as Figma's mid-grey layer at 30%. */
+@media (max-width: 767px) {
+  .ayum-slideshow .hdt-slide_inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent 87.4%, rgb(var(--color-overlay) / .18) 98.47%);
+  }
+}
+
+/* ---------- Copy stack ---------- */
+
+/* Text boundary: AYUM copy is Arabic in every locale. */
+.ayum-slideshow .hdt-content-inner {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-content-inner {
+    gap: 18px;
+  }
+}
+
+/* Map the native alignment setting onto the RTL copy column.
+   Kalles defines .hdt-text-right as "text-align: end" (logical), which under the
+   RTL boundary above resolves to the LEFT. Inside this boundary start = right,
+   so "right" maps to start and "left" maps to end. */
+.ayum-slideshow .hdt-content-inner.hdt-text-center { align-items: center; text-align: center; }
+.ayum-slideshow .hdt-content-inner.hdt-text-right { align-items: flex-start; text-align: start; }
+.ayum-slideshow .hdt-content-inner.hdt-text-left { align-items: flex-end; text-align: end; }
+.ayum-slideshow .hdt-text-center .hdt-group-button-block { justify-content: center; }
+.ayum-slideshow .hdt-text-right .hdt-group-button-block { justify-content: flex-start; }
+.ayum-slideshow .hdt-text-left .hdt-group-button-block { justify-content: flex-end; }
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-content-inner.md\:hdt-text-center { align-items: center; text-align: center; }
+  .ayum-slideshow .hdt-content-inner.md\:hdt-text-right { align-items: flex-start; text-align: start; }
+  .ayum-slideshow .hdt-content-inner.md\:hdt-text-left { align-items: flex-end; text-align: end; }
+  .ayum-slideshow .md\:hdt-text-center .hdt-group-button-block { justify-content: center; }
+  .ayum-slideshow .md\:hdt-text-right .hdt-group-button-block { justify-content: flex-start; }
+  .ayum-slideshow .md\:hdt-text-left .hdt-group-button-block { justify-content: flex-end; }
+}
+
+/* Badge — "text_custom" block (size, weight and text colour come from its settings);
+   pill = the slide scheme's accent. */
+.ayum-slideshow .hdt-block-text__custom {
+  max-width: 100%;
+  padding: 5px 12px;
+  border-radius: 13px;
+  background-color: rgb(var(--color-accent));
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-block-text__custom {
+    padding: 6px 14px;
+    border-radius: 14px;
+  }
+}
+
+/* Heading — "heading" block, size from its h_custom settings (46 / 25). Colour comes from the
+   block's native "Text color" select (default = slide scheme text). */
+.ayum-slideshow .hdt-h_custom {
+  font-weight: 800;
+  line-height: 1.45;
+}
+/* Base h1–h6 take their family from the theme's "Heading font" slot
+   (--font-heading-family). On the live store that slot resolves to a Latin-only
+   font (Arabic falls back to Times New Roman), so the hero heading uses the body
+   font variable, which is the Almarai slot the badge, description and CTAs already render with. */
+.ayum-slideshow .hdt-h_custom :is(h1, h2, h3, h4, h5, h6, p, strong, b) {
+  font-family: var(--font-body-family);
+  font-weight: 800;
+}
+/* Desktop line breaks are editable <br> in the heading rich text; the block's
+   native "hide <br> on mobile" option only applies up to 750px, so extend it to
+   the theme's 767px mobile tier. */
+@media (max-width: 767px) {
+  .ayum-slideshow .hdt-h_custom.hdt-br-hidden br {
+    display: none;
+  }
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-h_custom {
+    line-height: 1.4;
+  }
+  /* Figma desktop: the default (scheme text) heading colour at 75%. Other native choices apply as-is. */
+  .ayum-slideshow .hdt-h_custom.hdt-s-text {
+    color: rgb(var(--color-foreground) / .75);
+  }
+  /* Bold text in the heading is the highlighted segment on desktop only: the scheme accent,
+     like Kalles' native .hdt-highlight-strong. */
+  .ayum-slideshow .hdt-h_custom :is(strong, b) {
+    color: rgb(var(--color-accent));
+  }
+}
+
+/* Description — "text" block. The native mobile size range steps by 2px, so
+   Figma's 13px mobile size is applied here; tablet/desktop use the setting.
+   Colour comes from the block's native "Text color" select. */
+.ayum-slideshow .hdt-text-custom {
+  line-height: 1.75;
+}
+@media (max-width: 767px) {
+  .ayum-slideshow .hdt-text-custom {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+}
+
+/* Description (AYUM) block — blocks/_ayum-description.liquid. Optional mobile text
+   (Figma 2001:619 wording) replaces the desktop text below 768px. Sizes come from the
+   block's own settings (default 17 / 13); tablet uses the midpoint like Kalles' text block.
+   Colour comes from the block's native-style "Text color" select (scheme text / text 2 / accent). */
+.ayum-slideshow .ayum-desc {
+  font-weight: 400;
+  font-size: var(--ayum-desc-fs-mb);
+  line-height: 1.7;
+}
+.ayum-slideshow .ayum-desc__desktop {
+  display: none;
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .ayum-desc {
+    font-size: calc((var(--ayum-desc-fs-mb) + var(--ayum-desc-fs-lg)) / 2);
+    line-height: 1.75;
+  }
+  .ayum-slideshow .ayum-desc__desktop {
+    display: block;
+  }
+  .ayum-slideshow .ayum-desc__mobile {
+    display: none;
+  }
+}
+@media (min-width: 1150px) {
+  .ayum-slideshow .ayum-desc {
+    font-size: var(--ayum-desc-fs-lg);
+  }
+}
+
+/* CTAs — "button_custom" blocks inside a button group. */
+.ayum-slideshow .hdt-group-button-block {
+  gap: 12px;
+}
+.ayum-slideshow .hdt-block-button__custom + .hdt-block-button__custom {
+  margin-inline-start: 0;
+}
+.ayum-slideshow .hdt-btn-style__outline::after {
+  border-width: 1.5px;
+}
+
+/* ---------- Pagination (native dots, appearance only) ---------- */
+
+.ayum-slideshow .hdt-slider .hdt-pagination {
+  --pag-w: 8px;
+  --pag-h: 8px;
+  --pag-w-active: 22px;
+  --pag-h-active: 8px;
+  --pag-bg: var(--ayum-hero-surface);
+  --pag-bg-active: rgb(var(--color-accent));
+  --pag-border: rgb(var(--color-line-border));
+  --pag-radius: 999px;
+  gap: 6px;
+  /* Span the full banner so centring is relative to the whole slide. */
+  left: 0;
+  right: 0;
+  width: auto;
+  margin: 0;
+  /* Uses the "space between pagination" setting: 35px desktop, 35 × .6 = 21px mobile. */
+  bottom: calc(var(--margin-top) * .6);
+}
+/* Mobile is always centred (Figma 2001:622). Includes the position classes so it
+   outranks slideshow.css "&.hdt-position-*", whose flex-end resolves to the LEFT
+   when the page is RTL. */
+.ayum-slideshow .hdt-slider .hdt-pagination:is(.hdt-position-left, .hdt-position-center, .hdt-position-right) {
+  justify-content: center;
+}
+.ayum-slideshow .hdt-slider .hdt-pagination .hdt-slider__dot {
+  opacity: 1;
+  border-width: 1px;
+  border-color: var(--pag-border);
+}
+.ayum-slideshow .hdt-slider .hdt-pagination .hdt-slider__dot.hdt-slider__dot--selected {
+  border-color: var(--pag-bg-active);
+}
+@media (min-width: 768px) {
+  .ayum-slideshow .hdt-slider .hdt-pagination {
+    --pag-w: 11.5625px;
+    --pag-h: 11.5625px;
+    --pag-w-active: 32.375px;
+    --pag-h-active: 11.5625px;
+    --pag-bg: rgb(var(--color-line-border));
+    gap: var(--space-between);
+    bottom: var(--margin-top);
+    /* Span the copy column so the position setting aligns dots with the copy edge
+       (Figma: dots end 6px inside the 120px copy inset). */
+    left: var(--ayum-hero-pad-c);
+    right: calc(var(--ayum-hero-pad-c) + 6px);
+  }
+  .ayum-slideshow .hdt-slider .hdt-pagination.hdt-position-right { justify-content: flex-end; }
+  .ayum-slideshow .hdt-slider .hdt-pagination.hdt-position-left { justify-content: flex-start; }
+  .dir--rtl .ayum-slideshow .hdt-slider .hdt-pagination.hdt-position-right { justify-content: flex-start; }
+  .dir--rtl .ayum-slideshow .hdt-slider .hdt-pagination.hdt-position-left { justify-content: flex-end; }
+  .ayum-slideshow .hdt-slider .hdt-pagination .hdt-slider__dot {
+    border-width: 0;
+  }
+}
+
+/* ---------- Navigation arrows (native buttons, appearance only) ----------
+   Dots and arrows sit outside the slides, so they follow the section scheme (or the body scheme). */
+
+.ayum-slideshow hdt-slideshow.hdt-slider .hdt-navigation {
+  --nav-size: 52px;
+  --nav-size-icon: 14px;
+  --nav-rounded: 50%;
+  --nav-bg: var(--ayum-hero-surface);
+  --nav-border: transparent;
+  --nav-color: rgb(var(--color-foreground) / .75);
+  --nav-bg-hv: rgb(var(--color-accent));
+  --nav-border-hv: transparent;
+  --nav-color-hv: var(--ayum-hero-surface);
+  /* Figma: buttons sit 32px from each edge. */
+  width: calc(100% - 64px);
+  --nav-width-visible-hv: calc(100% - 64px);
+}
+.ayum-slideshow .hdt-slider .hdt-navigation .hdt-slider__button {
+  border: 0;
+  box-shadow: 0 2px 8px rgb(var(--color-overlay) / .14); /* Figma "shadow 1": scheme overlay colour at 14% */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ayum-slideshow .hdt-slider .hdt-pagination .hdt-slider__dot,
+  .ayum-slideshow .hdt-slider .hdt-navigation .hdt-slider__button {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Announcement bar — copy code button (Figma 2001:4 desktop / 2001:582 mobile)
+   sections/ayum-announcement-bar.liquid; behaviour in assets/ayum-copy-code.js.
+   ========================================================================== */
+
+/* Text + button centred as one group. Arabic copy is RTL in every locale, so the
+   button (after the text in the DOM) sits to the left of the text, as in Figma. */
+.ayum-announcement-bar .hdt-announcement-bar__slider-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+/* Line heights are Figma's text-box heights (16px / 13px); "normal" would use Almarai's
+   taller font metrics and make the text box 22px. */
+.ayum-announcement-bar .hdt-announcement-bar__text {
+  font-weight: 700;
+  line-height: 16px;
+  white-space: nowrap;
+}
+@media (max-width: 767px) {
+  .ayum-announcement-bar .hdt-announcement-bar__text {
+    font-size: 12px;
+    line-height: 13px;
+  }
+}
+@media (min-width: 768px) {
+  .ayum-announcement-bar .hdt-announcement-bar__slider-content {
+    gap: 14px;
+  }
+}
+
+.ayum-announcement-bar .ayum-copy {
+  display: inline-flex;
+  flex: none;
+  position: relative;
+  z-index: 2; /* above the optional full-slide announcement link */
+}
+.ayum-announcement-bar .ayum-copy__btn {
+  display: inline-grid;
+  place-items: center;
+  margin: 0;
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 14px;
+  /* The bar's colour scheme button colours (Theme settings > Colors > scheme > Button / Button label). */
+  background-color: rgb(var(--hdt-btn-bg));
+  color: rgb(var(--hdt-btn-color));
+  font-family: var(--font-body-family);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+@media (min-width: 768px) {
+  .ayum-announcement-bar .ayum-copy__btn {
+    padding: 6px 16px;
+    border-radius: 16px;
+    font-size: 12px;
+    line-height: 13px;
+  }
+}
+.ayum-announcement-bar .ayum-copy__btn:hover {
+  background-color: rgb(var(--hdt-btn-hover-bg));
+  color: rgb(var(--hdt-btn-hover-color));
+}
+/* Ring in the bar's text colour, so it shows against the bar background. */
+.ayum-announcement-bar .ayum-copy__btn:focus-visible {
+  outline: 2px solid rgb(var(--color-foreground));
+  outline-offset: 2px;
+}
+/* Label and feedback share one grid cell; only the label sizes the button (Figma width).
+   Feedback is a zero-width, centred overlay whose text extends into the button's padding,
+   so the button never changes size. Keep feedback messages short. */
+.ayum-announcement-bar .ayum-copy__btn > span {
+  grid-area: 1 / 1;
+}
+.ayum-announcement-bar .ayum-copy__feedback {
+  display: flex;
+  justify-content: center;
+  width: 0;
+}
+.ayum-announcement-bar .ayum-copy__feedback,
+.ayum-announcement-bar .ayum-copy[data-state] .ayum-copy__label {
+  visibility: hidden;
+}
+.ayum-announcement-bar .ayum-copy[data-state="copied"] .ayum-copy__feedback--ok,
+.ayum-announcement-bar .ayum-copy[data-state="failed"] .ayum-copy__feedback--error {
+  visibility: visible;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ayum-announcement-bar .ayum-copy__btn {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Shop by category — collection list carousel (Figma 2001:55 desktop / 2001:626 mobile)
+   sections/ayum-collections-list.liquid + blocks/_ayum-collection-item.liquid.
+   Uses the native <hdt-slider>; card style 5 (title below the image).
+   ========================================================================== */
+
+/* Colours: the native colour scheme ("Display colors by section" + "Color scheme"; otherwise the
+   body scheme). Section background = scheme background via .hdt-s-gradient and the native
+   "Background opacity" (Figma: Surface at 60%); border = scheme accent at 15% (Figma: Primary 15%).
+   Only the card label colours are AYUM settings (a scheme has no four-colour palette). */
+.ayum-collections-list {
+  --ayum-cat-pad: 16px;
+  border-block: 1px solid rgb(var(--color-accent) / .15);
+}
+/* Figma container insets: 16px mobile, 20px from 768px (1320 max -> 1280 content). */
+.ayum-collections-list .hdt-container {
+  padding-inline: var(--ayum-cat-pad);
+}
+@media (min-width: 768px) {
+  .ayum-collections-list {
+    --ayum-cat-pad: 20px;
+  }
+}
+
+/* Heading (size from the heading block's custom size: 36 / 21). */
+.ayum-collections-list .hdt-section-heading_block .hdt-heading-block {
+  font-weight: 800;
+  line-height: 1.1;
+}
+/* Kalles halves the heading's margin-bottom below 1150px (32 -> 16); Figma mobile gap is 24. */
+@media (max-width: 767px) {
+  .ayum-collections-list .hdt-section-heading_block {
+    padding-bottom: 8px;
+  }
+}
+
+/* Cards: image on top, coloured title bar below. */
+/* Label background = the card's "Label color" choice from the section's label palette (each card
+   is coloured independently). Label text = the scheme "Button label" colour, like Kalles' filled
+   collection-title styles. */
+.ayum-collections-list .ayum-cat {
+  --ayum-cat-bg: rgb(var(--ayum-cat-blue));
+  --color-title: rgb(var(--hdt-btn-color));
+  --color-bg-title: var(--ayum-cat-bg);
+  --color-hv-title: rgb(var(--hdt-btn-color));
+  --color-hv-bg-title: var(--ayum-cat-bg);
+  --radius-collection-card: 0px;
+}
+.ayum-collections-list .ayum-cat--pink { --ayum-cat-bg: rgb(var(--ayum-cat-pink)); }
+.ayum-collections-list .ayum-cat--green { --ayum-cat-bg: rgb(var(--ayum-cat-green)); }
+.ayum-collections-list .ayum-cat--orange { --ayum-cat-bg: rgb(var(--ayum-cat-orange)); }
+
+.ayum-collections-list .ayum-cat .hdt-collection-inner {
+  overflow: hidden;
+  border-radius: 14px;
+  /* Figma: Surface at 100% behind the image = the scheme background at full opacity. */
+  background-color: rgb(var(--color-background, var(--color-base-background)));
+}
+.ayum-collections-list .ayum-cat .hdt-collection-content {
+  max-width: none;
+  padding: 0;
+}
+.ayum-collections-list .ayum-cat .hdt-collection-wrapper {
+  padding: 11px 8px;
+}
+.ayum-collections-list .ayum-cat .hdt-collection-title {
+  min-height: 0;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 15px;
+}
+/* Image crop: "Landscape" ratio in this section = Figma 150x110 (mobile) / 305x220. */
+.ayum-collections-list .hdt-ratio--landscape {
+  --ratio-percent: 73.333%;
+}
+@media (min-width: 768px) {
+  .ayum-collections-list .ayum-cat .hdt-collection-inner {
+    border-radius: 16px;
+  }
+  .ayum-collections-list .ayum-cat .hdt-collection-wrapper {
+    padding: 16px 12px;
+  }
+  .ayum-collections-list .ayum-cat .hdt-collection-title {
+    font-size: 17px;
+    line-height: 19px;
+  }
+  .ayum-collections-list .hdt-ratio--landscape {
+    --ratio-percent: 72.131%;
+  }
+}
+
+/* Mobile: 2 cards + a peek of the 3rd (Figma at 375: 150px cards, 12px gap, 35px peek).
+   Set on the viewport so it inherits to the track and slides without fighting the section's
+   #id-level --slide-spacing rule. The viewport bleeds to the screen edge on the inline-end
+   side so the peek is cut by the screen. Slide size = (card + gap) / (viewport + gap):
+   162 / 371 = 43.67%, which scales proportionally at other widths. */
+@media (max-width: 767px) {
+  .ayum-collections-list .hdt-slider__viewport {
+    --slide-spacing: 12px;
+    --slide-size: 43.67%;
+    margin-inline-end: calc(var(--ayum-cat-pad) * -1);
+  }
+}
+
+/* Pagination (desktop only via the section's "hide on mobile" setting). */
+.ayum-collections-list .hdt-slider .hdt-pagination {
+  --pag-w: 12px;
+  --pag-h: 12px;
+  --pag-w-active: 40px;
+  --pag-h-active: 12px;
+  --pag-bg: rgb(var(--color-line-border));
+  --pag-bg-active: rgb(var(--color-accent));
+  --pag-radius: 6px;
+}
+.ayum-collections-list .hdt-slider .hdt-pagination .hdt-slider__dot {
+  opacity: 1;
+  border: 0;
+}
+
+/* ==========================================================================
+   Image with text — "About the brand" (Figma 2001:230 desktop / 2001:749 mobile)
+   sections/ayum-image-text.liquid; Content = blocks/_ayum-image-text-col.liquid with native heading
+   blocks, blocks/_ayum-description.liquid and blocks/_ayum-stats.liquid (+ _ayum-stat.liquid);
+   Media = native _image-text-column + image blocks.
+   Colours: only the section's native colour scheme (Color Scheme 4 on the homepage):
+   background = scheme Background (.hdt-s-gradient + "Background opacity"); title = heading block
+   "Text color: Default" (Text); subtitle = "Accent"; description = "Secondary" (Text 2);
+   statistic numbers = Accent; statistic labels = Text 2.
+   ========================================================================== */
+
+.ayum-image-text {
+  /* Figma container insets: 16px mobile, 20px from 768px (1320 max -> 1280 content). */
+  --ayum-it-pad: 16px;
+  /* Figma gaps: 14px between image, text and stats on mobile; 24px content stack on desktop. */
+  --ayum-it-gap: 14px;
+}
+.ayum-image-text .hdt-container {
+  padding-inline: var(--ayum-it-pad);
+}
+
+/* Columns. The grid is pinned LTR (geometry only) so the Media block's native "Image position:
+   First" puts the image on the LEFT in every storefront locale, as in Figma ("Last" = right).
+   Text direction is restored on the Content column. Mobile stacks in DOM order: image on top. */
+.ayum-image-text .hdt-row-grid {
+  direction: ltr;
+  row-gap: var(--ayum-it-gap);
+}
+/* Figma: both columns are vertically centred (the Content block's native "Content align center"
+   does it for the text). */
+.ayum-image-text .hdt-row-grid > :not(.ayum-it-content) {
+  align-self: center;
+}
+@media (min-width: 768px) {
+  .ayum-image-text {
+    --ayum-it-pad: 20px;
+  }
+  /* Tablet is not designed: a narrower column gap than desktop. */
+  .ayum-image-text .hdt-row-grid {
+    column-gap: 32px;
+  }
+}
+@media (min-width: 1150px) {
+  .ayum-image-text {
+    --ayum-it-gap: 24px;
+  }
+  /* Figma desktop: 56px between image and content. */
+  .ayum-image-text .hdt-row-grid {
+    column-gap: 56px;
+  }
+}
+
+/* Image: fixed height + radius from the section's "Image" settings, cropped with object-fit: cover
+   (native .hdt-ratio child rule). The fixed height replaces the native ratio spacer. */
+.ayum-image-text .hdt-image-wrap {
+  height: var(--ayum-it-img-h-mb);
+  border-radius: var(--ayum-it-img-radius-mb);
+}
+.ayum-image-text .hdt-image-wrap::before {
+  padding-bottom: 0;
+}
+@media (min-width: 768px) {
+  .ayum-image-text .hdt-image-wrap {
+    height: var(--ayum-it-img-h);
+    border-radius: var(--ayum-it-img-radius);
+  }
+}
+
+/* Content stack. Text boundary: the copy is Arabic in every locale. */
+.ayum-image-text .ayum-it-content {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ayum-it-gap);
+}
+/* Map the native alignment setting onto the RTL copy column (same mapping as the hero). Kalles
+   defines .hdt-text-right as "text-align: end", which inside the RTL boundary is the LEFT. Inside
+   it start = right, so "right" maps to start and "left" maps to end. */
+.ayum-image-text .ayum-it-content.hdt-text-right { text-align: start; }
+.ayum-image-text .ayum-it-content.hdt-text-left { text-align: end; }
+@media (min-width: 768px) {
+  .ayum-image-text .ayum-it-content.md\:hdt-text-center { text-align: center; }
+  .ayum-image-text .ayum-it-content.md\:hdt-text-right { text-align: start; }
+  .ayum-image-text .ayum-it-content.md\:hdt-text-left { text-align: end; }
+}
+/* Figma mobile: subtitle and title sit 8px apart (14px stack gap - 6px). A custom-size heading
+   block prints its own <style> element after its <div>, hence "+ style +". */
+@media (max-width: 767px) {
+  .ayum-image-text .ayum-it-content > .hdt-h_custom + style + .hdt-h_custom {
+    margin-top: -6px;
+  }
+}
+
+/* Subtitle + title: native heading blocks, sizes from their h_custom settings (17/12, 34/24).
+   Almarai ships 400/700/800 and the bold text in this Figma section is ExtraBold, so the native
+   "Bold" weight option renders 800 here (the other weight options are unchanged). Line height:
+   subtitle "normal", title (h1-h6) 145%, unless the block's own "Line height" option is set. */
+.ayum-image-text .hdt-h_custom.hdt-font-bold {
+  font-weight: var(--font-extrabold);
+}
+.ayum-image-text .hdt-h_custom:not(.hdt-lh-1-2, .hdt-lh-1) {
+  line-height: normal;
+}
+.ayum-image-text .hdt-h_custom:not(.hdt-lh-1-2, .hdt-lh-1) :is(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.45;
+}
+
+/* Description: blocks/_ayum-description.liquid. Sizes from its settings (18 / 14; tablet uses the
+   midpoint), optional mobile text below 768px. Figma line heights: 185% mobile, 190% desktop. The
+   desktop text is two paragraphs with no gap between them (Figma line break after the dash). */
+.ayum-image-text .ayum-desc {
+  font-size: var(--ayum-desc-fs-mb);
+  line-height: 1.85;
+}
+.ayum-image-text .ayum-desc .hdt-rte > * + * {
+  margin-block-start: 0;
+}
+.ayum-image-text .ayum-desc__desktop {
+  display: none;
+}
+@media (min-width: 768px) {
+  .ayum-image-text .ayum-desc {
+    font-size: calc((var(--ayum-desc-fs-mb) + var(--ayum-desc-fs-lg)) / 2);
+    line-height: 1.9;
+  }
+  .ayum-image-text .ayum-desc__desktop {
+    display: block;
+  }
+  .ayum-image-text .ayum-desc__mobile {
+    display: none;
+  }
+}
+@media (min-width: 1150px) {
+  .ayum-image-text .ayum-desc {
+    font-size: var(--ayum-desc-fs-lg);
+  }
+}
+
+/* Statistics: blocks/_ayum-stats.liquid / _ayum-stat.liquid. Mobile (Figma 2001:755): one row of
+   equal-width centred columns, 10px apart; labels wrap instead of overflowing at 320px. */
+.ayum-image-text .ayum-stats {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+.ayum-image-text .ayum-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  text-align: center;
+}
+.ayum-image-text .ayum-stat__value {
+  color: rgb(var(--color-accent));
+  font-size: var(--ayum-stat-value-mb);
+  font-weight: var(--font-extrabold);
+  line-height: normal;
+}
+/* Figma labels ("Muted") are a lighter step of the description colour: Text 2 at 80%. */
+.ayum-image-text .ayum-stat__label {
+  color: rgb(var(--color-foreground2) / .8);
+  font-size: var(--ayum-stat-label-mb);
+  line-height: normal;
+  overflow-wrap: anywhere;
+}
+.ayum-image-text .ayum-stat__label--desktop {
+  display: none;
+}
+/* Tablet and desktop (Figma 2001:240): side by side, 32px apart (24px on tablet), aligned with
+   the Content block's alignment; wraps instead of overflowing on narrow columns. The Figma frame
+   has 9px bottom padding. */
+@media (min-width: 768px) {
+  .ayum-image-text .ayum-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    padding-bottom: 9px;
+  }
+  .ayum-image-text .ayum-stat {
+    text-align: inherit;
+  }
+  .ayum-image-text .ayum-stat__value {
+    font-size: calc((var(--ayum-stat-value-mb) + var(--ayum-stat-value-lg)) / 2);
+  }
+  .ayum-image-text .ayum-stat__label {
+    font-size: calc((var(--ayum-stat-label-mb) + var(--ayum-stat-label-lg)) / 2);
+  }
+  .ayum-image-text .ayum-stat__label--desktop {
+    display: block;
+  }
+  .ayum-image-text .ayum-stat__label--mobile {
+    display: none;
+  }
+  .ayum-image-text .md\:hdt-text-right .ayum-stats { justify-content: flex-start; }
+  .ayum-image-text .md\:hdt-text-right .ayum-stat { align-items: flex-start; }
+  .ayum-image-text .md\:hdt-text-center .ayum-stats { justify-content: center; }
+  .ayum-image-text .md\:hdt-text-left .ayum-stats { justify-content: flex-end; }
+  .ayum-image-text .md\:hdt-text-left .ayum-stat { align-items: flex-end; }
+}
+@media (min-width: 1150px) {
+  .ayum-image-text .ayum-stats {
+    column-gap: 32px;
+  }
+  .ayum-image-text .ayum-stat__value {
+    font-size: var(--ayum-stat-value-lg);
+  }
+  .ayum-image-text .ayum-stat__label {
+    font-size: var(--ayum-stat-label-lg);
+  }
+}
+
+/* ==========================================================================
+   Icon box — "How we freeze-dry" (Figma 2001:250 desktop / 2001:765 mobile)
+   sections/ayum-icon-box.liquid; steps = blocks/_ayum-icon-box.liquid (+ snippets/ayum-icons.liquid);
+   claim chips = blocks/_ayum-claims.liquid + _ayum-claim.liquid; heading = native section-heading.
+   Colours: the section's native colour scheme (Color Scheme 2 on the homepage, with the native
+   "Background opacity" at 0 so the section sits on the white page). The original Icon box CSS
+   variables are fed from it: card = Background at 60% (Figma "Surface 60%"), step title = Text,
+   description = Text 2, icon = Button label, border = Line border. Settings cover what one scheme
+   cannot hold: the subheading's muted colour (a third text colour, section setting) and the
+   per-item accents (icon circles, claim chips; block settings).
+   ========================================================================== */
+
+.ayum-icon-box {
+  /* Figma container insets: 16px mobile, 20px from 768px (1320 max -> 1280 content). */
+  --ayum-ib-pad: 16px;
+}
+.ayum-icon-box .hdt-container {
+  padding-inline: var(--ayum-ib-pad);
+}
+@media (min-width: 768px) {
+  .ayum-icon-box {
+    --ayum-ib-pad: 20px;
+  }
+}
+.ayum-icon-box .hdt-icon-box {
+  --heading-color: rgb(var(--color-foreground));
+  --description-color: rgb(var(--color-foreground2));
+  --icon-color: rgb(var(--hdt-btn-color));
+  --color-box: rgb(var(--color-background, var(--color-base-background)) / .6);
+  --border-color: rgb(var(--color-line-border));
+  /* Figma has no hover colours: the original hover background / content colours keep the normal ones. */
+  --color-box-hover: var(--color-box);
+  --color-content-hover: currentColor;
+}
+
+/* Heading + subheading (native section heading). The copy is Arabic in every locale. Figma line
+   heights: title "normal"; subheading 180% on mobile, 24.9px (16px text) on desktop. The subheading
+   block has no weight option: Figma uses Regular on mobile and Bold from 768px. */
+.ayum-icon-box .hdt-section-heading {
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+.ayum-icon-box .hdt-heading-block:not(.hdt-lh-1) {
+  line-height: normal;
+}
+/* "Subheading color" (section setting); when cleared, the subheading block's own Text color applies. */
+.ayum-icon-box--sub-color .hdt-subheading-block {
+  color: rgb(var(--ayum-ib-sub-color));
+  --text-color: rgb(var(--ayum-ib-sub-color));
+}
+.ayum-icon-box .hdt-subheading-block {
+  font-weight: 400;
+  line-height: 1.8;
+}
+@media (max-width: 767px) {
+  .ayum-icon-box .hdt-subheading-block.hdt-text-custom {
+    font-size: var(--ayum-ib-sub-mb);
+  }
+}
+@media (min-width: 768px) {
+  .ayum-icon-box .hdt-subheading-block {
+    font-weight: 700;
+    line-height: 1.556;
+  }
+}
+
+/* Claim chips. Mobile (Figma 2001:772): two per row, each row centred on its own, rows 8px apart,
+   chips 8px apart; a chip's "Mobile position" picks its row (1–2, 3–4, 5–6). The two pseudo-elements
+   are full-width line breaks between the rows (CSS order 5 and 9 sit between positions 2|3 and 4|5);
+   row spacing uses chip margins so the zero-height break lines add no gap. "Space below" is halved
+   below 1150px. */
+.ayum-icon-box .ayum-claims {
+  direction: rtl;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 8px;
+  margin-block: -4px calc(var(--ayum-claims-mb) / 2 - 4px);
+}
+.ayum-icon-box .ayum-claims:not(:has(.ayum-claim)) {
+  display: none;
+}
+.ayum-icon-box .ayum-claims::before,
+.ayum-icon-box .ayum-claims::after {
+  content: "";
+  flex-basis: 100%;
+  height: 0;
+}
+.ayum-icon-box .ayum-claims::before { order: 5; }
+.ayum-icon-box .ayum-claims::after { order: 9; }
+.ayum-icon-box .ayum-claim {
+  order: calc(var(--ayum-claim-pos, 6) * 2);
+  display: inline-flex;
+  align-items: center;
+  margin-block: 4px;
+  padding: 6px 12px;
+  border: 1px solid rgb(var(--ayum-claim-color, var(--color-accent)));
+  border-radius: 16px;
+  background-color: rgb(var(--ayum-claim-color, var(--color-accent)) / .15);
+  color: rgb(var(--color-foreground));
+  font-size: 11px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+.ayum-icon-box .ayum-claim__text--desktop {
+  display: none;
+}
+/* Tablet and desktop (Figma 2001:258): one centred row in block order, 10px apart. */
+@media (min-width: 768px) {
+  .ayum-icon-box .ayum-claims {
+    gap: 10px;
+    margin-block: 0 calc(var(--ayum-claims-mb) / 2);
+  }
+  .ayum-icon-box .ayum-claims::before,
+  .ayum-icon-box .ayum-claims::after {
+    display: none;
+  }
+  .ayum-icon-box .ayum-claim {
+    order: 0;
+    margin-block: 0;
+    padding: 8px 16px;
+    border-radius: 18px;
+    font-size: 13px;
+  }
+  .ayum-icon-box .ayum-claim__text--desktop {
+    display: inline;
+  }
+  .ayum-icon-box .ayum-claim__text--mobile {
+    display: none;
+  }
+}
+@media (min-width: 1150px) {
+  .ayum-icon-box .ayum-claims {
+    margin-block-end: var(--ayum-claims-mb);
+  }
+}
+
+/* Step cards. The grid follows the Arabic reading order in every locale (step 1 on the right);
+   each card is a text boundary. Cards in a row share one height. Native Icon box markup: the head
+   (icon + title) is flattened so icon, title and description lay out on one grid. Figma's card
+   padding (native "Padding content") is 28 / 28 / 42 / 12: the end side is narrower so the third
+   description stays on one line. */
+.ayum-icon-box .hdt-icon-box .hdt-row-grid {
+  direction: rtl;
+}
+.ayum-icon-box .ayum-step,
+.ayum-icon-box .ayum-step > .hdt-iconbox-item-wrapper {
+  height: 100%;
+}
+.ayum-icon-box .ayum-step .hdt-iconbox-item-wrapper {
+  direction: rtl;
+  unicode-bidi: isolate;
+  text-align: start;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  justify-items: start;
+  row-gap: 12px;
+  border-radius: var(--ayum-ib-radius-mb);
+}
+.ayum-icon-box .ayum-step .hdt-iconbox-head {
+  display: contents;
+}
+/* Icon circle: the step's "Icon background"; Figma 40px mobile / 52px desktop. */
+.ayum-icon-box .ayum-step .hdt-iconbox-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgb(var(--ayum-step-icon-bg, var(--color-accent)));
+  color: var(--icon-color);
+}
+.ayum-icon-box .ayum-step .hdt-iconbox-icon__svg {
+  display: flex;
+}
+.ayum-icon-box .ayum-step .hdt-iconbox-heading {
+  margin: 0;
+  color: var(--heading-color);
+  font-size: var(--ayum-ib-title-mb);
+  font-weight: var(--font-extrabold);
+  line-height: normal;
+  overflow-wrap: anywhere;
+}
+.ayum-icon-box .ayum-step .hdt-iconbox-des {
+  color: var(--description-color);
+  font-size: var(--ayum-ib-desc-mb);
+  font-weight: 700;
+  line-height: normal;
+  overflow-wrap: anywhere;
+}
+.ayum-icon-box .ayum-step__desc--desktop {
+  display: none;
+}
+/* Mobile (Figma 2001:784): icon on the right, title and description beside it (3px apart). */
+@media (max-width: 767px) {
+  .ayum-icon-box .ayum-step .hdt-iconbox-item-wrapper {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-content: center;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 3px;
+    padding: var(--ayum-ib-pad-mb, var(--padding-content));
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-icon {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-heading {
+    grid-column: 2;
+    align-self: end;
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-des {
+    grid-column: 2;
+    align-self: start;
+  }
+}
+/* Tablet and desktop (Figma 2001:268): icon at the top right, then title and description. */
+@media (min-width: 768px) {
+  .ayum-icon-box .ayum-step .hdt-iconbox-item-wrapper {
+    border-radius: var(--ayum-ib-radius);
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-icon {
+    width: 52px;
+    height: 52px;
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-heading {
+    font-size: var(--ayum-ib-title);
+  }
+  .ayum-icon-box .ayum-step .hdt-iconbox-des {
+    font-size: var(--ayum-ib-desc);
+    font-weight: 400;
+    line-height: 1.8;
+  }
+  .ayum-icon-box .ayum-step__desc--desktop {
+    display: inline;
+  }
+  .ayum-icon-box .ayum-step__desc--mobile {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ayum-icon-box .hdt-iconbox-item:hover .hdt-iconbox-icon {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Accordion — FAQ (Figma 2001:446 desktop / 2001:911 mobile)
+   sections/ayum-accordion.liquid; items = blocks/_ayum-accordion-item.liquid (native <hdt-accordion> /
+   <details> behaviour); heading = native section-heading.
+   Colours: the section's native colour scheme (Color Scheme 7 on the homepage): section = Background
+   (.hdt-s-gradient), card = Background 2, card border = Line border, heading and questions = Text,
+   answers = Text 2, plus / minus = Accent.
+   The card is the <hdt-accordion> wrapper, not <details>: the native toggle animates the height of
+   <details> between its summary and its content, so <details> carries no padding or border.
+   ========================================================================== */
+
+.ayum-faq {
+  /* Figma container insets: 16px mobile, 20px from 768px (1320 max -> 1280 content). */
+  --ayum-faq-pad: 16px;
+}
+.ayum-faq .hdt-container {
+  padding-inline: var(--ayum-faq-pad);
+}
+@media (min-width: 768px) {
+  .ayum-faq {
+    --ayum-faq-pad: 20px;
+  }
+}
+
+/* Heading (native section heading; 36 / 21 from its h_custom sizes, 32px / 16px below it from its
+   margin setting). The copy is Arabic in every locale. */
+.ayum-faq .hdt-section-heading_block {
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+.ayum-faq .hdt-heading-block:not(.hdt-lh-1) {
+  line-height: normal;
+}
+
+/* List: Figma 922px wide, centred; item spacing from the "FAQ items" settings. */
+.ayum-faq .hdt-row-accordion {
+  max-width: 922px;
+  margin-inline: auto;
+  gap: var(--ayum-faq-gap-mb);
+}
+
+/* Card. */
+.ayum-faq .hdt-row-accordion > .hdt-content {
+  display: block;
+  direction: rtl;
+  unicode-bidi: isolate;
+  overflow: hidden;
+  border: 1px solid rgb(var(--color-line-border));
+  border-radius: 12px;
+  background-color: rgb(var(--color-background2));
+}
+
+/* Question row: question at the start (right), plus / minus at the end (left). Figma padding
+   14px mobile, 18px x 24px desktop. */
+.ayum-faq .hdt-accordion-item :is(summary, .hdt-accordion-summary) {
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background-color: transparent;
+  color: rgb(var(--color-foreground));
+  font-size: var(--ayum-faq-q-mb);
+  font-weight: 700;
+  line-height: normal;
+  text-align: start;
+  list-style: none;
+}
+.ayum-faq .hdt-accordion-item summary::-webkit-details-marker {
+  display: none;
+}
+.ayum-faq .hdt-accordion-item .hdt-accordion-title {
+  padding: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* Plus / minus: the native icons in the scheme accent, without the native button box. The Figma
+   glyphs are ExtraBold "+" / "−" at 22px (mobile) and 20px (desktop): 12px / 11px marks with a
+   thicker bar, drawn by stroking the native shapes. */
+.ayum-faq .hdt-accordion-item .hdt-accordion-icon {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: auto;
+  background-color: transparent;
+  color: rgb(var(--color-accent));
+}
+.ayum-faq .hdt-accordion-item .hdt-accordion-icon svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.ayum-faq .hdt-accordion-item .hdt-accordion-icon :is(path, rect) {
+  stroke: currentColor;
+  stroke-width: .8;
+}
+
+/* Answer: 8px below the question on mobile, 10px on desktop (the content overlaps the question
+   row's bottom padding). Figma line height 180% / 185%. */
+.ayum-faq .hdt-accordion-item .hdt-accordion-content {
+  margin-top: -6px;
+  padding: 0 14px 14px;
+  border: 0;
+  color: rgb(var(--color-foreground2));
+  font-size: var(--ayum-faq-a-mb);
+  font-weight: 400;
+  line-height: 1.8;
+  text-align: start;
+}
+/* The desktop and mobile answers are siblings inside .hdt-rte; its "* + *" spacing must not push the
+   mobile answer down. */
+.ayum-faq .hdt-accordion-item .hdt-accordion-content > * {
+  margin-block-start: 0;
+}
+.ayum-faq .ayum-faq__hint {
+  font-style: italic;
+}
+
+/* Optional mobile question / answer (block settings): mobile text below 768px. */
+.ayum-faq .ayum-faq__d {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .ayum-faq .hdt-row-accordion {
+    gap: var(--ayum-faq-gap);
+  }
+  .ayum-faq .hdt-accordion-item :is(summary, .hdt-accordion-summary) {
+    padding: 18px 24px;
+    font-size: var(--ayum-faq-q);
+  }
+  .ayum-faq .hdt-accordion-item .hdt-accordion-icon {
+    width: 11px;
+    height: 11px;
+  }
+  .ayum-faq .hdt-accordion-item .hdt-accordion-content {
+    margin-top: -8px;
+    padding: 0 24px 18px;
+    font-size: var(--ayum-faq-a);
+    line-height: 1.85;
+  }
+  .ayum-faq .ayum-faq__d {
+    display: revert;
+  }
+  .ayum-faq .ayum-faq__m {
+    display: none;
+  }
+}

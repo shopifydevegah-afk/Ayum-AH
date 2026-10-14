@@ -1,0 +1,141 @@
+{%- comment -%}
+  AYUM bundle product card — copy of Kalles snippets/card-product7.liquid (original left untouched).
+  Figma: 2001:163 (desktop, vertical card) / 2001:725 (mobile, horizontal card — layout in assets/dev2.css).
+
+  Differences from card-product7:
+  - info order: title → short description → price → add-to-cart (no rating row);
+  - short description: the native Kalles excerpt metafield (theme.description_excerpt, as in
+    blocks/_product-description.liquid), else a plain-text excerpt of the product description;
+  - sale badge reads "وفّر 15%" via products.product.ayum_save_percent (native badges snippet, real prices);
+  - add-to-cart label "أضف الباكت" via snippets/ayum-btn-ultra.liquid (native btn-ultra + optional label).
+  Media, native badges (incl. theme.custom_badges), wishlist/compare/quick view, size list, countdown,
+  card-price and color-list are the native markup.
+
+  Accepts:
+  - card_product: {Object} Product Liquid object (required)
+  - section_id: {String} The ID of the section that contains this card. (required)
+  - sizes: {String} a list sizes of image.
+  - class: {String} a list class.
+  - image_ratio: {String} Size of the product image card. Values are "square" and "portrait". Default is "square" (optional)
+  - show_vendor: {Boolean} Show the product vendor. Default: false
+  - show_rating: {Boolean} Show the product rating. Default: false
+  - color_list: {Array}
+  - size_list: {Array}
+  - show_excerpt: {Boolean} Show the short description. Default: false
+  - excerpt_length: {Number} Max characters of the description excerpt. Default: 40
+  - add_label: {String} Add-to-cart label. Default: products.product.ayum_add_bundle
+
+  Usage:
+  {%- render 'card-product', card_product: product, show_vendor: section.settings.show_vendor -%}
+{%- endcomment -%}
+
+{%- liquid
+  unless product_url
+    assign product_url = card_product.url
+  endunless
+  assign featured_media = card_product.featured_media | default: settings.placeholder_img
+  assign color_count = 0
+  assign size_count = 0
+  
+  assign color_list = 'products.theme_settings.color' | t | downcase | strip | replace: ' ,', ',' | replace: ', ', ',' | split: ',' | uniq
+  assign size_list = 'products.theme_settings.size' | t | downcase | strip | replace: ' ,', ',' | replace: ', ', ',' | split: ',' | uniq
+  
+  if card_product.has_only_default_variant == false and settings.color_mode != 'hide' or settings.size_mode != 'hide'
+     assign available_variants = card_product.variants | where: "available"
+     for option in card_product.options_with_values
+        assign name_downcase = option.name | downcase
+        if settings.color_mode != 'hide' and color_list contains name_downcase and color_count == 0
+          assign color_option_index = 'option' | append: forloop.index
+          assign color_variants = option.values
+          assign color_variants_avai = available_variants | map: color_option_index | uniq
+          if settings.color_type == 'all'
+            assign color_count = color_variants.size
+          else
+            assign color_count = color_variants_avai.size
+          endif
+        elsif settings.size_mode != 'hide' and size_list contains name_downcase and size_count == 0
+          assign size_option_index = 'option' | append: forloop.index
+          assign size_variants_avai = available_variants | map: size_option_index | uniq
+          assign size_variants = option.values
+          if settings.size_type == 'all'
+            assign size_count = size_variants.size
+          else
+            if card_product.options_with_values.size == 1
+              assign size_variants = size_variants_avai
+            endif
+            assign size_count = size_variants_avai.size
+          endif
+        endif
+     endfor
+  endif
+
+  # Short description: native Kalles excerpt metafield first, then the description as plain text.
+  # Full description HTML is never rendered; blank when neither exists.
+  assign card_excerpt = ''
+  if show_excerpt
+    assign excerpt_max = excerpt_length | default: 40
+    assign card_excerpt = card_product.metafields.theme.description_excerpt.value | default: card_product.metafields.theme.description_excerpt
+    if card_excerpt == blank
+      assign card_excerpt = card_product.description
+    endif
+    assign card_excerpt = card_excerpt | strip_html | strip_newlines | replace: '&nbsp;', ' ' | strip | truncate: excerpt_max, '…'
+  endif
+
+  # Sale badge "وفّر 15%": existing AYUM translation key passed to the native badges snippet (sale_percent_t);
+  # the snippet still computes the percent from the real compare-at / price.
+  assign ayum_sale_percent_t = 'products.product.ayum_save_percent' | t: percent: 'save_1904' | replace_first: 'save_1904', '<span percent>save_1904</span>'
+
+  assign bundle_atc_label = 'products.product.ayum_add_bundle' | t
+  if add_label != blank
+    assign bundle_atc_label = add_label
+  endif
+  -%}
+  
+  <hdt-card-product class="hdt-card-product ayum-bundle-card {{ class }}{% if settings.show_ultra_btn == false %} hdt-no-ultra_btn{% endif %}{% if card_product.available == false %} hdt-pr-sold_out{% endif %}">
+    <div class="hdt-card-product__wrapper ayum-bundle-card__wrapper">
+      <div class="hdt-card-product__media hdt-relative hdt-oh {% if size_count > 0 and settings.size_position == '1' %} hdt-has-size-list{% endif %}">
+        {%- render 'card-product-media', card_product: card_product, product_url: product_url, sizes: sizes, image_ratio: image_ratio -%}
+        <div class="hdt-card-product__widget hdt-oh">
+          {%- render 'badges', product: card_product, use_variant: false, label_onsale_style: 'percentage', sale_percent_t: ayum_sale_percent_t -%}
+          {%- if card_product.metafields.theme.countdown.value != blank %}{% render 'countdown' with card_product.metafields.theme.countdown.value, class: "hdt-pr-countdown hdt-text-base hdt-font-semibold" %}{% endif -%}
+          <div class="hdt-product-btns hdt-pr-btns-group2 hdt-absolute hdt-flex hdt-flex-col">
+            {%- liquid
+              echo btn_wishlist_code | replace_first: '19041994', card_product.id | replace_first: 'handle_nt_94', card_product.handle
+              if settings.compare_mode != "0"
+                render 'btn-compare', product_id: card_product.id, product_handle: card_product.handle, class: 'hdt-pr_btn hdt-card-product__btn-compare', placement: 'left'
+              endif -%}
+            {%- if settings.show_quick_view %}{% render 'btn-quick-view', class: 'hdt-pr_btn', product: card_product, section_id: section_id, placement: 'left', attr: attr %}{% endif -%}
+          </div>
+          {%- liquid 
+            if settings.size_position == '1' 
+            render 'size-list', product: card_product, product_url: product_url, class: ' hdt-size-list hdt-pe-none'
+          endif
+          -%}
+        </div>
+        {% render 'scrolling_badge', product: card_product %}
+      </div>
+      <div class="hdt-card-product__info ayum-bundle-card__info hdt-relative">
+        {%- liquid
+        if card_product.vendor.size > 0 and show_vendor
+          render 'vendor' with card_product.vendor, class: 'hdt-inline-block hdt-text-base hdt-font-normal'
+        endif -%}
+        <a data-pr-url href="{{ product_url }}" class="hdt-card-product__title ayum-bundle-card__title" data-instant>{{ card_product.title | escape }}</a>
+        {%- if show_excerpt -%}
+          {%- comment -%}
+            Rendered even when empty (min-height in dev2.css) so cards with and without a description stay aligned.
+            strip_html removed all tags; remaining entities stay encoded, so no second escape.
+          {%- endcomment -%}
+          <p class="ayum-bundle-card__excerpt">{{ card_excerpt }}</p>
+        {%- endif -%}
+        {%- liquid
+          render 'card-price', section_id: section_id, product: card_product, show_volume_note: true
+          render 'color-list', section_id: section_id, product: card_product, product_url: product_url, placement: 'top'
+        -%}
+        {%- if settings.show_ultra_btn %}
+          <div class="hdt-product-btns hdt-pr-btns-group1">
+            {% render 'ayum-btn-ultra', class: 'hdt-pr_btn', product: card_product, product_url: product_url, section_id: section_id, disable_sr_only: true, show_qty: settings.show_qty, attr: attr, add_label: bundle_atc_label %}
+          </div>
+        {% endif -%}
+      </div>
+    </div>
+  </hdt-card-product>

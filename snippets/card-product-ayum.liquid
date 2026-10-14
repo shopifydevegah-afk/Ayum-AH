@@ -1,0 +1,145 @@
+{%- comment -%}
+  AYUM product card — copy of Kalles snippets/card-product7.liquid (original left untouched).
+  Figma: 2001:91 (desktop card) / 2001:659 (mobile card).
+
+  Differences from card-product7:
+  - info order: [rating (right) + product tag (left)] row → title → price → add-to-cart (Figma order);
+  - sale badge reads "وفّر 15%" via products.product.ayum_save_percent (native badges snippet, real prices);
+  - rating is the native snippets/hdt-pr-card-rating.liquid (unchanged; empty stars when unrated) plus the
+    numeric value Figma shows ("4.8"), output only for a real rating;
+  - title is clamped to --ayum-title-lines (set by the AYUM carousel block) with a reserved height.
+  Everything else (media, native badges incl. theme.custom_badges, wishlist/compare/quick view,
+  size list, countdown, card-price, color-list, btn-ultra add-to-cart) is the native markup.
+
+  Accepts:
+  - card_product: {Object} Product Liquid object (required)
+  - section_id: {String} The ID of the section that contains this card. (required)
+  - sizes: {String} a list sizes of image.
+  - class: {String} a list class.
+  - image_ratio: {String} Size of the product image card.
+  - product_url: {String} optional product URL (e.g. within a collection).
+  - btn_wishlist_code: {String} pre-rendered wishlist button.
+  - show_vendor: {Boolean} Show the product vendor. Default: false
+  - show_tag: {Boolean} Show one native product tag beside the rating. Default: false
+  - tag_prefix: {String} Optional prefix a tag must start with (removed when displayed). Default: blank
+
+  Usage:
+  {%- render 'card-product-ayum', card_product: product, section_id: section.id, show_tag: true -%}
+{%- endcomment -%}
+
+{%- liquid
+  unless product_url
+    assign product_url = card_product.url
+  endunless
+  assign size_count = 0
+
+  assign size_list = 'products.theme_settings.size' | t | downcase | strip | replace: ' ,', ',' | replace: ', ', ',' | split: ',' | uniq
+
+  if card_product.has_only_default_variant == false and settings.size_mode != 'hide'
+    assign available_variants = card_product.variants | where: "available"
+    for option in card_product.options_with_values
+      assign name_downcase = option.name | downcase
+      if size_list contains name_downcase and size_count == 0
+        assign size_option_index = 'option' | append: forloop.index
+        assign size_variants_avai = available_variants | map: size_option_index | uniq
+        if settings.size_type == 'all'
+          assign size_count = option.values.size
+        else
+          assign size_count = size_variants_avai.size
+        endif
+      endif
+    endfor
+  endif
+
+  # Product tag shown beside the rating (Figma "مجفف بالتجميد"): ONE native Shopify product tag.
+  # Kalles internal tags (t4_ / badge_, same rule as blocks/_product-meta-tags.liquid) are skipped.
+  # With a prefix, only tags starting with it qualify and the prefix is removed; blank prefix = first remaining tag.
+  assign card_tag = ''
+  if show_tag
+    assign tag_prefix_down = tag_prefix | strip | downcase
+    for tag in card_product.tags
+      if tag contains 't4_' or tag contains 'badge_'
+        continue
+      endif
+      if tag_prefix_down == blank
+        assign card_tag = tag | strip
+        break
+      endif
+      assign tag_head = tag | slice: 0, tag_prefix_down.size | downcase
+      if tag_head == tag_prefix_down
+        assign card_tag = tag | slice: tag_prefix_down.size, tag.size | strip
+        break
+      endif
+    endfor
+  endif
+
+  # Sale badge label "وفّر 15%": AYUM translation key passed to the native badges snippet (its documented
+  # sale_percent_t param); the snippet still computes the percent from the real compare-at / price.
+  assign ayum_sale_percent_t = 'products.product.ayum_save_percent' | t: percent: 'save_1904' | replace_first: 'save_1904', '<span percent>save_1904</span>'
+-%}
+
+<hdt-card-product class="hdt-card-product ayum-card-product {{ class }}{% if settings.show_ultra_btn == false %} hdt-no-ultra_btn{% endif %}{% if card_product.available == false %} hdt-pr-sold_out{% endif %}">
+  <div class="hdt-card-product__wrapper ayum-card-product__wrapper">
+    <div class="hdt-card-product__media hdt-relative hdt-oh {% if size_count > 0 and settings.size_position == '1' %} hdt-has-size-list{% endif %}">
+      {%- render 'card-product-media', card_product: card_product, product_url: product_url, sizes: sizes, image_ratio: image_ratio -%}
+      <div class="hdt-card-product__widget hdt-oh">
+        {%- render 'badges', product: card_product, use_variant: false, label_onsale_style: 'percentage', sale_percent_t: ayum_sale_percent_t -%}
+        {%- if card_product.metafields.theme.countdown.value != blank %}{% render 'countdown' with card_product.metafields.theme.countdown.value, class: "hdt-pr-countdown hdt-text-base hdt-font-semibold" %}{% endif -%}
+        <div class="hdt-product-btns hdt-pr-btns-group2 hdt-absolute hdt-flex hdt-flex-col">
+          {%- liquid
+            echo btn_wishlist_code | replace_first: '19041994', card_product.id | replace_first: 'handle_nt_94', card_product.handle
+            if settings.compare_mode != "0"
+              render 'btn-compare', product_id: card_product.id, product_handle: card_product.handle, class: 'hdt-pr_btn hdt-card-product__btn-compare', placement: 'left'
+            endif -%}
+          {%- if settings.show_quick_view %}{% render 'btn-quick-view', class: 'hdt-pr_btn', product: card_product, section_id: section_id, placement: 'left', attr: attr %}{% endif -%}
+        </div>
+        {%- liquid
+          if settings.size_position == '1'
+            render 'size-list', product: card_product, product_url: product_url, class: ' hdt-size-list hdt-pe-none'
+          endif
+        -%}
+      </div>
+      {% render 'scrolling_badge', product: card_product %}
+    </div>
+    <div class="hdt-card-product__info ayum-card-product__info hdt-relative">
+      {%- comment -%} Always rendered so every card keeps the same row height, even without a tag or rating. {%- endcomment -%}
+      {%- comment -%}
+        Figma 2001:94 / 2001:662: rating on the RIGHT, product tag on the LEFT. The card wrapper is pinned RTL,
+        so source order = right-to-left: rating first (inline-start), tag pushed to inline-end in dev2.css.
+      {%- endcomment -%}
+      <div class="ayum-card-product__meta">
+        {%- if settings.show_rating -%}
+          {%- comment -%}
+            Native rating, unchanged: the same snippet and call as the native cards (card-product1…12), so data
+            (Judge.me-synced reviews.rating metafield), star SVGs, half-star rounding and the five-empty-stars
+            state for unrated products are identical. AYUM only adds the Figma numeric value (real ratings only).
+          {%- endcomment -%}
+          {%- assign card_rating = card_product.metafields.reviews.rating.value.rating | times: 1.0 -%}
+          <div class="ayum-card-rating">
+            {%- render 'hdt-pr-card-rating', product: card_product -%}
+            {%- if card_rating > 0 -%}
+              <span class="ayum-card-rating__value" aria-hidden="true">{{ card_rating | round: 1 }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        {%- if card_tag != blank -%}
+          <span class="ayum-card-product__tag">{{ card_tag | escape }}</span>
+        {%- endif -%}
+      </div>
+      {%- liquid
+        if card_product.vendor.size > 0 and show_vendor
+          render 'vendor' with card_product.vendor, class: 'hdt-inline-block hdt-text-base hdt-font-normal'
+        endif -%}
+      <a data-pr-url href="{{ product_url }}" class="hdt-card-product__title ayum-card-product__title" data-instant>{{ card_product.title | escape }}</a>
+      {%- liquid
+        render 'card-price', section_id: section_id, product: card_product, show_volume_note: true
+        render 'color-list', section_id: section_id, product: card_product, product_url: product_url, placement: 'top'
+      -%}
+      {%- if settings.show_ultra_btn %}
+        <div class="hdt-product-btns hdt-pr-btns-group1">
+          {% render 'btn-ultra', class: 'hdt-pr_btn', product: card_product, product_url: product_url, section_id: section_id, disable_sr_only: true, show_qty: settings.show_qty, attr: attr %}
+        </div>
+      {% endif -%}
+    </div>
+  </div>
+</hdt-card-product>

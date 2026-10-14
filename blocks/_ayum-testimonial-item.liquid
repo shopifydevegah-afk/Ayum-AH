@@ -1,0 +1,93 @@
+<!-- blocks/_ayum-testimonial-item.liquid — AYUM copy of Kalles _testimonial_item.liquid (original left untouched) -->
+{%- comment -%}
+  Differences from the native block:
+  - section design "ayum" (sections/ayum-testimonial_section.liquid) renders snippets/ayum-quote.liquid;
+    every native design still renders its native quote snippet;
+  - two extra settings: product label and a per-review "Verified purchase" toggle (off by default).
+  All native settings (image, heading, text, author, position, rating) are kept with their ids.
+{%- endcomment -%}
+<div class="hdt-slider__slide hdt-testimonial-item">
+ <div class="testimonial-inner">
+   {%-liquid
+     case section.settings.ter_des
+      when 'ayum'
+        render 'ayum-quote', block: block
+      when '3' or '6'
+        render 'quote_2', block: block
+      when '4'
+        render 'quote_3', block: block
+      else
+        render 'quote_1', block: block
+     endcase
+   -%}
+ </div>
+</div>
+{% schema %}
+{
+  "name": "Testimonial",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_avata",
+      "label": "Image",
+      "info": "Optional. AYUM cards show it as a small image beside the name; nothing is shown when empty."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Text",
+      "default": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Author",
+      "default": "Author's name"
+    },
+    {
+      "type": "text",
+      "id": "pos",
+      "label": "Position",
+      "info": "AYUM cards show it after the author, e.g. the customer's city."
+    },
+    {
+      "type": "range",
+      "id": "rating",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "label": "Rating",
+      "default": 5,
+      "info": "Set less than '1' to disable Rating."
+    },
+    {
+      "type": "header",
+      "content": "AYUM card"
+    },
+    {
+      "type": "text",
+      "id": "ayum_product",
+      "label": "Product name",
+      "info": "Product the review is about, shown under the author."
+    },
+    {
+      "type": "checkbox",
+      "id": "ayum_verified",
+      "label": "Verified purchase",
+      "info": "Only enable for reviews you have confirmed come from a real order. This setting shows the badge; it does not verify anything.",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial"
+    }
+  ]
+}
+{% endschema %}

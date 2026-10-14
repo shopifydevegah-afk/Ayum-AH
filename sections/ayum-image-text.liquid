@@ -1,0 +1,331 @@
+<!-- sections/ayum-image-text.liquid — AYUM copy of Kalles image_text.liquid (original left untouched) -->
+{%- comment -%}
+  AYUM "About the brand" (Figma 2001:230 desktop / 2001:749 mobile). Differences from the original:
+  - Content block is blocks/_ayum-image-text-col.liquid (the native Content block plus the AYUM
+    description and statistics blocks); the Media block is the native _image-text-column, unchanged.
+  - Image height and corner radius settings (AYUM image settings), and a Custom CSS class.
+  - Styles in assets/dev1.css under .ayum-image-text. Colours come only from the native colour scheme
+    ("Display colors by section" + "Color scheme").
+{%- endcomment -%}
+{{ 'hdt-image-with-text.css' | asset_url | stylesheet_tag }}
+{{ 'dev1.css' | asset_url | stylesheet_tag: media: 'all' }}
+{% style %}
+  {% render 'spacing-vars', box: section %}
+  #shopify-section-{{ section.id }} .ayum-image-text {
+    --ayum-it-img-h: {{ section.settings.ayum_image_height }}px;
+    --ayum-it-img-h-mb: {{ section.settings.ayum_image_height_mb }}px;
+    --ayum-it-img-radius: {{ section.settings.ayum_image_radius }}px;
+    --ayum-it-img-radius-mb: {{ section.settings.ayum_image_radius_mb }}px;
+  }
+{% endstyle %}
+{% liquid
+  #Section layout
+  assign sizes  = '(min-width: 1150px) ' | append: settings.page_width | append: 'px,(min-width: 750px) calc(100vw - 60px), calc(100vw - 30px)'
+
+  case section.settings.section_layout 
+    when 'container'
+      assign parent = 'hdt-container'
+      assign child  = 'hdt-section-spacing hdt-s-gradient hdt-relative' | append: ' hdt-section-spacing-' | append: section.id
+    when 'wrapper_container'
+      assign parent = 'hdt-section-spacing hdt-s-gradient hdt-relative' | append: ' hdt-section-spacing-' | append: section.id
+      assign child  = 'hdt-container'
+    when 'full_width'
+      assign parent = 'hdt-container-full hdt-section-spacing hdt-s-gradient hdt-relative' | append: ' hdt-section-spacing-' | append: section.id
+      assign child  = ''
+      assign sizes  = '100vw'
+  endcase
+%}
+<div id="{{ section.id }}" class="{{ parent }} ayum-image-text{% if section.settings.custom_class != blank %} {{ section.settings.custom_class | strip | escape }}{% endif %} {% if section.settings.hdt_background_parallax %} hdt-animate--parallax-bg {% endif %}" {%- if section.settings.colors_by_section %} color-scheme="{{ section.settings.color_scheme }}" style="--background-opacity: {{ section.settings.background_opacity }};"{%- endif %} hdt-reveal="fade-in">
+  <div class="{{ child }}">
+    {%- if section.settings.section_background != blank -%}
+      {% liquid
+        assign image = section.settings.section_background
+      %}
+      {{ image | image_url: width: image.width | image_tag: width: image.width, height: image.height, sizes: sizes, widths: '200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000', loading: 'lazy', class: 'hdt-section-background hdt-absolute hdt-top-0 hdt-left-0 hdt-w-full hdt-h-full hdt-pe-none hdt-object-cover hdt-object-center' }}
+    {%- endif -%}
+    <div class="hdt-container-heading">
+      {%- content_for "block", type: "section-heading", id: "image-text-heading" -%}
+    </div>
+    <div class="hdt-row-grid hdt-grid-cols-1 md:hdt-grid-cols-2 {{ section.settings.rounded }} hdt-oh">
+      {% content_for "blocks" %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.image_text.name",
+    "class": "hdt-image-text hdt-image-with_text",
+    "disabled_on": {
+      "groups": [
+        "*"
+      ]
+    },
+    "max_blocks": 2,
+    "blocks": [
+      {
+        "type": "_ayum-image-text-col"
+      },
+      {
+        "type": "_image-text-column"
+      }
+    ],
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:sections.all.section_layout.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "colors_by_section",
+        "label": "t:sections.all.colors.display_colors_by_section"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "visible_if": "{{ section.settings.colors_by_section }}"
+      },
+      {
+        "type": "range",
+        "id": "background_opacity",
+        "min": 0,
+        "max": 1,
+        "step": 0.1,
+        "label": "t:sections.all.background.opacity",
+        "default": 0,
+        "visible_if": "{{ section.settings.colors_by_section }}"
+      },
+      {
+        "type": "select",
+        "id": "section_layout",
+        "label": "t:sections.all.section_layout.width.label",
+        "options": [
+          {
+            "value": "container",
+            "label": "t:sections.all.section_layout.width.container"
+          },
+          {
+            "value": "wrapper_container",
+            "label": "t:sections.all.section_layout.width.wrapper_container"
+          },
+          {
+            "value": "full_width",
+            "label": "t:sections.all.section_layout.width.full_width"
+          }
+        ],
+        "default": "container"
+      },
+      {
+        "type": "image_picker",
+        "id": "section_background",
+        "label": "t:sections.all.background.image"
+      },
+    {
+      "type": "checkbox",
+      "id": "hdt_background_parallax",
+      "label": "Using parallax for background",
+      "visible_if": "{{ section.settings.section_background != blank }}",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_spacing"
+    },
+    {
+      "type": "text",
+      "id": "mg",
+      "label": "Margin",
+      "info": "Margin top, margin right, margin bottom, margin left. If you not use to blank",
+      "default": ",,50px,",
+      "placeholder": ",,50px,"
+    },
+    {
+      "type": "text",
+      "id": "mg_mb",
+      "label": "Margin (Mobile)",
+      "default": ",,30px,",
+      "placeholder": ",,50px,",
+      "visible_if": "{{ section.settings.mg != blank }}"
+    },
+    {
+      "type": "text",
+      "id": "pd",
+      "label": "Padding",
+      "info": "Padding top, padding right, padding bottom, padding left. If you not use to blank",
+      "placeholder": "50px,,50px,"
+    },
+    {
+      "type": "text",
+      "id": "pd_mb",
+      "label": "Padding (Mobile)",
+      "placeholder": ",,50px,",
+      "visible_if": "{{ section.settings.pd != blank }}"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "range",
+      "id": "ayum_image_height",
+      "label": "Image height (desktop)",
+      "min": 200,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 380
+    },
+    {
+      "type": "range",
+      "id": "ayum_image_height_mb",
+      "label": "Image height (mobile)",
+      "min": 120,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "default": 220
+    },
+    {
+      "type": "range",
+      "id": "ayum_image_radius",
+      "label": "Image corner radius (desktop)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "ayum_image_radius_mb",
+      "label": "Image corner radius (mobile)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+    ],
+    "presets": [
+      {
+        "name": "Image with text",
+        "category": "02. Banner",
+        "settings": {
+          "colors_by_section": true,
+          "background_opacity": 1,
+          "section_layout": "wrapper_container",
+          "mg": "",
+          "mg_mb": "",
+          "pd": "48px,,48px,",
+          "pd_mb": "24px,,18px,"
+        },
+        "blocks": [
+          {
+            "type": "_image-text-column",
+            "blocks": [
+              {
+                "type": "image"
+              }
+            ]
+          },
+          {
+            "type": "_ayum-image-text-col",
+            "settings": {
+              "alignment": "right",
+              "alignment_mb": "center",
+              "colors_by_block": false,
+              "align_center": true,
+              "padding_h": 0,
+              "padding_v": 0,
+              "padding_h_mb": 0,
+              "padding_v_mb": 0
+            },
+            "blocks": [
+              {
+                "type": "heading",
+                "settings": {
+                  "heading": "<p>قصتنا</p>",
+                  "hidden_br_mobile": false,
+                  "hidden_on_mobile": false,
+                  "line_height": "",
+                  "font_weight": "bold",
+                  "heading_size": "h_custom",
+                  "text_color": "hdt-text-primary",
+                  "font_size_heading_lg": 17,
+                  "font_size_heading": 12,
+                  "letter_spacing_heading": 0
+                }
+              },
+              {
+                "type": "heading",
+                "settings": {
+                  "heading": "<h2>أول مصنع تجفيف بالتجميد في الكويت</h2>",
+                  "hidden_br_mobile": false,
+                  "hidden_on_mobile": false,
+                  "line_height": "",
+                  "font_weight": "bold",
+                  "heading_size": "h_custom",
+                  "text_color": "hdt-s-text",
+                  "font_size_heading_lg": 34,
+                  "font_size_heading": 24,
+                  "letter_spacing_heading": 0
+                }
+              },
+              {
+                "type": "_ayum-description",
+                "settings": {
+                  "text": "<p>معظم المنتجات المشابهة في السوق مستوردة. إحنا الوحيدين اللي ننتجها محلياً —</p><p>من الفاكهة الطازجة للحلويات المفضلة عندك، نشيل الماء بالكامل تقريباً بدون حرارة، فيفضل الطعم والقيمة الغذائية والقوام يتحول لقرمشة.</p>",
+                  "text_mobile": "<p>معظم المنتجات المشابهة في السوق مستوردة. إحنا الوحيدين اللي ننتجها محلياً — نشيل الماء بالكامل تقريباً بدون حرارة، فيفضل الطعم والقيمة الغذائية والقوام يتحول لقرمشة.</p>",
+                  "font_size_lg": 18,
+                  "font_size_mb": 14,
+                  "text_color": "hdt-text-secondary"
+                }
+              },
+              {
+                "type": "_ayum-stats",
+                "settings": {
+                  "value_size_lg": 26,
+                  "value_size_mb": 23,
+                  "label_size_lg": 18,
+                  "label_size_mb": 11
+                },
+                "blocks": [
+                  {
+                    "type": "_ayum-stat",
+                    "settings": {
+                      "value": "+400",
+                      "label": "تقييم من عملائنا",
+                      "label_mobile": "تقييم"
+                    }
+                  },
+                  {
+                    "type": "_ayum-stat",
+                    "settings": {
+                      "value": "5",
+                      "label": "خطوط منتجات",
+                      "label_mobile": ""
+                    }
+                  },
+                  {
+                    "type": "_ayum-stat",
+                    "settings": {
+                      "value": "100%",
+                      "label": "تصنيع كويتي",
+                      "label_mobile": ""
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
