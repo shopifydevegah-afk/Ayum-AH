@@ -1,1 +1,419 @@
-{"sections":{"collections_list_simple_4yRUED":{"type":"top-list-collections","settings":{"show_type":"all","menu":"footer","sort":"alphabetical","hide_mobile":false,"navUI":true,"colors_by_section":false,"color_scheme":"scheme-1","background_opacity":1,"section_layout":"container","mg":"","mg_mb":"","pd":"","pd_mb":""}},"main_heading_PHNGje":{"type":"main-heading","blocks":{"heading_liquid_wcaa7G":{"type":"_heading_liquid","settings":{"text":"{{ collection.title }}","line_height":"","font_family":"hdt-font-1","text_size":"2xl","text_color":"hdt-s-text","italic":false,"uppercase":false,"font_size_text_lg":16,"font_size_text":14,"letter_spacing_text":0},"blocks":{}},"heading_brc_pYUK78":{"type":"_heading_brc","settings":{},"blocks":{}}},"block_order":["heading_liquid_wcaa7G","heading_brc_pYUK78"],"settings":{"use_dynamic_source":false,"image":"shopify:\/\/shop_images\/bg_collections.jpg","color_scheme":"scheme-77e4ef58-56a9-4631-876a-12098ba7d57d","bg_overlay":54,"space_item":0,"mg":"","mg_mb":"","pd":"55px,,55px,","pd_mb":"34px,,34px,"}},"main-collection":{"type":"main-collection","blocks":{"filter_KX6bJW":{"type":"filter","disabled":true,"settings":{}}},"block_order":["filter_KX6bJW"],"settings":{"show_description":true,"use_read_more":false,"read_more_height":300,"description_position":"before","product_des":"1","image_ratio":"custom-pr","image_size":true,"show_vendor":false,"pr_border":"none","products_count":12,"col_dk":"4","col_tb":"3","col_mb":"2","space_items":"x","pagination_type":"links","enable_progressbar":true,"paginate_pos":"center","dis_pagination":40,"btn_label":"","btn_style":"hdt-btn-outline","size":"xl","btn_fw":"medium","enable_sorting":true,"enable_filtering":true,"enable_num_cols_selector":true,"widget_heading":"Product categories","cat_source":"1","cat_link_list":"","count":false,"colors_by_section":false,"color_scheme":"scheme-1","background_opacity":0,"section_layout":"container","mg":"","mg_mb":"","pd":",,30px,","pd_mb":",,22px,","sidebar_drawer":false,"sidebar_position":"left","sidebar_size":"small","colors_by_section_sb":true,"color_scheme_sb":"","background_opacity_sb":1}}},"order":["collections_list_simple_4yRUED","main_heading_PHNGje","main-collection"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "collections_list_simple_4yRUED": {
+      "type": "top-list-collections",
+      "blocks": {
+        "cat_mXq6Mi": {
+          "type": "cat",
+          "settings": {
+            "collection": "الأكثر-مبيعا",
+            "icon": "",
+            "ayum_color": "#ea3a79"
+          }
+        },
+        "cat_ULRjDy": {
+          "type": "cat",
+          "settings": {
+            "collection": "الأكثر-مبيعا",
+            "icon": "",
+            "ayum_color": "#26b3d0"
+          }
+        },
+        "cat_xA8DAA": {
+          "type": "cat",
+          "settings": {
+            "collection": "الأكثر-مبيعا",
+            "icon": "",
+            "ayum_color": "#e78333"
+          }
+        },
+        "cat_WGpmpR": {
+          "type": "cat",
+          "settings": {
+            "collection": "الأكثر-مبيعا",
+            "icon": "",
+            "ayum_color": "#b6d561"
+          }
+        },
+        "cat_Fc3DNG": {
+          "type": "cat",
+          "settings": {
+            "collection": "الأكثر-مبيعا",
+            "icon": "",
+            "ayum_color": "#9570b9"
+          }
+        }
+      },
+      "block_order": [
+        "cat_mXq6Mi",
+        "cat_ULRjDy",
+        "cat_xA8DAA",
+        "cat_WGpmpR",
+        "cat_Fc3DNG"
+      ],
+      "settings": {
+        "show_type": "collection_added",
+        "menu": "footer",
+        "sort": "alphabetical",
+        "hide_mobile": false,
+        "navUI": true,
+        "colors_by_section": false,
+        "color_scheme": "scheme-1",
+        "background_opacity": 1,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "24px,,24px,",
+        "pd_mb": "14px,,14px,",
+        "ayum_cards": true,
+        "custom_class": "ayum-collection-top-list"
+      }
+    },
+    "main_heading_PHNGje": {
+      "type": "main-heading",
+      "blocks": {
+        "heading_liquid_wcaa7G": {
+          "type": "_heading_liquid",
+          "settings": {
+            "text": "{{ collection.title }} <span class=\"ayum-collection-count\">{{ collection.all_products_count }} منتج</span>",
+            "line_height": "",
+            "font_family": "hdt-font-1",
+            "text_size": "custom",
+            "text_color": "hdt-s-text",
+            "italic": false,
+            "uppercase": false,
+            "font_size_text_lg": 36,
+            "font_size_text": 22,
+            "letter_spacing_text": 0
+          },
+          "blocks": {}
+        },
+        "heading_brc_pYUK78": {
+          "type": "_heading_brc",
+          "disabled": true,
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "heading_liquid_wcaa7G",
+        "heading_brc_pYUK78"
+      ],
+      "settings": {
+        "use_dynamic_source": false,
+        "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
+        "bg_overlay": 0,
+        "space_item": 0,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,24px,",
+        "pd_mb": "16px,,16px,",
+        "custom_class": "ayum-collection-heading"
+      }
+    },
+    "main-collection": {
+      "type": "main-collection",
+      "blocks": {
+        "filter_KX6bJW": {
+          "type": "filter",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "filter_KX6bJW"
+      ],
+      "settings": {
+        "show_description": false,
+        "use_read_more": false,
+        "read_more_height": 300,
+        "description_position": "before",
+        "product_des": "7",
+        "image_ratio": "square",
+        "image_size": true,
+        "show_vendor": false,
+        "pr_border": "none",
+        "products_count": 5,
+        "col_dk": "3",
+        "col_tb": "3",
+        "col_mb": "2",
+        "space_items": "x",
+        "pagination_type": "load_more",
+        "enable_progressbar": true,
+        "paginate_pos": "center",
+        "dis_pagination": 36,
+        "btn_label": "",
+        "btn_style": "hdt-btn-outline",
+        "size": "xl",
+        "btn_fw": "medium",
+        "enable_sorting": true,
+        "enable_filtering": true,
+        "enable_num_cols_selector": false,
+        "widget_heading": "Product categories",
+        "cat_source": "1",
+        "cat_link_list": "",
+        "count": false,
+        "colors_by_section": true,
+        "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
+        "background_opacity": 1,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": ",,48px,",
+        "pd_mb": ",,16px,",
+        "sidebar_drawer": false,
+        "sidebar_position": "left",
+        "sidebar_size": "small",
+        "colors_by_section_sb": true,
+        "color_scheme_sb": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
+        "background_opacity_sb": 1,
+        "ayum_tabs_filter": "filter.p.product_type",
+        "ayum_tabs_all_label": "الكل",
+        "ayum_count_label": "[count] منتج",
+        "ayum_quick_filters": true,
+        "ayum_quick_all_label": "كل الفلاتر",
+        "ayum_sidebar_title": "تصفية النتائج",
+        "ayum_bottom_sheet": true,
+        "ayum_sheet_clear_label": "مسح الكل",
+        "ayum_sheet_results_label": "عرض [count] نتيجة",
+        "ayum_card_tag": true,
+        "ayum_card_tag_prefix": "",
+        "ayum_empty_stars": true,
+        "ayum_badge_bg": "#ffffff",
+        "ayum_badge_text": "#ea3a79",
+        "ayum_card_tag_allow": "مجفف بالتجميد",
+        "ayum_card_tag_metafield": "",
+        "custom_class": "ayum-collection-products"
+      }
+    },
+    "ayum_why": {
+      "type": "ayum-icon-box",
+      "blocks": {
+        "truck_card": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "truck",
+            "ayum_icon_bg": "#e78333",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "شحن خلال 24 ساعة",
+            "description": "داخل الكويت، مع إرجاع خلال 7 أيام بشرط ارجاع المنتج في حالة سليمة",
+            "ayum_description_mb": "وإرجاع خلال 7 أيام."
+          },
+          "blocks": {}
+        },
+        "shield_card": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "shield",
+            "ayum_icon_bg": "#b6d561",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "قرمشة تدوم",
+            "description": "عبوة مفرّغة من الهواء تحفظ المنتج لشهور بدون مواد حافظة.",
+            "ayum_description_mb": "عبوة دون مواد حافظة."
+          },
+          "blocks": {}
+        },
+        "noheat_card": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "noheat",
+            "ayum_icon_bg": "#ea3a79",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "تجفيف بدون حرارة",
+            "description": "التفريغ يسحب الماء ويحوّل الثلج لبخار، فالنكهة والقوام ما يتأثرون.",
+            "ayum_description_mb": "النكهة والقوام ما يتأثرون."
+          },
+          "blocks": {}
+        },
+        "factory_card": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "factory",
+            "ayum_icon_bg": "#26b3d0",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "المصنع الأكبر في الكويت",
+            "description": "ننتج منتجات التجفيف بالتجميد محلياً — معظم المنافسين يستوردون.",
+            "ayum_description_mb": "إنتاج محلي مش مستورد."
+          },
+          "blocks": {}
+        },
+        "icon-box": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 16,
+            "margin_bottom": 32
+          },
+          "blocks": {
+            "why_heading": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "ليش تختار أيم",
+                "line_height": "",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 34,
+                "font_size_heading": 23,
+                "letter_spacing_heading": 0
+              },
+              "blocks": {}
+            },
+            "why_subheading": {
+              "type": "_sub_heading_section",
+              "settings": {
+                "text": "<p>مو بس منتج مختلف — طريقة تصنيع مختلفة من الأساس</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": true,
+                "text_size": "custom",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "why_heading",
+            "why_subheading"
+          ]
+        },
+        "claims": {
+          "type": "_ayum-claims",
+          "static": true,
+          "settings": {
+            "margin_bottom": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "truck_card",
+        "shield_card",
+        "noheat_card",
+        "factory_card"
+      ],
+      "settings": {
+        "enable_border": false,
+        "enable_box_shadow": false,
+        "source": "svg",
+        "padding": "24px,24px,24px,24px",
+        "col_dk": "4",
+        "col_tb": "2",
+        "col_mb": "2",
+        "space_horizontal": "20",
+        "space_vertical": "20",
+        "space_horizontal_mb": "12",
+        "space_vertical_mb": "12",
+        "layout": "grid",
+        "loop": false,
+        "autoplay": 0,
+        "pauseOnHover": false,
+        "navUI": false,
+        "nav_position": "default",
+        "nav_visible": "always",
+        "nav_style": "default",
+        "nav_shape": "default",
+        "nav_size": "small",
+        "nav_hide_mobile": false,
+        "dotUI": false,
+        "pag_style": "default",
+        "pag_rounded": false,
+        "pag_space": 10,
+        "pag_mgt": 10,
+        "only_show_mobile": false,
+        "pag_hide_mobile": false,
+        "colors_by_section": true,
+        "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
+        "background_opacity": 0.4,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,24px,",
+        "ayum_subheading_size_mb": 13,
+        "ayum_subheading_color": "",
+        "ayum_title_size": 17,
+        "ayum_title_size_mb": 12,
+        "ayum_desc_size": 13,
+        "ayum_desc_size_mb": 11,
+        "ayum_radius": 16,
+        "ayum_radius_mb": 14,
+        "ayum_padding_mb": "14px,14px,14px,14px",
+        "ayum_background_source": "accent",
+        "ayum_card_surface": "background2",
+        "ayum_card_opacity": 50,
+        "ayum_icon_size": 48,
+        "ayum_icon_size_mb": 32,
+        "ayum_layout_mb": "stack",
+        "ayum_desc_color": "text80",
+        "custom_class": "ayum-collection-benefits"
+      }
+    },
+    "ayum_seo": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{%- if collection.description != blank -%}<div class=\"ayum-collection-seo__card\"><h2 class=\"ayum-collection-seo__title\">عن {{ collection.title | escape }}</h2><div class=\"hdt-rte ayum-collection-seo__text\">{{ collection.description }}</div></div>{%- endif -%}",
+        "custom_class": "ayum-collection-seo",
+        "colors_by_section": true,
+        "color_scheme": "scheme-fe88a2ec-47a1-478d-8953-54da0178e18c",
+        "background_opacity": 0.3,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "28px,,28px,"
+      }
+    }
+  },
+  "order": [
+    "collections_list_simple_4yRUED",
+    "main_heading_PHNGje",
+    "main-collection",
+    "ayum_why",
+    "ayum_seo"
+  ]
+}

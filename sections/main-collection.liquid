@@ -143,7 +143,7 @@
     </div>
   {%- endcapture -%}
 {%- endif -%}
-<div id="{{ section.id }}" main-content class="hdt-main-collection-content hdt-section-spacing hdt-section-spacing-{{ section.id }}">
+<div id="{{ section.id }}" main-content class="hdt-main-collection-content hdt-section-spacing hdt-section-spacing-{{ section.id }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class | strip | escape }}{% endif %}{% if section.settings.ayum_empty_stars %} ayum-empty-stars{% endif %}{% if section.settings.ayum_badge_bg != blank or section.settings.ayum_badge_text != blank %} ayum-badges-custom{% endif %}"{% if section.settings.ayum_badge_bg != blank or section.settings.ayum_badge_text != blank %} style="{% if section.settings.ayum_badge_bg != blank %}--ayum-badge-bg: {{ section.settings.ayum_badge_bg.rgb }};{% endif %}{% if section.settings.ayum_badge_text != blank %}--ayum-badge-text: {{ section.settings.ayum_badge_text.rgb }};{% endif %}"{% endif %}>
   {%- if section.settings.description_position == 'before' -%}
     {{ collection_description }}
   {%- endif -%}
@@ -154,6 +154,27 @@
           assign image = section.settings.section_background
         %}
           {{ image | image_url: width: image.width | image_tag: width: image.width, height: image.height, sizes: sizes, widths: '200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000', loading: 'lazy', class: 'hdt-section-background hdt-absolute hdt-top-0 hdt-left-0 hdt-w-full hdt-h-full hdt-pe-none hdt-object-cover hdt-object-center' }}
+      {%- endif -%}
+      {%- if section.settings.ayum_tabs_filter != blank -%}
+        {%- comment -%}
+          AYUM filter tabs (opt-in): the values of one native Shopify filter (setting "Filter tabs: filter
+          parameter", e.g. filter.p.product_type). A tab keeps every other active filter and the sort, and
+          replaces only this filter's value; "All" removes only this filter. Links use the native facet URLs
+          and the native AJAX facet link element, so counts, sorting, pagination and history stay native.
+        {%- endcomment -%}
+        {%- for filter in collection.filters -%}
+          {%- if filter.param_name == section.settings.ayum_tabs_filter and filter.type == 'list' -%}
+            {%- assign tabs_base = filter.url_to_remove -%}
+            {%- if tabs_base contains '?' -%}{%- assign tabs_join = '&' -%}{%- else -%}{%- assign tabs_join = '?' -%}{%- endif -%}
+            <nav class="ayum-filter-tabs" aria-label="{{ filter.label | escape }}">
+              <wrapp-hdt-facet-url><a href="{{ tabs_base }}" class="ayum-filter-tabs__tab{% if filter.active_values.size == 0 %} is-active{% endif %}"{% if filter.active_values.size == 0 %} aria-current="true"{% endif %}>{%- if section.settings.ayum_tabs_all_label != blank -%}{{ section.settings.ayum_tabs_all_label | escape }}{%- else -%}{{ 'products.facets.clear_all' | t }}{%- endif -%}</a></wrapp-hdt-facet-url>
+              {%- for value in filter.values -%}
+                {%- if value.count == 0 and value.active == false -%}{%- continue -%}{%- endif -%}
+                <wrapp-hdt-facet-url><a href="{{ tabs_base }}{{ tabs_join }}{{ value.param_name }}={{ value.value | url_encode }}" class="ayum-filter-tabs__tab{% if value.active %} is-active{% endif %}"{% if value.active %} aria-current="true"{% endif %}>{{ value.label | escape }}</a></wrapp-hdt-facet-url>
+              {%- endfor -%}
+            </nav>
+          {%- endif -%}
+        {%- endfor -%}
       {%- endif -%}
       {%- if collection.all_products_count > 0 -%}
       <div class="hdt-shop-control hdt-justify-between hdt-align-center hdt-row-flex hdt-flex-cols-3">
@@ -166,6 +187,9 @@
                 <span>{{ 'products.facets.filter_button' | t -}}</span>
               </button>
               {%- render 'facets', results: collection, section_id: section.id, enable_render_on_change: true -%}
+            {%- endif -%}
+            {%- if section.settings.ayum_count_label != blank -%}
+              <span class="ayum-results-count">{{ section.settings.ayum_count_label | replace: '[count]', collection.products_count | escape }}</span>
             {%- endif -%}
           
           </div>
@@ -186,6 +210,38 @@
           {%- endif -%}
         </div>
       </div>
+      {%- endif -%}
+      {%- if section.settings.ayum_quick_filters and section.settings.enable_filtering and collection.filters.size > 0 -%}
+        {%- comment -%} AYUM quick filters (opt-in, mobile): one chip per native filter group; each opens the native filter drawer. {%- endcomment -%}
+        {%- liquid
+          if has_sidebar and blocks_type contains 'filter'
+            assign quick_target = 'hdt-shop-sidebar-drawer'
+          else
+            assign quick_target = 'hdt-filter_form'
+          endif
+          assign quick_active = 0
+          for filter in collection.filters
+            if filter.type == 'price_range'
+              if filter.min_value.value != nil or filter.max_value.value != nil
+                assign quick_active = quick_active | plus: 1
+              endif
+            else
+              assign quick_active = quick_active | plus: filter.active_values.size
+            endif
+          endfor
+        -%}
+        <div class="ayum-quick-filters md:hdt-hidden">
+          <button type="button" class="ayum-quick-filters__all" aria-controls="{{ quick_target }}">{%- if section.settings.ayum_quick_all_label != blank -%}{{ section.settings.ayum_quick_all_label | escape }}{%- else -%}{{ 'products.facets.filter_button' | t }}{%- endif -%}{% if quick_active > 0 %} ({{ quick_active }}){% endif %}</button>
+          {%- for filter in collection.filters -%}
+            {%- assign is_on = false -%}
+            {%- if filter.type == 'price_range' -%}
+              {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}{%- assign is_on = true -%}{%- endif -%}
+            {%- elsif filter.active_values.size > 0 -%}
+              {%- assign is_on = true -%}
+            {%- endif -%}
+            <button type="button" class="ayum-quick-filters__chip{% if is_on %} is-active{% endif %}" aria-controls="{{ quick_target }}">{{ filter.label | escape }}</button>
+          {%- endfor -%}
+        </div>
       {%- endif -%}
       {%- render 'active-filters', results: collection, results_count: collection.products_count -%}
       <div class="{% if has_sidebar and section.settings.sidebar_drawer == false %} hdt-row-flex hdt-sidebar_drawer_{{ section.settings.sidebar_drawer }} hdt-flex-cols-1 lg:hdt-flex-cols-2{% else %} hdt-flex-cols-1{% endif %} ">
@@ -305,7 +361,7 @@
                             unless settings.remove_collection_url
                               assign product_url = product.url | within: collection
                             endunless
-                            render 'card-product7', card_product: product, section_id: section.id, class: "hdt-pr-style7", sizes: sizes, image_ratio: section.settings.image_ratio, color_list: color_list, size_list: size_list, product_url: product_url, btn_wishlist_code: btn_wishlist_code, show_vendor: section.settings.show_vendor
+                            render 'card-product7', card_product: product, section_id: section.id, class: "hdt-pr-style7", sizes: sizes, image_ratio: section.settings.image_ratio, color_list: color_list, size_list: size_list, product_url: product_url, btn_wishlist_code: btn_wishlist_code, show_vendor: section.settings.show_vendor, ayum_show_tag: section.settings.ayum_card_tag, ayum_tag_prefix: section.settings.ayum_card_tag_prefix, ayum_tag_allow: section.settings.ayum_card_tag_allow, ayum_tag_metafield: section.settings.ayum_card_tag_metafield
                           endfor
                         when '8'
                           capture btn_wishlist_code
@@ -365,18 +421,32 @@
                 <span class="hdt-btn-text">{{ 'onboarding.open_sidebar' | t }}</span>
               </button>
               <hdt-drawer class="hdt-drawer hdt-sidebar-drawer hdt-contents" {%- if section.settings.colors_by_section_sb %} color-scheme="{{ section.settings.color_scheme_sb }}" style="--background-opacity: {{ section.settings.background_opacity_sb }};"{%- endif %}>
-                <dialog id="hdt-shop-sidebar-drawer" class="hdt-dialog hdt-dialog-drawer" scroll-lock pos="{{ section.settings.sidebar_position }}">
+                <dialog id="hdt-shop-sidebar-drawer" class="hdt-dialog hdt-dialog-drawer{% if section.settings.ayum_bottom_sheet %} ayum-bottom-sheet{% endif %}" scroll-lock pos="{% if section.settings.ayum_bottom_sheet %}bottom{% else %}{{ section.settings.sidebar_position }}{% endif %}"{% if section.settings.ayum_bottom_sheet %} pos-min-width="768:{{ section.settings.sidebar_position }}"{% endif %}>
                   <div class="hdt-dialog-drawer__header lg:hdt-hidden">
                     <h6 class="hdt-flex hdt-align-center hdt-sidebar-title hdt-filter-title hdt-text-lg hdt-uppercase hdt-font-semibold">
-                      <span>{{- 'products.sidebar.label' | t -}}</span>
+                      <span>{%- if section.settings.ayum_sidebar_title != blank -%}{{ section.settings.ayum_sidebar_title | escape }}{%- else -%}{{- 'products.sidebar.label' | t -}}{%- endif -%}</span>
                     </h6>
                     <button ref="closeButton" class="hdt-s-text hdt-dialog-btn__close" aria-controls="hdt-shop-sidebar-drawer" aria-label="{{ 'accessibility.close' | t | escape }}">{%- render 'icon' with 'close' -%}</button>
                   </div>
                   <div class="hdt-dialog-drawer__inner hdt-current-scrollbar">
                     <div class="hdt-main-sidebar-inner">
+                      {%- if section.settings.ayum_sidebar_title != blank -%}
+                        <p class="ayum-sidebar-heading hdt-hidden lg:hdt-block">{{ section.settings.ayum_sidebar_title | escape }}</p>
+                      {%- endif -%}
                       {% render 'sidebar-collection' %}
                     </div>
                   </div>
+                  {%- if section.settings.ayum_bottom_sheet -%}
+                    {%- comment -%}
+                      AYUM bottom-sheet footer (opt-in, below 1150px). Filters already apply on change (native
+                      render-on-change), so "show results" closes the drawer through the native aria-controls toggle;
+                      the count is rendered by Shopify on every facet update. "Clear all" is the native AJAX facet link.
+                    {%- endcomment -%}
+                    <div class="ayum-sheet-footer lg:hdt-hidden">
+                      <wrapp-hdt-facet-url><a href="{{ collection.url }}{% if collection.sort_by != blank and collection.sort_by != collection.default_sort_by %}?sort_by={{ collection.sort_by }}{% endif %}" class="ayum-sheet-footer__clear">{%- if section.settings.ayum_sheet_clear_label != blank -%}{{ section.settings.ayum_sheet_clear_label | escape }}{%- else -%}{{ 'products.facets.clear_all' | t }}{%- endif -%}</a></wrapp-hdt-facet-url>
+                      <button type="button" class="ayum-sheet-footer__apply" aria-controls="hdt-shop-sidebar-drawer">{%- if section.settings.ayum_sheet_results_label != blank -%}{{ section.settings.ayum_sheet_results_label | replace: '[count]', collection.products_count | escape }}{%- else -%}{{ 'products.facets.apply' | t }}{%- endif -%}</button>
+                    </div>
+                  {%- endif -%}
                 </dialog>
               </hdt-drawer>
             </div>
@@ -1140,6 +1210,119 @@
       "default": 1,
       "visible_if": "{{ section.settings.colors_by_section_sb }}"
     },
+    {
+      "type": "header",
+      "content": "AYUM"
+    },
+    {
+      "type": "text",
+      "id": "ayum_tabs_filter",
+      "label": "Filter tabs: filter parameter",
+      "info": "Optional. A Shopify filter shown as tabs above the products, e.g. filter.p.product_type. Leave empty to hide."
+    },
+    {
+      "type": "text",
+      "id": "ayum_tabs_all_label",
+      "label": "Filter tabs: first tab label",
+      "default": "الكل"
+    },
+    {
+      "type": "text",
+      "id": "ayum_count_label",
+      "label": "Product count text",
+      "info": "Optional. Shown in the toolbar; [count] is replaced by the number of products. Leave empty to hide."
+    },
+    {
+      "type": "checkbox",
+      "id": "ayum_quick_filters",
+      "label": "Quick filter chips (mobile)",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "ayum_quick_all_label",
+      "label": "Quick filters: all-filters label",
+      "info": "Optional. Leave empty to use the theme's \"Filter\" text.",
+      "visible_if": "{{ section.settings.ayum_quick_filters }}"
+    },
+    {
+      "type": "text",
+      "id": "ayum_sidebar_title",
+      "label": "Filters title",
+      "info": "Optional. Title of the filter sidebar and drawer."
+    },
+    {
+      "type": "checkbox",
+      "id": "ayum_bottom_sheet",
+      "label": "Filter drawer as bottom sheet (mobile)",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "ayum_sheet_clear_label",
+      "label": "Bottom sheet: clear label",
+      "default": "مسح الكل",
+      "visible_if": "{{ section.settings.ayum_bottom_sheet }}"
+    },
+    {
+      "type": "text",
+      "id": "ayum_sheet_results_label",
+      "label": "Bottom sheet: results label",
+      "info": "[count] is replaced by the number of matching products.",
+      "default": "عرض [count] نتيجة",
+      "visible_if": "{{ section.settings.ayum_bottom_sheet }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "ayum_card_tag",
+      "label": "Card style 7: show product tag beside the rating",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "ayum_card_tag_prefix",
+      "label": "Card tag prefix",
+      "info": "Optional. Only tags starting with this text are shown (without the prefix). Leave empty to use the product's first tag.",
+      "visible_if": "{{ section.settings.ayum_card_tag }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "ayum_empty_stars",
+      "label": "Card style 7: show empty stars for products without reviews",
+      "info": "Five empty stars as a placeholder, without a rating number. Products with reviews always show their real rating.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "ayum_badge_bg",
+      "label": "Card badges: background",
+      "info": "Optional. One background for all card badges in this section. Leave empty to use the theme's badge colors."
+    },
+    {
+      "type": "color",
+      "id": "ayum_badge_text",
+      "label": "Card badges: text",
+      "info": "Optional. Leave empty to use the theme's badge text colors."
+    },
+    {
+      "type": "text",
+      "id": "ayum_card_tag_allow",
+      "label": "Card tag: allowed tags",
+      "info": "Optional, comma-separated. Only these product tags are shown on cards. Leave empty to allow any tag.",
+      "visible_if": "{{ section.settings.ayum_card_tag }}"
+    },
+    {
+      "type": "text",
+      "id": "ayum_card_tag_metafield",
+      "label": "Card tag: product metafield",
+      "info": "Optional, namespace.key of a text metafield (translatable). Shown instead of a tag when the product has a value.",
+      "visible_if": "{{ section.settings.ayum_card_tag }}"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
   ],
   "blocks": [
     {

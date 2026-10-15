@@ -46,7 +46,7 @@
     }
   }
 {% endstyle %}
-<div class="hdt-section-spacing hdt-section-spacing-{{ section.id }} hdt-relative hdt-oh" color-scheme="{{ section.settings.color_scheme }}">
+<div class="hdt-section-spacing hdt-section-spacing-{{ section.id }} hdt-relative hdt-oh{% if section.settings.custom_class != blank %} {{ section.settings.custom_class | strip | escape }}{% endif %}" color-scheme="{{ section.settings.color_scheme }}">
   <h1 class="sr-only hdt-pe-none">{{ page_title }}</h1>
   <div class="hdt-heading-image hdt-h-overlay hdt-pe-none" style="--bg-overlay:{{ section.settings.bg_overlay | divided_by: 100.00 }};">
     {%- if image != blank -%}
@@ -147,6 +147,11 @@
       "placeholder": ",,50px,",
       "visible_if": "{{ section.settings.pd != blank }}"
     },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
   ],
   "blocks": [
     {

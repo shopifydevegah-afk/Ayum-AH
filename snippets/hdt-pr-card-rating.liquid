@@ -83,6 +83,8 @@
         {%- endif -%}
       {%- endfor -%}
     </div>
+    {%- comment -%} AYUM: numeric average, hidden by default; a page shows it with scoped CSS. {%- endcomment -%}
+    <span class="star-rating__average">{{ rating | round: 1 }}</span>
     <span class="star-rating__count">({{ reviews_count }})</span>
   </div>
 
@@ -128,6 +130,9 @@
     line-height: 20px;
     font-weight: 400;
     color: #353535;
+  }
+  .star-rating__average {
+    display: none;
   }
   @media (min-width: 768px) {
     .star-rating {

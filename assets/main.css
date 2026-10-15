@@ -698,17 +698,6 @@
     height: 25px;
   }
 
-  .ayum-footer-main .hdt-footer-collapse-true .hdt-footer-heading .hdt-collapse-icon::before {
-    width: 12px;
-    height: 2px;
-    background-color: rgb(var(--color-foreground) / .7);
-  }
-
-  .ayum-footer-main .hdt-footer-collapse-true .hdt-footer-heading .hdt-collapse-icon::after {
-    width: 2px;
-    height: 12px;
-    background-color: rgb(var(--color-foreground) / .7);
-  }
 }
 
 

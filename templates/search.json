@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "collections_list_simple_4yRUED": {
       "type": "top-list-collections",
@@ -21,10 +21,11 @@
         "color_scheme": "scheme-1",
         "background_opacity": 1,
         "section_layout": "container",
-        "pd": "",
-        "pd_mb": "",
+        "hdt_background_parallax": false,
         "mg": "",
-        "mg_mb": ""
+        "mg_mb": "",
+        "pd": "",
+        "pd_mb": ""
       }
     },
     "main_heading_xYyUyq": {
@@ -52,21 +53,20 @@
       ],
       "settings": {
         "use_dynamic_source": false,
-        "image": "shopify://shop_images/shop-banner.jpg",
-        "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
-        "bg_overlay": 54,
+        "color_scheme": "scheme-1",
+        "bg_overlay": 0,
         "space_item": 0,
-        "pd": "50px,,50px,",
-        "pd_mb": "40px,,40px,",
         "mg": "",
-        "mg_mb": ""
+        "mg_mb": "",
+        "pd": "50px,,50px,",
+        "pd_mb": "40px,,40px,"
       }
     },
     "main-search": {
       "type": "main-search",
       "settings": {
-        "product_des": "1",
-        "image_ratio": "asos",
+        "product_des": "5",
+        "image_ratio": "portrait",
         "image_size": true,
         "show_vendor": false,
         "pr_border": "none",
@@ -82,12 +82,12 @@
         "enable_filtering": true,
         "price_behavior": "auto",
         "enable_num_cols_selector": true,
-        "full_width": false,
-        "color_scheme": "scheme-1",
-        "pd": ",,20px,",
-        "pd_mb": ",,20px,",
+        "full_width": true,
+        "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
         "mg": "",
-        "mg_mb": ""
+        "mg_mb": "",
+        "pd": ",,20px,",
+        "pd_mb": ",,20px,"
       }
     }
   },

@@ -4,7 +4,9 @@
   2001:789 / 2001:813 / 2001:822 are the same drawings at 22px). The snowflake is Figma's six arrow
   arms (2001:293–2001:308) rotated 60° apart around the centre.
   Accepts:
-  - icon: 'snowflake' | 'drop' | 'jar'
+  - icon: 'snowflake' | 'drop' | 'jar' | 'factory' | 'noheat' | 'shield' | 'truck'
+  The last four ("Why choose AYUM", Figma 1:1007 / 55:730: Icon / factory, noheat, shield, truck) are drawn
+  on a 26×26 grid with a 1.84px stroke, as in Figma.
   Usage: {% render 'ayum-icons', icon: 'snowflake' %}
   The SVG is decorative (aria-hidden); size it with CSS width (height follows the viewBox).
 {%- endcomment -%}
@@ -15,4 +17,12 @@
     <svg class="ayum-icon ayum-icon--drop" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3.25C12.5 6.125 6.625 13 6.625 18C6.625 20.2212 7.50736 22.3514 9.07798 23.922C10.6486 25.4926 12.7788 26.375 15 26.375C17.2212 26.375 19.3514 25.4926 20.922 23.922C22.4926 22.3514 23.375 20.2212 23.375 18C23.375 13 17.5 6.125 15 3.25Z"/><path d="M15 22.75V14.75"/><path d="M12 17.75L15 14.75L18 17.75"/></g></svg>
   {%- when 'jar' -%}
     <svg class="ayum-icon ayum-icon--jar" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.75 4.25H7.25C6.42157 4.25 5.75 4.92157 5.75 5.75V7C5.75 7.82843 6.42157 8.5 7.25 8.5H22.75C23.5784 8.5 24.25 7.82843 24.25 7V5.75C24.25 4.92157 23.5784 4.25 22.75 4.25Z"/><path d="M8.25 8.5H21.75V23.375C21.75 24.0049 21.4998 24.609 21.0544 25.0544C20.609 25.4998 20.0049 25.75 19.375 25.75H10.625C9.99511 25.75 9.39102 25.4998 8.94562 25.0544C8.50022 24.609 8.25 24.0049 8.25 23.375V8.5Z"/><path d="M12.25 15.75H17.75"/></g></svg>
+  {%- when 'factory' -%}
+    <svg class="ayum-icon ayum-icon--factory" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.84167" stroke-linecap="round" stroke-linejoin="round"><path d="M3.68333 22.3167V11.5917L9.425 15.0583V11.5917L15.1667 15.0583V6.5H22.3167V22.3167H3.68333Z"/><path d="M17.9833 12.1333H19.9333M17.9833 16.4667H19.9333"/></g></svg>
+  {%- when 'noheat' -%}
+    <svg class="ayum-icon ayum-icon--noheat" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.84167" stroke-linecap="round" stroke-linejoin="round"><path d="M15.1667 14.7333V5.95833C15.1667 5.2975 14.9042 4.66374 14.4369 4.19646C13.9696 3.72918 13.3358 3.46667 12.675 3.46667C12.0142 3.46667 11.3804 3.72918 10.9131 4.19646C10.4458 4.66374 10.1833 5.2975 10.1833 5.95833V14.7333C9.26556 15.2791 8.55235 16.1111 8.15328 17.1015C7.7542 18.0919 7.69134 19.1859 7.97433 20.2155C8.25733 21.2451 8.87054 22.1533 9.71976 22.8006C10.569 23.4479 11.6072 23.7985 12.675 23.7985C13.7428 23.7985 14.781 23.4479 15.6302 22.8006C16.4795 22.1533 17.0927 21.2451 17.3757 20.2155C17.6587 19.1859 17.5958 18.0919 17.1967 17.1015C16.7976 16.1111 16.0844 15.2791 15.1667 14.7333Z"/><path d="M4.76667 4.76667L21.2333 21.2333"/></g></svg>
+  {%- when 'shield' -%}
+    <svg class="ayum-icon ayum-icon--shield" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.84167" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3.03333L5.09167 6.39167V12.35C5.09167 17.1167 8.45 21.5583 13 22.9667C17.55 21.5583 20.9083 17.1167 20.9083 12.35V6.39167L13 3.03333Z"/><path d="M9.64167 12.8917L12.1333 15.3833L16.6833 10.8333"/></g></svg>
+  {%- when 'truck' -%}
+    <svg class="ayum-icon ayum-icon--truck" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.84167" stroke-linecap="round" stroke-linejoin="round"><path d="M2.81667 6.93333H14.3V17.7667H2.81667V6.93333Z"/><path d="M14.3 10.8333H18.3083L21.2333 13.975V17.7667H14.3V10.8333Z"/><path d="M7.69167 21.9917C8.82845 21.9917 9.75 21.0701 9.75 19.9333C9.75 18.7965 8.82845 17.875 7.69167 17.875C6.55488 17.875 5.63333 18.7965 5.63333 19.9333C5.63333 21.0701 6.55488 21.9917 7.69167 21.9917Z"/><path d="M17.9833 21.9917C19.1201 21.9917 20.0417 21.0701 20.0417 19.9333C20.0417 18.7965 19.1201 17.875 17.9833 17.875C16.8465 17.875 15.925 18.7965 15.925 19.9333C15.925 21.0701 16.8465 21.9917 17.9833 21.9917Z"/></g></svg>
 {%- endcase -%}

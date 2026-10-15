@@ -11,6 +11,10 @@
   - show_rating: {Boolean} Show the product rating. Default: false
   - color_list: {Array}
   - size_list: {Array}
+  - ayum_show_tag: {Boolean} AYUM (opt-in, collection page): show one product tag beside the rating. Default: false
+  - ayum_tag_prefix: {String} AYUM: only tags starting with this prefix qualify (prefix removed); blank = first tag.
+  - ayum_tag_allow: {String} AYUM: comma-separated tags that may be shown; blank = any tag.
+  - ayum_tag_metafield: {String} AYUM: "namespace.key" of a text metafield shown instead of a tag when set.
 
   Usage:
   {%- render 'card-product', card_product: product, show_vendor: section.settings.show_vendor -%}
@@ -81,7 +85,60 @@
         {% render 'scrolling_badge', product: card_product %}
       </div>
       <div class="hdt-card-product__info hdt-card-align-{{ settings.pr_card_alignment }} hdt-relative ">
+        {%- if ayum_show_tag -%}
+          {%- comment -%}
+            AYUM product tag (opt-in, passed by the collection page): one native product tag beside the rating,
+            same rule as the AYUM homepage card (Kalles internal t4_ / badge_ tags skipped; optional prefix).
+            Optional: ayum_tag_metafield ("namespace.key", a text metafield, translatable) is used first when the
+            product has a value; ayum_tag_allow (comma-separated) limits the tags that may be shown.
+          {%- endcomment -%}
+          {%- liquid
+            assign card_tag = ''
+            assign tag_mf = ayum_tag_metafield | strip
+            if tag_mf contains '.'
+              assign tag_mf_parts = tag_mf | split: '.'
+              assign card_tag = card_product.metafields[tag_mf_parts[0]][tag_mf_parts[1]].value | strip
+            endif
+            assign tag_allow = ayum_tag_allow | downcase | split: ','
+            assign tag_prefix_down = ayum_tag_prefix | strip | downcase
+            for tag in card_product.tags
+              if card_tag != blank
+                break
+              endif
+              if tag contains 't4_' or tag contains 'badge_'
+                continue
+              endif
+              if tag_allow.size > 0
+                assign tag_ok = false
+                assign tag_down = tag | strip | downcase
+                for allowed in tag_allow
+                  assign allowed_down = allowed | strip
+                  if allowed_down != blank and allowed_down == tag_down
+                    assign tag_ok = true
+                  endif
+                endfor
+                unless tag_ok
+                  continue
+                endunless
+              endif
+              if tag_prefix_down == blank
+                assign card_tag = tag | strip
+                break
+              endif
+              assign tag_head = tag | slice: 0, tag_prefix_down.size | downcase
+              if tag_head == tag_prefix_down
+                assign card_tag = tag | slice: tag_prefix_down.size, tag.size | strip
+                break
+              endif
+            endfor
+          -%}
+          <div class="ayum-card-meta">
+        {%- endif -%}
         {%- if settings.show_rating %}{% render 'hdt-pr-card-rating', product: card_product %}{% endif -%}
+        {%- if ayum_show_tag -%}
+            {%- if card_tag != blank -%}<span class="ayum-card-tag">{{ card_tag | escape }}</span>{%- endif -%}
+          </div>
+        {%- endif -%}
         {%- liquid
         if card_product.vendor.size > 0 and show_vendor
           render 'vendor' with card_product.vendor, class: 'hdt-inline-block hdt-text-base hdt-font-normal'

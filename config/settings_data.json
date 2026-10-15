@@ -113,10 +113,19 @@
     "social_snapchat_link": "",
     "social_whatsapp_link": "https://api.whatsapp.com/send/?phone=123456789&text&type=phone_number&app_absent=0",
     "predictive_search_enabled": true,
+    "predictive_search_product_des": "6",
     "predictive_search_show_vendor": false,
     "predictive_search_show_price": false,
-    "search_fullwidth": false,
-    "products_suggest": [],
+    "search_fullwidth": true,
+    "products_suggest": [
+      "آيس-كريم-ساندويتش-مجفف",
+      "جيلي-بيتزا-مجفف",
+      "جيلي-كولا-بالتجميد",
+      "جيلي-هوت-دوج-مجفف",
+      "سكيتلز-مجفف-بالتجميد-copy",
+      "سكيتلز-مجفف-بالتجميد"
+    ],
+    "color_scheme_search": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
     "currency_type": "1",
     "currency_code_enabled": false,
     "flag_currency": false,
@@ -197,8 +206,8 @@
           "line_border": "#eeeeee",
           "overlay": "#000000",
           "pr_text": "#26383a",
-          "price": "#868686",
-          "sale_price": "#ea3a79",
+          "price": "#EA3A79",
+          "sale_price": "#686868",
           "input_primary": "#ffffff",
           "input_secondary": "#686868"
         }
@@ -332,7 +341,7 @@
       "scheme-ac3ae30b-2ea0-4155-b282-371a1a9b51e6": {
         "settings": {
           "text": "#ffffff",
-          "text2": "#B1B1B1",
+          "text2": "#b1b1b1",
           "background": "#26383a",
           "background_gradient": "",
           "background2": "#f2f2f2",
