@@ -35,15 +35,47 @@
             "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce"
           },
           "blocks": {
-            "group_product_tab_hBCjXW": {
-              "type": "_group-product-tab",
-              "name": "t:sections.main-product.blocks.group_product_tab",
-              "settings": {},
+            "liquid_ayum_badges": {
+              "type": "_liquid",
+              "name": "t:blocks.liquid.name",
+              "settings": {
+                "option_type": "liquid",
+                "page": "",
+                "text": "{%- liquid\n  assign ayum_badges = product.metafields.ayum.badges.value\n  if ayum_badges == blank\n    assign ayum_badges = ''\n    for ayum_tag in product.tags\n      if ayum_tag contains 'شارة:'\n        assign ayum_badges = ayum_badges | append: '|' | append: ayum_tag\n      endif\n    endfor\n    assign ayum_badges = ayum_badges | remove: 'شارة:' | split: '|' | compact\n  endif\n-%}\n{%- if ayum_badges.size > 0 or ayum_badges != blank -%}<div class=\"ayum-pdp-badges\">{%- for ayum_badge in ayum_badges -%}{%- if ayum_badge != blank -%}<span class=\"ayum-pdp-badge\">{{ ayum_badge | strip | escape }}</span>{%- endif -%}{%- endfor -%}</div>{%- endif -%}",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "ffamily": "--f_family_1",
+                "text_size": "base",
+                "font_weight": "normal",
+                "text_color": "hdt-s-text",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
               "blocks": {}
             },
             "judge_me_reviews_preview_badge_Mga8iW": {
               "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
               "settings": {}
+            },
+            "liquid_ayum_read_reviews": {
+              "type": "_liquid",
+              "name": "t:blocks.liquid.name",
+              "settings": {
+                "option_type": "liquid",
+                "page": "",
+                "text": "<a class=\"ayum-pdp-read-reviews\" href=\"#judgeme_product_reviews\">اقرأ التقييمات</a>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "ffamily": "--f_family_1",
+                "text_size": "base",
+                "font_weight": "normal",
+                "text_color": "hdt-s-text",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
             },
             "product_title_ehRqkq": {
               "type": "_product-title",
@@ -98,20 +130,17 @@
               },
               "blocks": {}
             },
-            "product_live_review_tRQVHb": {
-              "type": "_product-live-review",
-              "name": "t:sections.main-product.blocks.live_view.name",
+            "product_inventory_ayum": {
+              "type": "_product-inventory",
+              "name": "t:sections.main-product.blocks.inventory.name",
               "settings": {
-                "icon": "none",
-                "svg_upload": "",
-                "ani": "none",
-                "min": 10,
-                "max": 40,
-                "time": 7,
-                "content": "متوفر — باقي [count] قطع من هذا الحجم"
+                "inventory_threshold": 5,
+                "show_inventory_tracked": true,
+                "show_inventory_quantity": true,
+                "show_progress_bar": false,
+                "progress_bar_max": 50
               },
-              "blocks": {},
-              "disabled": true
+              "blocks": {}
             },
             "product_price_9JizTC": {
               "type": "_product-price",
@@ -170,67 +199,15 @@
                 "letter_spacing_text": 0
               },
               "blocks": {}
-            },
-            "liquid_ayum_badges": {
-              "type": "_liquid",
-              "name": "t:blocks.liquid.name",
-              "settings": {
-                "option_type": "liquid",
-                "page": "",
-                "text": "{%- liquid\n  assign ayum_badges = product.metafields.ayum.badges.value\n  if ayum_badges == blank\n    assign ayum_badges = ''\n    for ayum_tag in product.tags\n      if ayum_tag contains 'شارة:'\n        assign ayum_badges = ayum_badges | append: '|' | append: ayum_tag\n      endif\n    endfor\n    assign ayum_badges = ayum_badges | remove: 'شارة:' | split: '|' | compact\n  endif\n-%}\n{%- if ayum_badges.size > 0 or ayum_badges != blank -%}<div class=\"ayum-pdp-badges\">{%- for ayum_badge in ayum_badges -%}{%- if ayum_badge != blank -%}<span class=\"ayum-pdp-badge\">{{ ayum_badge | strip | escape }}</span>{%- endif -%}{%- endfor -%}</div>{%- endif -%}",
-                "hidden_br_mobile": false,
-                "hidden_on_mobile": false,
-                "ffamily": "--f_family_1",
-                "text_size": "base",
-                "font_weight": "normal",
-                "text_color": "hdt-s-text",
-                "font_size_text_lg": 16,
-                "font_size_text": 14,
-                "letter_spacing_text": 0
-              },
-              "blocks": {}
-            },
-            "product_inventory_ayum": {
-              "type": "_product-inventory",
-              "name": "t:sections.main-product.blocks.inventory.name",
-              "settings": {
-                "inventory_threshold": 5,
-                "show_inventory_tracked": true,
-                "show_inventory_quantity": true,
-                "show_progress_bar": false,
-                "progress_bar_max": 50
-              },
-              "blocks": {}
-            },
-            "liquid_ayum_read_reviews": {
-              "type": "_liquid",
-              "name": "t:blocks.liquid.name",
-              "settings": {
-                "option_type": "liquid",
-                "page": "",
-                "text": "<a class=\"ayum-pdp-read-reviews\" href=\"#judgeme_product_reviews\">اقرأ التقييمات</a>",
-                "hidden_br_mobile": false,
-                "hidden_on_mobile": false,
-                "ffamily": "--f_family_1",
-                "text_size": "base",
-                "font_weight": "normal",
-                "text_color": "hdt-s-text",
-                "font_size_text_lg": 16,
-                "font_size_text": 14,
-                "letter_spacing_text": 0
-              },
-              "blocks": {}
             }
           },
           "block_order": [
-            "group_product_tab_hBCjXW",
             "liquid_ayum_badges",
             "judge_me_reviews_preview_badge_Mga8iW",
             "liquid_ayum_read_reviews",
             "product_title_ehRqkq",
             "product_description_AJaqwJ",
             "liquid_3TwJ7k",
-            "product_live_review_tRQVHb",
             "product_inventory_ayum",
             "product_price_9JizTC",
             "product_buy_button_aPmAbD",
@@ -275,6 +252,8 @@
             "nav_size": "small",
             "nav_hide_mobile": false,
             "ayum_nutrition_label": "القيمة الغذائية",
+            "ayum_nutrition_title": "",
+            "ayum_nutrition_tab_nutrition": "",
             "ayum_nutrition_tab_ingredients": "المكونات",
             "ayum_nutrition_col_item": "العنصر",
             "ayum_nutrition_col_100": "لكل 100 جم",
@@ -282,12 +261,10 @@
             "ayum_nutrition_rows": "السعرات | [  ] كيلو كالوري | [  ] كيلو كالوري\nالكربوهيدرات | [  ] جم | [  ] جم\nمنها سكريات طبيعية | [  ] جم | [  ] جم\nالألياف | [  ] جم | [  ] جم\nالبروتين | [  ] جم | [  ] جم\nفيتامين C | [  ] ملجم | [  ] ملجم",
             "ayum_nutrition_points": "",
             "ayum_nutrition_ingredients": "<p>[  ]</p>",
-            "ayum_nutrition_note": "الأرقام تُعبأ من تحليل معملي معتمد قبل النشر.",
-            "ayum_zoom_icon": "magnify",
-            "ayum_nutrition_title": "",
-            "ayum_nutrition_tab_nutrition": "",
             "ayum_nutrition_ingredients_heading": "",
-            "ayum_nutrition_atc_label": "أضف للسلة"
+            "ayum_nutrition_atc_label": "أضف للسلة",
+            "ayum_nutrition_note": "الأرقام تُعبأ من تحليل معملي معتمد قبل النشر.",
+            "ayum_zoom_icon": "magnify"
           },
           "blocks": {}
         }
@@ -314,6 +291,153 @@
         "pd": "30px,,60px,",
         "pd_mb": "22px,,45px,",
         "custom_class": "ayum-product-main"
+      }
+    },
+    "ayum_product_info": {
+      "type": "icon-box",
+      "blocks": {
+        "product_info_after": {
+          "type": "_icon_box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "image_width": 50,
+            "svg_upload": "<svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"8.6\"/><path d=\"M12 7.1V12l3.4 1.9\"/></svg>",
+            "svg_width": 24,
+            "svg_width_mb": 20,
+            "heading": "بعد الفتح",
+            "description": "يُفضّل استهلاكه فوراً"
+          },
+          "blocks": {}
+        },
+        "product_info_storage": {
+          "type": "_icon_box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "image_width": 50,
+            "svg_upload": "<svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M19.2 4.2H4.8c-.77 0-1.4.63-1.4 1.4v1.8c0 .77.63 1.4 1.4 1.4h14.4c.77 0 1.4-.63 1.4-1.4V5.6c0-.77-.63-1.4-1.4-1.4Z\"/><path d=\"M4.9 8.8h14.2v9.4a1.6 1.6 0 0 1-1.6 1.6h-11a1.6 1.6 0 0 1-1.6-1.6V8.8Z\"/><path d=\"M9.9 12.6h4.2\"/></svg>",
+            "svg_width": 24,
+            "svg_width_mb": 20,
+            "heading": "التخزين",
+            "description": "مكان جاف بعيد عن الرطوبة"
+          },
+          "blocks": {}
+        },
+        "product_info_ingredients": {
+          "type": "_icon_box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "image_width": 50,
+            "svg_upload": "<svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4.6 19.6C2.9 15.6 4.7 8.7 10 6.2c3-1.4 6.5-1.5 9.3-2.4.5 3.1.9 7.2-.6 10.5-2.1 4.6-7.7 6.7-12 5.3H4.6Z\"/><path d=\"M4.9 19.4c1.7-4.4 5.4-7.8 10.2-9.5\"/></svg>",
+            "svg_width": 24,
+            "svg_width_mb": 20,
+            "heading": "المكونات",
+            "description": "التفاصيل الكاملة في «القيمة الغذائية»"
+          },
+          "blocks": {}
+        },
+        "icon-box": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 16,
+            "margin_bottom": 24
+          },
+          "blocks": {
+            "product_info_heading": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "سناك خفيف ينفع بالدوام، بالطريق، وبأي وقت.",
+                "line_height": "",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 28,
+                "font_size_heading": 20,
+                "letter_spacing_heading": 0
+              },
+              "blocks": {}
+            },
+            "product_info_text": {
+              "type": "_sub_heading_section",
+              "settings": {
+                "text": "<p>شرائح أناناس طازجة تتجمّد ثم يُسحب منها الماء بالتفريغ<br/>بدون حرارة، فتحتفظ بنكهتها وقيمتها الغذائية.</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "text_size": "custom",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_info_heading",
+            "product_info_text"
+          ]
+        }
+      },
+      "block_order": [
+        "product_info_after",
+        "product_info_storage",
+        "product_info_ingredients"
+      ],
+      "settings": {
+        "enable_border": false,
+        "enable_box_shadow": false,
+        "border_color": "#d3e3e8",
+        "heading_color": "#26b3d0",
+        "icon_color": "#26b3d0",
+        "description_color": "#26383a",
+        "color_box": "#ffffff",
+        "color_box_hover": "#ffffff",
+        "color_content_hover": "#26b3d0",
+        "source": "svg",
+        "padding": "0px,8px,0px,8px",
+        "col_dk": "3",
+        "col_tb": "3",
+        "col_mb": "1",
+        "space_horizontal": "0",
+        "space_vertical": "0",
+        "space_horizontal_mb": "0",
+        "space_vertical_mb": "0",
+        "layout": "grid",
+        "loop": false,
+        "autoplay": 0,
+        "pauseOnHover": false,
+        "navUI": false,
+        "nav_position": "default",
+        "nav_visible": "always",
+        "nav_style": "default",
+        "nav_shape": "default",
+        "nav_size": "small",
+        "nav_hide_mobile": false,
+        "dotUI": false,
+        "pag_style": "default",
+        "pag_rounded": false,
+        "pag_space": 10,
+        "pag_mgt": 10,
+        "only_show_mobile": false,
+        "pag_hide_mobile": false,
+        "colors_by_section": true,
+        "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
+        "background_opacity": 0.6,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,24px,",
+        "custom_class": "ayum-product-info ayum-scheme-colors"
       }
     },
     "tabs": {
@@ -771,134 +895,6 @@
         "ayum_card_tag_prefix": "",
         "ayum_card_tag_allow": "مجفف بالتجميد",
         "ayum_card_tag_metafield": ""
-      }
-    },
-    "ayum_product_info": {
-      "type": "icon-box",
-      "blocks": {
-        "icon-box": {
-          "type": "section-heading",
-          "static": true,
-          "settings": {
-            "design_heading": "1",
-            "horizontal": false,
-            "alignment": "center",
-            "heading_gap": 16,
-            "margin_bottom": 24
-          },
-          "blocks": {
-            "product_info_heading": {
-              "type": "_heading_section",
-              "settings": {
-                "heading": "سناك خفيف ينفع بالدوام، بالطريق، وبأي وقت.",
-                "line_height": "",
-                "heading_size": "h_custom",
-                "text_color": "hdt-s-text",
-                "font_size_heading_lg": 28,
-                "font_size_heading": 20,
-                "letter_spacing_heading": 0
-              }
-            },
-            "product_info_text": {
-              "type": "_sub_heading_section",
-              "settings": {
-                "text": "<p>يتجمّد ثم يُسحب منه الماء بالتفريغ بدون حرارة، فيحتفظ بنكهته ويتحول قوامه لقرمشة خفيفة.</p>",
-                "hidden_br_mobile": false,
-                "hidden_on_mobile": false,
-                "text_size": "custom",
-                "text_color": "hdt-text-secondary",
-                "font_size_text_lg": 16,
-                "font_size_text": 14,
-                "letter_spacing_text": 0
-              }
-            }
-          },
-          "block_order": [
-            "product_info_heading",
-            "product_info_text"
-          ]
-        },
-        "product_info_after": {
-          "type": "_icon_box",
-          "settings": {
-            "url": "",
-            "open_in_new_tab": false,
-            "icon_position": "left",
-            "image_width": 50,
-            "svg_upload": "<svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"8.6\"/><path d=\"M12 7.1V12l3.4 1.9\"/></svg>",
-            "svg_width": 24,
-            "svg_width_mb": 20,
-            "heading": "بعد الفتح",
-            "description": "يُفضّل استهلاكه فوراً"
-          },
-          "blocks": {}
-        },
-        "product_info_storage": {
-          "type": "_icon_box",
-          "settings": {
-            "url": "",
-            "open_in_new_tab": false,
-            "icon_position": "left",
-            "image_width": 50,
-            "svg_upload": "<svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M19.2 4.2H4.8c-.77 0-1.4.63-1.4 1.4v1.8c0 .77.63 1.4 1.4 1.4h14.4c.77 0 1.4-.63 1.4-1.4V5.6c0-.77-.63-1.4-1.4-1.4Z\"/><path d=\"M4.9 8.8h14.2v9.4a1.6 1.6 0 0 1-1.6 1.6h-11a1.6 1.6 0 0 1-1.6-1.6V8.8Z\"/><path d=\"M9.9 12.6h4.2\"/></svg>",
-            "svg_width": 24,
-            "svg_width_mb": 20,
-            "heading": "التخزين",
-            "description": "مكان جاف بعيد عن الرطوبة"
-          },
-          "blocks": {}
-        },
-        "product_info_ingredients": {
-          "type": "_icon_box",
-          "settings": {
-            "url": "",
-            "open_in_new_tab": false,
-            "icon_position": "left",
-            "image_width": 50,
-            "svg_upload": "<svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4.6 19.6C2.9 15.6 4.7 8.7 10 6.2c3-1.4 6.5-1.5 9.3-2.4.5 3.1.9 7.2-.6 10.5-2.1 4.6-7.7 6.7-12 5.3H4.6Z\"/><path d=\"M4.9 19.4c1.7-4.4 5.4-7.8 10.2-9.5\"/></svg>",
-            "svg_width": 24,
-            "svg_width_mb": 20,
-            "heading": "المكونات",
-            "description": "التفاصيل الكاملة في «القيمة الغذائية»"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "product_info_after",
-        "product_info_storage",
-        "product_info_ingredients"
-      ],
-      "settings": {
-        "enable_border": false,
-        "enable_box_shadow": false,
-        "border_color": "#D3E3E8",
-        "heading_color": "#26B3D0",
-        "icon_color": "#26B3D0",
-        "description_color": "#26383A",
-        "color_box": "#FFFFFF",
-        "color_box_hover": "#FFFFFF",
-        "color_content_hover": "#26B3D0",
-        "source": "svg",
-        "padding": "0px,8px,0px,8px",
-        "col_dk": "3",
-        "col_tb": "3",
-        "col_mb": "1",
-        "space_horizontal": "0",
-        "space_vertical": "0",
-        "space_horizontal_mb": "0",
-        "space_vertical_mb": "0",
-        "layout": "grid",
-        "colors_by_section": true,
-        "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
-        "background_opacity": 0.6,
-        "section_layout": "wrapper_container",
-        "hdt_background_parallax": false,
-        "mg": "",
-        "mg_mb": "",
-        "pd": "48px,,48px,",
-        "pd_mb": "24px,,24px,",
-        "custom_class": "ayum-product-info ayum-scheme-colors"
       }
     }
   },
