@@ -468,7 +468,7 @@
             "product_info_text": {
               "type": "_sub_heading_section",
               "settings": {
-                "text": "<p>شرائح أناناس طازجة تتجمّد ثم يُسحب منها الماء بالتفريغ<br/>بدون حرارة، فتحتفظ بنكهتها وقيمتها الغذائية.</p>",
+                "text": "<p>شرائح أناناس طازجة تتجمّد ثم يُسحب منها الماء بالتفريغ بدون حرارة، فتحتفظ بنكهتها وقيمتها الغذائية.</p>",
                 "hidden_br_mobile": false,
                 "hidden_on_mobile": false,
                 "text_size": "custom",
@@ -687,21 +687,23 @@
         "ayum_reviews_style": {
           "type": "ayum-reviews-style",
           "settings": {
+            "count_text": "بناءً على [count] مراجعات",
             "show_check": true,
-            "check_bg": "#2D6A55",
-            "check_fg": "#FFFFFF",
+            "check_bg": "#2d6a55",
+            "check_fg": "#ffffff",
             "check_size": 18,
             "check_size_mb": 16,
             "check_radius": 4,
             "verified_mode": "verified",
             "verified_label": "شراء موثّق",
-            "verified_text": "#2D7A4F",
-            "verified_bg": "#EAF6F0",
-            "verified_border": "#C4E8D4",
-            "verified_dot": "#2D7A4F",
-            "star_empty": "#D6D0C8",
-            "bar_fill": "#2D6A55",
-            "bar_track": "#D6E1E3"
+            "verified_text": "#2d7a4f",
+            "verified_bg": "#eaf6f0",
+            "verified_border": "#c4e8d4",
+            "verified_dot": "#2d7a4f",
+            "mobile_slider": true,
+            "star_empty": "#d6d0c8",
+            "bar_fill": "#2d6a55",
+            "bar_track": "#d6e1e3"
           },
           "blocks": {}
         }
