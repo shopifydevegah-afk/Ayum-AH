@@ -1228,6 +1228,7 @@
 .ayum-collection-top-list .hdt-navigation .hdt-slider__button {
   box-shadow: 0 2px 8px rgb(var(--color-overlay) / .14);
   border-radius: 22px;
+  justify-content: center !important;
 
 }
 .ayum-collection-top-list .hdt-slider .hdt-slider__slide a.ayum-tl-card {
@@ -1489,6 +1490,7 @@
   border-radius: 24px;
   font-size: 12px;
   font-weight: var(--font-extrabold);
+  justify-content: center !important;
 }
 @media (min-width: 768px) {
   .ayum-collection-products .hdt-pr-style7 .hdt-card-product__wrapper {
@@ -1606,9 +1608,10 @@
   display: none;
 }
 
-/* Ratings: a product without reviews prints "0 out of 5" with five empty stars and "(0)"; hide that
-   row rather than show a misleading rating. Products with real review data keep their stars. */
-.ayum-collection-products .hdt-pr-style7 .star-rating:is([aria-label^="0 "], [aria-label^="0.0 "]) {
+/* Ratings: a product without reviews prints "0 out of 5" with five empty stars and "(0)". Without the
+   section option "show empty stars" that row is hidden; with it, see "empty stars" below. Products with real
+   review data always keep their stars. */
+.ayum-collection-products:not(.ayum-empty-stars) .hdt-pr-style7 .star-rating:is([aria-label^="0 "], [aria-label^="0.0 "]) {
   display: none;
 }
 
@@ -2195,5 +2198,129 @@
 @media (min-width: 768px) {
   .ayum-collection-products .hdt-pagination-wrapper[loadmore-btn-wrapp] {
     margin-top: var(--pagination-distance);
+  }
+}
+
+/* ---------- Collection page, mobile: top list strip width (Figma 1:1095) ---------- */
+/* Root cause: the native top list sizes its content to "100vw - 80px" (theme.css
+   .hdt-top-list-collections .hdt-content) and pads the slider, reserving room for arrows that are hidden on
+   mobile here; with the container padding the visible track was 50-325px of 375, clipping cards on both
+   sides. Figma: a full-width strip, the first card 16px from the start edge, cards (sized by their content)
+   10px apart, the next cards running off the far edge. The native slider (Embla, RTL, drag) is unchanged;
+   only its box: full-width viewport, 16px start inset on the slide track. */
+@media (max-width: 767px) {
+  .ayum-collection-top-list > .hdt-container {
+    padding-inline: 0;
+  }
+  .ayum-collection-top-list .hdt-container .hdt-content {
+    width: 100%;
+  }
+  .ayum-collection-top-list .hdt-container .hdt-slider {
+    padding-inline: 0;
+  }
+  .ayum-collection-top-list .hdt-container .hdt-slider__container {
+    padding-inline-start: 16px;
+  }
+}
+
+/* ---------- Collection page: empty stars for products without reviews (section option) ---------- */
+/* The native rating snippet (products.metafields.reviews.rating, kept in sync by the review app) already
+   prints five unfilled stars for a product without reviews; with "show empty stars" on they stay visible as
+   a placeholder, without the "0" average or the "(0)" count. A first real review fills them automatically
+   (same snippet, same data). Empty stars take the scheme's Text 2 at 35% instead of the image's fixed grey:
+   the native star image is used as a mask (same shape), its own pixels moved out of the box. */
+.ayum-collection-products.ayum-empty-stars .hdt-pr-style7 .star-rating:is([aria-label^="0 "], [aria-label^="0.0 "]) .star-rating__average {
+  display: none;
+}
+.ayum-collection-products.ayum-empty-stars .hdt-pr-style7 .star-rating__star--unfilled {
+  object-position: 0 -999px;
+  background-color: rgb(var(--color-foreground2) / .35);
+  -webkit-mask: url(unfill_star_rating.svg) center / contain no-repeat;
+  mask: url(unfill_star_rating.svg) center / contain no-repeat;
+}
+
+/* ---------- Collection page: card badges (Figma 2001:105 / 2001:135 / 2001:152) ---------- */
+/* Native badges (sale %, new, custom badges from the product metafield) keep their native conditions and
+   text. Figma: one pill style for every badge, 12px from the image's top and start edges, 6px apart,
+   11px ExtraBold, 5 x 12 padding. Colours: the section's optional "Card badges" colours (the theme's global
+   badge colours stay in use elsewhere and whenever these are empty). */
+.ayum-collection-products .hdt-pr-style7 .hdt-badge__wrapp {
+  top: 12px;
+  right: auto;
+  left: auto;
+  inset-inline-start: 12px;
+  align-items: flex-start;
+  gap: 6px;
+}
+.ayum-collection-products .hdt-pr-style7 .hdt-badge {
+  min-width: 0;
+  min-height: 0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+  text-transform: none;
+  white-space: nowrap;
+}
+/* background-color is set as well: the theme's Custom CSS (Theme settings) paints ".hdt-badge.hdt-badge__on-sale"
+   with a fixed colour site-wide; with the section's badge colours set, this section uses them instead. */
+.ayum-collection-products.ayum-badges-custom .hdt-pr-style7 .hdt-badge {
+  --badge-color-primary: rgb(var(--ayum-badge-bg, var(--color-background, var(--color-base-background))));
+  --badge-color-secondary: rgb(var(--ayum-badge-text, var(--color-foreground)));
+  background-color: var(--badge-color-primary);
+  color: var(--badge-color-secondary);
+}
+@media (max-width: 767px) {
+  .ayum-collection-products .hdt-pr-style7 .hdt-badge__wrapp {
+    top: 8px;
+    inset-inline-start: 8px;
+    gap: 4px;
+  }
+  .ayum-collection-products .hdt-pr-style7 .hdt-badge {
+    padding: 4px 9px;
+    font-size: 10px;
+  }
+}
+/* Rating row: one height (17px) for rated and unrated cards so titles, prices and buttons line up. */
+.ayum-collection-products .hdt-pr-style7 :is(.ayum-card-meta, .star-rating) {
+  height: 17px;
+  align-items: center;
+}
+
+/* ---------- Collection page: filter group toggle = plus / minus (desktop), none in the sheet ---------- */
+/* The native chevron (svg.hdt-facet-title_icon, rotated by facets.css) is hidden in this section's filters.
+   Desktop (1150px+, the sidebar): its wrapper draws a 12px plus for a closed group and a minus for an open
+   one, from the native <details open> state; the SVG shapes are masks painted in the scheme's Text 2 (Figma
+   "−" in Text 2). Below 1150px the filters are the drawer / bottom sheet: no toggle icon; tapping the group
+   header still opens and closes it (native summary). */
+.ayum-collection-products .hdt-main-sidebar .hdt-facet-title_icon {
+  display: none;
+}
+@media (min-width: 1150px) {
+  .ayum-collection-products .hdt-main-sidebar .hdt-facet-title > span:has(> .hdt-facet-title_icon) {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 12px;
+    height: 12px;
+  }
+  .ayum-collection-products .hdt-main-sidebar .hdt-facet-title > span:has(> .hdt-facet-title_icon)::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background-color: rgb(var(--color-foreground2));
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M6 1v10M1 6h10' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M6 1v10M1 6h10' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  .ayum-collection-products .hdt-main-sidebar details[open] > summary .hdt-facet-title > span:has(> .hdt-facet-title_icon)::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1 6h10' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1 6h10' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+}
+@media (max-width: 1149px) {
+  .ayum-collection-products .hdt-main-sidebar .hdt-facet-title > span:has(> .hdt-facet-title_icon) {
+    display: none;
   }
 }

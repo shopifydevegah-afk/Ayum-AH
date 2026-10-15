@@ -143,7 +143,7 @@
     </div>
   {%- endcapture -%}
 {%- endif -%}
-<div id="{{ section.id }}" main-content class="hdt-main-collection-content hdt-section-spacing hdt-section-spacing-{{ section.id }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class | strip | escape }}{% endif %}">
+<div id="{{ section.id }}" main-content class="hdt-main-collection-content hdt-section-spacing hdt-section-spacing-{{ section.id }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class | strip | escape }}{% endif %}{% if section.settings.ayum_empty_stars %} ayum-empty-stars{% endif %}{% if section.settings.ayum_badge_bg != blank or section.settings.ayum_badge_text != blank %} ayum-badges-custom{% endif %}"{% if section.settings.ayum_badge_bg != blank or section.settings.ayum_badge_text != blank %} style="{% if section.settings.ayum_badge_bg != blank %}--ayum-badge-bg: {{ section.settings.ayum_badge_bg.rgb }};{% endif %}{% if section.settings.ayum_badge_text != blank %}--ayum-badge-text: {{ section.settings.ayum_badge_text.rgb }};{% endif %}"{% endif %}>
   {%- if section.settings.description_position == 'before' -%}
     {{ collection_description }}
   {%- endif -%}
@@ -1284,6 +1284,25 @@
       "label": "Card tag prefix",
       "info": "Optional. Only tags starting with this text are shown (without the prefix). Leave empty to use the product's first tag.",
       "visible_if": "{{ section.settings.ayum_card_tag }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "ayum_empty_stars",
+      "label": "Card style 7: show empty stars for products without reviews",
+      "info": "Five empty stars as a placeholder, without a rating number. Products with reviews always show their real rating.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "ayum_badge_bg",
+      "label": "Card badges: background",
+      "info": "Optional. One background for all card badges in this section. Leave empty to use the theme's badge colors."
+    },
+    {
+      "type": "color",
+      "id": "ayum_badge_text",
+      "label": "Card badges: text",
+      "info": "Optional. Leave empty to use the theme's badge text colors."
     },
     {
       "type": "text",

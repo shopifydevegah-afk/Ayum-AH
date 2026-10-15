@@ -188,6 +188,9 @@
         "ayum_sheet_results_label": "عرض [count] نتيجة",
         "ayum_card_tag": true,
         "ayum_card_tag_prefix": "",
+        "ayum_empty_stars": true,
+        "ayum_badge_bg": "#FFFFFF",
+        "ayum_badge_text": "#EA3A79",
         "ayum_card_tag_allow": "مجفف بالتجميد",
         "ayum_card_tag_metafield": "",
         "custom_class": "ayum-collection-products"
