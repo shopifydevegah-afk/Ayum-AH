@@ -11,16 +11,18 @@
   "sections": {
     "breadcrumb": {
       "type": "brc-nav-product",
+      "disabled": true,
       "settings": {
         "back_next_pr": true,
         "colors_by_section": true,
         "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
         "background_opacity": 1,
         "section_layout": "wrapper_container",
-        "pd": "20px,,20px,",
-        "pd_mb": "15px,,15px,",
+        "hdt_background_parallax": false,
         "mg": "",
-        "mg_mb": ""
+        "mg_mb": "",
+        "pd": "20px,,20px,",
+        "pd_mb": "15px,,15px,"
       }
     },
     "main-product": {
@@ -29,54 +31,46 @@
         "group_product_9RYttB": {
           "type": "_group-product",
           "settings": {
-            "colors_by_block": false,
-            "color_scheme": ""
+            "colors_by_block": true,
+            "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce"
           },
           "blocks": {
             "product_title_ehRqkq": {
               "type": "_product-title",
               "settings": {
                 "txt_tr_pr": "none",
-                "tag": "h2",
-                "heading_size": "h_custom",
+                "tag": "h1",
+                "heading_size": "h3",
                 "font_size_heading_lg": 16,
                 "font_size_heading": 16,
-                "font_weight": "semibold",
+                "font_weight": "bold",
                 "letter_spacing_heading": 0
               },
-              "blocks": {}
-            },
-            "product_price_9JizTC": {
-              "type": "_product-price",
-              "settings": {},
               "blocks": {}
             },
             "product_description_AJaqwJ": {
               "type": "_product-description",
               "settings": {
-                
+                "des": "1",
                 "short_des": "<p>Go kalles this summer with this vintage navy and white striped v-neck t-shirt from the Nike. Perfect for pairing with denim and white kicks for a stylish kalles vibe.</p>",
                 "readm": false,
                 "length": 130,
                 "readm_txt": "Read more",
-                "readl_txt": "Read less"
+                "readl_txt": "Read less",
+                "ffamily": "--f_family_1",
+                "text_size": "base",
+                "line_height": "",
+                "font_weight": "normal",
+                "heading_color": "",
+                "text_color": "hdt-s-text",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
               },
               "blocks": {}
             },
-            "product_variant_picker_WMmDTM": {
-              "type": "_product-variant-picker",
-              "settings": {
-                "color_picker_type": "color_rounded",
-                "color_size": "medium",
-                "picker_type": "circle",
-                "size_chart_source": "page",
-                "size_chart_page": "size-chart"
-              },
-              "blocks": {}
-            },
-            "quantity_selector_tarLcL": {
-              "type": "_quantity-selector",
-              "disabled": true,
+            "product_price_9JizTC": {
+              "type": "_product-price",
               "settings": {},
               "blocks": {}
             },
@@ -87,147 +81,46 @@
                 "show_dynamic_checkout": false,
                 "show_gift_card_recipient": true,
                 "show_wishlist": true,
+                "color_wishlist": "#56cfe1",
+                "color_hover_wishlist": "#56cfe1",
+                "color_active_wishlist": "#e81e1e",
                 "show_compare": true,
+                "color_compare": "#222222",
+                "color_hover_compare": "#56cfe1",
+                "color_active_compare": "#e81e1e",
                 "ani": "hdt-ani-shake is--infinite",
                 "time": 6,
                 "btn_transform": "hdt-uppercase",
-                "btn_style": "hdt-btn-accent",
-                "btn_fullwidth": false
-              },
-              "blocks": {}
-            },
-            "product_back_instock_qMdMA6": {
-              "type": "_product_back_instock",
-              "name": "Back in stock",
-              "settings": {
-                "only_show_soldout": true
-              },
-              "blocks": {}
-            },
-            "product_pickup_Jpchr6": {
-              "type": "_product-pickup",
-              "name": "t:sections.main-product.blocks.pickup_availability.name",
-              "settings": {},
-              "blocks": {}
-            },
-            "product_trust_badge_QALnxQ": {
-              "type": "_product-trust-badge",
-              "settings": {
-                "mess": "",
-                "size": 16,
-                "source": "1",
-                "image": "shopify://shop_images/trust_img.png",
-                "wimg": 370,
-                "svg": "amazon,american_express,apple_pay,bitcoin,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,google_pay,jcb,klarna,klarna-pay-later,litecoin,maestro,master,paypal,shopify_pay,sofort,visa",
-                "height": 30
-              },
-              "blocks": {}
-            },
-            "product_extra_link_HfDmDV": {
-              "type": "_product-extra-link",
-              "settings": {},
-              "blocks": {
-                "product_size_chart_6Y9gBm": {
-                  "type": "_product-size-chart",
-                  "settings": {
-                    "size_chart": "3",
-                    "size_chart_source": "page",
-                    "size_chart_page": "size-chart"
-                  },
-                  "blocks": {}
-                },
-                "product_delivery_return_CqMf76": {
-                  "type": "_product-delivery-return",
-                  "settings": {
-                    "page_delivery": "delivery-return"
-                  },
-                  "blocks": {}
-                },
-                "product_ask_question_nWC4pL": {
-                  "type": "_product-ask-question",
-                  "settings": {},
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "product_size_chart_6Y9gBm",
-                "product_delivery_return_CqMf76",
-                "product_ask_question_nWC4pL"
-              ]
-            },
-            "product_meta_hnDEjn": {
-              "type": "_product-meta",
-              "settings": {},
-              "blocks": {
-                "product_meta_available_hVC3VU": {
-                  "type": "_product-meta-available",
-                  "name": "t:sections.main-product.blocks.meta.settings.show_available.label",
-                  "settings": {},
-                  "blocks": {}
-                },
-                "product_meta_sku_kXHJPJ": {
-                  "type": "_product-meta-sku",
-                  "settings": {},
-                  "blocks": {}
-                },
-                "product_meta_category_4Gq4HK": {
-                  "type": "_product-meta-category",
-                  "settings": {},
-                  "blocks": {}
-                },
-                "product_meta_tags_bePDzg": {
-                  "type": "_product-meta-tags",
-                  "settings": {},
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "product_meta_available_hVC3VU",
-                "product_meta_sku_kXHJPJ",
-                "product_meta_category_4Gq4HK",
-                "product_meta_tags_bePDzg"
-              ]
-            },
-            "socials_XYJPwj": {
-              "type": "socials",
-              "settings": {
-                "text_color": "hdt-s-text",
-                "type": "share",
-                "share_facebook": true,
-                "share_x": true,
-                "share_pinterest": true,
-                "share_tumblr": true,
-                "share_telegram": true,
-                "share_email": true,
-                "share_whatsapp": true,
-                "socials_style": "simple",
-                "socials_size": "medium",
-                "bd_radius": 30,
-                "space_item": 30
+                "btn_style": "",
+                "btn_fullwidth": true
               },
               "blocks": {}
             }
           },
           "block_order": [
             "product_title_ehRqkq",
-            "product_price_9JizTC",
             "product_description_AJaqwJ",
-            "product_variant_picker_WMmDTM",
-            "quantity_selector_tarLcL",
-            "product_buy_button_aPmAbD",
-            "product_back_instock_qMdMA6",
-            "product_pickup_Jpchr6",
-            "product_trust_badge_QALnxQ",
-            "product_extra_link_HfDmDV",
-            "product_meta_hnDEjn",
-            "socials_XYJPwj"
+            "product_price_9JizTC",
+            "product_buy_button_aPmAbD"
           ]
+        },
+        "main-product-sidebar": {
+          "type": "_product_sidebar",
+          "disabled": true,
+          "static": true,
+          "settings": {
+            "color_scheme": "",
+            "space": 50,
+            "last_order": false
+          },
+          "blocks": {}
         },
         "main-product-medias": {
           "type": "_product-medias",
           "static": true,
           "settings": {
-            "desktop_media_layout": "thumbnail_left",
+            "media_box_size": 50,
+            "desktop_media_layout": "thumbnail_bottom",
             "media_size": "medium",
             "mobile_media_layout": "thumbnails",
             "show_first_media": false,
@@ -237,7 +130,7 @@
             "enable_thumb_efect": true,
             "image_ratio": "adapt_image",
             "image_size": true,
-            "image_zoom": "zoom_lightbox",
+            "image_zoom": "no",
             "enable_lightbox_icon": false,
             "image_zoom_type": "external",
             "zoom_level": 2,
@@ -257,18 +150,21 @@
       "settings": {
         "product_list_fbt": [],
         "sticky_atc": true,
+        "hdt_enable_choose_variant": true,
+        "hdt_layout_atc_mob": "hdt_layout_atc_mob_default",
+        "hdt_show_sticky_atc": "hdt_show_always",
         "ani": "hdt-ani-shake is--infinite",
         "time": 6,
         "btn_transform": "hdt-uppercase",
-        "btn_style": "hdt-btn-accent",
-        "colors_by_section": false,
-        "color_scheme": "",
+        "btn_style": "",
+        "colors_by_section": true,
+        "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
         "background_opacity": 1,
-        "fullwidth": false,
-        "pd": "30px,,60px,",
-        "pd_mb": "22px,,45px,",
+        "fullwidth": true,
         "mg": "",
-        "mg_mb": ""
+        "mg_mb": "",
+        "pd": "30px,,60px,",
+        "pd_mb": "22px,,45px,"
       }
     },
     "tabs": {
@@ -300,6 +196,7 @@
         "tab_add_HXf3yk",
         "tab_html_7dKb7L"
       ],
+      "disabled": true,
       "settings": {
         "tabs_design": "tab",
         "enable_first_tab": false,
@@ -307,10 +204,10 @@
         "colors_by_section": true,
         "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
         "background_opacity": 1,
-        "pd": "60px,,60px,",
-        "pd_mb": "30px,,30px,",
         "mg": "",
-        "mg_mb": ""
+        "mg_mb": "",
+        "pd": "60px,,60px,",
+        "pd_mb": "30px,,30px,"
       }
     },
     "sidebar": {
@@ -319,6 +216,222 @@
       "settings": {
         "color_scheme": "",
         "space": 50
+      }
+    },
+    "1792054584f95ad5c9": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_gha4Ec": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_gha4Ec"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "ayum_icon_box_eJNCKK": {
+      "type": "ayum-icon-box",
+      "blocks": {
+        "ayum_icon_box_GVn8LE": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "truck",
+            "ayum_icon_bg": "#e78333",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "شحن خلال 24 ساعة",
+            "description": "داخل الكويت، مع إرجاع خلال 7 أيام بشرط ارجاع المنتج في حالة سليمة",
+            "ayum_description_mb": "وإرجاع خلال 7 أيام."
+          },
+          "blocks": {}
+        },
+        "ayum_icon_box_TYmkJT": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "shield",
+            "ayum_icon_bg": "#b6d561",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "قرمشة تدوم",
+            "description": "عبوة مفرّغة من الهواء تحفظ المنتج لشهور بدون مواد حافظة.",
+            "ayum_description_mb": "عبوة دون مواد حافظة."
+          },
+          "blocks": {}
+        },
+        "ayum_icon_box_J9XAFc": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "noheat",
+            "ayum_icon_bg": "#ea3a79",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "تجفيف بدون حرارة",
+            "description": "التفريغ يسحب الماء ويحوّل الثلج لبخار، فالنكهة والقوام ما يتأثرون.",
+            "ayum_description_mb": "النكهة والقوام ما يتأثرون."
+          },
+          "blocks": {}
+        },
+        "ayum_icon_box_Me4izc": {
+          "type": "_ayum-icon-box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "ayum_icon": "factory",
+            "ayum_icon_bg": "#26b3d0",
+            "image_width": 50,
+            "svg_upload": "",
+            "svg_width": 26,
+            "svg_width_mb": 18,
+            "ayum_number": "",
+            "heading": "المصنع الأكبر في الكويت",
+            "description": "ننتج منتجات التجفيف بالتجميد محلياً — معظم المنافسين يستوردون.",
+            "ayum_description_mb": "إنتاج محلي مش مستورد."
+          },
+          "blocks": {}
+        },
+        "icon-box": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 16,
+            "margin_bottom": 32
+          },
+          "blocks": {
+            "heading_section_Dg48yg": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "ليش تختار أيم",
+                "line_height": "",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 34,
+                "font_size_heading": 23,
+                "letter_spacing_heading": 0
+              },
+              "blocks": {}
+            },
+            "sub_heading_section_CR3imr": {
+              "type": "_sub_heading_section",
+              "settings": {
+                "text": "<p>مو بس منتج مختلف — طريقة تصنيع مختلفة من الأساس</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": true,
+                "text_size": "custom",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading_section_Dg48yg",
+            "sub_heading_section_CR3imr"
+          ]
+        },
+        "claims": {
+          "type": "_ayum-claims",
+          "static": true,
+          "settings": {
+            "margin_bottom": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ayum_icon_box_GVn8LE",
+        "ayum_icon_box_TYmkJT",
+        "ayum_icon_box_J9XAFc",
+        "ayum_icon_box_Me4izc"
+      ],
+      "settings": {
+        "enable_border": false,
+        "enable_box_shadow": false,
+        "source": "svg",
+        "padding": "24px,24px,24px,24px",
+        "col_dk": "4",
+        "col_tb": "2",
+        "col_mb": "2",
+        "space_horizontal": "20",
+        "space_vertical": "20",
+        "space_horizontal_mb": "12",
+        "space_vertical_mb": "12",
+        "layout": "grid",
+        "loop": false,
+        "autoplay": 0,
+        "pauseOnHover": false,
+        "navUI": false,
+        "nav_position": "default",
+        "nav_visible": "always",
+        "nav_style": "default",
+        "nav_shape": "default",
+        "nav_size": "small",
+        "nav_hide_mobile": false,
+        "dotUI": false,
+        "pag_style": "default",
+        "pag_rounded": false,
+        "pag_space": 10,
+        "pag_mgt": 10,
+        "only_show_mobile": false,
+        "pag_hide_mobile": false,
+        "colors_by_section": true,
+        "color_scheme": "scheme-c9476b69-abc7-454f-a946-2d5a9f5f3a37",
+        "background_opacity": 0.4,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,24px,",
+        "ayum_subheading_size_mb": 13,
+        "ayum_subheading_color": "",
+        "ayum_title_size": 17,
+        "ayum_title_size_mb": 12,
+        "ayum_desc_size": 13,
+        "ayum_desc_size_mb": 11,
+        "ayum_radius": 16,
+        "ayum_radius_mb": 14,
+        "ayum_padding_mb": "14px,14px,14px,14px",
+        "ayum_background_source": "accent",
+        "ayum_card_surface": "background2",
+        "ayum_card_opacity": 50,
+        "ayum_icon_size": 48,
+        "ayum_icon_size_mb": 32,
+        "ayum_layout_mb": "stack",
+        "ayum_desc_color": "text80",
+        "custom_class": "ayum-collection-benefits"
       }
     },
     "related-products": {
@@ -338,24 +451,40 @@
             "heading_section_nLFWkr": {
               "type": "_heading_section",
               "settings": {
-                "heading": "You may also like",
+                "heading": "منتجات قد تعجبك",
                 "line_height": "",
-                "heading_size": "h5",
+                "heading_size": "h3",
                 "text_color": "hdt-s-text",
                 "font_size_heading_lg": 50,
                 "font_size_heading": 24,
                 "letter_spacing_heading": 0
               },
               "blocks": {}
+            },
+            "sub_heading_section_ymcTKp": {
+              "type": "_sub_heading_section",
+              "name": "t:blocks.section_heading.sub_heading",
+              "settings": {
+                "text": "<p>مختارة حسب اللي تصفّحته</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "text_size": "lg",
+                "text_color": "hdt-s-text",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": -3.4
+              },
+              "blocks": {}
             }
           },
           "block_order": [
-            "heading_section_nLFWkr"
+            "heading_section_nLFWkr",
+            "sub_heading_section_ymcTKp"
           ]
         }
       },
       "settings": {
-        "product_des": "1",
+        "product_des": "6",
         "image_ratio": "portrait",
         "image_size": true,
         "show_vendor": false,
@@ -383,85 +512,15 @@
         "pag_mgt": 10,
         "only_show_mobile": false,
         "pag_hide_mobile": false,
-        "colors_by_section": false,
-        "color_scheme": "",
-        "background_opacity": 0,
-        "section_layout": "container",
+        "colors_by_section": true,
+        "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
+        "background_opacity": 1,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
         "pd": "75px,,75px,",
-        "pd_mb": "37px,,37px,",
-        "mg": "",
-        "mg_mb": ""
-      }
-    },
-    "recently-products": {
-      "type": "recently-products",
-      "blocks": {
-        "pr-heading": {
-          "type": "section-heading",
-          "static": true,
-          "settings": {
-            "design_heading": "1",
-            "horizontal": false,
-            "alignment": "center",
-            "heading_gap": 18,
-            "margin_bottom": 30
-          },
-          "blocks": {
-            "heading_section_JdADpx": {
-              "type": "_heading_section",
-              "settings": {
-                "heading": "Recently viewed products",
-                "line_height": "",
-                "heading_size": "h5",
-                "text_color": "hdt-s-text",
-                "font_size_heading_lg": 50,
-                "font_size_heading": 24,
-                "letter_spacing_heading": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "heading_section_JdADpx"
-          ]
-        }
-      },
-      "settings": {
-        "product_des": "1",
-        "image_ratio": "portrait",
-        "image_size": true,
-        "show_vendor": false,
-        "pr_border": "none",
-        "limit": 10,
-        "col_dk": "4",
-        "col_tb": "3",
-        "col_mb": "2",
-        "space_items": "x",
-        "loop": false,
-        "autoplay": 0,
-        "pauseOnHover": false,
-        "navUI": true,
-        "nav_position": "default",
-        "nav_visible": "hover",
-        "nav_style": "outline",
-        "nav_shape": "rounded",
-        "nav_size": "small",
-        "nav_hide_mobile": false,
-        "dotUI": false,
-        "pag_style": "default",
-        "pag_rounded": false,
-        "pag_space": 10,
-        "pag_mgt": 10,
-        "only_show_mobile": false,
-        "pag_hide_mobile": false,
-        "colors_by_section": false,
-        "color_scheme": "",
-        "background_opacity": 0,
-        "section_layout": "container",
-        "pd": ",,50px,",
-        "pd_mb": ",,40px,",
-        "mg": "",
-        "mg_mb": ""
+        "pd_mb": "37px,,37px,"
       }
     }
   },
@@ -470,7 +529,8 @@
     "main-product",
     "tabs",
     "sidebar",
-    "related-products",
-    "recently-products"
+    "1792054584f95ad5c9",
+    "ayum_icon_box_eJNCKK",
+    "related-products"
   ]
 }
