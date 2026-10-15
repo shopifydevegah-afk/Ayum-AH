@@ -1,0 +1,47 @@
+{%- comment -%} AYUM: one nutrition table row (child of "Nutrition rows"). Values are shown with the unit after them. {%- endcomment -%}
+{%- if block.settings.name != blank -%}
+  <tr {{ block.shopify_attributes }}>
+    <th scope="row">{{ block.settings.name | escape }}</th>
+    <td>{% if block.settings.value_100 != blank %}{{ block.settings.value_100 | escape }}{% if block.settings.unit != blank %} {{ block.settings.unit | escape }}{% endif %}{% endif %}</td>
+    <td>{% if block.settings.value_pack != blank %}{{ block.settings.value_pack | escape }}{% if block.settings.unit != blank %} {{ block.settings.unit | escape }}{% endif %}{% endif %}</td>
+  </tr>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Nutrition row",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Nutrient",
+      "default": "السعرات"
+    },
+    {
+      "type": "text",
+      "id": "value_100",
+      "label": "Value per 100 g",
+      "default": "[  ]",
+      "info": "Number only, e.g. 350. Keep [  ] until the lab value is available."
+    },
+    {
+      "type": "text",
+      "id": "value_pack",
+      "label": "Value per pack / serving",
+      "default": "[  ]"
+    },
+    {
+      "type": "text",
+      "id": "unit",
+      "label": "Unit",
+      "default": "جم",
+      "info": "e.g. جم, ملجم, كيلو كالوري"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nutrition row"
+    }
+  ]
+}
+{% endschema %}

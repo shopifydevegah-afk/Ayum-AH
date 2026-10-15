@@ -3775,3 +3775,137 @@ body.hdt-page-type-product #judgeme_product_reviews .jm-review-content__body :is
     background-color: rgb(var(--color-foreground2) / .15);
   }
 }
+
+/* ==========================================================================
+   Product page — follow-up 2: pills, nutrition blocks, Judge.me cards, Icon box mobile, sticky bar
+   ========================================================================== */
+
+/* ---------- Pills ("AYUM pills" block; Figma 2048:1572 / 2048:2128) ---------- */
+.ayum-product-main .ayum-pdp-badges:not(:has(.ayum-pdp-badge)) {
+  display: none;
+}
+
+/* ---------- Nutrition popup (block "Nutrition popup") ---------- */
+.ayum-nutrition .ayum-nutrition__points:not(:has(li)) {
+  display: none;
+}
+.ayum-nutrition .ayum-nutrition__text {
+  margin-top: 14px;
+  color: rgb(var(--color-foreground2));
+  font-size: 13px;
+  line-height: 1.6;
+}
+.ayum-nutrition .ayum-nutrition__text > :last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Reviews (Judge.me) — scoped corrections over the shared Judge.me rules above ---------- */
+/* Real stars: the shared rules hide Judge.me's star glyphs and draw a fixed 80% "★★★★★" instead. On the
+   product page each review and each histogram row shows Judge.me's own stars, and the summary stars are
+   filled from the product's real rating (--ayum-rating-pct, set from the product's reviews.rating metafield
+   by the "اقرأ التقييمات" block; no rating = empty stars). */
+body.hdt-page-type-product #judgeme_product_reviews :is(.jm-review-item, .jm-histogram-row) .jm-star-rating__font-icon {
+  display: inline-block !important;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row__rating {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row__rating::after {
+  content: none !important;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row .jm-star-rating__font-icon {
+  font-size: 8px !important;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display > div > p:not(:last-child)::after {
+  background: linear-gradient(to left, rgb(var(--color-pr-rating)) var(--ayum-rating-pct, 0%), rgb(var(--color-pr-rating) / .3) var(--ayum-rating-pct, 0%)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  font-size: 16px !important;
+}
+/* Review card (Figma 2048:1798 / 2048:2324): stars, date, name + verified badge, review text. */
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-item__content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-item__content > * {
+  margin: 0 !important;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-item .jm-star-rating__font-icon {
+  font-size: 10px !important;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-item .jm-star-rating .jm-cluster {
+  gap: 2px;
+}
+/* Date above the reviewer name (the details stack is name, date in the DOM). */
+body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info__details {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info__details > * {
+  margin: 0 !important;
+}
+/* The shared rules add a "موثّق" pill after every reviewer name, verified or not. It is removed here; a real
+   Judge.me verified badge (only on verified reviews) keeps its own markup and gets the Figma pill shape. */
+body.hdt-page-type-product #judgeme_product_reviews .jm-text.jm-reviewer-info__name::after,
+body.hdt-page-type-product #judgeme_product_reviews .jm-text.jdgm-review-card__name::after {
+  content: none !important;
+  display: none !important;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info [class*="verified"] {
+  padding: 3px 9px;
+  border-radius: 18px;
+  font-size: 10px;
+  font-weight: var(--font-extrabold);
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-content {
+  margin-block-start: 0 !important;
+}
+@media (min-width: 768px) {
+  body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row .jm-star-rating__font-icon {
+    font-size: 13px !important;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display > div > p:not(:last-child)::after {
+    font-size: 18px !important;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-item .jm-star-rating__font-icon {
+    font-size: 16px !important;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-item .jm-star-rating .jm-cluster {
+    gap: 3px;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info [class*="verified"] {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+  }
+}
+
+/* ---------- Product details (Icon box) — mobile weights (Figma 2048:2222 / 2048:2231) ---------- */
+@media (max-width: 767px) {
+  .ayum-product-info .hdt-section-heading .hdt-heading-block {
+    font-weight: var(--font-extrabold);
+    line-height: 1.55;
+  }
+  .ayum-product-info .hdt-iconbox-des {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.7;
+  }
+}
+
+/* ---------- Sticky add to cart: no price on mobile (the product price stays in the buy box) ---------- */
+@media (max-width: 767px) {
+  .shopify-section:has(.ayum-product-main) hdt-sticky-btn-atc .hdt-sticky-atc__variant-price:not(:has(button[tag-select])) {
+    display: none;
+  }
+  .shopify-section:has(.ayum-product-main) hdt-sticky-btn-atc .hdt-sticky-atc__variant-price button[tag-select] > span + span {
+    display: none;
+  }
+}

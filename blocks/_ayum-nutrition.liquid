@@ -1,0 +1,202 @@
+{%- comment -%}
+  AYUM nutrition button + popup (Figma 2048:1678 / 2048:2117 button, 1:2745 / 1:3067 modal).
+  Static child of the main product gallery block (blocks/_product-medias.liquid, id "ayum-nutrition"), shown
+  beside the thumbnails. Everything is edited in the Theme Editor:
+  - this block: button / title / tab labels, table column titles, serving, button label, footnote, ingredients;
+  - "Nutrition rows" (static child): one "Nutrition row" block per nutrient (name, per 100 g, per pack, unit);
+  - "Nutrition points" (static child): one "Nutrition point" block per point (title, text).
+  Text and rich text settings accept dynamic sources, so per-product values can come from product metafields.
+  A product with the multi-line metafield ayum.nutrition_table ("name | per 100 g | per pack" per line) shows
+  those rows instead of the row blocks. No value is invented: placeholders stay "[  ]" until lab data exists.
+
+  Native pieces reused: <hdt-modal> / <dialog> (global aria-controls toggle: focus, Escape, scroll lock),
+  <hdt-tab> ([tab-item] / [tab-selected]; inactive panels are display:none) and the main product form for
+  "Add to cart" (submit button with form="…": the native product-form handler adds the selected variant).
+  <ayum-tabs> (assets/custom.js) keeps aria-selected / tabindex in sync and adds arrow-key navigation.
+{%- endcomment -%}
+{%- liquid
+  assign target = product
+  assign product = section.settings.product | default: target
+  if product == blank or block.settings.button_label == blank
+    continue
+  endif
+  assign product_form_id = 'product-form-' | append: section.id | append: product.id
+  assign selected_variant = product.selected_or_first_available_variant
+  assign modal_id = 'ayum-nutrition-' | append: block.id
+  assign popup_title = block.settings.title | default: product.title
+  assign tab_nutrition = block.settings.tab_nutrition | default: block.settings.button_label
+  assign tab_ingredients = block.settings.tab_ingredients
+-%}
+<button type="button" class="ayum-nutrition-btn" aria-controls="{{ modal_id }}" aria-haspopup="dialog" {{ block.shopify_attributes }}>{{ block.settings.button_label | escape }}</button>
+<hdt-modal class="hdt-modal hdt-product__modal ayum-nutrition-modal hdt-contents" color-scheme="{% if section.settings.colors_by_section and section.settings.color_scheme != blank %}{{ section.settings.color_scheme }}{% else %}{{ settings.color_scheme_dialog }}{% endif %}">
+  <dialog id="{{ modal_id }}" class="hdt-dialog hdt-dialog-modal ayum-nutrition" scroll-lock aria-labelledby="{{ modal_id }}-title">
+    <div class="hdt-dialog-modal__header ayum-nutrition__header">
+      <h2 id="{{ modal_id }}-title" class="ayum-nutrition__title">{{ popup_title | escape }}</h2>
+      <button ref="closeButton" class="hdt-s-text hdt-dialog-btn__close ayum-nutrition__close" aria-controls="{{ modal_id }}" aria-label="{{ 'accessibility.close' | t | escape }}">{%- render 'icon' with 'close' -%}</button>
+    </div>
+    <ayum-tabs class="ayum-nutrition__tabs-wrap">
+      <hdt-tab class="ayum-nutrition__tabs" aria-controls="{{ modal_id }}-panels" role="tablist">
+        <button type="button" role="tab" id="{{ modal_id }}-tab-1" aria-controls="{{ modal_id }}-panel-1" aria-selected="true" aria-current="true" class="ayum-nutrition__tab">{{ tab_nutrition | escape }}</button>
+        {%- if tab_ingredients != blank -%}
+          <button type="button" role="tab" id="{{ modal_id }}-tab-2" aria-controls="{{ modal_id }}-panel-2" aria-selected="false" aria-current="false" tabindex="-1" class="ayum-nutrition__tab">{{ tab_ingredients | escape }}</button>
+        {%- endif -%}
+      </hdt-tab>
+    </ayum-tabs>
+    <div id="{{ modal_id }}-panels" class="hdt-dialog-modal__inner hdt-current-scrollbar ayum-nutrition__body">
+      <div tab-item tab-selected id="{{ modal_id }}-panel-1" role="tabpanel" aria-labelledby="{{ modal_id }}-tab-1" class="ayum-nutrition__panel">
+        <table class="ayum-nutrition__table">
+          <thead>
+            <tr>
+              <th scope="col">{{ block.settings.col_item | escape }}</th>
+              <th scope="col">{{ block.settings.col_100 | escape }}</th>
+              <th scope="col">{{ block.settings.col_pack | escape }}{% if block.settings.serving != blank %} {{ block.settings.serving | escape }}{% endif %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- content_for 'block', type: '_ayum-nutrition-rows', id: 'rows' -%}
+          </tbody>
+        </table>
+        {%- content_for 'block', type: '_ayum-nutrition-points', id: 'points' -%}
+        {%- if block.settings.nutrition_note != blank -%}
+          <div class="ayum-nutrition__text hdt-rte">{{ block.settings.nutrition_note }}</div>
+        {%- endif -%}
+      </div>
+      {%- if tab_ingredients != blank -%}
+        <div tab-item id="{{ modal_id }}-panel-2" role="tabpanel" aria-labelledby="{{ modal_id }}-tab-2" class="ayum-nutrition__panel ayum-nutrition__ingredients">
+          {%- if block.settings.ingredients_heading != blank -%}
+            <h3 class="ayum-nutrition__subtitle">{{ block.settings.ingredients_heading | escape }}</h3>
+          {%- endif -%}
+          {%- if block.settings.ingredients != blank -%}
+            <div class="hdt-rte">{{ block.settings.ingredients }}</div>
+          {%- endif -%}
+          {%- if block.settings.ingredients_note != blank -%}
+            <div class="ayum-nutrition__text hdt-rte">{{ block.settings.ingredients_note }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="ayum-nutrition__footer">
+      <button type="submit" name="add" form="{{ product_form_id }}" class="ayum-nutrition__atc" aria-controls="{{ modal_id }}"{% unless selected_variant.available %} disabled{% endunless %}>
+        {%- if selected_variant.available -%}
+          {%- if block.settings.atc_label != blank -%}{{ block.settings.atc_label | escape }}{%- else -%}{{ 'products.product.add_to_cart' | t }}{%- endif -%}
+        {%- else -%}
+          {{- 'products.product.sold_out' | t -}}
+        {%- endif -%}
+      </button>
+      {%- if block.settings.note != blank -%}
+        <p class="ayum-nutrition__note">{{ block.settings.note | escape }}</p>
+      {%- endif -%}
+    </div>
+  </dialog>
+</hdt-modal>
+{% schema %}
+{
+  "name": "Nutrition popup",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Nutrition rows and points are the child blocks of this block. Text settings accept dynamic sources (product metafields) for per-product values."
+    },
+    {
+      "type": "header",
+      "content": "Button and popup"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "info": "Leave empty to hide the button and the popup (e.g. القيمة الغذائية)."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Popup heading",
+      "info": "Leave empty to use the product title."
+    },
+    {
+      "type": "text",
+      "id": "tab_nutrition",
+      "label": "Nutrition tab label",
+      "info": "Leave empty to use the button label."
+    },
+    {
+      "type": "text",
+      "id": "tab_ingredients",
+      "label": "Ingredients tab label",
+      "default": "المكونات",
+      "info": "Leave empty to hide the ingredients tab."
+    },
+    {
+      "type": "header",
+      "content": "Nutrition table"
+    },
+    {
+      "type": "text",
+      "id": "col_item",
+      "label": "First column title",
+      "default": "العنصر"
+    },
+    {
+      "type": "text",
+      "id": "col_100",
+      "label": "Second column title",
+      "default": "لكل 100 جم"
+    },
+    {
+      "type": "text",
+      "id": "col_pack",
+      "label": "Third column title",
+      "default": "لكل العبوة"
+    },
+    {
+      "type": "text",
+      "id": "serving",
+      "label": "Serving size",
+      "info": "Added to the third column title, e.g. (20 جم). Can be a product metafield."
+    },
+    {
+      "type": "richtext",
+      "id": "nutrition_note",
+      "label": "Nutrition notes",
+      "info": "Optional, shown under the points."
+    },
+    {
+      "type": "header",
+      "content": "Ingredients tab"
+    },
+    {
+      "type": "text",
+      "id": "ingredients_heading",
+      "label": "Ingredients heading"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredients",
+      "label": "Ingredients",
+      "info": "Lists (bullet points) and bold text are supported. Can be a product metafield."
+    },
+    {
+      "type": "richtext",
+      "id": "ingredients_note",
+      "label": "Ingredients notes",
+      "info": "Optional, shown under the ingredients."
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "text",
+      "id": "atc_label",
+      "label": "Add to cart button label",
+      "info": "Leave empty for the theme's add to cart text. Sold out keeps the theme text."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Disclaimer under the button"
+    }
+  ]
+}
+{% endschema %}

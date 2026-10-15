@@ -52,7 +52,8 @@
                 "font_size_text": 14,
                 "letter_spacing_text": 0
               },
-              "blocks": {}
+              "blocks": {},
+              "disabled": true
             },
             "judge_me_reviews_preview_badge_Mga8iW": {
               "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
@@ -64,7 +65,7 @@
               "settings": {
                 "option_type": "liquid",
                 "page": "",
-                "text": "<a class=\"ayum-pdp-read-reviews\" href=\"#judgeme_product_reviews\">اقرأ التقييمات</a>",
+                "text": "<a class=\"ayum-pdp-read-reviews\" href=\"#judgeme_product_reviews\">اقرأ التقييمات</a>{%- assign ayum_rating = product.metafields.reviews.rating.value -%}{%- if ayum_rating != blank -%}<style>#judgeme_product_reviews { --ayum-rating-pct: {{ ayum_rating.rating | divided_by: ayum_rating.scale_max | times: 100 | round: 1 }}%; }</style>{%- endif -%}",
                 "hidden_br_mobile": false,
                 "hidden_on_mobile": false,
                 "ffamily": "--f_family_1",
@@ -199,10 +200,36 @@
                 "letter_spacing_text": 0
               },
               "blocks": {}
+            },
+            "ayum_pills": {
+              "type": "_ayum-product-pills",
+              "settings": {
+                "show_metafield": true
+              },
+              "blocks": {
+                "pill_made_in_kuwait": {
+                  "type": "_ayum-product-pill",
+                  "settings": {
+                    "text": "صنع في الكويت"
+                  }
+                },
+                "pill_natural": {
+                  "type": "_ayum-product-pill",
+                  "disabled": true,
+                  "settings": {
+                    "text": "طبيعي 100%"
+                  }
+                }
+              },
+              "block_order": [
+                "pill_made_in_kuwait",
+                "pill_natural"
+              ]
             }
           },
           "block_order": [
             "liquid_ayum_badges",
+            "ayum_pills",
             "judge_me_reviews_preview_badge_Mga8iW",
             "liquid_ayum_read_reviews",
             "product_title_ehRqkq",
@@ -251,22 +278,108 @@
             "nav_shape": "rounded",
             "nav_size": "small",
             "nav_hide_mobile": false,
-            "ayum_nutrition_label": "القيمة الغذائية",
-            "ayum_nutrition_title": "",
-            "ayum_nutrition_tab_nutrition": "",
-            "ayum_nutrition_tab_ingredients": "المكونات",
-            "ayum_nutrition_col_item": "العنصر",
-            "ayum_nutrition_col_100": "لكل 100 جم",
-            "ayum_nutrition_col_pack": "لكل العبوة",
-            "ayum_nutrition_rows": "السعرات | [  ] كيلو كالوري | [  ] كيلو كالوري\nالكربوهيدرات | [  ] جم | [  ] جم\nمنها سكريات طبيعية | [  ] جم | [  ] جم\nالألياف | [  ] جم | [  ] جم\nالبروتين | [  ] جم | [  ] جم\nفيتامين C | [  ] ملجم | [  ] ملجم",
-            "ayum_nutrition_points": "",
-            "ayum_nutrition_ingredients": "<p>[  ]</p>",
-            "ayum_nutrition_ingredients_heading": "",
-            "ayum_nutrition_atc_label": "أضف للسلة",
-            "ayum_nutrition_note": "الأرقام تُعبأ من تحليل معملي معتمد قبل النشر.",
             "ayum_zoom_icon": "magnify"
           },
-          "blocks": {}
+          "blocks": {
+            "ayum-nutrition": {
+              "type": "_ayum-nutrition",
+              "static": true,
+              "settings": {
+                "button_label": "القيمة الغذائية",
+                "title": "",
+                "tab_nutrition": "",
+                "tab_ingredients": "المكونات",
+                "col_item": "العنصر",
+                "col_100": "لكل 100 جم",
+                "col_pack": "لكل العبوة",
+                "serving": "",
+                "nutrition_note": "",
+                "ingredients_heading": "",
+                "ingredients": "<p>[  ]</p>",
+                "ingredients_note": "",
+                "atc_label": "أضف للسلة",
+                "note": "الأرقام تُعبأ من تحليل معملي معتمد قبل النشر."
+              },
+              "blocks": {
+                "rows": {
+                  "type": "_ayum-nutrition-rows",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {
+                    "nutrition_row_1": {
+                      "type": "_ayum-nutrition-row",
+                      "settings": {
+                        "name": "السعرات",
+                        "value_100": "[  ]",
+                        "value_pack": "[  ]",
+                        "unit": "كيلو كالوري"
+                      }
+                    },
+                    "nutrition_row_2": {
+                      "type": "_ayum-nutrition-row",
+                      "settings": {
+                        "name": "الكربوهيدرات",
+                        "value_100": "[  ]",
+                        "value_pack": "[  ]",
+                        "unit": "جم"
+                      }
+                    },
+                    "nutrition_row_3": {
+                      "type": "_ayum-nutrition-row",
+                      "settings": {
+                        "name": "منها سكريات طبيعية",
+                        "value_100": "[  ]",
+                        "value_pack": "[  ]",
+                        "unit": "جم"
+                      }
+                    },
+                    "nutrition_row_4": {
+                      "type": "_ayum-nutrition-row",
+                      "settings": {
+                        "name": "الألياف",
+                        "value_100": "[  ]",
+                        "value_pack": "[  ]",
+                        "unit": "جم"
+                      }
+                    },
+                    "nutrition_row_5": {
+                      "type": "_ayum-nutrition-row",
+                      "settings": {
+                        "name": "البروتين",
+                        "value_100": "[  ]",
+                        "value_pack": "[  ]",
+                        "unit": "جم"
+                      }
+                    },
+                    "nutrition_row_6": {
+                      "type": "_ayum-nutrition-row",
+                      "settings": {
+                        "name": "فيتامين C",
+                        "value_100": "[  ]",
+                        "value_pack": "[  ]",
+                        "unit": "ملجم"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "nutrition_row_1",
+                    "nutrition_row_2",
+                    "nutrition_row_3",
+                    "nutrition_row_4",
+                    "nutrition_row_5",
+                    "nutrition_row_6"
+                  ]
+                },
+                "points": {
+                  "type": "_ayum-nutrition-points",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {},
+                  "block_order": []
+                }
+              }
+            }
+          }
         }
       },
       "block_order": [
@@ -360,7 +473,7 @@
                 "heading_size": "h_custom",
                 "text_color": "hdt-s-text",
                 "font_size_heading_lg": 28,
-                "font_size_heading": 20,
+                "font_size_heading": 19,
                 "letter_spacing_heading": 0
               },
               "blocks": {}
@@ -866,7 +979,7 @@
         "loop": false,
         "autoplay": 0,
         "pauseOnHover": false,
-        "navUI": true,
+        "navUI": false,
         "nav_position": "default",
         "nav_visible": "hover",
         "nav_style": "outline",

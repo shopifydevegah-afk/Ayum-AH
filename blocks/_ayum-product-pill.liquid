@@ -1,0 +1,27 @@
+{%- comment -%}
+  AYUM pill (child of "AYUM pills"). Empty text renders nothing, so a pill connected to a product metafield only
+  appears on products that have a value.
+{%- endcomment -%}
+{%- if block.settings.text != blank -%}
+  <span class="ayum-pdp-badge" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</span>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Pill",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "صنع في الكويت",
+      "info": "For a product-specific claim, connect a product metafield (dynamic source) instead of typing it."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pill"
+    }
+  ]
+}
+{% endschema %}

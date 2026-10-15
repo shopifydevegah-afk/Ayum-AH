@@ -1,0 +1,58 @@
+{%- comment -%}
+  AYUM informational pills above the rating (Figma 2048:1572 desktop / 2048:2128 mobile), e.g. "صنع في الكويت".
+  Used inside the main product "Group product" block. Each pill is a child "Pill" block: add, remove, reorder or
+  hide pills in the Theme Editor; a pill's text can be connected to a product metafield (dynamic source) so a
+  product-specific claim only shows on the products that have it. Optionally the product's own list metafield
+  ayum.badges is appended. Styles: assets/dev1.css (.ayum-pdp-badges / .ayum-pdp-badge).
+{%- endcomment -%}
+{%- liquid
+  assign target = product
+  assign product = section.settings.product | default: target
+  if product == blank
+    continue
+  endif
+  assign metafield_pills = blank
+  if block.settings.show_metafield
+    assign metafield_pills = product.metafields.ayum.badges.value
+  endif
+-%}
+<div class="ayum-pdp-badges" {{ block.shopify_attributes }}>
+  {%- content_for 'blocks' -%}
+  {%- for pill in metafield_pills -%}
+    {%- if pill != blank -%}<span class="ayum-pdp-badge">{{ pill | escape }}</span>{%- endif -%}
+  {%- endfor -%}
+</div>
+{% schema %}
+{
+  "name": "AYUM pills",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "_ayum-product-pill"
+    }
+  ],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Small information pills above the rating. Add a Pill block for each one; connect its text to a product metafield for claims that only apply to some products."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_metafield",
+      "label": "Also show the product's ayum.badges metafield",
+      "info": "A list of single line text product metafield (namespace ayum, key badges).",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "AYUM pills",
+      "blocks": [
+        {
+          "type": "_ayum-product-pill"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

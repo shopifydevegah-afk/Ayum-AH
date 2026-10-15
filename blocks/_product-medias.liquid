@@ -142,10 +142,8 @@
                 </div>
               </div>
             </hdt-slider-thumb>
-            {%- if block.settings.ayum_nutrition_label != blank -%}
-              {%- comment -%} AYUM (opt-in): nutrition button + popup beside the thumbnails. {%- endcomment -%}
-              {%- render 'ayum-nutrition-popup', product: product, block: block, product_form_id: product_form_id, selected_variant: selected_variant -%}
-            {%- endif -%}
+            {%- comment -%} AYUM (opt-in): nutrition button + popup beside the thumbnails; renders nothing until its button label is set. {%- endcomment -%}
+            {%- content_for 'block', type: '_ayum-nutrition', id: 'ayum-nutrition' -%}
             {%- if mobile_media_layout != 'thumbnails' -%}
               <hdt-slider-counter class="hdt-slider-counter hdt-slider-fraction hdt-inline-flex hdt-align-center lg:hdt-hidden" slider="slider-{{ block.id }}-{{ product.id }}">
                 <button disabled name="previous" aria-label="previous" aria-controls="slider-{{ block.id }}-{{ product.id }}" class="no-js-hidden">
@@ -624,92 +622,6 @@
       "label": "t:blocks.carousel.settings.pagination.pag_hide_mobile",
       "default": false,
       "visible_if": "{{ block.settings.navUI }}",
-    },
-    {
-      "type": "header",
-      "content": "AYUM — Nutrition popup"
-    },
-    {
-      "type": "paragraph",
-      "content": "Shown beside the thumbnails (layout: thumbnails bottom). Per product, fill the product metafields ayum.nutrition_table (one row per line: name | per 100 g | per pack), ayum.nutrition_serving, ayum.ingredients and ayum.nutrition_points (one per line: title | text). The fields below are used when a product has no value."
-    },
-    {
-      "type": "text",
-      "id": "ayum_nutrition_label",
-      "label": "Nutrition button label",
-      "info": "Leave empty to hide the button and popup."
-    },
-    {
-      "type": "text",
-      "id": "ayum_nutrition_title",
-      "label": "Popup title",
-      "info": "Leave empty to use the product title."
-    },
-    {
-      "type": "text",
-      "id": "ayum_nutrition_tab_nutrition",
-      "label": "Nutrition tab label",
-      "info": "Leave empty to use the button label."
-    },
-    {
-      "type": "text",
-      "id": "ayum_nutrition_tab_ingredients",
-      "label": "Ingredients tab label",
-      "info": "Leave empty to hide the ingredients tab.",
-      "default": "المكونات"
-    },
-    {
-      "type": "text",
-      "id": "ayum_nutrition_col_item",
-      "label": "Table: first column",
-      "default": "العنصر"
-    },
-    {
-      "type": "text",
-      "id": "ayum_nutrition_col_100",
-      "label": "Table: second column",
-      "default": "لكل 100 جم"
-    },
-    {
-      "type": "text",
-      "id": "ayum_nutrition_col_pack",
-      "label": "Table: third column",
-      "default": "لكل العبوة"
-    },
-    {
-      "type": "textarea",
-      "id": "ayum_nutrition_rows",
-      "label": "Placeholder rows",
-      "info": "Used when the product has no ayum.nutrition_table. One row per line: name | per 100 g | per pack. Keep [  ] until lab values are available."
-    },
-    {
-      "type": "textarea",
-      "id": "ayum_nutrition_points",
-      "label": "Placeholder points",
-      "info": "Used when the product has no ayum.nutrition_points. One per line: title | text. Leave empty rather than state claims a product does not meet."
-    },
-    {
-      "type": "richtext",
-      "id": "ayum_nutrition_ingredients",
-      "label": "Placeholder ingredients",
-      "info": "Used when the product has no ayum.ingredients. Lists and bold text are supported."
-    },
-    {
-      "type": "text",
-      "id": "ayum_nutrition_ingredients_heading",
-      "label": "Ingredients heading",
-      "info": "Optional, shown above the ingredients."
-    },
-    {
-      "type": "text",
-      "id": "ayum_nutrition_atc_label",
-      "label": "Add to cart button label",
-      "info": "Leave empty for the theme's add to cart text. Sold out keeps the theme text."
-    },
-    {
-      "type": "text",
-      "id": "ayum_nutrition_note",
-      "label": "Footnote"
     },
     {
       "type": "header",

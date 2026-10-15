@@ -1,0 +1,19 @@
+{%- comment -%} AYUM: point list under the nutrition table (static child of "Nutrition popup"); hidden when it has no points. {%- endcomment -%}
+<ul class="ayum-nutrition__points">{%- content_for 'blocks' -%}</ul>
+{% schema %}
+{
+  "name": "Nutrition points",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "_ayum-nutrition-point"
+    }
+  ],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Optional points under the table (title and short text). Only add claims the product meets."
+    }
+  ]
+}
+{% endschema %}
