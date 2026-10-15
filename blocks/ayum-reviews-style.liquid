@@ -1,0 +1,203 @@
+{%- comment -%}
+  AYUM reviews style (Figma 2048:1720 desktop / 2048:2247 mobile).
+  Add this block to the section that holds the Judge.me reviews widget. It renders no markup, only the colours,
+  sizes and options below as CSS for this section; the rules that use them are in assets/dev1.css
+  ("Reviews — style block"). Everything else (reviews, ratings, counts, verification) stays Judge.me's own data.
+{%- endcomment -%}
+{%- liquid
+  assign scope = '#shopify-section-' | append: section.id | append: ' #judgeme_product_reviews'
+  assign label = block.settings.verified_label | default: 'شراء موثّق' | replace: '"', '' | replace: '\', ''
+  assign count = product.metafields.reviews.rating_count.value
+  assign count_text = ''
+  if count != blank and block.settings.count_text != blank
+    assign count_text = block.settings.count_text | replace: '[count]', count | replace: '"', '' | replace: '\', ''
+  endif
+-%}
+{%- style -%}
+  {{ scope }} {
+    --ayum-chk-bg: {{ block.settings.check_bg }};
+    --ayum-chk-fg: {{ block.settings.check_fg }};
+    --ayum-chk-size: {{ block.settings.check_size }}px;
+    --ayum-chk-size-mb: {{ block.settings.check_size_mb }}px;
+    --ayum-chk-radius: {{ block.settings.check_radius }}px;
+    --ayum-star-empty: {{ block.settings.star_empty }};
+    --ayum-bar-fill: {{ block.settings.bar_fill }};
+    --ayum-bar-track: {{ block.settings.bar_track }};
+    --ayum-verified-text: {{ block.settings.verified_text }};
+    --ayum-verified-bg: {{ block.settings.verified_bg }};
+    --ayum-verified-border: {{ block.settings.verified_border }};
+    --ayum-verified-dot: {{ block.settings.verified_dot }};
+    {%- if count_text != blank %}
+    --ayum-count-text: "{{ count_text }}";
+    {%- if block.settings.show_check %}
+    --ayum-count-check: "\2713";
+    {%- endif -%}
+    {%- endif %}
+  }
+  {%- case block.settings.verified_mode -%}
+    {%- when 'all' %}
+  {{ scope }} .jm-text.jm-reviewer-info__name::after { content: "{{ label }}"; display: inline-flex; }
+    {%- when 'verified' %}
+  {{ scope }} .jm-cluster:has(> .jm-reviewer-info__name + *) > .jm-text.jm-reviewer-info__name::after { content: "{{ label }}"; display: inline-flex; }
+  {{ scope }} .jm-cluster > .jm-reviewer-info__name + * { display: none; }
+  {%- endcase %}
+{%- endstyle -%}
+{%- if block.settings.mobile_slider -%}
+  {%- comment -%} Mobile: the review list becomes a one-card slider; <ayum-review-pager> (assets/custom.js) adds the numbers. {%- endcomment -%}
+  <ayum-review-pager class="ayum-review-pager" role="navigation" aria-label="{{ 'general.pagination.label' | t | escape }}" data-widget="#shopify-section-{{ section.id }} #judgeme_product_reviews" data-label-page="{{ 'general.pagination.page' | t: number: '[n]' | escape }}" data-label-next="{{ 'general.pagination.next' | t | escape }}" hidden></ayum-review-pager>
+{%- endif -%}
+{% schema %}
+{
+  "name": "AYUM reviews style",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Colours and options for the Judge.me reviews in this section. Ratings, counts, dates and verification always come from Judge.me."
+    },
+    {
+      "type": "header",
+      "content": "Review count line"
+    },
+    {
+      "type": "text",
+      "id": "count_text",
+      "label": "Text under the rating",
+      "default": "بناءً على [count] مراجعات",
+      "info": "[count] = the product's number of reviews (Judge.me). Leave empty to hide the line."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_check",
+      "label": "Show check",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "check_bg",
+      "label": "Check background",
+      "default": "#2D6A55"
+    },
+    {
+      "type": "color",
+      "id": "check_fg",
+      "label": "Check mark",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "check_size",
+      "label": "Size (desktop)",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "check_size_mb",
+      "label": "Size (mobile)",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "check_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 15,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Verified purchase badge"
+    },
+    {
+      "type": "select",
+      "id": "verified_mode",
+      "label": "Show badge on",
+      "options": [
+        { "value": "verified", "label": "Reviews Judge.me marks as verified" },
+        { "value": "all", "label": "All reviews" },
+        { "value": "none", "label": "No reviews" }
+      ],
+      "default": "verified",
+      "info": "\"All reviews\" also labels reviews Judge.me does not verify (e.g. written by store visitors)."
+    },
+    {
+      "type": "text",
+      "id": "verified_label",
+      "label": "Badge text",
+      "default": "شراء موثّق"
+    },
+    {
+      "type": "color",
+      "id": "verified_text",
+      "label": "Badge text colour",
+      "default": "#2D7A4F"
+    },
+    {
+      "type": "color",
+      "id": "verified_bg",
+      "label": "Badge background",
+      "default": "#EAF6F0"
+    },
+    {
+      "type": "color",
+      "id": "verified_border",
+      "label": "Badge border",
+      "default": "#C4E8D4"
+    },
+    {
+      "type": "color",
+      "id": "verified_dot",
+      "label": "Badge dot",
+      "default": "#2D7A4F"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_slider",
+      "label": "One review per slide with numbers",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Stars and bars"
+    },
+    {
+      "type": "color",
+      "id": "star_empty",
+      "label": "Empty star",
+      "default": "#D6D0C8",
+      "info": "Filled stars use the Judge.me star colour."
+    },
+    {
+      "type": "color",
+      "id": "bar_fill",
+      "label": "Rating bar fill",
+      "default": "#2D6A55"
+    },
+    {
+      "type": "color",
+      "id": "bar_track",
+      "label": "Rating bar track",
+      "default": "#D6E1E3"
+    }
+  ],
+  "presets": [
+    {
+      "name": "AYUM reviews style"
+    }
+  ]
+}
+{% endschema %}

@@ -2455,7 +2455,6 @@
   color: #5aa04a !important;
   font-weight: 600;
   background-color: white !important;
-  border-radius: 20px !important;
   border: 1px solid #5aa04a !important;
   padding: 12px 28px !important;
 }
@@ -3090,23 +3089,36 @@
     height: 22px;
   }
 }
-/* Stock (native inventory block, selected variant's real inventory): price colour, 8px dot. */
+/* Stock (native inventory block, selected variant's real inventory; Figma 2048:1595 / 2048:2149): 13px Bold
+   in the scheme's price colour, an 8 x 8 dot (4px corners) at the start (right in RTL), 8px from the text.
+   The native 15px double-circle icon is replaced by the dot; the native messages and quantity are unchanged. */
 .ayum-product-main .hdt-product__inventory .hdt-stock-status {
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
+  margin: 0;
   color: rgb(var(--color-pr-price));
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+.ayum-product-main .hdt-product__inventory .hdt-stock-status[hidden] {
+  display: none;
 }
 .ayum-product-main .hdt-product__inventory .hdt-stock-status .hdt-s-text {
   color: inherit;
 }
 .ayum-product-main .hdt-product__inventory .hdt-stock-status > svg {
-  color: inherit;
+  display: none;
 }
-@media (min-width: 768px) {
-  .ayum-product-main .hdt-product__inventory .hdt-stock-status {
-    font-size: 13px;
-  }
+.ayum-product-main .hdt-product__inventory .hdt-stock-status::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: currentColor;
 }
 /* Price (Figma 28 / 46 ExtraBold, compare-at 13 / 23 struck through). */
 .ayum-product-main .hdt-product__price .hdt-price__list {
@@ -3169,7 +3181,6 @@
 }
 .ayum-product-main .hdt-product-form__top-buttons hdt-quantity-wrapp .hdt-quantity__button {
   height: 100%;
-  padding-inline: 12px;
   color: rgb(var(--color-foreground2));
 }
 .ayum-product-main .hdt-product-form__submit {
@@ -3191,9 +3202,6 @@
   }
   .ayum-product-main .hdt-product-form__top-buttons hdt-quantity-wrapp .hdt-quantity__input {
     font-size: 22px;
-  }
-  .ayum-product-main .hdt-product-form__top-buttons hdt-quantity-wrapp .hdt-quantity__button {
-    padding-inline: 14px;
   }
   .ayum-product-main .hdt-product-form__submit {
     min-height: 57px;
@@ -3800,29 +3808,45 @@ body.hdt-page-type-product #judgeme_product_reviews .jm-review-content__body :is
 }
 
 /* ---------- Reviews (Judge.me) — scoped corrections over the shared Judge.me rules above ---------- */
-/* Real stars: the shared rules hide Judge.me's star glyphs and draw a fixed 80% "★★★★★" instead. On the
-   product page each review and each histogram row shows Judge.me's own stars, and the summary stars are
-   filled from the product's real rating (--ayum-rating-pct, set from the product's reviews.rating metafield
-   by the "اقرأ التقييمات" block; no rating = empty stars). */
-body.hdt-page-type-product #judgeme_product_reviews :is(.jm-review-item, .jm-histogram-row) .jm-star-rating__font-icon {
+/* Real stars: the shared rules hide Judge.me's star glyphs and draw a fixed 80% "★★★★★" everywhere.
+   On the product page:
+   - each review shows Judge.me's own stars (its real rating);
+   - each histogram row (Judge.me order: 5, 4, 3, 2, 1 stars) shows five stars filled to that row's level
+     (the row label is laid out left to right, so its fill runs to the right to start at the first star)
+     (Figma bar rows); the row's number stays in the DOM for screen readers;
+   - the summary stars are filled from the product's real rating (--ayum-rating-pct, set from the product's
+     reviews.rating metafield by the "اقرأ التقييمات" block); without a rating they stay empty. */
+/* Star colour = Judge.me's own star colour setting (the theme schemes have no rating colour). */
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-item .jm-star-rating__font-icon {
   display: inline-block !important;
 }
-body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row__rating {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
+body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row .jm-star-rating {
+  display: none;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row {
+  --ayum-row-pct: 100%;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row:nth-child(2) {
+  --ayum-row-pct: 80%;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row:nth-child(3) {
+  --ayum-row-pct: 60%;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row:nth-child(4) {
+  --ayum-row-pct: 40%;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row:nth-child(5) {
+  --ayum-row-pct: 20%;
 }
 body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row__rating::after {
-  content: none !important;
-}
-body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row .jm-star-rating__font-icon {
+  background: linear-gradient(to right, var(--jm-review-widget-star-and-histogram-color, currentColor) var(--ayum-row-pct), var(--ayum-star-empty, color-mix(in srgb, var(--jm-review-widget-star-and-histogram-color, currentColor) 30%, transparent)) var(--ayum-row-pct)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
   font-size: 8px !important;
+  letter-spacing: 1px !important;
 }
 body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display > div > p:not(:last-child)::after {
-  background: linear-gradient(to left, rgb(var(--color-pr-rating)) var(--ayum-rating-pct, 0%), rgb(var(--color-pr-rating) / .3) var(--ayum-rating-pct, 0%)) !important;
+  background: linear-gradient(to left, var(--jm-review-widget-star-and-histogram-color, currentColor) var(--ayum-rating-pct, 0%), var(--ayum-star-empty, color-mix(in srgb, var(--jm-review-widget-star-and-histogram-color, currentColor) 30%, transparent)) var(--ayum-rating-pct, 0%)) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   font-size: 16px !important;
@@ -3851,9 +3875,11 @@ body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info__details {
 body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info__details > * {
   margin: 0 !important;
 }
-/* The shared rules add a "موثّق" pill after every reviewer name, verified or not. It is removed here; a real
-   Judge.me verified badge (only on verified reviews) keeps its own markup and gets the Figma pill shape. */
-body.hdt-page-type-product #judgeme_product_reviews .jm-text.jm-reviewer-info__name::after,
+/* The shared rules add a "موثّق" pill after every reviewer name, verified or not. On the product page it is
+   off by default; the "AYUM reviews style" block turns it on (verified reviews only / all reviews). */
+body.hdt-page-type-product #judgeme_product_reviews .jm-text.jm-reviewer-info__name::after {
+  content: none;
+}
 body.hdt-page-type-product #judgeme_product_reviews .jm-text.jdgm-review-card__name::after {
   content: none !important;
   display: none !important;
@@ -3868,8 +3894,9 @@ body.hdt-page-type-product #judgeme_product_reviews .jm-review-content {
   margin-block-start: 0 !important;
 }
 @media (min-width: 768px) {
-  body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row .jm-star-rating__font-icon {
+  body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row__rating::after {
     font-size: 13px !important;
+    letter-spacing: 2px !important;
   }
   body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display > div > p:not(:last-child)::after {
     font-size: 18px !important;
@@ -3907,5 +3934,244 @@ body.hdt-page-type-product #judgeme_product_reviews .jm-review-content {
   }
   .shopify-section:has(.ayum-product-main) hdt-sticky-btn-atc .hdt-sticky-atc__variant-price button[tag-select] > span + span {
     display: none;
+  }
+}
+
+/* ---------- Reviews — header, summary and cards (Figma 2048:1720 desktop / 2048:2247 mobile) ---------- */
+/* Header heading: Almarai ExtraBold (the heading block offers up to Bold); 39 / 54 desktop, 24 / 32 mobile. */
+body.hdt-page-type-product .shopify-section:has(#judgeme_product_reviews) .hdt-text-warry.hdt-h_custom {
+  font-weight: var(--font-extrabold);
+  line-height: 1.33;
+}
+@media (min-width: 768px) {
+  body.hdt-page-type-product .shopify-section:has(#judgeme_product_reviews) .hdt-text-warry.hdt-h_custom {
+    line-height: 1.38;
+  }
+}
+/* Review card spacing: stars, date (3px), name + verified badge, text. */
+body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info__details {
+  gap: 3px;
+}
+@media (min-width: 768px) {
+  body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info__details {
+    gap: 10px;
+  }
+}
+/* Verified purchase (Judge.me's own badge, only on reviews Judge.me marks as verified; Figma 2048:1809 /
+   2048:2334): rounded pill, dot before the label, 10px / 11px ExtraBold. */
+body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info [class*="verified"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1.2;
+}
+@media (max-width: 767px) {
+  /* Summary card (Figma 2048:2255): average centred on top, bars centred, button centred under them. */
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget__header {
+    justify-content: center !important;
+    padding: 20px 16px !important;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget-header__summary-section,
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget-header__main-content {
+    flex: 1 1 100%;
+    justify-content: center !important;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget-header__main-content {
+    flex-direction: column;
+    gap: 16px;
+  }
+  /* The shared rule offsets the histogram 70px from the start; centred here. */
+  body.hdt-page-type-product #judgeme_product_reviews .jm-histogram.jm-review-widget-header__star-rating-histogram {
+    margin-inline: auto !important;
+    width: 100%;
+    max-inline-size: 217px !important;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row__frequency {
+    font-size: 8px;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-action-buttons {
+    margin-inline: auto;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-action-buttons__button {
+    font-size: 10px;
+  }
+}
+
+/* ---------- Reviews — style block (blocks/ayum-reviews-style.liquid sets the --ayum-* values) ---------- */
+/* Verified purchase pill (Figma 2048:1809 / 2048:2334): shown only when the block gives it a text. The review
+   content is Arabic (RTL), so the dot sits at the physical right, before the label. */
+body.hdt-page-type-product #judgeme_product_reviews .jm-text.jm-reviewer-info__name {
+  gap: 8px;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-text.jm-reviewer-info__name::after {
+  align-items: center;
+  padding: 3px 21px 3px 10px;
+  border: 1px solid var(--ayum-verified-border, currentColor);
+  border-radius: 20px;
+  background-color: var(--ayum-verified-bg, transparent);
+  background-image: radial-gradient(circle, var(--ayum-verified-dot, currentColor) 0 3.5px, transparent 4px);
+  background-position: right 8px center;
+  background-size: 8px 8px;
+  background-repeat: no-repeat;
+  color: var(--ayum-verified-text, currentColor);
+  font-size: 10px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+@media (min-width: 768px) {
+  body.hdt-page-type-product #judgeme_product_reviews .jm-text.jm-reviewer-info__name::after {
+    font-size: 11px;
+  }
+}
+/* Rating bars (the shared rules colour them with !important). */
+body.hdt-page-type-product #judgeme_product_reviews .jm-progress-bar {
+  background-color: var(--ayum-bar-track, rgb(var(--color-foreground) / .18)) !important;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-progress-bar__fill {
+  background-color: var(--ayum-bar-fill, var(--jm-widget-primary-color, currentColor)) !important;
+}
+/* Review cards 12px apart (Figma). */
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-item:not(:first-child) {
+  margin-block-start: 12px !important;
+}
+/* Summary score (Figma 2119:2094 / 2048:2306): line 1 = average, stars and Judge.me's own count ("من 2");
+   line 2 = check + "بناءً على N مراجعات" (count from the product's reviews.rating_count; text and check from the
+   style block). Line 2 is decorative CSS text; Judge.me's own count stays in line 1. */
+body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display {
+  display: grid;
+  grid-template-columns: 1fr auto auto 1fr;
+  align-items: center;
+  column-gap: 6px;
+  row-gap: 10px;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display > div {
+  grid-column: 1 / -1;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display::before {
+  content: var(--ayum-count-check, none);
+  grid-row: 2;
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ayum-chk-size-mb, 16px);
+  height: var(--ayum-chk-size-mb, 16px);
+  border-radius: var(--ayum-chk-radius, 4px);
+  background-color: var(--ayum-chk-bg, var(--jm-widget-primary-color, currentColor));
+  color: var(--ayum-chk-fg, rgb(var(--color-background2)));
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display::after {
+  content: var(--ayum-count-text, none);
+  grid-row: 2;
+  grid-column: 3;
+  color: rgb(var(--color-foreground));
+  font-size: 12px;
+  white-space: nowrap;
+}
+@media (min-width: 768px) {
+  /* Desktop: line 2 starts at the start edge (right), like the score above it. */
+  body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display {
+    grid-template-columns: auto 1fr;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display::before {
+    grid-column: 1;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display::after {
+    grid-column: 2;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display::before {
+    width: var(--ayum-chk-size, 18px);
+    height: var(--ayum-chk-size, 18px);
+    font-size: 11px;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display::after {
+    font-size: 13px;
+  }
+}
+
+/* Mobile review slider (style block "One review per slide"; Figma 2048:2323): one card per view, swipe with
+   scroll snap; <ayum-review-pager> adds the numbers (Figma 2048:2345). */
+.ayum-review-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+  direction: rtl;
+}
+.ayum-review-pager[hidden] {
+  display: none;
+}
+.ayum-review-pager button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 36px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: rgb(var(--color-foreground));
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.ayum-review-pager .ayum-review-pager__num[aria-current="true"] {
+  font-weight: 700;
+}
+.ayum-review-pager .ayum-review-pager__arrow {
+  font-size: 18px;
+  line-height: 1;
+}
+.ayum-review-pager button:disabled {
+  opacity: .35;
+  cursor: default;
+}
+@media (max-width: 767px) {
+  body.hdt-page-type-product .shopify-section:has(.ayum-review-pager) #judgeme_product_reviews .jdgm-review-list {
+    display: flex !important;
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  body.hdt-page-type-product .shopify-section:has(.ayum-review-pager) #judgeme_product_reviews .jdgm-review-list::-webkit-scrollbar {
+    display: none;
+  }
+  body.hdt-page-type-product .shopify-section:has(.ayum-review-pager) #judgeme_product_reviews .jdgm-review-list > .jm-review-item {
+    flex: 0 0 100%;
+    min-width: 0;
+    margin: 0 !important;
+    scroll-snap-align: start;
+  }
+}
+@media (min-width: 768px) {
+  .ayum-review-pager {
+    display: none;
+  }
+}
+
+/* Delivery card (Figma 2048:1648 desktop / 2048:2201 mobile): 13px Bold rows, icon centred on the text. A
+   theme rule gave the row text a 15px top margin, which pushed it below the icon's centre. */
+.ayum-product-main .ayum-pdp-card .ayum-pdp-icon-list li {
+  font-size: 13px;
+  letter-spacing: 0;
+}
+.ayum-product-main .ayum-pdp-card .ayum-pdp-icon-list li > span {
+  min-width: 0;
+  margin: 0;
+}
+
+/* Related products, mobile (Figma 2048:2396 "2 per view" with the next card peeking): 44% slides show two
+   cards and part of the third; the native slider keeps swipe, snapping and the RTL direction. */
+@media (max-width: 767px) {
+  .ayum-product-related .hdt-slider.hdt-slider__products {
+    --slide-size: 44%;
   }
 }

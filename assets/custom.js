@@ -4737,3 +4737,132 @@ if (!customElements.get('ayum-tabs')) {
   }
   customElements.define('ayum-tabs', AyumTabs);
 }
+
+/*
+ * <ayum-review-pager> — AYUM (blocks/ayum-reviews-style.liquid, mobile only): the Judge.me review list is
+ * shown one card per slide (CSS scroll snap, assets/dev1.css); this element adds numbered buttons plus
+ * "next" and "last" for those cards and follows the swipe position. It only reads Judge.me's rendered
+ * cards (re-reading them when Judge.me re-renders, e.g. its own page change) and never changes them.
+ */
+if (!customElements.get('ayum-review-pager')) {
+  class AyumReviewPager extends HTMLElement {
+    connectedCallback() {
+      if (this._mq) return;
+      this._mq = window.matchMedia('(max-width: 767px)');
+      this._onChange = () => this._schedule();
+      this._mq.addEventListener('change', this._onChange);
+      this._observer = new MutationObserver(this._onChange);
+      this._onScroll = () => this._schedule();
+      this._attach();
+    }
+
+    disconnectedCallback() {
+      this._mq?.removeEventListener('change', this._onChange);
+      this._observer?.disconnect();
+      this._list?.removeEventListener('scroll', this._onScroll);
+      clearTimeout(this._timer);
+      cancelAnimationFrame(this._frame);
+      this._mq = this._list = this._widget = null;
+    }
+
+    _attach() {
+      const widget = document.querySelector(this.dataset.widget);
+      if (!widget) {
+        this._timer = setTimeout(() => this._attach(), 500);
+        return;
+      }
+      this._widget = widget;
+      this._observer.observe(widget, { childList: true, subtree: true });
+      this._sync();
+    }
+
+    _schedule() {
+      cancelAnimationFrame(this._frame);
+      this._frame = requestAnimationFrame(() => this._sync());
+    }
+
+    _items() {
+      return this._list ? [...this._list.children].filter((el) => el.classList.contains('jm-review-item')) : [];
+    }
+
+    _sync() {
+      if (!this._widget || !this._mq) return;
+      const list = this._widget.querySelector('.jdgm-review-list');
+      if (list !== this._list) {
+        this._list?.removeEventListener('scroll', this._onScroll);
+        this._list = list;
+        list?.addEventListener('scroll', this._onScroll, { passive: true });
+      }
+      const count = this._items().length;
+      if (!this._mq.matches || count < 2) {
+        this.hidden = true;
+        return;
+      }
+      if (count !== this._count) {
+        this._count = count;
+        this._render();
+      }
+      this.hidden = false;
+      this._mark(this._current());
+    }
+
+    _render() {
+      this.textContent = '';
+      const make = (text, label, onClick, cls) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = cls;
+        button.textContent = text;
+        button.setAttribute('aria-label', label);
+        button.addEventListener('click', onClick);
+        this.append(button);
+        return button;
+      };
+      const pageLabel = this.dataset.labelPage || '[n]';
+      this._numbers = [];
+      for (let i = 0; i < this._count; i++) {
+        this._numbers.push(make(String(i + 1), pageLabel.replace('[n]', i + 1), () => this._go(i), 'ayum-review-pager__num'));
+      }
+      this._next = make('›', this.dataset.labelNext || 'Next', () => this._go(this._current() + 1), 'ayum-review-pager__arrow');
+      this._last = make('»', pageLabel.replace('[n]', this._count), () => this._go(this._count - 1), 'ayum-review-pager__arrow');
+    }
+
+    _current() {
+      const items = this._items();
+      if (!items.length) return 0;
+      const box = this._list.getBoundingClientRect();
+      const middle = box.left + box.width / 2;
+      let best = 0;
+      let distance = Infinity;
+      items.forEach((item, index) => {
+        const rect = item.getBoundingClientRect();
+        const d = Math.abs(rect.left + rect.width / 2 - middle);
+        if (d < distance) {
+          distance = d;
+          best = index;
+        }
+      });
+      return best;
+    }
+
+    _go(index) {
+      const items = this._items();
+      const item = items[Math.max(0, Math.min(index, items.length - 1))];
+      if (!item) return;
+      const offset = item.getBoundingClientRect().left - this._list.getBoundingClientRect().left;
+      this._list.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+
+    _mark(index) {
+      if (!this._numbers) return;
+      this._numbers.forEach((button, i) => {
+        if (i === index) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+      });
+      const last = index >= this._count - 1;
+      this._next.disabled = last;
+      this._last.disabled = last;
+    }
+  }
+  customElements.define('ayum-review-pager', AyumReviewPager);
+}

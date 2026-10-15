@@ -194,7 +194,7 @@
               "settings": {
                 "option_type": "liquid",
                 "page": "",
-                "text": "<div class=\"ayum-pdp-card ayum-pdp-delivery\">\n  <ul class=\"ayum-pdp-icon-list\">\n    <li><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z\"/></svg><span>التوصيل المتوقع: خلال 24 ساعة داخل الكويت</span></li>\n    <li><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.09-.34.14-.57.14s-.41-.05-.57-.14l-7.9-4.44A1 1 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.09.34-.14.57-.14s.41.05.57.14l7.9 4.44c.32.17.53.5.53.88v9zM12 4.15L5.3 7.85 12 11.55l6.7-3.7L12 4.15zM5 9.77v6.58l6 3.37v-6.58L5 9.77zm14 0l-6 3.37v6.58l6-3.37V9.77z\"/></svg><span>شحن مجاني للطلبات فوق [XX] د.ك</span></li>\n    <li><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6 0 2.97-2.17 5.43-5 5.91v2.02c3.95-.49 7-3.85 7-7.93 0-4.42-3.58-8-8-8zm-6 8c0-1.66.67-3.16 1.76-4.24L6.34 7.34C4.9 8.79 4 10.79 4 13c0 4.08 3.05 7.44 7 7.93v-2.02c-2.83-.48-5-2.94-5-5.91z\"/></svg><span>إرجاع خلال 7 أيام · دفع K-Net وApple Pay</span></li>\n  </ul>\n</div>",
+                "text": "<div class=\"ayum-pdp-card ayum-pdp-delivery\">\n  <ul class=\"ayum-pdp-icon-list\">\n    <li><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 22 22\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M2.383 5.867H12.1v9.166H2.383z\"/><path d=\"M12.1 9.167h3.392l2.475 2.658v3.208H12.1z\"/><circle cx=\"6.508\" cy=\"16.867\" r=\"1.742\"/><circle cx=\"15.217\" cy=\"16.867\" r=\"1.742\"/></svg><span>التوصيل المتوقع: خلال 24 ساعة داخل الكويت</span></li>\n    <li><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 22 22\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M11 2.658l7.7 3.759v9.166L11 19.342l-7.7-3.759V6.417z\"/><path d=\"M3.3 6.417L11 10.267m0 0l7.7-3.85M11 10.267v9.075\"/></svg><span>شحن مجاني للطلبات فوق [XX] د.ك</span></li>\n    <li><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 22 22\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3.3 5.133V9.9h4.767\"/><path d=\"M4.125 12.8333C4.56507 14.4466 5.5433 15.861 6.89749 16.8421C8.25168 17.8232 9.9005 18.3119 11.5706 18.2274C13.2407 18.1429 14.8317 17.4901 16.0799 16.3773C17.3281 15.2645 18.1585 13.7585 18.4334 12.109C18.7083 10.4596 18.4112 8.76568 17.5914 7.30821C16.7716 5.85075 15.4783 4.71724 13.9259 4.09562C12.3735 3.474 10.6553 3.40161 9.0561 3.89045C7.45692 4.37928 6.07284 5.39999 5.13333 6.78333L3.3 9.9\"/></svg><span>إرجاع خلال 7 أيام · دفع K-Net وApple Pay</span></li>\n  </ul>\n</div>",
                 "hidden_br_mobile": false,
                 "hidden_on_mobile": false,
                 "ffamily": "",
@@ -683,11 +683,33 @@
             "show_shop_reviews": false,
             "empty_state": "empty_widget"
           }
+        },
+        "ayum_reviews_style": {
+          "type": "ayum-reviews-style",
+          "settings": {
+            "show_check": true,
+            "check_bg": "#2D6A55",
+            "check_fg": "#FFFFFF",
+            "check_size": 18,
+            "check_size_mb": 16,
+            "check_radius": 4,
+            "verified_mode": "verified",
+            "verified_label": "شراء موثّق",
+            "verified_text": "#2D7A4F",
+            "verified_bg": "#EAF6F0",
+            "verified_border": "#C4E8D4",
+            "verified_dot": "#2D7A4F",
+            "star_empty": "#D6D0C8",
+            "bar_fill": "#2D6A55",
+            "bar_track": "#D6E1E3"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
         "group_xUweKt",
-        "judge_me_reviews_review_widget_T6dCpb"
+        "judge_me_reviews_review_widget_T6dCpb",
+        "ayum_reviews_style"
       ],
       "name": "t:sections.custom_section.name",
       "settings": {

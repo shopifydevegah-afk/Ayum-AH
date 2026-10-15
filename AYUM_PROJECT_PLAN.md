@@ -1689,3 +1689,30 @@ Not run: المتصفح (الكاروسيلان، البطاقات، الإضا�
   - نصوص تفاصيل المنتج لكل منتج (الحالية عامة).
   - مراجعات حقيقية (الموجودة "Test").
   - شكل widget Judge.me من لوحة Judge.me.
+
+### 2026-10-15 — صفحة المنتج: متابعات (Pills، Nutrition blocks، Judge.me، المخزون، التوصيل) — In Progress
+
+- **الحالة:** كل ما يلي مختبر على نسخة ملتقطة من الـ render الحي (17:29) مع CSS/JS المحلي، وليس على الـ preview الحي (مغلق بكلمة سر معظم الوقت). يحتاج تحققاً حياً.
+- **Pills فوق التقييم:** بلوك جديد `blocks/_ayum-product-pills.liquid` + أبناء `_ayum-product-pill` (إضافة/حذف/ترتيب/إخفاء، النص يقبل dynamic source)، مسجّل في `_group-product`.
+  - التاجر حذف بلوك الـ Liquid القديم وفعّل «طبيعي 100%».
+- **Nutrition popup:** صار بلوكاً static `_ayum-nutrition` داخل `_product-medias`، وأبناؤه:
+  - `_ayum-nutrition-rows` / `_ayum-nutrition-row` (اسم، لكل 100، لكل عبوة، وحدة)؛
+  - `_ayum-nutrition-points` / `_ayum-nutrition-point`.
+  - التبويبان مع `<ayum-tabs>` (aria-selected + أسهم).
+  - الـ snippet القديم وإعدادات `ayum_nutrition_*` أزيلت بعد نقل قيمها.
+- **Judge.me:**
+  - تصحيحات scoped فوق CSS عام قديم في dev1.css (كان يخفي النجوم الحقيقية، ويرسم 80% ثابتة، ويضيف «موثّق» لكل مراجعة).
+  - نجوم المراجعة حقيقية؛ صفوف الـ histogram 5→1؛ نجوم الملخص من `reviews.rating`.
+  - سطر «✓ بناءً على N مراجعات» من `reviews.rating_count`.
+  - بلوك جديد `blocks/ayum-reviews-style.liquid` (إعدادات التشيك، شارة «شراء موثّق»: موثّق فقط/الكل/لا، ألوان النجوم الفارغة والأشرطة، سلايدر الموبايل).
+  - `<ayum-review-pager>`: كارد واحد بالموبايل مع أرقام.
+  - **بيانات Judge.me:** المراجعات الحالية `verified_buyer: false` (من الـ API العام)، فالشارة مخفية حالياً في وضع «موثّق فقط».
+- **Related:** `navUI` false (إعداد أصلي)، الـ progress باقٍ.
+- **Icon box موبايل:** العنوان 800، الوصف 14/700 (Figma 2048:2222 / 2231).
+- **Sticky ATC موبايل:** السعر مخفي (CSS scoped)، السعر الرئيسي ظاهر.
+- **المخزون (2048:1595):** 13px Bold، نقطة 8×8 بزوايا 4، الفاصل 8، الرسالة والكمية native.
+- **التوصيل (2048:1648):** أيقونات Figma (truck/box/return، stroke currentColor 1.65) داخل الـ Liquid block، النص محفوظ.
+  - إلغاء margin 15px كان يزيح النص عن منتصف الأيقونة؛ 13px Bold.
+- **متبقٍّ:**
+  - تحقق حي كامل: popup، الأزرار، pager بمراجعات حقيقية، sticky، شارة موثّق لمراجعة موثّقة فعلاً.
+  - نص «1 من» ونص عدد المراجعات من إعدادات Judge.me.
