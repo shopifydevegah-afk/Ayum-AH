@@ -1,4 +1,6 @@
 <!-- related-products.liquid -->
+{%- comment -%} AYUM (opt-in): slider progress bar bound to the native slider (assets/ayum-slider-progress.js). {%- endcomment -%}
+{%- if section.settings.ayum_progress -%}<script src="{{ 'ayum-slider-progress.js' | asset_url }}" defer></script>{%- endif -%}
 {% style %}
   {% render 'spacing-vars', box: section %}
 {% endstyle %}
@@ -44,7 +46,7 @@
 {%- capture sizes -%}
   (min-width: 1150px) calc(({{ current_width }} -  ({{ space_item }} * ( {{ section.settings.col_dk }} - 1 ))) * 1 / {{ section.settings.col_dk }}),(min-width: 768px) calc( ({{ current_width_tb }} - ({{ space_item_tb }} * ( {{ section.settings.col_tb }} - 1 ))) * 1 / {{ section.settings.col_tb }}), calc( ({{ current_width_mb }} - ({{ space_item_mb }} * ( {{ section.settings.col_mb }} - 1 ) )) * 1 / {{ section.settings.col_mb }})
 {%- endcapture -%}
-<div id="{{ section.id }}" class="{{ parent }} hdt-related-products-{{ section.settings.display_type }} {% if section.settings.hdt_background_parallax %} hdt-animate--parallax-bg {% endif %}" {%- if section.settings.colors_by_section %} color-scheme="{{ section.settings.color_scheme }}" style="--background-opacity: {{ section.settings.background_opacity }};"{%- endif %} hdt-reveal="fade-in">
+<div id="{{ section.id }}" class="{{ parent }} hdt-related-products-{{ section.settings.display_type }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class | strip | escape }}{% endif %} {% if section.settings.hdt_background_parallax %} hdt-animate--parallax-bg {% endif %}" {%- if section.settings.colors_by_section %} color-scheme="{{ section.settings.color_scheme }}" style="--background-opacity: {{ section.settings.background_opacity }};"{%- endif %} hdt-reveal="fade-in">
   <div class="{{ child }}">
     {%- if section.settings.section_background != blank -%}
       {% liquid
@@ -92,6 +94,11 @@
                 <div hdt-slider-dots aria-controls="Slider-{{ section.id }}" class="hdt-slider__dots hdt-pagination hdt-style-{{ section.settings.pag_style }} hdt-radius-{{ section.settings.pag_rounded }} hdt-hide-mobile-{{ section.settings.pag_hide_mobile }}" style="--space-between: {{ section.settings.pag_space }}px; --margin-top: {{ section.settings.pag_mgt }}px;" hdt-reveal="slide-in" timeline></div>
               {%- endif -%}
             </hdt-slider>
+            {%- if section.settings.ayum_progress -%}
+              <ayum-slider-progress class="ayum-slider-progress" aria-controls="Slider-{{ section.id }}" aria-hidden="true">
+                <span class="ayum-slider-progress__thumb"></span>
+              </ayum-slider-progress>
+            {%- endif -%}
             {%- else -%}
               <div style="height: 200px;width: 100%;background-color: rgb(var(--hdt-btn-tertiary-color) /.5);"></div>
             {%- endif -%}
@@ -114,6 +121,11 @@
                 <div hdt-slider-dots aria-controls="Slider-{{ section.id }}" class="hdt-slider__dots hdt-pagination hdt-style-{{ section.settings.pag_style }} hdt-radius-{{ section.settings.pag_rounded }} hdt-hide-mobile-{{ section.settings.pag_hide_mobile }}" style="--space-between: {{ section.settings.pag_space }}px; --margin-top: {{ section.settings.pag_mgt }}px;" hdt-reveal="slide-in" timeline></div>
               {%- endif -%}
             </hdt-slider>
+            {%- if section.settings.ayum_progress -%}
+              <ayum-slider-progress class="ayum-slider-progress" aria-controls="Slider-{{ section.id }}" aria-hidden="true">
+                <span class="ayum-slider-progress__thumb"></span>
+              </ayum-slider-progress>
+            {%- endif -%}
           {%- endif -%}
       </product-recommendations>
   </div>
@@ -699,6 +711,49 @@
       "label": "Padding (Mobile)",
       "placeholder": ",,50px,",
       "visible_if": "{{ section.settings.pd != blank }}"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    },
+    {
+      "type": "header",
+      "content": "AYUM"
+    },
+    {
+      "type": "checkbox",
+      "id": "ayum_progress",
+      "label": "Show slider progress bar",
+      "info": "A bar under the products that follows the slider position.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "ayum_card_tag",
+      "label": "Card style 7: show product tag beside the rating",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "ayum_card_tag_prefix",
+      "label": "Card tag prefix",
+      "info": "Optional. Only tags starting with this text are shown (without the prefix). Leave empty to use the product's first tag.",
+      "visible_if": "{{ section.settings.ayum_card_tag }}"
+    },
+    {
+      "type": "text",
+      "id": "ayum_card_tag_allow",
+      "label": "Card tag: allowed tags",
+      "info": "Optional, comma-separated. Only these product tags are shown on cards. Leave empty to allow any tag.",
+      "visible_if": "{{ section.settings.ayum_card_tag }}"
+    },
+    {
+      "type": "text",
+      "id": "ayum_card_tag_metafield",
+      "label": "Card tag: product metafield",
+      "info": "Optional, namespace.key of a text metafield (translatable). Shown instead of a tag when the product has a value.",
+      "visible_if": "{{ section.settings.ayum_card_tag }}"
     }
     ],
     "blocks": [

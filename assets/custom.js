@@ -4684,3 +4684,56 @@ class AccordionGroup extends HTMLElement {
   }
 }
 customElements.define('hdt-accordion-group', AccordionGroup);
+
+/*
+ * <ayum-tabs> — AYUM: ARIA tab state for a native <hdt-tab> it wraps (nutrition popup,
+ * snippets/ayum-nutrition-popup.liquid). The native element switches the panels and sets aria-current;
+ * this keeps aria-selected / tabindex in sync and adds Arrow / Home / End keys (they click the native tab).
+ */
+if (!customElements.get('ayum-tabs')) {
+  class AyumTabs extends HTMLElement {
+    connectedCallback() {
+      if (this._abort) return;
+      this._abort = new AbortController();
+      const signal = this._abort.signal;
+      this.addEventListener('click', (event) => {
+        const tab = event.target.closest('[role="tab"]');
+        if (tab && this.contains(tab)) this._select(tab);
+      }, { signal });
+      this.addEventListener('keydown', (event) => {
+        const tabs = this._tabs();
+        const index = tabs.indexOf(event.target);
+        if (index < 0) return;
+        const rtl = getComputedStyle(this).direction === 'rtl';
+        let next = null;
+        if (event.key === 'ArrowRight') next = rtl ? index - 1 : index + 1;
+        else if (event.key === 'ArrowLeft') next = rtl ? index + 1 : index - 1;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = tabs.length - 1;
+        if (next === null) return;
+        event.preventDefault();
+        const tab = tabs[(next + tabs.length) % tabs.length];
+        tab.focus();
+        tab.click();
+      }, { signal });
+    }
+
+    disconnectedCallback() {
+      this._abort?.abort();
+      this._abort = null;
+    }
+
+    _tabs() {
+      return [...this.querySelectorAll('[role="tab"]')];
+    }
+
+    _select(active) {
+      this._tabs().forEach((tab) => {
+        const selected = tab === active;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+    }
+  }
+  customElements.define('ayum-tabs', AyumTabs);
+}

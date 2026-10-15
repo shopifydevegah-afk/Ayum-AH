@@ -8,6 +8,8 @@
   - class: {String} a list class. (optional)
   - disable_sr_only: {Boolean} remove class sr_only (optional)
   - placement: {String} position tooltip (optional)
+  - add_label: {String} AYUM (optional): replaces the button text and aria-label of the add / quick add / choose
+    options states. Blank = the native translations.
 
   Usage:
   {%- render 'btn-ultra', product: card_product, section_id: section_id -%}
@@ -26,24 +28,24 @@
   {%- if product.variants.size > 1 or qty_rules or product.selling_plan_groups.size > 0 -%}
     {%- if settings.show_quick_add -%}
       <wrapp-hdt-open-modal-btn class="hdt-ultra_btn_parent {{ class }}" placement="{{ placement | default: 'none' }}" {{ tooltip_auto }}{% if section.id contains 'search' or tooltip_inner %} inner{% endif %}>
-        <button type="button" handle="{{ product.handle }}" aria-controls="hdt-quick-add-modal" aria-expanded="false" class="hdt-card-product__btn-ultra" aria-label="{{ 'products.product.quick_add' | t }}">
+        <button type="button" handle="{{ product.handle }}" aria-controls="hdt-quick-add-modal" aria-expanded="false" class="hdt-card-product__btn-ultra" aria-label="{% if add_label != blank %}{{ add_label | escape }}{% else %}{{ 'products.product.quick_add' | t }}{% endif %}">
           <span class="hdt-pr-card-icon">
             <svg class="hdt-svg-pr-icon hdt-svg-qa" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
             </svg>
           </span>
-          <span class="hdt-truncate{% unless disable_sr_only %} sr-only{% endunless %}">{{ 'products.product.quick_add' | t }}</span>
+          <span class="hdt-truncate{% unless disable_sr_only %} sr-only{% endunless %}">{% if add_label != blank %}{{ add_label | escape }}{% else %}{{ 'products.product.quick_add' | t }}{% endif %}</span>
         </button>
       </wrapp-hdt-open-modal-btn>
     {%- else -%}
       <hdt-tooltip class="hdt-ultra_btn_parent {{ class }}" placement="{{ placement | default: 'none' }}" {{ tooltip_auto }}{% if section.id contains 'search' or tooltip_inner %} inner{% endif %}>
-        <a data-pr-url href="{{ product_url }}" class="hdt-card-product__btn-ultra" aria-label="{{ 'products.product.choose_options' | t }}">
+        <a data-pr-url href="{{ product_url }}" class="hdt-card-product__btn-ultra" aria-label="{% if add_label != blank %}{{ add_label | escape }}{% else %}{{ 'products.product.choose_options' | t }}{% endif %}">
           <span class="hdt-pr-card-icon">
             <svg class="hdt-svg-pr-icon hdt-svg-option" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
             </svg>
           </span>
-          <span {% unless disable_sr_only %}class="sr-only"{% endunless %}>{{ 'products.product.choose_options' | t }}</span>
+          <span {% unless disable_sr_only %}class="sr-only"{% endunless %}>{% if add_label != blank %}{{ add_label | escape }}{% else %}{{ 'products.product.choose_options' | t }}{% endif %}</span>
         </a>
       </hdt-tooltip>
     {%- endif -%}
@@ -67,13 +69,13 @@
         <input type="hidden" name="quantity" value="{{ quantity_rule_min }}">
         {%- endif -%}
         <hdt-tooltip class="hdt-ultra_btn_parent {{ class }}" placement="{{ placement | default: 'none' }}" {{ tooltip_auto }}{% if section.id contains 'search' or tooltip_inner %} inner{% endif %}>
-          <button type="submit" name="add" class="hdt-card-product__btn-ultra" aria-label="{{ 'products.product.add_to_cart' | t }}">
+          <button type="submit" name="add" class="hdt-card-product__btn-ultra" aria-label="{% if add_label != blank %}{{ add_label | escape }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}">
             <span class="hdt-pr-card-icon">
               <svg class="hdt-svg-pr-icon hdt-svg-atc" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
               </svg>
             </span>
-            <span class="hdt-truncate{% unless disable_sr_only %} sr-only{% endunless %}">{{ 'products.product.add_to_cart' | t }}</span>
+            <span class="hdt-truncate{% unless disable_sr_only %} sr-only{% endunless %}">{% if add_label != blank %}{{ add_label | escape }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}</span>
           </button>
         </hdt-tooltip>
       {%- endform -%}

@@ -1591,3 +1591,101 @@ Not run: المتصفح (الكاروسيلان، البطاقات، الإضا�
   - **1440:** "−" للمفتوحة، و"+" بعد الإغلاق، و"−" بعد إعادة الفتح.
   - **1149 / 768 / 375:** بلا أيقونة.
   - الـ sheet: الضغط على "النوع" يغلقها.
+
+### 2026-10-15 — صفحة المنتج: إكمال على سكاشن Kalles الأصلية (In Progress)
+
+- **Figma:** `2048:1536` (ديسكتوب)، `2048:2071` (موبايل)، popup `1:2745` / `1:3067`؛ الأجزاء `2048:1571`، `1610`، `1613`، `1620`، `1648`، `1666`، `1691`، `2102`، `2127`.
+- **القالب:** `templates/product.json` (إعداد التاجر من المحرر).
+  - قبل الكتابة كان أحدث من آخر commit بست دقائق، ووقت تعديله تحقّق منه سكربت الكتابة.
+  - كل الكتل الموجودة محفوظة: لم يُحذف شيء، وتعديلات القيم موثقة أدناه.
+- **مطابقة المكونات:**
+
+| مكوّن Figma | مكوّن Kalles | الحالة | الإجراء |
+|---|---|---|---|
+| المعرض | `_product-medias` (static) | موجود | إعدادات أصلية + CSS + زر القيمة الغذائية |
+| صندوق الشراء | `_group-product` في main-product | موجود | CSS، custom_class |
+| Popup القيمة الغذائية | نمط `hdt-modal`/dialog + `hdt-tab` الأصلي | مفقود | snippet جديد `ayum-nutrition-popup` + hook اختياري في `_product-medias` |
+| الشارات | لا يوجد | مفقود | بلوك `_liquid` أصلي يقرأ `product.metafields.ayum.badges` |
+| ملخص التقييم | Judge.me preview badge | موجود | CSS فقط (بيانات حقيقية) |
+| "ليش بتحبه" / التوصيل | بلوكات `_liquid` (التاجر) | موجود بألوان inline | نفس النص بـ classes وألوان المخطط |
+| المخزون | `_product-live-review` (رقم عشوائي 10–40) | **مضلِّل** | الأصلي عُطِّل (محفوظ) + `_product-inventory` الأصلي (مخزون حقيقي) |
+| عادةً يُشترى معه | `_product_complimentary` (Search & Discovery) | موجود، بلا بيانات | CSS؛ يحتاج إعداد المنتجات المكملة في التطبيق |
+| تفاصيل المنتج (06) | لا يوجد | مفقود | نسخة جديدة من Custom Liquid الأصلي تقرأ metafields `ayum.*` |
+| التقييمات | custom-section + Judge.me widget | موجود | بلا تغيير |
+| ليش تختار أيم | ayum-icon-box | موجود | بلا تغيير |
+| منتجات قد تعجبك | related-products | موجود | custom_class فقط (تنسيق الكارت لم يُنفَّذ) |
+
+- **ملفات أصلية مُوسَّعة (اختيارية، افتراضها = السلوك الأصلي):**
+  - `sections/main-product.liquid`: `custom_class`.
+  - `sections/related-products.liquid`: `custom_class`.
+  - `blocks/_product-medias.liquid`: hook + 9 إعدادات `ayum_nutrition_*`؛ فارغة = لا زر.
+- **جديد:** `snippets/ayum-nutrition-popup.liquid`.
+  - الـ dialog الأصلي (التركيز، Escape، قفل التمرير) + `hdt-tab`.
+  - زر الإضافة `type=submit form=…` عبر نموذج المنتج الأصلي، ويغلق الـ popup.
+  - البيانات: `ayum.nutrition_table`، `ayum.nutrition_serving`، `ayum.ingredients`، `ayum.nutrition_points`؛ وإلا صفوف "[  ]" من إعدادات البلوك (لا أرقام مخترعة).
+- **قيم القالب:**
+  - **main-product:** `custom_class`، و`fullwidth` false (حاوية Figma).
+  - **المعرض:** `image_ratio` square، و`image_zoom` lightbox، و`enable_lightbox_icon`، و`enable_media_autoplay`، و`nav_hide_mobile` false، و`ayum_nutrition_*`.
+  - **بلوكات:** `liquid_ayum_badges` و`product_inventory_ayum` (threshold 5) جديدة؛ و`product_live_review_tRQVHb` معطّل.
+  - **سكاشن:** `ayum_product_details` (custom-liquid، Scheme 2 بنسبة 60%)؛ و`related-products` بـ `custom_class`.
+- **CSS (`dev1.css`):** `.ayum-product-main` و`.ayum-product-details` ونمط `.ayum-nutrition`. بلا ألوان حرفية.
+- **التحقق:**
+  - **حي:** على الـ preview قبل الإغلاق. كل الـ markup الجديد ظاهر، والمخزون الحقيقي "10 متوفر في المخزون" بدل الرقم العشوائي "40".
+  - **بعدها:** على render حي ملتقط + CSS محلي + إعدادا الحاوية والأسهم.
+  - **1440:** عمودان بفاصل 48؛ وسائط 630 بزوايا 18؛ أسهم 48؛ تكبير 36 أسفل-يسار؛ مصغّرات 104 مع إطار نشط؛ زر القيمة الغذائية 230×104؛ عنوان 34/800؛ سعر 46؛ كمية 161×49؛ زر 57.
+  - **375:** وسائط 345 بزوايا 16؛ تكبير أعلى-يمين؛ مصغّرات 64؛ زر 122×64؛ عنوان 25؛ سعر 28؛ كمية 84 + زر 251 في صف واحد.
+  - **Popup:** modal 520 / 343؛ 6 صفوف؛ Escape وزر الإغلاق يغلقان، والتركيز يعود للزر (اختبار لوحة مفاتيح).
+  - بلا overflow.
+- **غير مُتحقق / متبقٍّ:**
+  - إضافة للسلة من الـ popup، وتغيير الـ variant، وتشغيل الفيديو (الـ preview مغلق).
+  - تنسيق كروت "منتجات قد تعجبك" حسب Figma.
+  - رابط "اقرأ التقييمات" المنفصل (رابط Judge.me يؤدي الغرض).
+  - الشريط اللاصق للموبايل.
+- **على التاجر:**
+  - تعريف metafields المنتج `ayum.*` وتعبئتها: badges، tagline، details_text، after_opening، storage، ingredients_short، nutrition_table، nutrition_serving، ingredients، nutrition_points.
+  - إعداد المنتجات المكملة في Search & Discovery.
+  - الوصف القصير عبر `theme.description_excerpt` (اختياري).
+
+### 2026-10-15 — صفحة المنتج: تصحيح شامل حسب Figma (In Progress)
+
+- **الأسباب الجذرية:**
+  - الوصف الإنجليزي "Go kalles…" = الـ fallback التجريبي `short_des` في بلوك الوصف → تفريغه في القالب.
+  - 7 صفوف طويلة في "عادةً يُشترى معه" = منتجات Search & Discovery بلا حد ولا وضع مضغوط → إعدادات اختيارية جديدة.
+  - زر الإضافة في الصفوف المكملة أيقونة فقط وطافٍ (قاعدة أصلية في `theme.css`) → CSS مقيّد بـ `.ayum-upsell-compact`.
+  - overflow أفقي 3–17px بين 768 و1150 (وتجاوز 18px للحاوية على 1440) منذ المهمة السابقة: عرض الأعمدة الأصلي يطرح `--spacing-x` لا `column-gap` → ضبط المتغير نفسه.
+- **امتدادات أصلية (اختيارية، الافتراض = السلوك الأصلي):**
+  - `blocks/_product_complimentary.liquid`: `ayum_max_items` و`ayum_compact` و`ayum_btn_label`.
+  - `snippets/pr_loop_item.liquid` و`snippets/btn-ultra.liquid`: باراميتر `add_label` اختياري.
+  - `sections/icon-box.liquid`: `custom_class`.
+- **القالب `templates/product.json`:**
+  - المكمّلة: حد 2، صفوف مضغوطة، "أضِفه إلى طلبي".
+  - بلوك `_liquid` جديد "اقرأ التقييمات" → `#judgeme_product_reviews` (scroll-margin للهيدر اللاصق).
+  - الشارات: metafield `ayum.badges` أو وسوم "شارة:".
+  - **تفاصيل المنتج:** سكشن Icon box أصلي `ayum_product_info` بدل نسخة Custom Liquid السابقة (لم يكن فيها محتوى تاجر).
+  - **related-products:** card style 7 + مربع + `ayum-product-related ayum-empty-stars ayum-badges-custom` (قواعد كارت الكولكشن مشتركة عبر `:is()`).
+  - **sticky ATC:** يظهر بعد تجاوز نموذج الشراء.
+- **التحقق:**
+  - **حي:** على الـ preview قبل الإغلاق.
+    - صف التقييم مع الرابط.
+    - الرابط ينقل إلى الـ widget (أعلاه 30px تحت الهيدر).
+    - الصفوف المكملة: 2.
+    - تفاصيل المنتج: 3 أعمدة على الديسكتوب وعمود واحد على الموبايل.
+    - الشريط اللاصق مخفي أعلى الصفحة ويظهر بعد النموذج.
+  - **بعده:** على render حي ملتقط + CSS محلي.
+    - الصفوف المكملة: صورة 72/62 مربعة، اسم بسطرين، سعر 17/15، زر 117×31 / 100×27 بلا تداخل.
+    - تفاصيل المنتج مطابقة لـ `2048:1691`.
+    - بطاقات Judge.me ببيانات حقيقية.
+  - بلا overflow على 320/375/390/767/768/1149/1150/1440.
+  - **منتجات قد تعجبك:** على استجابة `/recommendations` الحية (16:00) داخل صفحة ملتقطة.
+    - 10 كروت style 7، صورة مربعة 270 / 142.
+    - شارة "جديد" وردية على أبيض.
+    - نجوم فارغة، وسعر وردي، وزر سماوي 43 / 33.
+    - بلا overflow.
+- **غير مُتحقق / متبقٍّ:**
+  - الإضافة الفعلية للسلة من الصف المكمل.
+- **على التاجر:**
+  - metafields `ayum.*`.
+  - المنتجات المكملة.
+  - نصوص تفاصيل المنتج لكل منتج (الحالية عامة).
+  - مراجعات حقيقية (الموجودة "Test").
+  - شكل widget Judge.me من لوحة Judge.me.

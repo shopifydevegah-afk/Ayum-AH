@@ -206,7 +206,7 @@
           "line_border": "#eeeeee",
           "overlay": "#000000",
           "pr_text": "#26383a",
-          "price": "#EA3A79",
+          "price": "#ea3a79",
           "sale_price": "#686868",
           "input_primary": "#ffffff",
           "input_secondary": "#686868"
@@ -345,6 +345,27 @@
           "background": "#26383a",
           "background_gradient": "",
           "background2": "#f2f2f2",
+          "button": "#222222",
+          "button_label": "#ffffff",
+          "button_border": "#222222",
+          "secondary_button_label": "#222222",
+          "accent_color": "#ea3a79",
+          "line_border": "#dddddd",
+          "overlay": "#000000",
+          "pr_text": "#222222",
+          "price": "#696969",
+          "sale_price": "#ec0101",
+          "input_primary": "#ffffff",
+          "input_secondary": "#878787"
+        }
+      },
+      "scheme-69fdf4fa-1007-429e-aec9-84ac2546ec1a": {
+        "settings": {
+          "text": "#144E60",
+          "text2": "#6B8C8B",
+          "background": "#F9F1D0",
+          "background_gradient": "",
+          "background2": "#FFFFFF",
           "button": "#222222",
           "button_label": "#ffffff",
           "button_border": "#222222",

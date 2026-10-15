@@ -35,6 +35,16 @@
             "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce"
           },
           "blocks": {
+            "group_product_tab_hBCjXW": {
+              "type": "_group-product-tab",
+              "name": "t:sections.main-product.blocks.group_product_tab",
+              "settings": {},
+              "blocks": {}
+            },
+            "judge_me_reviews_preview_badge_Mga8iW": {
+              "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+              "settings": {}
+            },
             "product_title_ehRqkq": {
               "type": "_product-title",
               "settings": {
@@ -52,7 +62,7 @@
               "type": "_product-description",
               "settings": {
                 "des": "1",
-                "short_des": "<p>Go kalles this summer with this vintage navy and white striped v-neck t-shirt from the Nike. Perfect for pairing with denim and white kicks for a stylish kalles vibe.</p>",
+                "short_des": "",
                 "readm": false,
                 "length": 130,
                 "readm_txt": "Read more",
@@ -68,6 +78,40 @@
                 "letter_spacing_text": 0
               },
               "blocks": {}
+            },
+            "liquid_3TwJ7k": {
+              "type": "_liquid",
+              "name": "t:blocks.liquid.name",
+              "settings": {
+                "option_type": "liquid",
+                "page": "",
+                "text": "<div class=\"ayum-pdp-card ayum-pdp-love\">\n  <h3 class=\"ayum-pdp-card__title\">ليش بتحبه</h3>\n  <ul class=\"ayum-pdp-list\">\n    <li>نكهته واضحة وتخليك تدمنه</li>\n    <li>قوام كرنشي بدون سكر أو إضافات</li>\n    <li>مناسب للكبار والصغار</li>\n  </ul>\n</div>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "ffamily": "--f_family_1",
+                "text_size": "base",
+                "font_weight": "normal",
+                "text_color": "hdt-s-text",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            },
+            "product_live_review_tRQVHb": {
+              "type": "_product-live-review",
+              "name": "t:sections.main-product.blocks.live_view.name",
+              "settings": {
+                "icon": "none",
+                "svg_upload": "",
+                "ani": "none",
+                "min": 10,
+                "max": 40,
+                "time": 7,
+                "content": "متوفر — باقي [count] قطع من هذا الحجم"
+              },
+              "blocks": {},
+              "disabled": true
             },
             "product_price_9JizTC": {
               "type": "_product-price",
@@ -95,13 +139,103 @@
                 "btn_fullwidth": true
               },
               "blocks": {}
+            },
+            "product_complimentary_68hwet": {
+              "type": "_product_complimentary",
+              "name": "t:sections.main-product.blocks.complimentary_products.name",
+              "settings": {
+                "text": "عادةً يُشترى معه:",
+                "show_ultra_btn": true,
+                "ayum_max_items": 2,
+                "ayum_compact": true,
+                "ayum_btn_label": "أضِفه إلى طلبي"
+              },
+              "blocks": {}
+            },
+            "liquid_g7xyDC": {
+              "type": "_liquid",
+              "name": "t:blocks.liquid.name",
+              "settings": {
+                "option_type": "liquid",
+                "page": "",
+                "text": "<div class=\"ayum-pdp-card ayum-pdp-delivery\">\n  <ul class=\"ayum-pdp-icon-list\">\n    <li><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z\"/></svg><span>التوصيل المتوقع: خلال 24 ساعة داخل الكويت</span></li>\n    <li><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.09-.34.14-.57.14s-.41-.05-.57-.14l-7.9-4.44A1 1 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.09.34-.14.57-.14s.41.05.57.14l7.9 4.44c.32.17.53.5.53.88v9zM12 4.15L5.3 7.85 12 11.55l6.7-3.7L12 4.15zM5 9.77v6.58l6 3.37v-6.58L5 9.77zm14 0l-6 3.37v6.58l6-3.37V9.77z\"/></svg><span>شحن مجاني للطلبات فوق [XX] د.ك</span></li>\n    <li><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6 0 2.97-2.17 5.43-5 5.91v2.02c3.95-.49 7-3.85 7-7.93 0-4.42-3.58-8-8-8zm-6 8c0-1.66.67-3.16 1.76-4.24L6.34 7.34C4.9 8.79 4 10.79 4 13c0 4.08 3.05 7.44 7 7.93v-2.02c-2.83-.48-5-2.94-5-5.91z\"/></svg><span>إرجاع خلال 7 أيام · دفع K-Net وApple Pay</span></li>\n  </ul>\n</div>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "ffamily": "",
+                "text_size": "base",
+                "font_weight": "normal",
+                "text_color": "hdt-s-text",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            },
+            "liquid_ayum_badges": {
+              "type": "_liquid",
+              "name": "t:blocks.liquid.name",
+              "settings": {
+                "option_type": "liquid",
+                "page": "",
+                "text": "{%- liquid\n  assign ayum_badges = product.metafields.ayum.badges.value\n  if ayum_badges == blank\n    assign ayum_badges = ''\n    for ayum_tag in product.tags\n      if ayum_tag contains 'شارة:'\n        assign ayum_badges = ayum_badges | append: '|' | append: ayum_tag\n      endif\n    endfor\n    assign ayum_badges = ayum_badges | remove: 'شارة:' | split: '|' | compact\n  endif\n-%}\n{%- if ayum_badges.size > 0 or ayum_badges != blank -%}<div class=\"ayum-pdp-badges\">{%- for ayum_badge in ayum_badges -%}{%- if ayum_badge != blank -%}<span class=\"ayum-pdp-badge\">{{ ayum_badge | strip | escape }}</span>{%- endif -%}{%- endfor -%}</div>{%- endif -%}",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "ffamily": "--f_family_1",
+                "text_size": "base",
+                "font_weight": "normal",
+                "text_color": "hdt-s-text",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            },
+            "product_inventory_ayum": {
+              "type": "_product-inventory",
+              "name": "t:sections.main-product.blocks.inventory.name",
+              "settings": {
+                "inventory_threshold": 5,
+                "show_inventory_tracked": true,
+                "show_inventory_quantity": true,
+                "show_progress_bar": false,
+                "progress_bar_max": 50
+              },
+              "blocks": {}
+            },
+            "liquid_ayum_read_reviews": {
+              "type": "_liquid",
+              "name": "t:blocks.liquid.name",
+              "settings": {
+                "option_type": "liquid",
+                "page": "",
+                "text": "<a class=\"ayum-pdp-read-reviews\" href=\"#judgeme_product_reviews\">اقرأ التقييمات</a>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "ffamily": "--f_family_1",
+                "text_size": "base",
+                "font_weight": "normal",
+                "text_color": "hdt-s-text",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
+            "group_product_tab_hBCjXW",
+            "liquid_ayum_badges",
+            "judge_me_reviews_preview_badge_Mga8iW",
+            "liquid_ayum_read_reviews",
             "product_title_ehRqkq",
             "product_description_AJaqwJ",
+            "liquid_3TwJ7k",
+            "product_live_review_tRQVHb",
+            "product_inventory_ayum",
             "product_price_9JizTC",
-            "product_buy_button_aPmAbD"
+            "product_buy_button_aPmAbD",
+            "product_complimentary_68hwet",
+            "liquid_g7xyDC"
           ]
         },
         "main-product-sidebar": {
@@ -125,13 +259,13 @@
             "mobile_media_layout": "thumbnails",
             "show_first_media": false,
             "use_select_varaint_change_media": true,
-            "enable_media_autoplay": false,
+            "enable_media_autoplay": true,
             "enable_video_looping": false,
             "enable_thumb_efect": true,
-            "image_ratio": "adapt_image",
+            "image_ratio": "square",
             "image_size": true,
-            "image_zoom": "no",
-            "enable_lightbox_icon": false,
+            "image_zoom": "lightbox",
+            "enable_lightbox_icon": true,
             "image_zoom_type": "external",
             "zoom_level": 2,
             "max_zoom_lightbox": 3,
@@ -139,7 +273,21 @@
             "nav_style": "outline",
             "nav_shape": "rounded",
             "nav_size": "small",
-            "nav_hide_mobile": true
+            "nav_hide_mobile": false,
+            "ayum_nutrition_label": "القيمة الغذائية",
+            "ayum_nutrition_tab_ingredients": "المكونات",
+            "ayum_nutrition_col_item": "العنصر",
+            "ayum_nutrition_col_100": "لكل 100 جم",
+            "ayum_nutrition_col_pack": "لكل العبوة",
+            "ayum_nutrition_rows": "السعرات | [  ] كيلو كالوري | [  ] كيلو كالوري\nالكربوهيدرات | [  ] جم | [  ] جم\nمنها سكريات طبيعية | [  ] جم | [  ] جم\nالألياف | [  ] جم | [  ] جم\nالبروتين | [  ] جم | [  ] جم\nفيتامين C | [  ] ملجم | [  ] ملجم",
+            "ayum_nutrition_points": "",
+            "ayum_nutrition_ingredients": "<p>[  ]</p>",
+            "ayum_nutrition_note": "الأرقام تُعبأ من تحليل معملي معتمد قبل النشر.",
+            "ayum_zoom_icon": "magnify",
+            "ayum_nutrition_title": "",
+            "ayum_nutrition_tab_nutrition": "",
+            "ayum_nutrition_ingredients_heading": "",
+            "ayum_nutrition_atc_label": "أضف للسلة"
           },
           "blocks": {}
         }
@@ -152,7 +300,7 @@
         "sticky_atc": true,
         "hdt_enable_choose_variant": true,
         "hdt_layout_atc_mob": "hdt_layout_atc_mob_default",
-        "hdt_show_sticky_atc": "hdt_show_always",
+        "hdt_show_sticky_atc": "hdt_show_scrolls_outside_the_scope_of_the_form",
         "ani": "hdt-ani-shake is--infinite",
         "time": 6,
         "btn_transform": "hdt-uppercase",
@@ -160,11 +308,12 @@
         "colors_by_section": true,
         "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce",
         "background_opacity": 1,
-        "fullwidth": true,
+        "fullwidth": false,
         "mg": "",
         "mg_mb": "",
         "pd": "30px,,60px,",
-        "pd_mb": "22px,,45px,"
+        "pd_mb": "22px,,45px,",
+        "custom_class": "ayum-product-main"
       }
     },
     "tabs": {
@@ -218,10 +367,91 @@
         "space": 50
       }
     },
-    "1792054584f95ad5c9": {
-      "type": "apps",
+    "custom_section_yPyP7Q": {
+      "type": "custom-section",
       "blocks": {
-        "judge_me_reviews_review_widget_gha4Ec": {
+        "group_xUweKt": {
+          "type": "group",
+          "name": "Group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": false,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 0,
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100,
+            "colors_by_block": false,
+            "color_scheme": "",
+            "group_rounded": "",
+            "padding_top": 0,
+            "padding_bottom": 0,
+            "padding_left": 0,
+            "padding_right": 0,
+            "padding_rate_mobile": 0
+          },
+          "blocks": {
+            "icon_WedFP4": {
+              "type": "_icon",
+              "name": "Icon",
+              "settings": {
+                "icon": "car",
+                "svg_upload": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 120 24\" width=\"150\" height=\"26\">\n  <g fill=\"#FFB800\">\n    <!-- Star 1 -->\n    <path d=\"M12 2l2.9 6.2 6.8.8-5 4.6 1.4 6.7L12 17l-6.1 3.3 1.4-6.7-5-4.6 6.8-.8z\"/>\n    <!-- Star 2 -->\n    <path d=\"M36 2l2.9 6.2 6.8.8-5 4.6 1.4 6.7L36 17l-6.1 3.3 1.4-6.7-5-4.6 6.8-.8z\"/>\n    <!-- Star 3 -->\n    <path d=\"M60 2l2.9 6.2 6.8.8-5 4.6 1.4 6.7L60 17l-6.1 3.3 1.4-6.7-5-4.6 6.8-.8z\"/>\n    <!-- Star 4 -->\n    <path d=\"M84 2l2.9 6.2 6.8.8-5 4.6 1.4 6.7L84 17l-6.1 3.3 1.4-6.7-5-4.6 6.8-.8z\"/>\n    <!-- Star 5 -->\n    <path d=\"M108 2l2.9 6.2 6.8.8-5 4.6 1.4 6.7-6.1-3.3-6.1 3.3 1.4-6.7-5-4.6 6.8-.8z\"/>\n  </g>\n</svg>",
+                "width_lg": 126,
+                "width_md": 126,
+                "width": 138
+              },
+              "blocks": {}
+            },
+            "heading_gL9EzL": {
+              "type": "heading",
+              "name": "t:blocks.heading.name",
+              "settings": {
+                "heading": "<p>عملاؤنا يتحدثون عن تجربتهم</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "line_height": "",
+                "font_weight": "bold",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 39,
+                "font_size_heading": 24,
+                "letter_spacing_heading": 0
+              },
+              "blocks": {}
+            },
+            "text_Q8LVrM": {
+              "type": "text",
+              "name": "t:blocks.text.name",
+              "settings": {
+                "text": "<p>نؤمن أن تجربتك معنا يجب أن تكون استثنائية من البداية للنهاية.</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "ffamily": "--f_family_1",
+                "text_size": "custom",
+                "line_height": "",
+                "font_weight": "medium",
+                "text_color": "hdt-text-secondary",
+                "countdown": "2025-12-30 15:00:00",
+                "txt_day": "days",
+                "font_size_text_lg": 17,
+                "font_size_text": 12,
+                "letter_spacing_text": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "icon_WedFP4",
+            "heading_gL9EzL",
+            "text_Q8LVrM"
+          ]
+        },
+        "judge_me_reviews_review_widget_T6dCpb": {
           "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
             "review_data": "real_data",
@@ -232,10 +462,24 @@
         }
       },
       "block_order": [
-        "judge_me_reviews_review_widget_gha4Ec"
+        "group_xUweKt",
+        "judge_me_reviews_review_widget_T6dCpb"
       ],
+      "name": "t:sections.custom_section.name",
       "settings": {
-        "include_margins": true
+        "layout": "10",
+        "item_spacing": 30,
+        "item_spacing_tb": 15,
+        "item_spacing_mb": 15,
+        "colors_by_section": true,
+        "color_scheme": "scheme-69fdf4fa-1007-429e-aec9-84ac2546ec1a",
+        "background_opacity": 1,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": ",,30px,",
+        "pd": "48px,,48px,",
+        "pd_mb": "16px,,16px,"
       }
     },
     "ayum_icon_box_eJNCKK": {
@@ -453,10 +697,10 @@
               "settings": {
                 "heading": "منتجات قد تعجبك",
                 "line_height": "",
-                "heading_size": "h3",
+                "heading_size": "h_custom",
                 "text_color": "hdt-s-text",
-                "font_size_heading_lg": 50,
-                "font_size_heading": 24,
+                "font_size_heading_lg": 34,
+                "font_size_heading": 20,
                 "letter_spacing_heading": 0
               },
               "blocks": {}
@@ -484,8 +728,8 @@
         }
       },
       "settings": {
-        "product_des": "6",
-        "image_ratio": "portrait",
+        "product_des": "7",
+        "image_ratio": "square",
         "image_size": true,
         "show_vendor": false,
         "display_type": "4",
@@ -520,16 +764,151 @@
         "mg": "",
         "mg_mb": "",
         "pd": "75px,,75px,",
-        "pd_mb": "37px,,37px,"
+        "pd_mb": "37px,,37px,",
+        "custom_class": "ayum-product-related ayum-empty-stars ayum-badges-custom",
+        "ayum_progress": true,
+        "ayum_card_tag": true,
+        "ayum_card_tag_prefix": "",
+        "ayum_card_tag_allow": "مجفف بالتجميد",
+        "ayum_card_tag_metafield": ""
+      }
+    },
+    "ayum_product_info": {
+      "type": "icon-box",
+      "blocks": {
+        "icon-box": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "center",
+            "heading_gap": 16,
+            "margin_bottom": 24
+          },
+          "blocks": {
+            "product_info_heading": {
+              "type": "_heading_section",
+              "settings": {
+                "heading": "سناك خفيف ينفع بالدوام، بالطريق، وبأي وقت.",
+                "line_height": "",
+                "heading_size": "h_custom",
+                "text_color": "hdt-s-text",
+                "font_size_heading_lg": 28,
+                "font_size_heading": 20,
+                "letter_spacing_heading": 0
+              }
+            },
+            "product_info_text": {
+              "type": "_sub_heading_section",
+              "settings": {
+                "text": "<p>يتجمّد ثم يُسحب منه الماء بالتفريغ بدون حرارة، فيحتفظ بنكهته ويتحول قوامه لقرمشة خفيفة.</p>",
+                "hidden_br_mobile": false,
+                "hidden_on_mobile": false,
+                "text_size": "custom",
+                "text_color": "hdt-text-secondary",
+                "font_size_text_lg": 16,
+                "font_size_text": 14,
+                "letter_spacing_text": 0
+              }
+            }
+          },
+          "block_order": [
+            "product_info_heading",
+            "product_info_text"
+          ]
+        },
+        "product_info_after": {
+          "type": "_icon_box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "image_width": 50,
+            "svg_upload": "<svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"8.6\"/><path d=\"M12 7.1V12l3.4 1.9\"/></svg>",
+            "svg_width": 24,
+            "svg_width_mb": 20,
+            "heading": "بعد الفتح",
+            "description": "يُفضّل استهلاكه فوراً"
+          },
+          "blocks": {}
+        },
+        "product_info_storage": {
+          "type": "_icon_box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "image_width": 50,
+            "svg_upload": "<svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M19.2 4.2H4.8c-.77 0-1.4.63-1.4 1.4v1.8c0 .77.63 1.4 1.4 1.4h14.4c.77 0 1.4-.63 1.4-1.4V5.6c0-.77-.63-1.4-1.4-1.4Z\"/><path d=\"M4.9 8.8h14.2v9.4a1.6 1.6 0 0 1-1.6 1.6h-11a1.6 1.6 0 0 1-1.6-1.6V8.8Z\"/><path d=\"M9.9 12.6h4.2\"/></svg>",
+            "svg_width": 24,
+            "svg_width_mb": 20,
+            "heading": "التخزين",
+            "description": "مكان جاف بعيد عن الرطوبة"
+          },
+          "blocks": {}
+        },
+        "product_info_ingredients": {
+          "type": "_icon_box",
+          "settings": {
+            "url": "",
+            "open_in_new_tab": false,
+            "icon_position": "left",
+            "image_width": 50,
+            "svg_upload": "<svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4.6 19.6C2.9 15.6 4.7 8.7 10 6.2c3-1.4 6.5-1.5 9.3-2.4.5 3.1.9 7.2-.6 10.5-2.1 4.6-7.7 6.7-12 5.3H4.6Z\"/><path d=\"M4.9 19.4c1.7-4.4 5.4-7.8 10.2-9.5\"/></svg>",
+            "svg_width": 24,
+            "svg_width_mb": 20,
+            "heading": "المكونات",
+            "description": "التفاصيل الكاملة في «القيمة الغذائية»"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "product_info_after",
+        "product_info_storage",
+        "product_info_ingredients"
+      ],
+      "settings": {
+        "enable_border": false,
+        "enable_box_shadow": false,
+        "border_color": "#D3E3E8",
+        "heading_color": "#26B3D0",
+        "icon_color": "#26B3D0",
+        "description_color": "#26383A",
+        "color_box": "#FFFFFF",
+        "color_box_hover": "#FFFFFF",
+        "color_content_hover": "#26B3D0",
+        "source": "svg",
+        "padding": "0px,8px,0px,8px",
+        "col_dk": "3",
+        "col_tb": "3",
+        "col_mb": "1",
+        "space_horizontal": "0",
+        "space_vertical": "0",
+        "space_horizontal_mb": "0",
+        "space_vertical_mb": "0",
+        "layout": "grid",
+        "colors_by_section": true,
+        "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
+        "background_opacity": 0.6,
+        "section_layout": "wrapper_container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "48px,,48px,",
+        "pd_mb": "24px,,24px,",
+        "custom_class": "ayum-product-info ayum-scheme-colors"
       }
     }
   },
   "order": [
     "breadcrumb",
     "main-product",
+    "ayum_product_info",
     "tabs",
     "sidebar",
-    "1792054584f95ad5c9",
+    "custom_section_yPyP7Q",
     "ayum_icon_box_eJNCKK",
     "related-products"
   ]

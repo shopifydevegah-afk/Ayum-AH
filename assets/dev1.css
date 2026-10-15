@@ -1427,22 +1427,22 @@
 /* ---------- Collection page: product cards (native card style 7, chosen in the section settings) ---------- */
 /* Visual match of the AYUM card (Figma 1:865 / 1:1172) on the native card: inset image, centred info,
    filled full-width add-to-cart from the scheme's button colours. No homepage card code is used. */
-.ayum-collection-products .hdt-pr-style7 {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 {
   --atc-cl: rgb(var(--hdt-btn-color));
   --atc-bg-cl: rgb(var(--hdt-btn-bg));
   --atc-cl-hover: rgb(var(--hdt-btn-hover-color));
   --atc-bg-cl-hover: rgb(var(--hdt-btn-hover-bg));
 }
-.ayum-collection-products .hdt-pr-style7 .hdt-card-product__wrapper {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-card-product__wrapper {
   gap: 6px;
   padding: 10px;
   border-color: rgb(var(--color-line-border));
   background-color: rgb(var(--color-background, var(--color-base-background)));
 }
-.ayum-collection-products .hdt-pr-style7 :is(.hdt-card-product__media, .hdt-card-product__media-wrapp) {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 :is(.hdt-card-product__media, .hdt-card-product__media-wrapp) {
   border-radius: var(--radius-product-media);
 }
-.ayum-collection-products .hdt-pr-style7 .hdt-card-product__info {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-card-product__info {
   direction: rtl;
   unicode-bidi: isolate;
   display: flex;
@@ -1453,37 +1453,37 @@
   padding: 0;
   text-align: center;
 }
-.ayum-collection-products .hdt-pr-style7 .hdt-card-product__title {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-card-product__title {
   color: rgb(var(--color-foreground));
   font-size: 13px;
   font-weight: var(--font-extrabold);
   line-height: normal;
 }
-.ayum-collection-products .hdt-pr-style7 .hdt-price-wrapp {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-price-wrapp {
   font-size: 15px;
   font-weight: var(--font-extrabold);
 }
 /* Price colours from the scheme's product colours, with the native meaning restored inside cards
    (product-card.css paints the sale price with the regular Price token): current price = Price,
    sale price = Sale price, compare-at = muted Price, struck through. */
-.ayum-collection-products .hdt-pr-style7 .hdt-price {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-price {
   color: rgb(var(--color-pr-price));
 }
-.ayum-collection-products .hdt-pr-style7 .hdt-compare-at-price:not([hidden]) + .hdt-price {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-compare-at-price:not([hidden]) + .hdt-price {
   color: rgb(var(--color-pr-sale-price));
 }
-.ayum-collection-products .hdt-pr-style7 .hdt-compare-at-price {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-compare-at-price {
   color: rgb(var(--color-pr-price) / .55);
   font-size: .8em;
   font-weight: 400;
 }
-.ayum-collection-products .hdt-pr-style7 .hdt-pr-btns-group1 {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-pr-btns-group1 {
   width: 100%;
   margin-block-start: auto;
   padding-block-start: 4px;
 }
 /* Figma button: 33px mobile / 43px desktop (12px / 17px ExtraBold label, 24px radius). */
-.ayum-collection-products .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
   height: 33px;
   padding: 0 12px;
   border-color: rgb(var(--hdt-btn-bg));
@@ -1493,20 +1493,20 @@
   justify-content: center !important;
 }
 @media (min-width: 768px) {
-  .ayum-collection-products .hdt-pr-style7 .hdt-card-product__wrapper {
+  :is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-card-product__wrapper {
     gap: 8px;
     padding: 14px;
   }
-  .ayum-collection-products .hdt-pr-style7 .hdt-card-product__info {
+  :is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-card-product__info {
     gap: 10px;
   }
-  .ayum-collection-products .hdt-pr-style7 .hdt-card-product__title {
+  :is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-card-product__title {
     font-size: 22px;
   }
-  .ayum-collection-products .hdt-pr-style7 .hdt-price-wrapp {
+  :is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-price-wrapp {
     font-size: 20px;
   }
-  .ayum-collection-products .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
+  :is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-pr-btns-group1 .hdt-pr_btn:not(button, a) :where(a, button) {
     height: 43px;
     font-size: 17px;
   }
@@ -1601,17 +1601,17 @@
 }
 
 /* Add to cart (native btn-ultra): label only and centred, as in Figma; the cart icon is decorative. */
-.ayum-collection-products .hdt-pr-style7 .hdt-card-product__btn-ultra {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-card-product__btn-ultra {
   justify-content: center;
 }
-.ayum-collection-products .hdt-pr-style7 .hdt-card-product__btn-ultra .hdt-pr-card-icon {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-card-product__btn-ultra .hdt-pr-card-icon {
   display: none;
 }
 
 /* Ratings: a product without reviews prints "0 out of 5" with five empty stars and "(0)". Without the
    section option "show empty stars" that row is hidden; with it, see "empty stars" below. Products with real
    review data always keep their stars. */
-.ayum-collection-products:not(.ayum-empty-stars) .hdt-pr-style7 .star-rating:is([aria-label^="0 "], [aria-label^="0.0 "]) {
+:is(.ayum-collection-products, .ayum-product-related):not(.ayum-empty-stars) .hdt-pr-style7 .star-rating:is([aria-label^="0 "], [aria-label^="0.0 "]) {
   display: none;
 }
 
@@ -1879,7 +1879,7 @@
 
 /* ---------- Collection page: card rating value + product tag (Figma 1:865) ---------- */
 /* Card option "show product tag": rating (stars + average + count) at the start, tag at the end. */
-.ayum-collection-products .hdt-pr-style7 .ayum-card-meta {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .ayum-card-meta {
   direction: rtl;
   unicode-bidi: isolate;
   display: flex;
@@ -1893,27 +1893,27 @@
 /* Real ratings only (products.metafields.reviews.rating via the native snippet); unrated products keep the
    row hidden (rule above). Stars 11px, 1px apart; average in Text 2, 11px (mobile) / 13px (desktop) bold;
    the review count is not part of the Figma row. Product info: 11px regular (mobile) / 13px bold (desktop). */
-.ayum-collection-products .hdt-pr-style7 .star-rating {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .star-rating {
   gap: 4px;
 }
-.ayum-collection-products .hdt-pr-style7 .star-rating__stars {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .star-rating__stars {
   gap: 1px;
 }
-.ayum-collection-products .hdt-pr-style7 .star-rating__star {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .star-rating__star {
   width: 11px;
   height: 11px;
 }
-.ayum-collection-products .hdt-pr-style7 .star-rating__average {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .star-rating__average {
   display: inline;
   color: rgb(var(--color-foreground2));
   font-size: 11px;
   font-weight: 700;
   line-height: normal;
 }
-.ayum-collection-products .hdt-pr-style7 .star-rating__count {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .star-rating__count {
   display: none;
 }
-.ayum-collection-products .hdt-pr-style7 .ayum-card-tag {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .ayum-card-tag {
   margin-inline-start: auto;
   overflow: hidden;
   color: rgb(var(--color-foreground2));
@@ -1924,8 +1924,8 @@
   white-space: nowrap;
 }
 @media (min-width: 768px) {
-  .ayum-collection-products .hdt-pr-style7 .star-rating__average,
-  .ayum-collection-products .hdt-pr-style7 .ayum-card-tag {
+  :is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .star-rating__average,
+  :is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .ayum-card-tag {
     font-size: 13px;
     font-weight: 700;
   }
@@ -2051,7 +2051,7 @@
   }
 }
 /* Card image corners (Figma 10px inside the 16px card). */
-.ayum-collection-products .hdt-pr-style7 :is(.hdt-card-product__media, .hdt-card-product__media-wrapp) {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 :is(.hdt-card-product__media, .hdt-card-product__media-wrapp) {
   border-radius: 10px;
 }
 
@@ -2150,18 +2150,18 @@
 }
 /* Card (Figma 1:865 / 1:1172): image, info and button 8px (desktop) / 6px (mobile) apart. The native info
    block adds a 15px top margin and the button row a 4px top padding; both are removed. Meta row 17px. */
-.ayum-collection-products .hdt-pr-style7 .hdt-card-product__info {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-card-product__info {
   margin-block-start: 0;
 }
-.ayum-collection-products .hdt-pr-style7 .hdt-pr-btns-group1 {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-pr-btns-group1 {
   padding-block-start: 0;
 }
-.ayum-collection-products .hdt-pr-style7 :is(.ayum-card-meta, .star-rating, .ayum-card-tag) {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 :is(.ayum-card-meta, .star-rating, .ayum-card-tag) {
   min-height: 17px;
   line-height: 1.15;
 }
-.ayum-collection-products .hdt-pr-style7 .hdt-card-product__title,
-.ayum-collection-products .hdt-pr-style7 .hdt-price-wrapp {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-card-product__title,
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-price-wrapp {
   line-height: 1.15;
 }
 /* Figma draws borders inside the frame: the vertical paddings below subtract the border so the boxes keep the
@@ -2229,10 +2229,10 @@
    a placeholder, without the "0" average or the "(0)" count. A first real review fills them automatically
    (same snippet, same data). Empty stars take the scheme's Text 2 at 35% instead of the image's fixed grey:
    the native star image is used as a mask (same shape), its own pixels moved out of the box. */
-.ayum-collection-products.ayum-empty-stars .hdt-pr-style7 .star-rating:is([aria-label^="0 "], [aria-label^="0.0 "]) .star-rating__average {
+:is(.ayum-collection-products, .ayum-product-related).ayum-empty-stars .hdt-pr-style7 .star-rating:is([aria-label^="0 "], [aria-label^="0.0 "]) .star-rating__average {
   display: none;
 }
-.ayum-collection-products.ayum-empty-stars .hdt-pr-style7 .star-rating__star--unfilled {
+:is(.ayum-collection-products, .ayum-product-related).ayum-empty-stars .hdt-pr-style7 .star-rating__star--unfilled {
   object-position: 0 -999px;
   background-color: rgb(var(--color-foreground2) / .35);
   -webkit-mask: url(unfill_star_rating.svg) center / contain no-repeat;
@@ -2244,7 +2244,7 @@
    text. Figma: one pill style for every badge, 12px from the image's top and start edges, 6px apart,
    11px ExtraBold, 5 x 12 padding. Colours: the section's optional "Card badges" colours (the theme's global
    badge colours stay in use elsewhere and whenever these are empty). */
-.ayum-collection-products .hdt-pr-style7 .hdt-badge__wrapp {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-badge__wrapp {
   top: 12px;
   right: auto;
   left: auto;
@@ -2252,7 +2252,7 @@
   align-items: flex-start;
   gap: 6px;
 }
-.ayum-collection-products .hdt-pr-style7 .hdt-badge {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-badge {
   min-width: 0;
   min-height: 0;
   padding: 5px 12px;
@@ -2265,25 +2265,25 @@
 }
 /* background-color is set as well: the theme's Custom CSS (Theme settings) paints ".hdt-badge.hdt-badge__on-sale"
    with a fixed colour site-wide; with the section's badge colours set, this section uses them instead. */
-.ayum-collection-products.ayum-badges-custom .hdt-pr-style7 .hdt-badge {
+:is(.ayum-collection-products, .ayum-product-related).ayum-badges-custom .hdt-pr-style7 .hdt-badge {
   --badge-color-primary: rgb(var(--ayum-badge-bg, var(--color-background, var(--color-base-background))));
   --badge-color-secondary: rgb(var(--ayum-badge-text, var(--color-foreground)));
   background-color: var(--badge-color-primary);
   color: var(--badge-color-secondary);
 }
 @media (max-width: 767px) {
-  .ayum-collection-products .hdt-pr-style7 .hdt-badge__wrapp {
+  :is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-badge__wrapp {
     top: 8px;
     inset-inline-start: 8px;
     gap: 4px;
   }
-  .ayum-collection-products .hdt-pr-style7 .hdt-badge {
+  :is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 .hdt-badge {
     padding: 4px 9px;
     font-size: 10px;
   }
 }
 /* Rating row: one height (17px) for rated and unrated cards so titles, prices and buttons line up. */
-.ayum-collection-products .hdt-pr-style7 :is(.ayum-card-meta, .star-rating) {
+:is(.ayum-collection-products, .ayum-product-related) .hdt-pr-style7 :is(.ayum-card-meta, .star-rating) {
   height: 17px;
   align-items: center;
 }
@@ -2575,4 +2575,1203 @@
   font-size: 12px !important;
   font-weight: 500 !important;
   line-height: 1.2 !important;
+}
+
+/* ==========================================================================
+   Product page (Figma 2048:1536 desktop / 2048:2071 mobile; nutrition popup 1:2745 / 1:3067)
+   templates/product.json, native Kalles sections, each scoped by its Theme Editor "Custom CSS class":
+     .ayum-product-main ...... "Product information" (main-product: gallery block + buy-box group)
+     .ayum-product-info ...... "Icon box" (product details: heading + three columns)
+     .ayum-product-related ... "Related products"
+   Colours: the sections' colour schemes (main product: Scheme 3) — text = Text, muted = Text 2,
+   surfaces = Text 2 tints, buttons = scheme button, prices = the body scheme's product price colours.
+   ========================================================================== */
+
+/* ---------- Layout: two columns 48px apart (Figma), gallery at the start (right in RTL) ---------- */
+@media (min-width: 768px) {
+  /* The native column widths subtract --spacing-x, so the gap is set through it. */
+  .ayum-product-main [class*="hdt-secion-main-product--"] {
+    --spacing-x: 48px;
+    column-gap: 48px;
+  }
+}
+/* The empty "product tabs" block (no tabs configured) reserved 60px above the buy box. */
+.ayum-product-main .hdt-type-tab:not(:has(.hdt-product-tab__main > *)) {
+  display: none;
+}
+/* Liquid blocks without output (e.g. badges for a product without ayum.badges). */
+.ayum-product-main .hdt-product-info__list > .hdt-text-warry:not(:has(*)) {
+  display: none;
+}
+
+/* ---------- Gallery (native media block: slider, thumbnails, lightbox, arrows) ---------- */
+.ayum-product-main .hdt-product-media__main {
+  position: relative;
+}
+.ayum-product-main .hdt-product-media__main > .hdt-slider {
+  overflow: hidden;
+  border-radius: 16px;
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product-media__main > .hdt-slider {
+    border-radius: 18px;
+  }
+}
+/* Arrows (Figma 48px / 38px white circles, always visible). */
+.ayum-product-main .hdt-product-media__main .hdt-navigation {
+  opacity: 1;
+  visibility: visible;
+}
+.ayum-product-main .hdt-product-media__main .hdt-navigation .hdt-slider__button {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgb(var(--color-background, var(--color-base-background)) / .92);
+  color: rgb(var(--color-foreground2));
+  box-shadow: 0 2px 8px rgb(var(--color-overlay) / .14);
+  opacity: 1;
+  transform: none;
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product-media__main .hdt-navigation .hdt-slider__button {
+    width: 48px;
+    height: 48px;
+  }
+}
+/* Zoom chip (native lightbox button). The media column is a physical (LTR) slider box, so the Figma corners
+   are physical: mobile 30px top-right, desktop 36px bottom-left. */
+.ayum-product-main .hdt-product-media.hdt-product-media .hdt-product-media__main wrapp-open-pswp-media > button {
+  position: absolute;
+  z-index: 4;
+  top: 16px;
+  right: 16px;
+  left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgb(var(--color-background, var(--color-base-background)) / .92);
+  color: rgb(var(--color-foreground));
+}
+/* .hdt-product-media is repeated to reach the specificity of the native
+   ".dir--rtl .hdt-product-media[show-btn-pswp] … button" (0,4,2); the later file then wins. */
+.ayum-product-main .hdt-product-media.hdt-product-media .hdt-product-media__main wrapp-open-pswp-media .hdt-pswp-icon {
+  width: 17px;
+  height: 17px;
+}
+.ayum-product-main .hdt-product-media.hdt-product-media .hdt-product-media__main wrapp-open-pswp-media .hdt-pswp-icon svg {
+  width: 100%;
+  height: 100%;
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product-media.hdt-product-media .hdt-product-media__main wrapp-open-pswp-media .hdt-pswp-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+.ayum-product-main .hdt-product-media__main wrapp-open-pswp-media .hdt-pswp-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product-media.hdt-product-media .hdt-product-media__main wrapp-open-pswp-media > button {
+    top: auto;
+    right: auto;
+    bottom: 16px;
+    left: 16px;
+    width: 36px;
+    height: 36px;
+  }
+}
+/* Thumbnails (Figma 64px / 104px squares, 10 / 12 apart, 10px corners, active = 2px button colour). */
+.ayum-product-main .hdt-product-media__thumb {
+  margin-top: 10px;
+}
+/* The native slide size includes the slide spacing, so the size is the thumbnail plus the gap. */
+.ayum-product-main .hdt-product-media__thumb hdt-slider-thumb {
+  --slide-size: calc(64px + 10px);
+  --slide-spacing: 10px;
+}
+.ayum-product-main .hdt-product-media__thumb .hdt-slider__slide .hdt-ratio {
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 10px;
+}
+.ayum-product-main .hdt-product-media__thumb .hdt-slider__slide.is-thumb-selected .hdt-ratio {
+  border-color: rgb(var(--hdt-btn-bg));
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product-media__thumb {
+    margin-top: 14px;
+  }
+  .ayum-product-main .hdt-product-media__thumb hdt-slider-thumb {
+    --slide-size: calc(104px + 12px);
+    --slide-spacing: 12px;
+  }
+}
+
+/* ---------- Nutrition button (beside the thumbnails) ---------- */
+.ayum-product-main .hdt-product-media__thumb:has(.ayum-nutrition-btn) {
+  direction: rtl;
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+.ayum-product-main .hdt-product-media__thumb:has(.ayum-nutrition-btn) > hdt-slider-thumb {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ayum-nutrition-btn {
+  flex: none;
+  width: 122px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 100px;
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background, var(--color-base-background)));
+  font-size: 13px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product-media__thumb:has(.ayum-nutrition-btn) {
+    gap: 14px;
+  }
+  .ayum-nutrition-btn {
+    width: 230px;
+    font-size: 17px;
+  }
+}
+
+/* ---------- Nutrition popup (native modal) ---------- */
+.ayum-nutrition.hdt-dialog-modal {
+  direction: rtl;
+  display: none;
+  flex-direction: column;
+  width: calc(100% - 32px);
+  max-width: 520px;
+  max-height: min(719px, calc(100dvh - 48px));
+  padding: 0;
+  border-radius: 20px;
+  background-color: rgb(var(--color-background, var(--color-base-background)));
+}
+.ayum-nutrition.hdt-dialog-modal[open] {
+  display: flex;
+}
+.ayum-nutrition .ayum-nutrition__header {
+  flex: none;
+  margin: 0;
+  padding: 18px 20px 14px;
+}
+.ayum-nutrition .ayum-nutrition__title {
+  margin: 0;
+  color: rgb(var(--color-foreground));
+  font-size: 20px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.2;
+}
+.ayum-nutrition .ayum-nutrition__close {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: rgb(var(--color-foreground));
+}
+.ayum-nutrition .ayum-nutrition__tabs {
+  display: flex;
+  flex: none;
+  gap: 10px;
+  padding: 0 20px;
+  border-block: 1px solid rgb(var(--color-foreground) / .45);
+}
+.ayum-nutrition .ayum-nutrition__tab {
+  flex: 1 1 0;
+  min-height: 43px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 20px;
+  background: none;
+  color: rgb(var(--color-foreground2));
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.15;
+  cursor: pointer;
+}
+.ayum-nutrition .ayum-nutrition__tab[aria-current="true"] {
+  background-color: rgb(var(--hdt-btn-bg) / .12);
+  color: rgb(var(--color-foreground));
+  font-size: 17px;
+  font-weight: var(--font-extrabold);
+}
+.ayum-nutrition .ayum-nutrition__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 24px 20px 0;
+}
+.ayum-nutrition .ayum-nutrition__table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.ayum-nutrition .ayum-nutrition__table :is(th, td) {
+  padding: 11px 0;
+  border: 0;
+  border-top: 1px solid rgb(var(--color-line-border));
+  background: none;
+  text-align: start;
+  vertical-align: middle;
+}
+.ayum-nutrition .ayum-nutrition__table thead th {
+  padding: 0 0 8px;
+  border-top: 0;
+  color: rgb(var(--color-foreground2));
+  font-size: 11px;
+  font-weight: 700;
+}
+.ayum-nutrition .ayum-nutrition__table tbody th {
+  color: rgb(var(--color-foreground));
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.ayum-nutrition .ayum-nutrition__table tbody td {
+  color: rgb(var(--color-foreground) / .45);
+  font-size: 13px;
+  font-weight: 700;
+}
+.ayum-nutrition .ayum-nutrition__points {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ayum-nutrition .ayum-nutrition__points li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-inline-start: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.ayum-nutrition .ayum-nutrition__points li::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgb(var(--color-foreground2) / .5);
+  transform: translateY(-50%);
+}
+.ayum-nutrition .ayum-nutrition__points strong {
+  color: rgb(var(--color-foreground));
+}
+.ayum-nutrition .ayum-nutrition__points span {
+  color: rgb(var(--color-foreground2));
+}
+.ayum-nutrition .ayum-nutrition__ingredients {
+  color: rgb(var(--color-foreground));
+  font-size: 15px;
+  line-height: 1.8;
+}
+.ayum-nutrition .ayum-nutrition__footer {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 20px 20px;
+}
+.ayum-nutrition .ayum-nutrition__atc {
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 12px;
+  background-color: rgb(var(--hdt-btn-bg));
+  color: rgb(var(--hdt-btn-color));
+  font-size: 17px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+  cursor: pointer;
+}
+.ayum-nutrition .ayum-nutrition__atc:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.ayum-nutrition .ayum-nutrition__note {
+  margin: 0;
+  color: rgb(var(--color-foreground2));
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* ---------- Buy box (native group block) ---------- */
+.ayum-product-main .hdt-group-product-block {
+  direction: rtl;
+  unicode-bidi: isolate;
+  text-align: start;
+}
+.ayum-product-main .hdt-product-info__list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ayum-product-main .hdt-product-info__list > * {
+  margin: 0;
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product-info__list {
+    gap: 18px;
+  }
+}
+/* Badges (product metafield ayum.badges). */
+.ayum-pdp-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ayum-pdp-badge {
+  padding: 4px 10px;
+  border-radius: 10px;
+  background-color: rgb(var(--color-foreground2) / .12);
+  color: rgb(var(--color-foreground) / .45);
+  font-size: 10px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+}
+@media (min-width: 768px) {
+  .ayum-pdp-badge {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+  }
+}
+/* Rating summary (Judge.me preview badge, real data; its own link scrolls to the reviews). */
+.ayum-product-main .jdgm-prev-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ayum-product-main .jdgm-prev-badge__text {
+  color: rgb(var(--color-foreground) / .75);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+@media (min-width: 768px) {
+  .ayum-product-main .jdgm-prev-badge__text {
+    font-size: 13px;
+  }
+}
+/* Title + description. */
+.ayum-product-main .hdt-product__title :is(h1, h2) {
+  margin: 0;
+  color: rgb(var(--color-foreground));
+  font-size: 25px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.45;
+}
+.ayum-product-main .hdt-product__description .hdt-rte {
+  color: rgb(var(--color-foreground2));
+  font-size: 14px;
+  line-height: 1.8;
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product__title :is(h1, h2) {
+    font-size: 34px;
+    line-height: 1.4;
+  }
+  .ayum-product-main .hdt-product__description .hdt-rte {
+    font-size: 15px;
+    line-height: 1.85;
+  }
+}
+/* Cards ("ليش بتحبه" and delivery: native Liquid blocks with AYUM classes). */
+.ayum-pdp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 14px;
+  background-color: rgb(var(--color-foreground2) / .1);
+}
+.ayum-pdp-card__title {
+  margin: 0;
+  color: rgb(var(--color-foreground));
+  font-size: 13px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+}
+.ayum-pdp-card :is(.ayum-pdp-list, .ayum-pdp-icon-list) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ayum-pdp-card :is(.ayum-pdp-list, .ayum-pdp-icon-list) li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  color: rgb(var(--color-foreground2));
+  font-size: 13px;
+  line-height: 1.15;
+}
+.ayum-pdp-card :is(.ayum-pdp-list, .ayum-pdp-icon-list) li::before {
+  content: none;
+}
+.ayum-pdp-card .ayum-pdp-list li::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgb(var(--hdt-btn-bg));
+}
+.ayum-pdp-icon-list li {
+  font-weight: 700;
+}
+.ayum-pdp-icon-list li > svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: rgb(var(--color-foreground));
+}
+@media (min-width: 768px) {
+  .ayum-pdp-card {
+    gap: 10px;
+    padding: 16px 18px;
+  }
+  .ayum-pdp-love {
+    max-width: 514px;
+  }
+  .ayum-pdp-card__title {
+    font-size: 17px;
+  }
+  .ayum-pdp-card :is(.ayum-pdp-list, .ayum-pdp-icon-list) {
+    gap: 10px;
+  }
+  .ayum-pdp-card :is(.ayum-pdp-list, .ayum-pdp-icon-list) li {
+    gap: 10px;
+    font-size: 14px;
+  }
+  .ayum-pdp-card .ayum-pdp-list li::before {
+    width: 7px;
+    height: 7px;
+  }
+  .ayum-pdp-icon-list li {
+    font-size: 13px;
+  }
+  .ayum-pdp-icon-list li > svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+/* Stock (native inventory block, selected variant's real inventory): price colour, 8px dot. */
+.ayum-product-main .hdt-product__inventory .hdt-stock-status {
+  gap: 8px;
+  color: rgb(var(--color-pr-price));
+  font-size: 12px;
+  font-weight: 700;
+}
+.ayum-product-main .hdt-product__inventory .hdt-stock-status .hdt-s-text {
+  color: inherit;
+}
+.ayum-product-main .hdt-product__inventory .hdt-stock-status > svg {
+  color: inherit;
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product__inventory .hdt-stock-status {
+    font-size: 13px;
+  }
+}
+/* Price (Figma 28 / 46 ExtraBold, compare-at 13 / 23 struck through). */
+.ayum-product-main .hdt-product__price .hdt-price__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+.ayum-product-main .hdt-product__price hdt-price .hdt-money {
+  color: rgb(var(--color-pr-price));
+  font-size: 28px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+}
+.ayum-product-main .hdt-product__price hdt-compare-at-price .hdt-money {
+  color: rgb(var(--color-foreground2));
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: line-through;
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product__price .hdt-price__list {
+    gap: 14px;
+  }
+  .ayum-product-main .hdt-product__price hdt-price .hdt-money {
+    font-size: 46px;
+  }
+  .ayum-product-main .hdt-product__price hdt-compare-at-price .hdt-money {
+    font-size: 23px;
+  }
+}
+/* Quantity + add to cart (native form): quantity pill beside a full-width pill button. */
+.ayum-product-main .hdt-product-form__top-buttons {
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+}
+.ayum-product-main .hdt-product-form__top-buttons .hdt-product-form__quantity {
+  flex: none;
+  width: auto;
+  min-width: 0;
+  margin: 0;
+}
+.ayum-product-main .hdt-product-form__top-buttons .hdt-quantity__label {
+  display: none;
+}
+.ayum-product-main .hdt-product-form__top-buttons hdt-quantity-wrapp {
+  min-width: 0;
+  width: 84px;
+  height: 49px;
+  border: 1px solid rgb(var(--color-line-border));
+  border-radius: 26px;
+  background-color: rgb(var(--color-background, var(--color-base-background)));
+}
+.ayum-product-main .hdt-product-form__top-buttons hdt-quantity-wrapp .hdt-quantity__input {
+  height: 100%;
+  color: rgb(var(--color-foreground));
+  font-size: 17px;
+  font-weight: var(--font-extrabold);
+}
+.ayum-product-main .hdt-product-form__top-buttons hdt-quantity-wrapp .hdt-quantity__button {
+  height: 100%;
+  padding-inline: 12px;
+  color: rgb(var(--color-foreground2));
+}
+.ayum-product-main .hdt-product-form__submit {
+  flex: 1 1 auto;
+  min-height: 47px;
+  border-radius: 26px;
+  font-size: 17px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+  text-transform: none;
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product-form__top-buttons {
+    gap: 27px;
+  }
+  .ayum-product-main .hdt-product-form__top-buttons hdt-quantity-wrapp {
+    width: 161px;
+    border-radius: 28px;
+  }
+  .ayum-product-main .hdt-product-form__top-buttons hdt-quantity-wrapp .hdt-quantity__input {
+    font-size: 22px;
+  }
+  .ayum-product-main .hdt-product-form__top-buttons hdt-quantity-wrapp .hdt-quantity__button {
+    padding-inline: 14px;
+  }
+  .ayum-product-main .hdt-product-form__submit {
+    min-height: 57px;
+    border-radius: 28px;
+    font-size: 22px;
+  }
+}
+/* "Bought together" (native complementary products block; filled from Search & Discovery). */
+.ayum-product-main .hdt-product__complimentary-wrap > h3 {
+  margin: 0 0 10px;
+  color: rgb(var(--color-foreground));
+  font-size: 17px;
+  font-weight: var(--font-extrabold);
+}
+.ayum-product-main .hdt-product__complimentary-item {
+  padding: 12px;
+  border: 1px solid rgb(var(--color-line-border));
+  border-radius: 14px;
+  background-color: rgb(var(--color-background, var(--color-base-background)));
+}
+@media (min-width: 768px) {
+  .ayum-product-main .hdt-product__complimentary-wrap > h3 {
+    margin-bottom: 16px;
+    font-size: 22px;
+  }
+  .ayum-product-main .hdt-product__complimentary-item {
+    padding: 14px;
+  }
+}
+
+/* ---------- Rating row: Judge.me summary + "اقرأ التقييمات" on one line (Figma 2048:1577) ---------- */
+/* The buy-box list wraps: every block takes a full row except the Judge.me badge and the read-reviews link,
+   which share one row (badge at the start, link after it). */
+.ayum-product-main .hdt-product-info__list {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 8px;
+}
+.ayum-product-main .hdt-product-info__list > * {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+.ayum-product-main .hdt-product-info__list > :is(.shopify-app-block:has(.jdgm-preview-badge), .hdt-text-warry:has(.ayum-pdp-read-reviews)) {
+  flex: 0 0 auto;
+}
+.ayum-pdp-read-reviews {
+  color: rgb(var(--color-foreground) / .75);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (min-width: 768px) {
+  .ayum-pdp-read-reviews {
+    font-size: 13px;
+  }
+}
+/* The link target (Judge.me widget) clears the sticky header. */
+body.hdt-page-type-product #judgeme_product_reviews {
+  scroll-margin-top: 140px;
+}
+
+/* ---------- "عادةً يُشترى معه" compact rows (block option "Compact rows"; Figma 2048:1620 / 2048:2173) ---------- */
+/* Native complementary products (Search & Discovery), native card markup and add button. Row: image at the
+   start (right), name + price, button at the end (left); no rating row. */
+.ayum-upsell-compact.hdt-product__complimentary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ayum-upsell-compact .hdt-product__complimentary-item {
+  margin: 0;
+  padding: 12px;
+}
+.ayum-upsell-compact .hdt-card-product__wrapper {
+  direction: rtl;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.ayum-upsell-compact .hdt-pr-loop .hdt-card-product__media {
+  flex: none;
+  width: 62px;
+  min-width: 0;
+  height: 62px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.ayum-upsell-compact .hdt-card-product__media .hdt-product-img {
+  height: 100%;
+}
+.ayum-upsell-compact .hdt-card-product__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ayum-upsell-compact .hdt-card-product__info {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 10px;
+  row-gap: 4px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  text-align: start;
+}
+.ayum-upsell-compact .hdt-card-product__info > .star-rating {
+  display: none;
+}
+.ayum-upsell-compact .hdt-card-product__info > .hdt-card-product__title {
+  grid-column: 1;
+  overflow: hidden;
+  color: rgb(var(--color-foreground));
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  white-space: normal;
+}
+.ayum-upsell-compact .hdt-card-product__info > :is(.hdt-price-wrapp, .hdt-price__container, hdt-price, .hdt-price__list) {
+  grid-column: 1;
+}
+.ayum-product-main .ayum-upsell-compact .hdt-price .hdt-money {
+  color: rgb(var(--color-pr-price));
+  font-size: 15px;
+  font-weight: var(--font-extrabold);
+}
+.ayum-product-main .ayum-upsell-compact .hdt-compare-at-price .hdt-money {
+  color: rgb(var(--color-foreground2));
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: line-through;
+}
+
+.ayum-product-main .hdt-compare-at-price{
+  text-decoration: none;
+}
+.ayum-upsell-compact .hdt-card-product__info > :is(wrapp-hdt-pr-frm, .hdt-ultra_btn_parent) {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  justify-self: end;
+}
+.ayum-upsell-compact hdt-quantity-wrapp {
+  display: none;
+}
+/* Native: the button floats absolutely over the row end; in the compact row it sits in its grid column. */
+.ayum-upsell-compact .hdt-product__complimentary-item .hdt-pr_btn {
+  position: static;
+  transform: none;
+}
+.ayum-upsell-compact .hdt-pr_btn .hdt-card-product__btn-ultra {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  padding: 6px 14px;
+  border: 1.5px solid rgb(var(--hdt-btn-bg));
+  border-radius: 7px;
+  background-color: rgb(var(--hdt-btn-bg));
+  color: rgb(var(--hdt-btn-color));
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.ayum-upsell-compact .hdt-card-product__btn-ultra .hdt-pr-card-icon {
+  display: none;
+}
+/* The native complementary button is icon-only (theme.css hides its text): the compact row shows the label. */
+.ayum-upsell-compact .hdt-pr_btn .hdt-card-product__btn-ultra span:not(.hdt-pr-card-icon) {
+  display: block;
+}
+@media (min-width: 768px) {
+  .ayum-upsell-compact.hdt-product__complimentary-list {
+    gap: 16px;
+  }
+  .ayum-upsell-compact .hdt-product__complimentary-item {
+    padding: 14px;
+  }
+  .ayum-upsell-compact .hdt-card-product__wrapper,
+  .ayum-upsell-compact .hdt-card-product__info {
+    column-gap: 12px;
+  }
+  .ayum-upsell-compact .hdt-pr-loop .hdt-card-product__media {
+    width: 72px;
+    height: 72px;
+  }
+  .ayum-upsell-compact .hdt-card-product__info {
+    row-gap: 8px;
+  }
+  .ayum-upsell-compact .hdt-card-product__info > .hdt-card-product__title {
+    font-size: 15px;
+  }
+  .ayum-product-main .ayum-upsell-compact .hdt-price .hdt-money {
+    font-size: 17px;
+  }
+  .ayum-product-main .ayum-upsell-compact .hdt-compare-at-price .hdt-money {
+    font-size: 14px;
+  }
+  .ayum-upsell-compact .hdt-pr_btn .hdt-card-product__btn-ultra {
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+}
+
+/* ---------- Product details (Figma 06 2048:1691 / 2048:2219): native Icon box, Scheme 2 at 60% ---------- */
+/* Heading / subheading = native section heading; columns = native Icon box items (icon, heading, text) on
+   a Background 2 card, separated by Line border rules; colours from the section's native colour settings. */
+.ayum-product-info {
+  border-block: 1px solid rgb(var(--color-accent) / .12);
+}
+.ayum-product-info .hdt-section-heading {
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+.ayum-product-info .hdt-heading-block:not(.hdt-lh-1) {
+  line-height: 1.45;
+}
+.ayum-product-info .hdt-subheading-block {
+  line-height: 1.6;
+}
+.ayum-product-info .hdt-icon-box .hdt-row-grid {
+  direction: rtl;
+  gap: 0;
+  padding: 4px 18px;
+  border-radius: 16px;
+  background-color: rgb(var(--color-background2));
+}
+.ayum-product-info .hdt-icon-box .hdt-row-grid > .shopify-block + .shopify-block {
+  border-top: 1px solid rgb(var(--color-line-border));
+}
+.ayum-product-info .hdt-iconbox-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 0;
+  background: none;
+}
+.ayum-product-info .hdt-iconbox-head {
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+}
+/* Line icons (Figma): the native rule fills the SVG with currentColor. */
+.ayum-product-info .hdt-iconbox-icon__svg svg {
+  fill: none;
+}
+.ayum-product-info .hdt-iconbox-heading {
+  margin: 0;
+  font-size: 12px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+}
+.ayum-product-info .hdt-iconbox-des {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.8;
+}
+/* Figma has no hover state: the native hover colour / icon animation are neutralised. */
+.ayum-product-info .hdt-iconbox-item-wrapper:hover {
+  background: none;
+}
+.ayum-product-info .hdt-iconbox-item-wrapper:hover .hdt-iconbox-heading {
+  color: var(--heading-color);
+}
+.ayum-product-info .hdt-iconbox-item-wrapper:hover .hdt-iconbox-des {
+  color: var(--description-color);
+}
+.ayum-product-info .hdt-iconbox-item-wrapper:hover .hdt-iconbox-icon {
+  color: var(--icon-color);
+}
+.ayum-product-info .hdt-iconbox-item:hover .hdt-iconbox-icon {
+  animation: none;
+}
+@media (min-width: 768px) {
+  .ayum-product-info .hdt-icon-box .hdt-row-grid {
+    padding: 24px 8px;
+  }
+  .ayum-product-info .hdt-icon-box .hdt-row-grid > .shopify-block + .shopify-block {
+    border-top: 0;
+    border-inline-start: 1px solid rgb(var(--color-line-border));
+  }
+  .ayum-product-info .hdt-iconbox-item-wrapper {
+    padding: 0 8px;
+  }
+  .ayum-product-info .hdt-iconbox-heading {
+    font-size: 17px;
+  }
+  .ayum-product-info .hdt-iconbox-des {
+    font-size: 16px;
+    line-height: 2;
+  }
+}
+
+/* ---------- Reviews (Judge.me widget, real data; Figma 2048:1720) ---------- */
+/* Section colours from its scheme (cream background, Text #144E60): summary and review list on Background 2
+   cards with a Text 18% border, review cards inside the list. */
+body.hdt-page-type-product #judgeme_product_reviews {
+  direction: rtl;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget__header {
+  padding: 24px 20px;
+  border: 1px solid rgb(var(--color-foreground) / .18);
+  border-radius: 14px;
+  background-color: rgb(var(--color-background2));
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget__body {
+  margin-top: 24px;
+  padding: 20px 16px;
+  border: 1px solid rgb(var(--color-foreground) / .18);
+  border-radius: 16px;
+  background-color: rgb(var(--color-background2));
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget__body:not(:has(.jm-review-item)) {
+  display: none;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-item {
+  padding: 20px 24px;
+  border: 1px solid rgb(var(--color-foreground) / .18);
+  border-radius: 12px;
+  background-color: rgb(var(--color-background2));
+}
+@media (min-width: 768px) {
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget__header {
+    padding: 24px 40px;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget__body {
+    margin-top: 40px;
+    padding: 28px 32px 29px;
+  }
+}
+
+/* ---------- Related products (native recommendations, card style 7) ---------- */
+/* The AYUM collection card rules (above, "Collection page: product cards" and the rating / badge rules) are
+   shared with this section through :is(.ayum-collection-products, .ayum-product-related). Badge text: the
+   scheme's price colour (Figma pink), badge background: the scheme background. */
+.ayum-product-related {
+  --ayum-badge-text: var(--color-pr-price);
+}
+
+/* ==========================================================================
+   Product page — follow-up (Figma 2048:1536 / 2048:2071; popup 1:2745 / 1:3067)
+   ========================================================================== */
+
+/* ---------- Price (Figma 2048:1610 / 2048:2163) ---------- */
+/* The native markup puts the compare-at price first, so in RTL it landed on the right. The current price is
+   moved to the inline start (right in RTL, left in LTR) and both prices share a baseline. */
+.ayum-product-main .hdt-product__price .hdt-price__list {
+  align-items: baseline;
+}
+.ayum-product-main .hdt-product__price .hdt-price__list > hdt-price {
+  order: -1;
+}
+/* On sale the current price takes the scheme's "Sale price" role (the native rule, re-applied after the
+   AYUM price size rule above). */
+.ayum-product-main .hdt-product__price hdt-compare-at-price:not([hidden]) ~ hdt-price .hdt-money {
+  color: rgb(var(--color-pr-sale-price));
+}
+
+/* ---------- Gallery ---------- */
+/* No sale / new badges on the main gallery (cards keep theirs). */
+.ayum-product-main .hdt-product-media-wrapps .hdt-media-badges {
+  display: none;
+}
+/* Zoom chip icon (block setting "Zoom button icon" = Magnifier, Figma 2119:2112): Text 2 line icon. */
+.ayum-product-main .hdt-product-media.hdt-product-media .hdt-product-media__main wrapp-open-pswp-media > button {
+  color: rgb(var(--color-foreground2));
+}
+
+/* ---------- Nutrition popup: tabs, ingredients, footnote ---------- */
+.ayum-nutrition .ayum-nutrition__tabs-wrap {
+  display: block;
+  flex: none;
+}
+.ayum-nutrition .ayum-nutrition__tabs {
+  align-items: center;
+}
+.ayum-nutrition .ayum-nutrition__tab:focus-visible {
+  outline: 2px solid rgb(var(--color-foreground));
+  outline-offset: -2px;
+}
+.ayum-nutrition .ayum-nutrition__body,
+.ayum-nutrition .ayum-nutrition__footer {
+  text-align: start;
+}
+.ayum-nutrition .ayum-nutrition__body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.ayum-nutrition .ayum-nutrition__subtitle {
+  margin: 0 0 10px;
+  color: rgb(var(--color-foreground));
+  font-size: 17px;
+  font-weight: var(--font-extrabold);
+  line-height: 1.3;
+}
+.ayum-nutrition .ayum-nutrition__ingredients .hdt-rte :is(ul, ol) {
+  margin: 0;
+  padding-inline-start: 18px;
+}
+/* Footnote under the button (Figma 1:2801): aligned to the start (right in RTL), 10px Bold, Text 2. */
+.ayum-nutrition .ayum-nutrition__note {
+  width: 100%;
+  text-align: start;
+  line-height: 1.4;
+}
+@media (max-width: 767px) {
+  /* Mobile active tab: 53px pill, 40px corners (Figma 1:3074). */
+  .ayum-nutrition .ayum-nutrition__tab {
+    min-height: 53px;
+    border-radius: 40px;
+  }
+}
+
+/* ---------- Product details (Icon box): colours from the colour scheme ---------- */
+/* Opt-in with the custom class "ayum-scheme-colors": the Icon box colour pickers are replaced by the
+   section's scheme — heading / icon / hover = Accent, description = Text, box = Background 2.
+   Remove the class to use the section's own colour pickers again. */
+.ayum-product-info.ayum-scheme-colors .hdt-icon-box > .hdt-row-grid {
+  --heading-color: rgb(var(--color-accent));
+  --icon-color: rgb(var(--color-accent));
+  --description-color: rgb(var(--color-foreground));
+  --color-box: rgb(var(--color-background2));
+  --color-box-hover: rgb(var(--color-background2));
+  --color-content-hover: rgb(var(--color-accent));
+}
+
+/* ---------- Reviews (Judge.me widget, real data) — Figma 2048:1720 desktop / 2048:2247 mobile ---------- */
+/* Header (native custom-section blocks): stars, heading and subtitle 8px apart. */
+body.hdt-page-type-product .shopify-section:has(#judgeme_product_reviews) .hdt-icon-block {
+  margin-bottom: 8px;
+}
+body.hdt-page-type-product .shopify-section:has(#judgeme_product_reviews) .hdt-text-warry.hdt-text-custom {
+  margin-top: 8px;
+  line-height: 1.6;
+}
+/* Summary card: average + count, bars, write-a-review button. */
+body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display .jm-text:first-child {
+  color: rgb(var(--color-foreground));
+  font-size: 20px;
+  font-weight: 700;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-progress-bar {
+  height: 5px;
+  border-radius: 99px;
+  background-color: rgb(var(--color-foreground) / .18);
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-progress-bar__fill {
+  border-radius: 99px;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-histogram-row__frequency {
+  color: rgb(var(--color-foreground));
+  font-size: 12px;
+  font-weight: 600;
+}
+/* The pill outline is Judge.me's .jm-action-buttons wrapper; the button fills it. Judge.me injects its
+   admin styles with !important (button padding, reviewer name size); only those two properties are
+   overridden with !important, everything else wins on specificity. */
+body.hdt-page-type-product #judgeme_product_reviews .jm-action-buttons {
+  width: 214px;
+  max-width: 100%;
+  border-radius: 99px;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-action-buttons > *,
+body.hdt-page-type-product #judgeme_product_reviews .jm-action-buttons__button {
+  width: 100%;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-action-buttons__button {
+  min-height: 31px;
+  padding-block: 0 !important;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+}
+/* Review cards: no avatar (Figma); name / date / text sizes from Figma. */
+body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-avatar {
+  display: none;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info__name {
+  color: rgb(var(--color-foreground));
+  font-size: 15px !important;
+  font-weight: var(--font-extrabold);
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info__details .jm-cluster + .jm-cluster .jm-text {
+  color: rgb(var(--color-foreground2));
+  font-size: 10px;
+}
+body.hdt-page-type-product #judgeme_product_reviews .jm-review-content__body :is(p, div) {
+  color: rgb(var(--color-foreground2));
+  font-size: 13px;
+  line-height: 1.8;
+}
+@media (max-width: 767px) {
+  /* Mobile: the summary and each review are separate cards, 16px in from the section (Figma 2048:2255 /
+     2048:2324, 311px at 375). */
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget__header-and-body {
+    padding-inline: 16px;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget__body {
+    margin-top: 16px;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-item {
+    padding: 16px 22px;
+    border-radius: 11px;
+  }
+}
+@media (min-width: 768px) {
+  body.hdt-page-type-product #judgeme_product_reviews .jm-average-rating-display .jm-text:first-child {
+    font-size: 22px;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-progress-bar {
+    height: 8px;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-action-buttons {
+    width: 260px;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-action-buttons__button {
+    min-height: 45px;
+    font-size: 14.5px;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info__name {
+    font-size: 17px !important;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-reviewer-info__details .jm-cluster + .jm-cluster .jm-text {
+    font-size: 11px;
+  }
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-content__body :is(p, div) {
+    font-size: 14px;
+    line-height: 1.85;
+  }
+}
+@media (min-width: 1150px) {
+  body.hdt-page-type-product #judgeme_product_reviews .jm-review-widget__header {
+    padding-inline: 105px;
+  }
+}
+
+/* ---------- Related products: slider progress (section setting "Show slider progress bar") ---------- */
+/* Figma 2048:1972: 510 x 3 track (Text 2 tint), thumb = button colour, 32px under the cards. Desktop design
+   only (the mobile frame 2048:2389 has none), so it shows from 768px, and only while the slider scrolls. */
+.ayum-product-related .ayum-slider-progress {
+  display: none;
+}
+.ayum-product-related .ayum-slider-progress__thumb {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc((1 - var(--ayum-progress-size, 1)) * var(--ayum-progress, 0) * 100%);
+  width: calc(var(--ayum-progress-size, 1) * 100%);
+  border-radius: inherit;
+  background-color: rgb(var(--hdt-btn-bg));
+}
+@media (min-width: 768px) {
+  .ayum-product-related .ayum-slider-progress[scrollable] {
+    position: relative;
+    display: block;
+    width: 510px;
+    max-width: 100%;
+    height: 3px;
+    margin: 32px auto 0;
+    overflow: hidden;
+    border-radius: 2px;
+    background-color: rgb(var(--color-foreground2) / .15);
+  }
 }

@@ -140,7 +140,7 @@
           unless settings.remove_collection_url or section.settings.product_list != blank
             assign product_url = product.url | within: section.settings.collection
           endunless
-          render 'card-product7', card_product: product, section_id: section.id, class: "hdt-slider__slide hdt-pr-style7", sizes: sizes, image_ratio: section.settings.image_ratio, color_list: color_list, size_list: size_list, product_url: product_url, btn_wishlist_code: btn_wishlist_code, show_vendor: section.settings.show_vendor
+          render 'card-product7', card_product: product, section_id: section.id, class: "hdt-slider__slide hdt-pr-style7", sizes: sizes, image_ratio: section.settings.image_ratio, color_list: color_list, size_list: size_list, product_url: product_url, btn_wishlist_code: btn_wishlist_code, show_vendor: section.settings.show_vendor, ayum_show_tag: section.settings.ayum_card_tag, ayum_tag_prefix: section.settings.ayum_card_tag_prefix, ayum_tag_allow: section.settings.ayum_card_tag_allow, ayum_tag_metafield: section.settings.ayum_card_tag_metafield
           assign count = count | plus: 1
           if count >= section.settings.limit
             break
