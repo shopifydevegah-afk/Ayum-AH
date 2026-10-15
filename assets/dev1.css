@@ -2324,3 +2324,255 @@
     display: none;
   }
 }
+
+
+/* ==================================================
+   1. Global & Widget General Layout
+   ================================================== */
+.jm-stack {
+  padding-top: 0px !important;
+}
+
+.jm-stack.jm-stack--space-300.jm-review-widget,
+.jm-stack.jm-stack--space-300.jm-review-widget.jm-review-widget--standard-header {
+  padding-block: 0 !important;
+}
+
+.jm-loading-overlay.jm-review-widget__body {
+  background-color: white !important;
+  border-radius: 14px !important;
+}
+
+.jm-stack.jm-stack--space-600.jdgm-review-list {
+  border-radius: 14px !important;
+  direction: rtl !important;
+}
+
+.jdgm-masonry-grid {
+  background-color: #ffffff;
+  border-radius: 14px;
+  padding: 24px 30px;
+}
+
+.jm-stack .jm-stack--space-50 {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+/* ==================================================
+   2. Header & Main Content Settings (Unified Card)
+   ================================================== */
+/* جعل الهيدر بالكامل كارد واحد موحد */
+.jm-stack.jm-review-widget__header {
+  background-color: #ffffff !important;
+  border: 1px solid rgba(20, 92, 112, 0.18) !important;
+  border-radius: 14px !important;
+  padding: 24px 30px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  flex-wrap: wrap;
+  row-gap: 20px;
+  column-gap: 40px;
+}
+
+.jm-cluster.jm-review-widget-header__main-content,
+.jm-review-widget-header__main-content {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex: 1;
+  flex-basis: 80%;
+}
+
+.jm-review-widget-header__filters-wrapper {
+  display: none !important;
+}
+
+.jm-histogram.jm-review-widget-header__star-rating-histogram {
+  margin: 0px auto 0 70px !important;
+  max-inline-size: 345px !important;
+}
+
+.jm-histogram-row__rating {
+  color: transparent !important;
+}
+.jm-histogram-row__rating::after {
+  content: "★★★★★" !important;
+  display: inline-block !important;
+
+  background: linear-gradient(to left, #f5a623 80%, #ffe8be 80%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+
+  font-size: 14px !important;
+  letter-spacing: 2px !important;
+  margin-right: 8px !important;
+  margin-left: 8px !important;
+  vertical-align: middle !important;
+}
+
+.jm-average-rating-display>div>p:not(:last-child)::after {
+  content: "★★★★★" !important;
+  display: inline-block !important;
+
+  background: linear-gradient(to left, #f5a623 80%, #ffe8be 80%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+
+  font-size: 22px !important;
+  letter-spacing: 2px !important;
+  margin-right: 8px !important;
+  margin-left: 8px !important;
+  vertical-align: middle !important;
+}
+
+.jm-progress-bar {
+  background-color: #ede7e0 !important;
+  height: 8px !important;
+}
+
+.jm-progress-bar__fill {
+  background-color: #1a7a3a !important;
+}
+
+/* ==================================================
+   3. Buttons & Ratings
+   ================================================== */
+.jm-action-buttons {
+  border: 1px solid #5aa04a;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #ffffff;
+  font-weight: 700;
+}
+
+.jm-button.jm-button--primary.jm-action-buttons__button {
+  color: #5aa04a !important;
+  font-weight: 600;
+  background-color: white !important;
+  border-radius: 20px !important;
+  border: 1px solid #5aa04a !important;
+  padding: 12px 28px !important;
+}
+
+.jm-star-rating__font-icon {
+  display: none !important;
+}
+
+.jdgm-preview-badge .jdgm-star {
+  color: #f5a623 !important;
+}
+
+/* ==================================================
+   4. Review Item Cards
+   ================================================== */
+.jm-box {
+  background-color: #ffffff !important;
+}
+
+.jm-box.jm-box--inherit-color.jm-review-item {
+  border: 1px solid rgba(20, 92, 112, 0.18) !important;
+  padding: 20px 24px !important;
+  border-radius: 12px !important;
+  background-color: #ffffff !important;
+}
+
+.jm-review-item:not(:first-child) {
+  margin-block-start: 24px !important;
+}
+
+.jm-stack.jm-stack--space-200.jm-review-content {
+  margin-block-start: 10px !important;
+}
+
+.jm-review-content__title-wrapper p,
+.jm-text.jm-review-content__title p {
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  color: #1f1f1f !important;
+}
+
+.jdgm-review-content__body-content p {
+  color: #4a5056 !important;
+  font-family: "Cairo" !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1.7 !important;
+}
+
+.jm-box .jm-box--inherit-color > p {
+  color: #888888 !important;
+}
+
+.jm-box .jdgm-reply-item__content > p {
+  color: #1a1a1a !important;
+}
+
+/* ==================================================
+   5. Reviewer Name & Verified Badge
+   ================================================== */
+.jm-text.jm-reviewer-info__name {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  direction: rtl;
+  font-size: 14px !important;
+}
+
+.jm-cluster .jm-text.jm-reviewer-info__name {
+  max-width: unset !important;
+  font-weight: 600 !important;
+}
+
+.jm-text.jm-reviewer-info__name::after {
+  content: "موثّق";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 10px 10px 10px 26px;
+  color: #25845c;
+  background-color: #eef9f4;
+  background-image: radial-gradient(circle, #25845c 0 4px, transparent 4.5px);
+  background-size: 9px 9px;
+  background-repeat: no-repeat;
+  background-position: left 13px center;
+  border: 2px solid #bde7d3;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  direction: rtl;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.jm-text.jdgm-review-card__name {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.jm-text.jdgm-review-card__name::after {
+  content: "موثّق" !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%231b7a43'/%3E%3C/svg%3E");
+  background-repeat: no-repeat !important;
+  background-position: right 5px center !important;
+  background-size: 7px 7px !important;
+  background-color: #eaf6ed !important;
+  color: #1b7a43 !important;
+  border: 1px solid #c2e7cc !important;
+  border-radius: 50px !important;
+  padding: 5px 15px 5px 15px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
