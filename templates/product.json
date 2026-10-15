@@ -35,25 +35,31 @@
             "color_scheme": "scheme-e0b73555-c767-4eda-aa6d-4e44e10aefce"
           },
           "blocks": {
-            "liquid_ayum_badges": {
-              "type": "_liquid",
-              "name": "t:blocks.liquid.name",
+            "ayum_pills": {
+              "type": "_ayum-product-pills",
               "settings": {
-                "option_type": "liquid",
-                "page": "",
-                "text": "{%- liquid\n  assign ayum_badges = product.metafields.ayum.badges.value\n  if ayum_badges == blank\n    assign ayum_badges = ''\n    for ayum_tag in product.tags\n      if ayum_tag contains 'شارة:'\n        assign ayum_badges = ayum_badges | append: '|' | append: ayum_tag\n      endif\n    endfor\n    assign ayum_badges = ayum_badges | remove: 'شارة:' | split: '|' | compact\n  endif\n-%}\n{%- if ayum_badges.size > 0 or ayum_badges != blank -%}<div class=\"ayum-pdp-badges\">{%- for ayum_badge in ayum_badges -%}{%- if ayum_badge != blank -%}<span class=\"ayum-pdp-badge\">{{ ayum_badge | strip | escape }}</span>{%- endif -%}{%- endfor -%}</div>{%- endif -%}",
-                "hidden_br_mobile": false,
-                "hidden_on_mobile": false,
-                "ffamily": "--f_family_1",
-                "text_size": "base",
-                "font_weight": "normal",
-                "text_color": "hdt-s-text",
-                "font_size_text_lg": 16,
-                "font_size_text": 14,
-                "letter_spacing_text": 0
+                "show_metafield": true
               },
-              "blocks": {},
-              "disabled": true
+              "blocks": {
+                "pill_made_in_kuwait": {
+                  "type": "_ayum-product-pill",
+                  "settings": {
+                    "text": "صنع في الكويت"
+                  },
+                  "blocks": {}
+                },
+                "pill_natural": {
+                  "type": "_ayum-product-pill",
+                  "settings": {
+                    "text": "طبيعي 100%"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "pill_made_in_kuwait",
+                "pill_natural"
+              ]
             },
             "judge_me_reviews_preview_badge_Mga8iW": {
               "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
@@ -200,35 +206,9 @@
                 "letter_spacing_text": 0
               },
               "blocks": {}
-            },
-            "ayum_pills": {
-              "type": "_ayum-product-pills",
-              "settings": {
-                "show_metafield": true
-              },
-              "blocks": {
-                "pill_made_in_kuwait": {
-                  "type": "_ayum-product-pill",
-                  "settings": {
-                    "text": "صنع في الكويت"
-                  }
-                },
-                "pill_natural": {
-                  "type": "_ayum-product-pill",
-                  "disabled": true,
-                  "settings": {
-                    "text": "طبيعي 100%"
-                  }
-                }
-              },
-              "block_order": [
-                "pill_made_in_kuwait",
-                "pill_natural"
-              ]
             }
           },
           "block_order": [
-            "liquid_ayum_badges",
             "ayum_pills",
             "judge_me_reviews_preview_badge_Mga8iW",
             "liquid_ayum_read_reviews",
@@ -295,7 +275,7 @@
                 "serving": "",
                 "nutrition_note": "",
                 "ingredients_heading": "",
-                "ingredients": "<p>[  ]</p>",
+                "ingredients": "<p>[ &nbsp;]</p>",
                 "ingredients_note": "",
                 "atc_label": "أضف للسلة",
                 "note": "الأرقام تُعبأ من تحليل معملي معتمد قبل النشر."
@@ -313,7 +293,8 @@
                         "value_100": "[  ]",
                         "value_pack": "[  ]",
                         "unit": "كيلو كالوري"
-                      }
+                      },
+                      "blocks": {}
                     },
                     "nutrition_row_2": {
                       "type": "_ayum-nutrition-row",
@@ -322,7 +303,8 @@
                         "value_100": "[  ]",
                         "value_pack": "[  ]",
                         "unit": "جم"
-                      }
+                      },
+                      "blocks": {}
                     },
                     "nutrition_row_3": {
                       "type": "_ayum-nutrition-row",
@@ -331,7 +313,8 @@
                         "value_100": "[  ]",
                         "value_pack": "[  ]",
                         "unit": "جم"
-                      }
+                      },
+                      "blocks": {}
                     },
                     "nutrition_row_4": {
                       "type": "_ayum-nutrition-row",
@@ -340,7 +323,8 @@
                         "value_100": "[  ]",
                         "value_pack": "[  ]",
                         "unit": "جم"
-                      }
+                      },
+                      "blocks": {}
                     },
                     "nutrition_row_5": {
                       "type": "_ayum-nutrition-row",
@@ -349,7 +333,8 @@
                         "value_100": "[  ]",
                         "value_pack": "[  ]",
                         "unit": "جم"
-                      }
+                      },
+                      "blocks": {}
                     },
                     "nutrition_row_6": {
                       "type": "_ayum-nutrition-row",
@@ -358,7 +343,8 @@
                         "value_100": "[  ]",
                         "value_pack": "[  ]",
                         "unit": "ملجم"
-                      }
+                      },
+                      "blocks": {}
                     }
                   },
                   "block_order": [
@@ -374,12 +360,13 @@
                   "type": "_ayum-nutrition-points",
                   "static": true,
                   "settings": {},
-                  "blocks": {},
-                  "block_order": []
+                  "blocks": {}
                 }
-              }
+              },
+              "block_order": []
             }
-          }
+          },
+          "block_order": []
         }
       },
       "block_order": [
